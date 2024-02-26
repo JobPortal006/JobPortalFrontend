@@ -1,0 +1,9 @@
+
+.otp-contained{
+    margin-top: 10%;
+    margin-left: 35%;
+    padding: 30px 20px 30px 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    border-radius: 5%;
+    width: 30%;
+}

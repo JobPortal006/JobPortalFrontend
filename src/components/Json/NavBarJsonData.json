@@ -1,0 +1,65 @@
+{
+    "english":
+    {
+        "home":{
+            "one":"Home"
+        },
+        "employer":{
+            "one":"Employer"
+        },
+        "employerdetails":{
+            "one":"Employer details",
+            "two":"Add job posting"
+        },
+        "candidatejobs":{
+            "one":"Candidate Jobs"
+        },
+        "candidatejobsdetails":{
+            "one":"Browse job",
+            "two":"Job categories"
+        },
+        "logout":{
+            "one":"Logout"
+        },
+        "create_an_account":{
+            "one":"Create an account"
+        },
+        "login":{
+            "one":"Login"
+        },
+        "requiters_login":{
+            "one":"Requiters Login"
+        }
+    },
+    "tamil": {
+        "home": {
+          "one": "முகப்பு"
+        },
+        "employer": {
+          "one": "பணியாளர்"
+        },
+        "employerdetails": {
+          "one": "பணியாளர் விவரங்கள்",
+          "two": "வேலை வேட்பாளர் போஸ்ட் சேர்க்க"
+        },
+        "candidatejobs": {
+          "one": "விவரக்காரர் வேலைகள்"
+        },
+        "candidatejobsdetails": {
+          "one": "வேலை உறுதியொலி",
+          "two": "வேலை பிரிவுகள்"
+        },
+        "logout": {
+          "one": "வெளியேறு"
+        },
+        "create_an_account": {
+          "one": "ஒரு கணக்கை உருவாக்கவும்"
+        },
+        "login": {
+          "one": "உள்நுழை"
+        },
+        "requiters_login": {
+          "one": "கோரிக்கைகாரர் உள்நுழை"
+        }
+      }
+}

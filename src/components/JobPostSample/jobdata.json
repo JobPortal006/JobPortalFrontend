@@ -1,0 +1,50 @@
+[
+    {
+        "id": 1,
+        "type": "Full-time",
+        "location": "New York, NY",
+        "qualification": "Bachelor's Degree",
+        "experience": "2-5 years",
+        "salary": "$50,000 - $70,000 per year",
+        "vacancies": 3,
+        "company": "ABC Company",
+        "skills": "Html,css",
+        "job_title":"web development"
+    },
+    {
+        "id": 2,
+        "type": "Part-time",
+        "location": "Los Angeles, CA",
+        "qualification": "High School Diploma",
+        "experience": "1-3 years",
+        "salary": "$20 - $30 per hour",
+        "vacancies": 2,
+        "company": "XYZ Corporation",
+        "skills": "Html,css",
+        "job_title":"web development"
+    },
+    {
+        "id": 3,
+        "type": "Full-time",
+        "location": "New York, NY",
+        "qualification": "Bachelor's Degree",
+        "experience": "2-5 years",
+        "salary": "$50,000 - $70,000 per year",
+        "vacancies": 3,
+        "company": "ABC Company",
+        "skills": "Html,css",
+        "job_title":"web development"
+    },
+    {
+        "id": 4,
+        "type": "Full-time",
+        "location": "New York, NY",
+        "qualification": "Bachelor's Degree",
+        "experience": "2-5 years",
+        "salary": "$50,000 - $70,000 per year",
+        "vacancies": 3,
+        "company": "ABC Company",
+        "skills": "Html,css",
+        "job_title":"web development"
+    }
+]

@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Afacad:ital,wght@1,600&family=Archivo:ital@1&family=Hedvig+Letters+Sans&family=Kanit&family=Montserrat:wght@600&family=Noto+Sans+JP&family=Noto+Serif&family=Roboto&family=Roboto+Slab:wght@500&display=swap");
+
+.g-logo {
+  height: 20px;
+  width: 20px;
+}
+.dont-account {
+  margin-top: 20px;
+  margin-left: 110px;
+  font-family: "Roboto Slab", serif;
+}
+
+.dont-account span {
+  color: rgb(70, 70, 240);
+}
+
+.dont-account span:hover {
+  text-decoration: underline;
+}
+
+main {
+  margin-top: -25px;
+  padding: 0 10px 15px 0.5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}

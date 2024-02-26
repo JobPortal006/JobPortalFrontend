@@ -1,0 +1,28 @@
+[
+    {
+      "jobDetails": {
+        "title": "Web Development",
+        "companyName": "JTS Lorem ipsum dolor sit amet.",
+        "locations": ["Coimbatore", "Chennai", "Bangalore", "Dubai", "Singapore"],
+        "experience": "2-5 years",
+        "skills": ["HTML", "CSS", "JavaScript"],
+        "salary": "$50,000 - $70,000",
+        "posted": "30 days ago"
+      },
+      "jobDescription": {
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mollis justo vitae nisi commodo, nec gravida lorem ullamcorper. Sed vel libero at nulla sodales consectetur. Nulla facilisi. Praesent non lorem id ligula ullamcorper consequat.",
+        "role": "Frontend Developer",
+        "industryType": "Information Technology",
+        "education": "Bachelor's degree in Computer Science or related field",
+        "employmentType": "Full-time"
+      },
+      "companyInfo": {
+        "companyDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mollis justo vitae nisi commodo, nec gravida lorem ullamcorper. Sed vel libero at nulla sodales consectetur. Nulla facilisi. Praesent non lorem id ligula ullamcorper consequat.",
+        "companyAddress": "123 Main Street, City, Country",
+        "noOfEmployees": "100-500",
+        "companyWebsiteLink": "www.example.com"
+      }
+    }
+  ]
+  
+  

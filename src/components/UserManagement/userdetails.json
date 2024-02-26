@@ -1,0 +1,46 @@
+{
+    "userDetails": {
+      "first_name": "John",
+      "last_name": "Doe",
+      "date_of_birth": "1990-01-01",
+      "mobile_number": "1234567890",
+      "gender": "Male"
+    },
+    "address": {
+      "current": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "pincode": "12345",
+        "state": "State1",
+        "country": "Country1"
+      },
+      "permanent": {
+        "street": "456 Elm St",
+        "city": "Othertown",
+        "pincode": "54321",
+        "state": "State2",
+        "country": "Country2"
+      }
+    },
+    "education": {
+      "sslc_school_name": "School1",
+      "sslc_start_year": "2005",
+      "sslc_end_year": "2010",
+      "sslc_percentage": "85"
+    },
+    "jobPreference": {
+      "key_skills": "Skill1, Skill2",
+      "industry": "Industry1",
+      "department": "Department1",
+      "preferred_locations": "Location1, Location2"
+    },
+    "professionalDetails": {
+      "isExperienced": true,
+      "numberOfCompanies": "2",
+      "companies": [
+        { "companyName": "Company1", "job_role": "Role1", "skills": "Skill1", "years_of_experience": "3" },
+        { "companyName": "Company2", "job_role": "Role2", "skills": "Skill2", "years_of_experience": "2" }
+      ]
+    }
+  }
+  

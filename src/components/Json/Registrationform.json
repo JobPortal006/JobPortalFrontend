@@ -1,0 +1,234 @@
+{
+    "Title":{
+        "one":"User Form"
+    },
+
+    "margin":{
+        "one" : "dense"
+    },
+
+    "size" : {
+        "one" : "h6"
+    },
+
+    "UserDetail":{
+        "one": "User Details",
+
+        "two": "First Name",
+        "three": "firstName",
+        "four": "Last Name",
+        "five": "lastName",
+        "six": "Date-of-birth  (month/date/year)",
+        "seven": "dateOfBirth",
+
+        "eight": "Mobile Number",
+        "nine": "mobileNumber",
+        "ten": "Gender",
+        "eleven":"gender",
+
+        "twelve": "Select Gender",
+        "thirteen": "male",
+        "fourteen": "Male",
+        "fifteen": "female",
+        "sixteen": "Female",
+        "seventeen": "other",
+        "eighteen": "Other",
+
+        "nineteen":"profile-picture-input",
+        "twenty": "Upload Profile Picture:",
+        "twentyone":"file",
+        "twentytwo": "image/*",
+        "twentythree": "profile-picture-input",
+
+        "twentyfour": "Profile Picture",
+        "twentyfive": "secondary",
+        "twentysix": "Remove Picture"
+
+
+
+
+
+    },
+
+    "Address" :{
+        "one" : "Address",
+
+        "two" : "Permanent Address",
+
+        "three" : "Street",
+        "four": "street",
+
+        "five": "permanent",
+
+        "six" : "City",
+        "seven" : "city",
+
+        "eight": "Pincode",
+        "nine": "pincode",
+
+        "ten": "Country",
+        "eleven" : "country",
+
+        "twelve" : "State",
+        "thirteen" : "state",
+
+        "fourteen" : "Current Address",
+
+        "fifteen" : "current"
+
+
+    },
+
+    "Education" : {
+        "one" : "Education details",
+
+        "two" : "SSLC-school-name",
+        "there" : "sslc_school_name",
+        "four" : "SSLC-start-date",
+        "five": "sslc_start_date",
+        "six": "SSLC-end-date",
+        "seven": "sslc_end_date",
+        "eight": "SSLC-percentage",
+        "nine": "sslc_percentage",
+
+        "ten":"HSC-school-name",
+        "eleven": "hsc_school_name",
+        "twelve": "HSC-start-date",
+        "thirteen" : "hsc-start-date",
+        "fourteen": "HSC-end-date",
+        "fifteen" : "hsc-end-date",
+        "sixteen" : "HSC-percentage",
+        "seventeen" : "hsc-percentage",
+
+        "eighteen":"College-name",
+        "nineteen" :"college-name",
+        "twenty" : "College-start-date",
+        "twentyone": "college-start-date",
+        "twentytwo": "College-end-date",
+        "twentythree": "college-end-date",
+        "twentyfour" : "College-percentage",
+        "twentyfive" : "college-percentage",
+
+        "twentysix" : "Department",
+        "twentyseven" : "department",
+        "twentyeight" : "Degree",
+        "twentynine" : "degree"
+
+      },
+
+      "pg" :{
+        "one" : "fieldset",
+        "two": "education-type",
+        "three" : "education-type",
+        "four" : "pg",
+        "five" : "PG",
+        "six" : "diploma",
+        "seven" : "Diploma",
+
+        "eight" : "PG-College-name",
+        "nine" : "pg-College-name",
+        "ten" : "PG-College-start-year",
+        "eleven" : "pg-College-start-year",
+
+        "twelve" : "PG-College-end-year",
+        "thirteen" : "pg-College-end-year",
+        "fourteen" : "PG-College-percentage",
+        "fifteen" : "pg_college_percentage",
+
+        "sixteen" : "PG-College-department",
+        "seventeen" : "pg-College-department",
+        "eighteen": "PG-College-degree",
+        "nineteen" : "pg-College-degree"
+
+    
+    },
+
+    "Diploma":{
+
+        "one" : "diploma",
+
+        "two" : "Diploma-College-name",
+        "three" : "diploma-College-name",
+
+        "four" : "Dipoma-college-start-year",
+        "five" : "dipoma-college-start-year",
+
+        "six" : "Dipoma-college-end-year",
+        "seven" : "dipoma-college-end-year",
+
+        "eight" : "Dipoma-college-percentage",
+        "nine" : "diploma_college_percentage" ,
+        
+        "ten" : "Dipoma-college-department",
+        "eleven" : "dipoma-college-department",
+
+        "twelve" : "Dipoma-college-degree",
+        "thirteen" : "dipoma-college-degree"
+
+    },
+
+    "Professional":{
+        "one" : "Professional Details",
+        
+        "two" : "radio",
+        "three" : "experienceOption",
+        "four" : "experienced",
+        "five" : "Experience",
+
+        "six" : "fresher",
+        "seven" : "Fresher",
+
+        "eight" : "Number of Companies",
+        "nine" : "number of Companies",
+        "ten" : "ten"
+
+    },
+
+    "Company" : {
+        "one" : "subtitle1",
+        "two" : "Company Name",
+        "three" : "companyname",
+
+        "four" : "Position",
+        "five" : "position",
+
+        "six" : "Start Date",
+        "seven" : "startdate",
+
+        "eight" : "End Date",
+        "nine" : "enddate"
+    
+    },
+
+    "Job": {
+        "one" : "Key-skills",
+        "two " : "key_skills",
+        
+        "three" : "Industries",
+        "four" : "industries",
+
+        "five" : "Department",
+        "six": "department",
+
+        "seven" :"Prefered locations",
+        "eight" : "prefered_locations"
+    },
+
+    "Resume":{
+        "one" : "Resume",
+
+        "two" : "file",
+        "three" : ".pdf,.doc,.docx",
+        "four" : "resume-input",
+
+        "five" : "subtitle1",
+        "six" : "Uploaded Resume:",
+        "seven" : "secondary",
+        "eight" : "Remove Resume"
+
+    },
+
+    "submit":{
+        "one" : "Submit"
+    }
+}

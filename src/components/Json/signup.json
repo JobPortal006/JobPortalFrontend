@@ -1,0 +1,25 @@
+{
+    "fields": {
+      "role": {
+        "required1": "Please select either User or Recruiter"
+      },
+      "email": {
+        "invalid": "Please enter a valid email address.",
+        "containsSpace": "Email should not contain spaces."
+      },
+      "mobile_number": {
+        "invalid": "Please enter a valid 10-digit phone number.",
+        "containsSpace": "Phone number should not contain spaces."
+      },
+      "password": {
+        "invalid": "Password should be at least 8 characters and include at least one uppercase letter, one lowercase letter, one digit, and one special character."
+      },
+      "confirm_password": {
+        "mismatch": "Passwords do not match."
+      },
+      "agreeTerms": {
+        "required": "Please agree to the terms and conditions."
+      }
+    }
+  }
+  

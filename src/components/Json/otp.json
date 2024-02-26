@@ -1,0 +1,42 @@
+{
+    "validation" : {
+        "one" : "OTP sent successfully!",
+        "two" : "Register your Mobile Number",
+        "three" : "Failed to send OTP",
+        "four" : "Redirecting to Login Page",
+        "five" : "OTP is Error"
+    },
+
+    "phone":{
+        "one" : "otp-login",
+        "two" : "otp-contained",
+        "three" : "3rem",
+
+        "four" : "Login via OTP",
+
+        "five" : "phone_input",
+        "six" : "in",
+        "seven" : "+",
+
+        "eight" : "1rem",
+        "nine" : "recaptcha"
+    },
+
+    "button" : {
+        "one" : "10px",
+        "two":"contained",
+        "three" : "success",
+
+        "four" : "Send OTP",
+        "five" :"Verify OTP",
+        "six" : "Enter OTP"
+    },
+
+    "field" : {
+        "one" : "10px",
+        "two"  :"300px",
+        "three" : "outlined",
+        "four" : "small"
+        
+    }
+}

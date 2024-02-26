@@ -1,0 +1,95 @@
+
+{
+    "companyDetails": {
+      "company_name": {
+        "required": "Company name is required",
+        "onlyAlphabets": "Company name should contain only alphabets",
+        "noSpace": "Company name should not start with a space"
+      },
+      "industry_type": "Industry type is required",
+      "company_description": {
+        "required": "Company description is required",
+        "noSpace": "Company description should not start with a space"
+      },
+      "no_of_employees": "Number of employees is required",
+      "company_website_link": {
+        "required": "Company website link is required",
+        "invalidFormat": "Invalid URL format"
+      },
+      "company_logo": {
+        "required": "Company logo is required",
+        "sizeLimit": "Company logo size must be less than 2MB"
+      }
+    },
+    "companyAddress": {
+      "street": {
+        "required": "Street is required",
+        "noSpace": "Street should not start with a space"
+      },
+      "city": {
+        "required": "City is required",
+        "onlyAlphabets": "City should contain only alphabets",
+        "noSpace": "City should not start with a space"
+      },
+      "state": {
+        "required": "State is required",
+        "onlyAlphabets": "State should contain only alphabets",
+        "noSpace": "State should not start with a space"
+      },
+      "country": {
+        "required": "Country is required",
+        "onlyAlphabets": "Country should contain only alphabets",
+        "noSpace": "Country should not start with a space"
+      },
+      "pincode": {
+        "required": "Pincode is required",
+        "onlyNumeric": "Pincode should contain only numeric numbers"
+      },
+      "address_type": "Address type is required"
+    },
+    "contactInformation": {
+      "contact_person_name": {
+        "required": "Contact person name is required",
+        "noSpace": "Contact person name should not start with a space",
+        "onlyAlphabets": "Contact person name should contain only alphabets and spaces"
+      },
+      "contact_person_position": {
+        "required": "Contact person position is required",
+        "noSpace": "Contact person position should not start with a space",
+        "onlyAlphabets": "Contact person position should contain only alphabets and spaces"
+      },
+      "email": {
+        "required": "Email is required",
+        "invalidFormat": "Invalid email address"
+      },
+      "mobile_number": {
+        "required": "Mobile number is required",
+        "invalidFormat": "Invalid mobile number"
+      }
+    },
+
+  "mainFileStrings": {
+    "employerRegistrationTitle": "Employer Registration",
+    "contactInformationTitle": "Contact Information",
+    "companyAddressTitle": "Company Address",
+    "companyNameLabel": "Company Name",
+    "industryTypeLabel": "Industrial Type",
+    "companyDescriptionLabel": "Company Description",
+    "numberOfEmployeesLabel": "Number of Employees",
+    "companyWebsiteLinkLabel": "Company Website Link",
+    "uploadCompanyLogoLabel": "Upload Company Logo",
+    "removeButtonLabel": "Remove",
+    "streetLabel": "Street",
+    "cityLabel": "City",
+    "stateLabel": "State",
+    "countryLabel": "Country",
+    "pincodeLabel": "Pincode",
+    "addressTypeLabel": "Address Type",
+    "contactPersonNameLabel": "Contact Person Name",
+    "contactPersonPositionLabel": "Contact Person Position",
+    "emailLabel": "Email",
+    "mobileNumberLabel": "Mobile Number",
+    "submitButtonLabel": "Submit",
+    "companyLogoSizeLimitMessage": "Company logo size must be less than 2MB"
+  }
+}

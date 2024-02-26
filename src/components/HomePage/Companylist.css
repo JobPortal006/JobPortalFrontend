@@ -1,0 +1,133 @@
+/* 
+
+
+
+
+   .container {
+    width: 100%;
+    max-width: 1000px;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  
+  .company-list {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    animation: scrollRightToLeft 20s linear infinite;
+  
+
+  }
+  
+  .company-item {
+
+    width: auto;
+    margin-right: 20px;
+    transition: transform 0.5s ease;
+    cursor: pointer;
+  }
+  
+  .company-item:last-child {
+    margin-right: 0;
+  }
+  
+  .company-item:hover {
+    animation-play-state: paused;
+  }
+  
+  @keyframes scrollRightToLeft {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .card-content {
+    padding: 16px;
+  }
+  
+  .card-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .selected {
+    border: 2px solid #007bff; 
+  }
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loading-text {
+    font-size: 24px;
+    font-weight: bold;
+  }  */
+   
+
+
+   /* ---------------------------------------> */
+   .container {
+    width: 100%;
+    max-width: 1000px;
+    overflow: hidden;
+    margin: 0 auto;
+    text-align: center;    
+  }
+  
+  .header {
+    margin-bottom: 20px;
+  }
+  
+  .company-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .company-item {
+    width: calc(33.33% - 20px); /* Adjust as needed for desired number of cards per row */
+    margin: 0 10px 20px; /* Adjust margins as needed */
+    cursor: pointer;
+  }
+  
+  .card-content {
+    padding: 16px;
+  }
+  
+  .card-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .selected {
+    border: 2px solid #007bff; 
+  }
+  
+  .pagination-buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .pagination-buttons button {
+    display: flex;
+    align-items: center;
+  }
+  
+  .business-icon {
+    margin-right: 8px;
+  }
+  
+  .arrow-icon {
+    margin-left: 8px;
+  }
+  

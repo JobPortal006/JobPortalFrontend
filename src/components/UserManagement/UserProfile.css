@@ -1,0 +1,24 @@
+/* .parent-container {
+    height: 100vh;
+
+  } */
+  
+  .profilebackground-div {
+    background-image: url(../HomePage/homeimages/profile1.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+  }
+  .textfield{
+    background-color: white;
+    opacity: 95%;
+  }
+  .textfield label{
+    color: black;
+  }
+  
