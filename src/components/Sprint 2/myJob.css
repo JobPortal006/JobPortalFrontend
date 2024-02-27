@@ -1,0 +1,21 @@
+.job-container {
+    border-bottom: 1px solid #ccc;
+    padding: 8px 0;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .location {
+    font-size: 24px;
+    
+    margin: 0;
+  }
+  
+  .date {
+    font-size: 24px;
+    margin: 0;
+  }
+  
