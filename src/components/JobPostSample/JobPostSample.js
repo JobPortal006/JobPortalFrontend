@@ -142,6 +142,7 @@ import { faMapMarkerAlt, faMoneyBillAlt, faUser, faBuilding, faTools } from '@fo
 import './JobPostSampleStyle.css';
 import SearchBar from "../HomePage/searchBar";
 import { useNavigate } from 'react-router-dom';
+import Filter from "../Sprint 2/Filter";
 
 function JobPostSample(props) {
     const navigate = useNavigate();
@@ -211,6 +212,8 @@ function JobPostSample(props) {
                 <div className="loading-popup">Loading...</div>
             ) : (
                 <div className="job-container" style={{ marginTop: '60px' }}>
+                    {/* <Filter /> */}
+
                     <SearchBar isJobSearchPage={true} />
                     {currentJobs.map((job, index) => (
                         <div key={index} className="job-card" onClick={() => handleJobSelect(job)}>

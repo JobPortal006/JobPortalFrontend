@@ -1981,7 +1981,7 @@ const UserForm = () => {
             const response = await axios.post('http://192.168.1.39:8000/userRegister/', dataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    // You may need to add other headers like authentication token if required
+                    
                 },
             });
 

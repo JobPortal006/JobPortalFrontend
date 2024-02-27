@@ -26,7 +26,6 @@ import EditMyJob from "./components/Sprint 2/EditMyJob.jsx";
 import FilteredResults from "./components/Sprint 2/FilteredResults.jsx";
 // import JobDetails from "./components/Sprint 2/jobdiscriptions.js";
 import UserContext from "./components/Sprint 2/contextFilter.jsx";
-import SideNavbar from "./components/Dashboard/Sidebar.js"; 
 
 
 import {useState} from  'react';
@@ -35,9 +34,10 @@ import {useState} from  'react';
 function App() {
   const [oneData, setData] = useState("");
   const [employeeForm,setEmployeeForm] = useState("");
+  const[searchJob,setsearchJob]=useState("")
   console.log(employeeForm,"ggggg========")
   return (
-    <UserContext.Provider value={{oneData, setData,employeeForm,setEmployeeForm}}>
+    <UserContext.Provider value={{oneData, setData,employeeForm,setEmployeeForm,searchJob,setsearchJob}}>
     <div>
       <BrowserRouter>
         <Navbar />
@@ -51,7 +51,6 @@ function App() {
           <Route path="/Password" element={<Password />} />   
           <Route path="/JobSearch" element={<JobPostSample />} />
           <Route path="/JobDetails" element={<JobDetails />} />
-
           <Route path="/UserProfile" element={<UserProfile />}/>
           <Route path="/Companydisplay" element={<Companydisplay />}/>
           <Route path="/Filter" element={<Filter/>} />
@@ -60,9 +59,6 @@ function App() {
           <Route path="/EditMyJob" element={<EditMyJob />} />
           <Route path="/FilteredResults" element={<FilteredResults />} />
           <Route path="/JobDetails" element={<JobDetails />} />
-
-
-
         </Routes>
       </BrowserRouter>
     </div>

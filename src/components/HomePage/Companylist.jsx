@@ -106,6 +106,7 @@ import { useNavigate } from 'react-router-dom';
 import BusinessIcon from '@mui/icons-material/Business';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { JobCard } from './JobCard';
 
 const Companylist = () => {
   const [companies, setCompanies] = useState([]);
@@ -169,7 +170,7 @@ const Companylist = () => {
     }
   };
 
-  return (
+  return (<>
     <div className="container">
       <Typography variant="h4" gutterBottom>
         Job Openings in Top Companies
@@ -216,6 +217,8 @@ const Companylist = () => {
         <Button variant="outlined" disabled={startIndex + 3 >= companies.length} onClick={handleNext}>Next <ArrowForwardIcon /></Button>
       </div>
     </div>
+    <JobCard />
+    </>
   );
 };
 

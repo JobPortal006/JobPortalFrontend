@@ -31,7 +31,7 @@
 
 
 // const UserProfile = () => {
-//     // State for user details
+//    State for user details
 //     const [userDetails, setUserDetails] = useState({
 //         first_name: '',
 //         last_name: '',
@@ -1147,6 +1147,17 @@
 import React, { useEffect, useState } from 'react';
 import { CircularProgress, Typography, Grid, TextField, Container, Button } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+ import RadioGroup from '@mui/material/RadioGroup';
+ import FormControlLabel from '@mui/material/FormControlLabel';
+ import Radio from '@mui/material/Radio';
+ import {
+         AccordionSummary,
+         AccordionDetails,
+         
+     } from '@mui/material';
+    //  import FormContainer from './FormContainer';
+
 
 
 const UserProfile = () => {
@@ -1165,16 +1176,67 @@ const UserProfile = () => {
                 gender: '',
                 date_of_birth: ''
             },
-            address:{
-                permanent:{
+            address: {
+                permanent: {
                     address_type: 'Permanent',
-                    city:'',
-                    state:'',   
-                    country:'',
-                    pincode:'',
-                    street:''
+                    city: '',
+                    state: '',
+                    country: '',
+                    pincode: '',
+                    street: ''
                 },
-                }
+                current: {
+                    address_type: 'Current',
+                    city: '',
+                    state: '',
+                    country: '',
+                    pincode: '',
+                    street: ''
+                },
+            },
+            education_details: {
+                hsc_end_year: '',
+                hsc_percentage: '',
+                hsc_start_year:'',
+                hsc_school_name: '',
+                sslc_end_year: '',
+                sslc_percentage: '',
+                sslc_school_name: '',
+                sslc_start_year: ''
+            },
+            college_details: {
+                college_end_year: '',
+                college_name: '',
+                college_percentage: '',
+                college_start_year: '',
+                degree: '',
+                department: '',
+                education_type: ''
+            },
+            PG_college_details: {
+                pg_college_degree: '',
+                pg_college_department: '',
+                pg_college_end_year: '',
+                pg_college_name: '',
+                pg_college_percentage: '',
+                pg_college_start_year: '',
+                pg_college_education_type: ''
+            },
+            Diploma_college_details: {
+                diploma_college_degree: '',
+                diploma_college_department: '',
+                diploma_college_end_year: '',
+                diploma_college_name: '',
+                diploma_college_percentage: '',
+                diploma_college_start_year: '',
+                diploma_college_education_type: ''
+            },
+            jobPreference: {
+                department: '',
+                industry: '',
+                key_skills: '',
+                prefered_locations: ''
+            }
         }
     });
 
@@ -1201,15 +1263,67 @@ const UserProfile = () => {
                             gender: data.userDetails.gender,
                             date_of_birth: data.userDetails.date_of_birth
                         },
-                        address:{
-                            permanent:{
-                                address_type:data.address.permanent.address_type,
-                                city:data.address.permanent.city,
-                                state:data.address.permanent.state,
-                                country:data.address.permanent.country,
-                                pincode:data.address.permanent.pincode,
-                                street:data.address.permanent.street
+                        address: {
+                            permanent: {
+                                address_type: data.address.permanent.address_type,
+                                city: data.address.permanent.city,
+                                state: data.address.permanent.state,
+                                country: data.address.permanent.country,
+                                pincode: data.address.permanent.pincode,
+                                street: data.address.permanent.street
+                            },
+                            current: {
+                                address_type: data.address.current.address_type,
+                                city: data.address.current.city,
+                                state: data.address.current.state,
+                                country: data.address.current.country,
+                                pincode: data.address.current.pincode,
+                                street: data.address.current.street
                             }
+                        },
+                        education_details: {
+
+                            hsc_end_year: data.education_details.hsc_end_year,
+                            hsc_start_year:data.education_details.hsc_start_year,                          
+                            hsc_percentage: data.education_details.hsc_percentage,
+                            hsc_school_name: data.education_details.hsc_school_name,
+                            sslc_end_year: data.education_details.sslc_end_year,
+                            sslc_percentage: data.education_details.sslc_percentage,
+                            sslc_school_name: data.education_details.sslc_school_name,
+                            sslc_start_year: data.education_details.sslc_start_year
+                        },
+                        college_details: {
+                            college_end_year: data.college_details.college_end_year,
+                            college_name: data.college_details.college_name,
+                            college_percentage: data.college_details.college_percentage,
+                            college_start_year: data.college_details.college_start_year,
+                            degree: data.college_details.degree,
+                            department: data.college_details.department,
+                            education_type: data.college_details.education_type
+                        },
+                        PG_college_details: {
+                            pg_college_degree: data.PG_college_details.pg_college_degree,
+                            pg_college_department: data.PG_college_details.pg_college_department,
+                            pg_college_end_year: data.PG_college_details.pg_college_end_year,
+                            pg_college_name: data.PG_college_details.pg_college_name,
+                            pg_college_percentage: data.PG_college_details.pg_college_percentage,
+                            pg_college_start_year: data.PG_college_details.pg_college_start_year,
+                            pg_college_education_type: data.PG_college_details.pg_college_education_type
+                        },
+                        Diploma_college_details:{
+                            diploma_college_degree: data.Diploma_college_details.diploma_college_degree,
+                            diploma_college_department: data.Diploma_college_details.diploma_college_department,
+                            diploma_college_end_year: data.Diploma_college_details.diploma_college_end_year,
+                            diploma_college_name: data.Diploma_college_details.diploma_college_name,
+                            diploma_college_percentage: data.Diploma_college_details.diploma_college_percentage,
+                            diploma_college_start_year: data.Diploma_college_details.diploma_college_start_year,
+                            diploma_college_education_type: data.Diploma_college_details.diploma_college_education_type
+                        },
+                        jobPreference:{
+                            department: data.jobPreference.department,
+                            industry: data.jobPreference.industry,
+                            key_skills: data.jobPreference.key_skills,
+                            prefered_locations: data.jobPreference.prefered_locations
                         }
                     }
                 }); // Set initial form data
@@ -1235,10 +1349,15 @@ const UserProfile = () => {
                     ...prevData.data.userDetails,
                     [name]: value
                 },
-                address:{
-                    permanent:{
+                address: {
+                    permanent: {
                         ...prevData.data.address.permanent,
-                        [name]:value
+                        [name]: value
+                    },
+                    current: {
+                        ...prevData.data.address.current,
+                        ...prevData.data.address.current,
+                        [name]: value
                     }
                 }
             }
@@ -1261,7 +1380,7 @@ const UserProfile = () => {
                 if (!response.ok) {
                     throw new Error('Failed to update user details');
                 }
-                
+
                 // Handle success response if needed
                 console.log("User details updated successfully");
             })
@@ -1284,101 +1403,739 @@ const UserProfile = () => {
     }
 
     return (
-        <Container maxWidth="sm" style={{ marginTop: '100px' }}> {/* Container for form */}
-            <Typography variant="h4" align="center">User Profile</Typography>
-            <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            name="email"
-                            label="Email"
-                            variant="outlined"
-                            fullWidth
-                            value={formData.data.Signup.email}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            name="mobile_number"
-                            label="Mobile Number"
-                            variant="outlined"
-                            fullWidth
-                            value={formData.data.Signup.mobile_number}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="First Name"
-                            name="first_name"
-                            variant="outlined"
-                            fullWidth
-                            value={formData.data.userDetails.first_name}
-                            onChange={handleChange}
+        // <Container maxWidth="sm" style={{ marginTop: '100px' }}> {/* Container for form */}
+        //     <Typography variant="h4" align="center">User Profile</Typography>
+        //     <form onSubmit={handleSubmit}>
+        //         <Grid container spacing={2}>
+        //             <Grid item xs={12} sm={6}>
+        //                 <TextField
+        //                     name="email"
+        //                     label="Email"
+        //                     variant="outlined"
+        //                     fullWidth
+        //                     value={formData.data.Signup.email}
+        //                     onChange={handleChange}
+        //                 />
+        //             </Grid>
+        //             <Grid item xs={12} sm={6}>
+        //                 <TextField
+        //                     name="mobile_number"
+        //                     label="Mobile Number"
+        //                     variant="outlined"
+        //                     fullWidth
+        //                     value={formData.data.Signup.mobile_number}
+        //                     onChange={handleChange}
+        //                 />
+        //             </Grid>
+        //             <Grid item xs={12} sm={6}>
+        //                 <TextField
+        //                     label="First Name"
+        //                     name="first_name"
+        //                     variant="outlined"
+        //                     fullWidth
+        //                     value={formData.data.userDetails.first_name}
+        //                     onChange={handleChange}
 
-                        />
-                    </Grid>
+        //                 />
+        //             </Grid>
 
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Last Name"
-                            name="last_name"
-                            variant="outlined"
-                            fullWidth
-                            value={formData.data.userDetails.last_name}
-                            onChange={handleChange}
+        //             <Grid item xs={12} sm={6}>
+        //                 <TextField
+        //                     label="Last Name"
+        //                     name="last_name"
+        //                     variant="outlined"
+        //                     fullWidth
+        //                     value={formData.data.userDetails.last_name}
+        //                     onChange={handleChange}
 
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            name="date_of_birth"
-                            type='date'
-                            value={formData.data.userDetails.date_of_birth}
-                            fullWidth
-                            margin="dense"
-                            onChange={handleChange}
+        //                 />
+        //             </Grid>
+        //             <Grid item xs={12} sm={6}>
+        //                 <TextField
+        //                     name="date_of_birth"
+        //                     type='date'
+        //                     value={formData.data.userDetails.date_of_birth}
+        //                     fullWidth
+        //                     margin="dense"
+        //                     onChange={handleChange}
 
-                        />
-
-
-<TextField
-                            name="street"
-                            value={formData.data.address.permanent.street}
-                            fullWidth
-                            margin="dense"
-                            onChange={handleChange}
-                            label="street"
+        //                 />
 
 
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
+        //                 <TextField
+        //                     name="street"
+        //                     value={formData.data.address.permanent.city}
+        //                     fullWidth
+        //                     margin="dense"
+        //                     onChange={handleChange}
+        //                     label="street"
 
-                    <TextField
-                                    label="gender"
-                                    name="gender"
-                                    value={formData.data.userDetails.gender}
-                                    onChange={handleChange}
-                                    // fullWidth
-                                    margin="dense"
+
+        //                 />
+        //                 <TextField
+        //                     name="street"
+        //                     value={formData.data.address.current.street}
+        //                     fullWidth
+        //                     margin="dense"
+        //                     onChange={handleChange}
+        //                     label="street"
+
+
+        //                 />
+        //             </Grid>
+        //             <Grid item xs={12} sm={6}>
+
+        //                 <TextField
+        //                     label="gender"
+        //                     name="gender"
+        //                     value={formData.data.userDetails.gender}
+        //                     onChange={handleChange}
+        //                     // fullWidth
+        //                     margin="dense"
+
+
+
+        //                 >
+        //                     {/* <MenuItem value="" disabled>Select Gender</MenuItem>
+        //                             <MenuItem className='male' value="male">Male</MenuItem>
+        //                             <MenuItem value="female">Female</MenuItem>
+        //                             <MenuItem value="other">Other</MenuItem> */}
+        //                 </TextField>
+
+        //             </Grid>
+        //         </Grid>
+
+        //         <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button>
+        //     </form>
+        // </Container>
+
+
+
+
+        <div className='profilebackground-div'>
+                 <div className="profilebackground-div">
+               <Container style={{marginTop:'60px'}} >
+                   <Typography variant="h4" align="center" gutterBottom>
+                    Profile
+                   </Typography>
+        
+        
+                   <form onSubmit={handleSubmit} >
+                       {/* User Details Accordion */}
+        
+                           <AccordionSummary >
+                               <Typography variant="h6">User Details</Typography>
+                           </AccordionSummary>
+                           <AccordionDetails>
+                               <Grid container spacing={2}>
+                                   <Grid item xs={12} sm={6}>
+                                       {/* First Column */}
+                                       <TextField className='textfield' 
+                                           label='First Name'
+                                           name="first_name"
+                                           onChange={handleChange}
+                                           value={formData.data.userDetails.first_name}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label='Last Name'
+                                           name="last_name"
+                                           value={formData.data.userDetails.last_name}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+
+        
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label='Date-of-birth (month/date/year)'
+                                           name="date_of_birth"
+                                           value={formData.data.userDetails.date_of_birth}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                         
+        
+        
+                                       />
+                                   </Grid>
+                                   <Grid item xs={12} sm={6}>
+                                       {/* Second Column */}
+                                       <TextField className='textfield'
+                                           label='Mobile Number'
+                                           name="mobile_number"
+                                           value={formData.data.Signup.mobile_number}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+        
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label="gender"
+                                           name="gender"
+                                           value={formData.data.userDetails.gender}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           displayEmpty
+                                           margin="dense"
+        
+         
+        
+        
+                                       >
+                                           {/* <MenuItem value="" disabled>Select Gender</MenuItem>
+                                           <MenuItem className='male' value="male">Male</MenuItem>
+                                           <MenuItem value="female">Female</MenuItem>
+                                           <MenuItem value="other">Other</MenuItem> */}
+                                       </TextField>
+                                       {/* <label htmlFor="profile-picture-input">Upload Profile Picture:</label>
+                                       <br></br>
+                                       <Input
+                                           type="file"
+                                           accept="image/*"
+                                           onChange={handleChange}
+                                           margin="dense"
+                                           id="profile-picture-input"
+                                       /> */}
+                                   </Grid>
+                               </Grid>
+        
+                               {/* {profilePicture && (
+                                   <div>
+                                       <Avatar
+                                           alt="Profile Picture"
+                                           src={URL.createObjectURL(profilePicture)}
+                                           sx={{ width: 100, height: 100, marginTop: 2 }}
+                                       />
+                                       <Button color="secondary" onClick={handleRemoveProfilePicture}>
+                                           Remove Picture
+                                       </Button>
+                                   </div>
+                               )} */}
+                           </AccordionDetails>
+        
+                       {/* Address Accordion */}
+        
+                           <AccordionSummary >
+                               <Typography variant="h6">Address</Typography>
+                           </AccordionSummary>
+                           <AccordionDetails>
+                               <Typography variant="h6"> Permanent and current Address:</Typography>
+        
+                               <Grid container spacing={2}>
+                                   <Grid item xs={12} sm={6} >
+                                       {/* First Column */}
+                                       <TextField className='textfield' 
+                                           label="Parmanent Street"
+                                           name="street"
+                                           value={formData.data.address.permanent.street}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label=" Parmanent City"
+                                           name="city"
+                                           value={formData.data.address.permanent.city}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label="Parmanent pincode"
+                                           name="pincode"
+                                           value={formData.data.address.permanent.pincode}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+        
+                                       <TextField className='textfield'
+                                           label="Parmanent Country"
+                                           name="country"
+                                           value={formData.data.address.permanent.country}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                          
+                                       />
+                                       <TextField className='textfield'
+                                           label="Parmanent State"
+                                           name="state"
+                                           value={formData.data.address.permanent.state}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+        
+                                   </Grid>
+                                   <Grid item xs={12} sm={6} >
+                                       {/* <Typography variant="h6">Current Address</Typography> */}
+                                       <TextField className='textfield'
+                                           label="Current Street"
+                                           name="street"
+                                           value={formData.data.address.current.street}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+                                        
+                                       />
+                                       <TextField className='textfield'
+                                           label="Current City"
+                                           name="city"
+                                           value={formData.data.address.current.city}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+                                       
+                                       />
+                                       <TextField className='textfield'
+                                           label="Current Pincode"
+                                           name="pincode"
+                                           value={formData.data.address.current.pincode}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+                                        
+                                       />
+        
+                                       <TextField className='textfield'
+                                           label="Current Country"
+                                           name="country"
+                                           value={formData.data.address.current.country}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+                                         
+                                       />
+                                       <TextField className='textfield'
+                                           label="Current State"
+                                           name="state"
+                                           value={formData.data.address.current.state}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+                                           
+                                       />
+        
+                                   </Grid>
+                               </Grid>
+                           </AccordionDetails>
+        
+        
+                       {/* Educatiom Accordion */}
+        
+                           <AccordionSummary > <Typography variant="h6">Education details</Typography></AccordionSummary>
+                           <AccordionDetails>
+                               <Grid container spacing={2}>
+                                   <Grid item xs={12} sm={6}>
+        
+                                       {/* First Column */}
+                                       <TextField className='textfield'
+                                           label="SSLC-school-name"
+                                           name="sslc_school_name"
+                                           value={formData.data.education_details.sslc_school_name}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                         
+                                       />
+                                       <TextField className='textfield'
+                                           label="SSLC-start-year"
+                                           name="sslc_start_year"
+                                           value={formData.data.education_details.sslc_start_year}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label="SSLC-end-year"
+                                           name="sslc_end_year"
+                                           value={formData.data.education_details.sslc_end_year}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                          
+                                       />
+                                       <TextField className='textfield'
+                                           label="SSLC-percentage"
+                                           name="sslc_percentage"
+                                           value={formData.data.education_details.sslc_percentage}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       
+                                       />
+                                   </Grid>
+        
+                                   <Grid item xs={12} sm={6}>
+                                       {/* Second Column */}
+                                       <TextField className='textfield'
+                                           label="HSC-school-name"
+                                           name="hsc_school_name"
+                                           value={formData.data.education_details.hsc_school_name}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       
+                                       />
+                                       <TextField className='textfield'
+                                           label="HSC-start-year"
+                                           name="hsc_start_year"
+                                           value={formData.data.education_details.hsc_end_year}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label="HSC-end-year"
+                                           name="hsc_end_year"
+                                           value={formData.data.education_details.hsc_end_year}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label="HSC-percentage"
+                                           name="hsc_percentage"
+                                           value={formData.data.education_details.hsc_percentage}
+
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                   </Grid>
+                                   <Grid item xs={12} sm={6}>
+                                       <Typography sx={{ width: '100%' }} >UG Details:</Typography>
+                                       {/* Third Column */}
+                                       <TextField className='textfield'
+                                           label="College-name"
+                                           name="college_name"
+                                           value={formData.data.college_details.college_name}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label="College-start-year"
+                                           name="college_start_year"
+                                           value={formData.data.college_details.college_start_year}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                        
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label="College-end-year"
+                                           name="college_end_year"
+                                           value={formData.data.college_details.college_end_year}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
                                   
-
-
-                                >
-                                    {/* <MenuItem value="" disabled>Select Gender</MenuItem>
-                                    <MenuItem className='male' value="male">Male</MenuItem>
-                                    <MenuItem value="female">Female</MenuItem>
-                                    <MenuItem value="other">Other</MenuItem> */}
-                                </TextField>
-
-                </Grid>
-                </Grid>
-
-                <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button>
-            </form>
-        </Container>
+                                       />
+                                       <TextField className='textfield'
+                                           label="College-percentage"
+                                           name="college_percentage"
+                                           value={formData.data.college_details.college_percentage}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                   </Grid>
+        
+                                   <Grid item xs={12} sm={6} >
+                                       <Typography sx={{ color: 'transparent' }}> . </Typography>
+                                       {/* Fourth Column */}
+                                       <TextField className='textfield'
+                                           label="Department"
+                                           name="department"
+                                           value={formData.data.college_details.department}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                       <TextField className='textfield'
+                                           label="Degree"
+                                           name="degree"
+                                           value={formData.data.college_details.degree}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                          
+                                       />
+                                   </Grid>
+        
+        
+                                   {/* pg and diplamo */}
+                                   <Grid item xs={12}>
+                                       {/* Radio Buttons for PG/Diploma */}
+                                       <FormControl component="fieldset">
+                                           <RadioGroup
+                                               className='radio_button'
+                                               row
+                                               aria-label="education-type"
+                                               name="education_type"
+                                               value={formData.data.college_details.education_type}
+                                               onChange={handleChange}
+                                           >
+                                               <FormControlLabel
+                                                   className='pg_button1'
+                                                   value="pg"
+                                                   control={<Radio />}
+                                                   label="PG"
+                                               />
+                                               <FormControlLabel
+                                                   className='pg_button2'
+                                                   value="diploma"
+                                                   control={<Radio />}
+                                                   label="Diploma"
+                                               />
+                                           </RadioGroup>
+                                       </FormControl>
+                                   </Grid>
+        
+                                   {/* Additional Fields based on Radio Button selection */}
+                                   {formData.data.college_details.education_type === 'pg' && (
+                                       <>
+                                           {/* Additional PG Fields */}
+                                           <Grid item xs={12} sm={6}>
+                                               <TextField className='textfield'
+                                                   label="PG-College-name"
+                                                   name="pg_college_name"
+                                                   value={formData.data.PG_college_details.pg_college_name}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+        
+                                               />
+                                               <TextField className='textfield'
+                                                   label="PG-College-start-year"
+                                                   name="pg_college_start_year"
+                                                   value={formData.data.PG_college_details.pg_college_start_year}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+        
+                                               />
+                                               <TextField className='textfield'
+                                                   label="PG-College-end-year"
+                                                   name="pg_college_end_year"
+                                                   value={formData.data.PG_college_details.pg_college_end_year}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+        
+                                               
+                                               />
+                                               <TextField className='textfield'
+                                                   label="PG-College-percentage"
+                                                   name="pg_college_percentage"
+                                                   value={formData.data.PG_college_details.pg_college_percentage}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+        
+                                             
+                                               />
+                                               {/* Add other PG fields here */}
+                                           </Grid>
+                                           <Grid item xs={12} sm={6}>
+                                               <TextField className='textfield'
+                                                   label="PG-College-department"
+                                                   name="pg_college_department"
+                                                   value={formData.data.PG_college_details.pg_college_department}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+        
+                                         
+                                               />
+                                               <TextField className='textfield'
+                                                   label="PG-College-degree"
+                                                   name="pg_college_degree"
+                                                   value={formData.data.PG_college_details.pg_college_degree}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+        
+                                                  
+                                               />
+                                           </Grid>
+                                       </>
+                                   )}
+        
+                                   {formData.data.education_type === 'diploma' && (
+                                       <>
+                                           {/* Additional Diploma Fields */}
+                                           <Grid item xs={12} sm={6}>
+                                               <TextField className='textfield'
+                                                   label="Diploma-college-name"
+                                                   name="diploma_college_name"
+                                                   value={formData.data.Diploma_college_details.diploma_college_name}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+                                                 
+                                               />
+                                               <TextField className='textfield'
+                                                   label="Diploma-college-start-year"
+                                                   name="diploma_college_start_year"
+                                                   value={formData.data.Diploma_college_details.diploma_college_start_year}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+                                                 
+                                               />
+                                               <TextField className='textfield'
+                                                   label="Diploma-college-end-year"
+                                                   name="diploma_college_end_year"
+                                                   value={formData.data.Diploma_college_details.diploma_college_end_year}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+                                               
+                                               />
+                                               <TextField className='textfield'
+                                                   label="Diploma-college-percentage"
+                                                   name="diploma_college_percentage"
+                                                   value={formData.data.Diploma_college_details.diploma_college_percentage}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+                                                  
+                                               />
+                                               {/* Add other Diploma fields here */}
+                                           </Grid>
+                                           <Grid item xs={12} sm={6}>
+                                               <TextField className='textfield'
+                                                   label="Diploma-college-department"
+                                                   name="diploma_college_department"
+                                                   value={formData.data.Diploma_college_details.diploma_college_department}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+                                                  
+                                               />
+                                               <TextField className='textfield'
+                                                   label="Diploma-college-degree"
+                                                   name="diploma_college_degree"
+                                                   value={formData.data.Diploma_college_details.diploma_college_degree}
+                                                   onChange={handleChange}
+                                                   fullWidth
+                                                   margin="dense"
+                                                
+                                               />
+                                           </Grid>
+                                       </>
+                                   )}
+                               </Grid>
+                           </AccordionDetails>
+        
+        
+                       {/* job preference */}
+        
+                           <AccordionSummary > <Typography variant="h6">Job Preference</Typography></AccordionSummary>
+                           <AccordionDetails>
+                               <Grid container spacing={2}>
+                                   <Grid item xs={12} sm={6}>
+                                       {/* First Column */}
+                                       <TextField className='textfield'
+                                           label="Key-skills"
+                                           name="key_skills"
+                                           value={formData.data.jobPreference.key_skills}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                    
+                                       />
+                                       <TextField className='textfield'
+                                           label="Industry"
+                                           name="industry"
+                                           value={formData.data.jobPreference.industry}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                       />
+                                   </Grid>
+                                   <Grid item xs={12} sm={6}>
+                                       <TextField className='textfield'
+                                           label="Department"
+                                           name="department"
+                                           value={formData.data.jobPreference.department}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                          
+                                       />
+                                       <TextField className='textfield'
+                                           label="Prefered locations"
+                                           name="prefered_locations"
+                                           value={formData.data.jobPreference.prefered_locations}
+                                           onChange={handleChange}
+                                           fullWidth
+                                           margin="dense"
+        
+                                     
+                                       />
+                                   </Grid>
+        
+                               </Grid>
+        
+                           </AccordionDetails>
+        
+               <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button>
+                       
+                   </form>
+        
+        
+        
+               </Container>
+               </div>
+               </div>
     );
 };
 
