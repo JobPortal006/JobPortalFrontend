@@ -212,9 +212,9 @@ const PostJob = () => {
 
         if (response.data.status === true) {
           const id = response.data.data ;
-          console.log("Job posted Successfully");
+          console.log(id,"Job posted Successfully");
           // window.location.reload();
-          navigate("/MyJob", { state: { id } });
+          navigate("/MyJob", { state: { id } }); 
         } else {
           console.log("Error in posting the Job");
           alert("Please fill in all required fields")

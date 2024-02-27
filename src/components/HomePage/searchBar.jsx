@@ -427,13 +427,15 @@
 
 // ==========================================================================>any one value is true it will search result
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles, TextField, Button, Chip, Collapse, Popover } from '@material-ui/core';
 import { MdSearch, MdExpandMore } from 'react-icons/md';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserContext from "../Sprint 2/contextFilter";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -628,6 +630,13 @@ const SearchBar = ({ isJobSearchPage }) => {
     }
   }, [experienceValue]);
 
+  // UseContext
+
+  const{viewJob, setViewJob} =  useContext(UserContext);
+
+  console.log(viewJob,"viewJob=====++++>");
+
+
   const handleSearch = async () => {
     let isError = false;
 
@@ -648,13 +657,15 @@ const SearchBar = ({ isJobSearchPage }) => {
       };
 
       try {
-        const response = await fetch('http://192.168.1.39:8000/view_jobs/', {
+        const response = await fetch('http://192.168.1.39:8000/search_jobs/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(searchObject), 
         });
+       
+        console.log(response,"raghul res===>")
 
         if (!response.ok) {
           throw new Error('Failed to send search data to the server');

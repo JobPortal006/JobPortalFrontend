@@ -2,7 +2,7 @@ import React, { useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faMoneyBillAlt, faUser, faBuilding, faTools } from '@fortawesome/free-solid-svg-icons';
 import "../Sprint 2/FIlteredResults.css";
-import SearchBar from "../HomePage/searchBar";
+// import SearchBar from "../HomePage/searchBar";
 import { useNavigate } from 'react-router-dom';
 import { Grid } from "@mui/material";
 
@@ -11,7 +11,7 @@ function FilteredResults(two) {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [jobsPerPage] = useState(5);
+    const [jobsPerPage] = useState(4);
 
     console.log(two,"<===two");
     const twoArray = two.two;
@@ -33,7 +33,9 @@ function FilteredResults(two) {
                 body: JSON.stringify(selectedJob),
             });
             if (!response.ok) {
-                throw new Error('Failed to send selected job data to the backend');
+             throw new Error('Failed to send selected job data to the backend');
+                
+                
             } else {
                 navigate('/JobDetails');
             }
@@ -51,14 +53,14 @@ function FilteredResults(two) {
      
       <Grid  >
             {loading ? (
-                <div className="loading-popup">Loading...</div>
+                <div className="loading-popup">Loading...</div> 
             ) : (
-                <div className="job-container" style={{ marginTop: '60px' }}>
-                    <SearchBar isJobSearchPage={true} />
+                <div className="job-result" style={{ marginTop: '60px' }}>
+                    
                     {currentJobs.map((job, index) => (
-                        <div key={index} className="job-card" onClick={() => handleJobSelect(job)}>
-                            <div className="job-header">
-                                <div className="job-title company-logo">
+                        <div key={index} className="job-box" onClick={() => handleJobSelect(job)}>
+                            <div className="job-top">
+                                <div className="job-heading company-img">
                                     {job.company_logo && job.company_logo.includes('data:image') ? (
                                         <img src={job.company_logo} alt="Company Logo" />
                                     ) : (
@@ -66,36 +68,36 @@ function FilteredResults(two) {
                                     )}
                                     {job.company_name}
                                 </div>
-                                <div className="company-name " >{job.job_title}</div>
+                                <div className="company-view " >{job.job_title}</div>
                             </div>
-                            <div className="job-details">
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faMapMarkerAlt} /> Location:</span> {job.location}
+                            <div className="job-brief">
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faMapMarkerAlt} /> Location:</span> {job.location}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faMoneyBillAlt} /> Salary:</span> {job.salary_range}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faMoneyBillAlt} /> Salary:</span> {job.salary_range}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faUser} /> Job Type:</span> {job.employee_type}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faUser} /> Job Type:</span> {job.employee_type}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faTools} /> Qualification:</span> {job.job_role}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faTools} /> Qualification:</span> {job.job_role}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faUser} /> Experience:</span> {job.experience}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faUser} /> Experience:</span> {job.experience}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faBuilding} /> Vacancies:</span> {job.no_of_vacancies}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faBuilding} /> Vacancies:</span> {job.no_of_vacancies}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faTools} /> Skills:</span> {job.skills ? job.skills.join(', ') : ''}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faTools} /> Skills:</span> {job.skills ? job.skills.join(', ') : ''}
                                 </div>
                             </div>
                         </div>
                     ))}
                     <div className="pagination">
                         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-                        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= currentJobs.length}>Next</button>
+                        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= twoArray.length}>Next</button>
                     </div>
                 </div>
             )}

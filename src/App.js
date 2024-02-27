@@ -35,9 +35,10 @@ import {useState} from  'react';
 function App() {
   const [oneData, setData] = useState("");
   const [employeeForm,setEmployeeForm] = useState("");
-  console.log(employeeForm,"ggggg========")
+  const [viewJob, setViewJob] = useState("");
+
   return (
-    <UserContext.Provider value={{oneData, setData,employeeForm,setEmployeeForm}}>
+    <UserContext.Provider value={{oneData, setData,employeeForm,setEmployeeForm, viewJob, setViewJob}}>
     <div>
       <BrowserRouter>
         <Navbar />

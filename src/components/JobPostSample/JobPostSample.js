@@ -136,20 +136,22 @@
 
 
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faMoneyBillAlt, faUser, faBuilding, faTools } from '@fortawesome/free-solid-svg-icons';
 import './JobPostSampleStyle.css';
 import SearchBar from "../HomePage/searchBar";
 import { useNavigate } from 'react-router-dom';
+import Filter from "../Sprint 2/Filter";
 
-function JobPostSample(props) {
+function JobPostSample() {
     const navigate = useNavigate();
 
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [jobsPerPage] = useState(5);
+
 
     useEffect(() => {
         async function fetchJobs() {
@@ -206,7 +208,9 @@ function JobPostSample(props) {
     };
 
     return (
-        <>
+        <> 
+        
+        <Filter />
             {loading ? (
                 <div className="loading-popup">Loading...</div>
             ) : (

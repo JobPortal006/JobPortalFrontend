@@ -163,6 +163,16 @@ const Filter = () => {
     console.log("Selected salary type:", event.target.value);
   };
 
+  // 
+  const handleReset = () => {
+    setSelectedExperience([]);
+    setSelectedEmploymentType("");
+    setSelectedSalaryType("");
+    setLocations(locations.map((location) => ({ ...location, selected: false })));
+    setJobRoles(jobRoles.map((role) => ({ ...role, selected: false })));
+  };
+
+
   // Job Filter
   const [component,setComponent] = useState(false);
 
@@ -173,7 +183,7 @@ const Filter = () => {
   const {oneData,setData} = useContext(UserContext);
 console.log(oneData, "010101010110");
 
-  const ApplyFilters = async () => {
+  const ApplyFilters = async (five) => {
     const filtered = {  
       location: locations.filter((location) => location.selected).map((location) => location.location),
       employee_type: selectedEmploymentType,
@@ -182,7 +192,8 @@ console.log(oneData, "010101010110");
       experience: selectedExperience,
     };
     setFilteredData(filtered);
-    // location, employee_type, job_role, salary_range
+    
+ 
     try {
       const response = await fetch(
         "http://192.168.1.57:8000/filter_singleValue/",
@@ -200,6 +211,7 @@ console.log(oneData, "010101010110");
       if (!response.ok) {
         throw new Error("Failed to post data to backend");
       } else {
+        
         setComponent(true)
       }
       console.log("Data successfully posted to backend");
@@ -214,7 +226,7 @@ console.log(oneData, "010101010110");
   return (
     <Grid container>
       <Grid item xs={4} sm={4} md={4} xl={4}>
-        <div className="job-filter" style={{ width: "100%" }}>
+        <div className="job-filter" style={{ width: "80%" }}>
           <div className="title">
             <h1>Filter</h1>
             <div className="job-experience">
@@ -295,7 +307,7 @@ console.log(oneData, "010101010110");
 
           <div className="job-roles">
             <h3>Job Roles</h3>
-            <Box className="scroll" sx={{ width: "140%", height: 300, overflow: "auto" }}>
+            <Box className="scroll" sx={{ width: "100%", height: 300, overflow: "auto" }}>
               <List>
                 {jobRoles.map((role, index) => (
                   <ListItemButton
@@ -339,7 +351,10 @@ console.log(oneData, "010101010110");
             )}
           </div>
           <div className="filter-btn">
-          <Button variant="outlined" onClick={ApplyFilters}>Apply Filters</Button>
+          <Button variant="outlined" style={{ color: 'purple', backgroundColor: 'violet' }} onClick={ApplyFilters}>Apply Filters</Button>
+          <Button style={{marginLeft:"1rem"}} variant="outlined" color="error" onClick={handleReset}>
+          Reset
+        </Button>
           </div>
         </div>
       </Grid>

@@ -1,4 +1,4 @@
-/* /.job-filter {
+.job-filter {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -95,6 +95,7 @@
     margin-left: 1rem;
   }
   
+ 
   
   
   .scroll::-webkit-scrollbar {
@@ -113,11 +114,7 @@
   height: 70px; 
 }
 
-  .scroll {
-  
-  
-  }
-  
+ 
   .scroll{
     border: #333 1px solid;
-  } */
+  }
