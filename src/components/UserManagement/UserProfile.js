@@ -1916,7 +1916,7 @@ const UserProfile = () => {
                                                row
                                                aria-label="education-type"
                                                name="education_type"
-                                               value={formData.data.college_details.education_type}
+                                               value={formData.data.PG_college_details}
                                                onChange={handleChange}
                                            >
                                                <FormControlLabel
@@ -1936,7 +1936,7 @@ const UserProfile = () => {
                                    </Grid>
         
                                    {/* Additional Fields based on Radio Button selection */}
-                                   {formData.data.college_details.education_type === 'pg' && (
+                                   {/* {formData.data.college_details.education_type === 'pg' && ( */}
                                        <>
                                            {/* Additional PG Fields */}
                                            <Grid item xs={12} sm={6}>
@@ -2003,9 +2003,9 @@ const UserProfile = () => {
                                                />
                                            </Grid>
                                        </>
-                                   )}
+                                   {/* )} */}
         
-                                   {formData.data.education_type === 'diploma' && (
+                                   {/* {formData.data.education_type === 'diploma' && ( */}
                                        <>
                                            {/* Additional Diploma Fields */}
                                            <Grid item xs={12} sm={6}>
@@ -2068,7 +2068,7 @@ const UserProfile = () => {
                                                />
                                            </Grid>
                                        </>
-                                   )}
+                                   {/* )} */}
                                </Grid>
                            </AccordionDetails>
         

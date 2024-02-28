@@ -255,7 +255,7 @@ console.log(oneData, "010101010110");
           </div>
           <div className="job-location">
             <h3>Locations</h3>
-            <Box className="scroll"  sx={{ width: "100%", height: 300, overflow: "auto" }}>
+            <Box className="scroll"  sx={{ width: "80%", height: 300, overflow: "auto" }}>
               <List>
                 {locations.map((location, index) => (
                   <ListItemButton
@@ -295,7 +295,7 @@ console.log(oneData, "010101010110");
 
           <div className="job-roles">
             <h3>Job Roles</h3>
-            <Box className="scroll" sx={{ width: "140%", height: 300, overflow: "auto" }}>
+            <Box className="scroll" sx={{ width: "80%", height: 300, overflow: "auto" }}>
               <List>
                 {jobRoles.map((role, index) => (
                   <ListItemButton
