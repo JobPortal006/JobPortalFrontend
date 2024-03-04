@@ -1,26 +1,19 @@
-/* .Navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    padding: 10px;
-    color: white;
-    
-    
-} */
+
+
+
 
 .Navbar {
-    position: fixed; /* Set navbar position to fixed */
-    top: 0; /* Stick it to the top of the viewport */
-    left: 0; /* Align it to the left edge */
-    width: 100%; /* Take up full width */
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #333;
     padding: 10px;
     color: white;
-    z-index: 1000; /* Ensure the navbar is above other content */
+    z-index: 1000; 
 }
 
 
@@ -29,7 +22,7 @@
 }
 
 .Navbar__logo {
-    max-width: 100px; /* Adjust the max-width as needed */
+    max-width: 100px; 
 }
 
 .Navbar__center {
@@ -47,7 +40,7 @@
 .Navbar__center li {
     position: relative;
     cursor: pointer;
-    margin-right: 20px; /* Add margin between items */
+    margin-right: 20px; 
 }
 
 .Navbar__dropdown {
@@ -57,12 +50,12 @@
 .Navbar__dropdown-content {
     display: none;
     position: absolute;
-    background-color: #ffffff; /* Dropdown background color */
+    background-color: #ffffff; 
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1;
-    color: #333; /* Text color in the dropdown */
+    color: #333;
     min-width: 120px;
-    border-radius: 8px; /* Rounded corners for the dropdown */
+    border-radius: 8px; 
 }
 
 .Navbar__dropdown-content ul {
@@ -75,12 +68,12 @@
 
 .Navbar__dropdown-content li {
     padding: 5px;
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    transition: background-color 0.3s; 
     text-align: left;
 }
 
 .Navbar__dropdown-content li:hover {
-    background-color: #f0f0f0; /* Background color on hover */
+    background-color: #f0f0f0; 
 }
 
 .Navbar__dropdown:hover .Navbar__dropdown-content {
@@ -117,16 +110,20 @@
 .Navbar__user-icon {
     font-size: 20px;
     color: #ffffff;
-    margin-right: 5px; /* Add margin to create a gap */
+    margin-right: 5px; 
     transition: color 0.3s;
 }
 
 .Navbar__user-icon {
-    margin-right: 10px; /* Additional margin for the user icon */
+    margin-right: 10px; 
 }
 
 .Navbar__user-icon:hover,
 .Navbar__notification-icon:hover {
     color: #f0f0f0;
     cursor: pointer;
-}
+} 
+
+
+
+

@@ -161,7 +161,9 @@ function JobPostSample(props) {
     const [currentPage, setCurrentPage] = useState(1);
     const [jobsPerPage] = useState(5);
     //for user context
-    const {searchJob}=useContext(UserContext)
+    const {searchJob}=useContext(UserContext);
+    const{oneData} = useContext(UserContext);
+
     // const{oneData}=useContext(UserContext)
     console.log(searchJob,'========jeeva')
 
@@ -269,7 +271,7 @@ function JobPostSample(props) {
                             </div>
                         </div>
                     ))}
-                    <div className="pagination">
+                    <div className="pagination"> 
                         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
                         <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= jobs.length}>Next</button>
                     </div>

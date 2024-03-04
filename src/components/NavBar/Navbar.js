@@ -138,10 +138,11 @@ import '../NavBar/Navbar.css';
 import { FaUserCircle, FaBell } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import NavbarData from "../Json/NavBarJsonData.json";
-// ... (previous imports)
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Navbar = () => {
-  const [userId, setUserId] = useState(19); // Initial user ID
+  const [userId, setUserId] = useState(39); // Initial user ID
+  const [loading, setLoading] = useState(false);
   const translations = NavbarData.english;
     const navigate = useNavigate();
   
@@ -165,33 +166,38 @@ const Navbar = () => {
     const CreateAccount=()=>{
         navigate('/CreateAccount')
     };
+    // const profile = () => {
+    //   setLoading(true); // Set loading to true when starting the API request
+    //   // POST request to the API
+    //   fetch('http://192.168.1.44:8000/get_user_details/', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({
+    //       user_id: userId
+    //     })
+    //   })
+    //   .then(response => {
+    //     if (!response.ok) {
+    //       throw new Error('Failed to fetch user details');
+    //     }
+    //     return response.json();
+    //   })
+    //   .then(data => {
+    //     setLoading(false); // Set loading to false when data fetching is complete
+    //     // Upon successful response, navigate to UserProfile with fetched data
+    //     navigate('/UserProfile', { state: data });
+    //   })
+    //   .catch(error => {
+    //     setLoading(false); // Set loading to false in case of error
+    //     console.error('Error:', error);
+    //     // Handle error here
+    //   });
+    // }
     const profile = () => {
-      // POST request to the API
-      fetch('http://192.168.1.39:8000/get_user_details/', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-              user_id: userId
-          })
-      })
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Failed to fetch user details');
-          }
-          return response.json();
-      })
-      .then(data => {
-          // Upon successful response, navigate to UserProfile with fetched data
-          navigate('/UserProfile', { state: data });
-      })
-      .catch(error => {
-          console.error('Error:', error);
-          // Handle error here
-      });
-  };
-  
+      navigate('/UserProfile');
+    };
     const isLoggedIn = !!localStorage.getItem('googleToken');
     const otpToken = !!localStorage.getItem('otpToken');
     const storedToken = !!localStorage.getItem("loginToken");
@@ -277,9 +283,12 @@ const Navbar = () => {
             </>
           )}
         </div>
+        {loading && <CircularProgress />} {/* Display loading bar if loading */}
       </div>
     );
   };
   
   export default Navbar;
   
+
+

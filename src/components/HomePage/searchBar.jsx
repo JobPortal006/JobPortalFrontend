@@ -142,7 +142,7 @@
 //   useEffect(() => {
 //     async function fetchLocationSuggestions(input) {
 //       try {
-//         const response = await fetch(`http://192.168.1.39:8000/location/?q=${input}`);
+//         const response = await fetch(`http://192.168.1.44:8000/location/?q=${input}`);
 //         const data = await response.json();
 //         setLocationSuggestions(data.map((item) => item.location));
 //       } catch (error) {
@@ -161,7 +161,7 @@
 //   useEffect(() => {
 //     async function fetchSkillSuggestions(input) {
 //       try {
-//         const response = await fetch(`http://192.168.1.39:8000/skill_set/?q=${input}`);
+//         const response = await fetch(`http://192.168.1.44:8000/skill_set/?q=${input}`);
 //         const data = await response.json();
 
 //         if (data && Array.isArray(data)) {
@@ -194,7 +194,7 @@
 //   useEffect(() => {
 //     async function fetchExperienceSuggestions(input) {
 //       try {
-//         const response = await fetch(`http://192.168.1.39:8000/experience/?q=${input}`);
+//         const response = await fetch(`http://192.168.1.44:8000/experience/?q=${input}`);
 //         const data = await response.json();
 //         setExperienceSuggestions(data.map((item) => item.experience));
 //       } catch (error) {
@@ -233,7 +233,7 @@
 //       };
 
 //       try {
-//         const response = await fetch('http://192.168.1.39:8000/search_jobs/', {
+//         const response = await fetch('http://192.168.1.44:8000/search_jobs/', {
 //           method: 'POST',
 //           headers: {
 //             'Content-Type': 'application/json',
@@ -567,7 +567,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   useEffect(() => {
     async function fetchLocationSuggestions(input) {
       try {
-        const response = await fetch(`http://192.168.1.39:8000/location/?q=${input}`);
+        const response = await fetch(`http://192.168.1.44:8000/location/?q=${input}`);
         const data = await response.json();
         setLocationSuggestions(data.map((item) => item.location));
       } catch (error) {
@@ -586,7 +586,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   useEffect(() => {
     async function fetchSkillSuggestions(input) {
       try {
-        const response = await fetch(`http://192.168.1.39:8000/skill_set/?q=${input}`);
+        const response = await fetch(`http://192.168.1.44:8000/skill_set/?q=${input}`);
         const data = await response.json();
 
         if (data && Array.isArray(data)) {
@@ -619,7 +619,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   useEffect(() => {
     async function fetchExperienceSuggestions(input) {
       try {
-        const response = await fetch(`http://192.168.1.39:8000/experience/?q=${input}`);
+        const response = await fetch(`http://192.168.1.44:8000/experience/?q=${input}`);
         const data = await response.json();
         setExperienceSuggestions(data.map((item) => item.experience));
       } catch (error) {
@@ -660,7 +660,7 @@ const SearchBar = ({ isJobSearchPage }) => {
    
 
       try {
-        const response = await fetch('http://192.168.1.39:8000/search_jobs/', {
+        const response = await fetch('http://192.168.1.44:8000/search_jobs/', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -690,7 +690,7 @@ const SearchBar = ({ isJobSearchPage }) => {
         setsearchJob(data)
 
         // Navigate to the job search page
-        navigate('/JobSearch');
+        navigate('/Filter');
         // window.location.reload();
      
       } catch (error) {

@@ -1,31 +1,40 @@
-import React, { useState} from "react";
+import React, { useContext, useEffect, useState} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faMoneyBillAlt, faUser, faBuilding, faTools } from '@fortawesome/free-solid-svg-icons';
 import "../Sprint 2/FIlteredResults.css";
 import SearchBar from "../HomePage/searchBar";
 import { useNavigate } from 'react-router-dom';
 import { Grid } from "@mui/material";
+import UserContext from "./contextFilter";
 
-function FilteredResults(two) {
-  
+
+function FilteredResults() {
+
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [jobsPerPage] = useState(5);
+    const { searchJob, oneData ,companyList} = useContext(UserContext);
+    console.log(searchJob,'=====raghul data1')
+    console.log(oneData,'=====raghul data2')
 
-    console.log(two,"<===two");
-    const twoArray = two.two;
-  
+    useEffect(()=>{},[searchJob,oneData,companyList])
+    // Determine which data to use for rendering
+    const dataToUse = searchJob ? searchJob : oneData || companyList?.data;
+
+    // console.log(typeof(searchJob),searchJob,"checking data type--->1");
+    // console.log(typeof(oneData),oneData,"checking data type--->2");
+    // console.log(typeof(companyList),companyList?.data,"checking data type--->3");
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-    const currentJobs = twoArray.slice(indexOfFirstJob, indexOfLastJob);
+    const currentJobs = dataToUse?.slice(indexOfFirstJob, indexOfLastJob);
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const handleJobSelect = async (selectedJob) => {
         try {
             setLoading(true);
-            const response = await fetch('http://192.168.1.39:8000/job_details/', {
+            const response = await fetch('http://192.168.1.44:8000/job_details/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,7 +104,7 @@ function FilteredResults(two) {
                     ))}
                     <div className="pagination">
                         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-                        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= currentJobs.length}>Next</button>
+                        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= oneData.length}>Next</button>
                     </div>
                 </div>
             )}
@@ -107,3 +116,6 @@ function FilteredResults(two) {
 }
 
 export default FilteredResults;
+
+
+// =============================================raghul checking
