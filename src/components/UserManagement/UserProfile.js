@@ -1448,11 +1448,11 @@ const UserProfile = () => {
                     ...prevData.data.professionalDetails,
                     [name]: value
                 },
-                professionalDetails: {
-                    ...prevData.data.professionalDetails.companies,
-                    [name]: value
-                }
-             
+                // professionalDetails: {
+                //     ...prevData.data.professionalDetails.companies,
+                //     [name]: value
+                // }
+
 
             }
         }));
@@ -2279,7 +2279,7 @@ const UserProfile = () => {
                                                 className='textfield'
                                                 label="Company Name"
                                                 name={`companies[${index}].company_name`}
-                                                value={company.company_name ||  ''}
+                                                value={company.company_name || ''}
 
                                                 onChange={handleChange}
                                                 fullWidth
@@ -2319,7 +2319,7 @@ const UserProfile = () => {
                                     className='textfield'
                                     label="Number of Companies"
                                     name="numberOfCompanies"
-                                    value={formData.data.professionalDetails.numberOfCompanies || ''} 
+                                    value={formData.data.professionalDetails.numberOfCompanies || ''}
                                     onChange={handleChange}
                                     fullWidth
                                     margin="dense"
