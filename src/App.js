@@ -29,6 +29,7 @@ import UserContext from "./components/Sprint 2/contextFilter.jsx";
 
 
 import {useState} from  'react';
+import { Employerregister } from "./components/EmployeerManagement/Employerregister.jsx";
 
 
 function App() {
@@ -60,6 +61,8 @@ function App() {
           <Route path="/EditMyJob" element={<EditMyJob />} />
           <Route path="/FilteredResults" element={<FilteredResults />} />
           <Route path="/JobDetails" element={<JobDetails />} />
+          <Route path="/EmployerRegister" element={<Employerregister />} />
+
         </Routes>
       </BrowserRouter>
     </div>
