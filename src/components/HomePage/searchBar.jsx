@@ -1,8 +1,21 @@
-// import React, { useState, useEffect } from 'react';
+
+
+
+
+
+
+
+
+// ==========================================================================>any one value is true it will search result
+
+// import React, { useState, useEffect, useContext } from 'react';
 // import { makeStyles, TextField, Button, Chip, Collapse, Popover } from '@material-ui/core';
 // import { MdSearch, MdExpandMore } from 'react-icons/md';
 // import Autocomplete from '@material-ui/lab/Autocomplete';
 // import { useNavigate } from 'react-router-dom';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+// import UserContext from '../Sprint 2/contextFilter';
 
 
 // const useStyles = makeStyles((theme) => ({
@@ -148,7 +161,7 @@
 //   useEffect(() => {
 //     async function fetchSkillSuggestions(input) {
 //       try {
-//         const response = await fetch(`http://192.168.1.39:8000/skill_set/?q=${input}`);
+//         const response = await fetch(`http://192.168.1.44:8000/skill_set/?q=${input}`);
 //         const data = await response.json();
 
 //         if (data && Array.isArray(data)) {
@@ -181,7 +194,7 @@
 //   useEffect(() => {
 //     async function fetchExperienceSuggestions(input) {
 //       try {
-//         const response = await fetch(`http://192.168.1.39:8000/experience/?q=${input}`);
+//         const response = await fetch(`http://192.168.1.44:8000/experience/?q=${input}`);
 //         const data = await response.json();
 //         setExperienceSuggestions(data.map((item) => item.experience));
 //       } catch (error) {
@@ -197,31 +210,19 @@
 //     }
 //   }, [experienceValue]);
 
+//   // using user context
+
+//   const{searchJob,setsearchJob}=useContext(UserContext);
 //   const handleSearch = async () => {
 //     let isError = false;
 
-//     // Check if the location field is filled
-//     if (searchValue.trim() === '') {
-//       setLocationError(true);
-//       isError = true;
-//     } else {
-//       setLocationError(false);
-//     }
+//     // Check if at least one field is filled
+//     if (searchValue.trim() === '' && skillValues.length === 0 && experienceValue.trim() === '') {
+//       // If none of the fields are filled, show an alert
+//       // alert('Please fill in at least one field');
+//       toast.error('Please fill at least one of the field.', { position: toast.POSITION.TOP_CENTER });
 
-//     // Check if the skills field is filled
-//     if (skillValues.length === 0) {
-//       setSkillError(true);
 //       isError = true;
-//     } else {
-//       setSkillError(false);
-//     }
-
-//     // Check if the experience field is filled
-//     if (experienceValue.trim() === '') {
-//       setExperienceError(true);
-//       isError = true;
-//     } else {
-//       setExperienceError(false);
 //     }
 
 //     if (!isError) {
@@ -232,7 +233,7 @@
 //       };
 
 //       try {
-//         const response = await fetch('http://192.168.1.39:8000/view_jobs/', {
+//         const response = await fetch('http://192.168.1.44:8000/search_jobs/', {
 //           method: 'POST',
 //           headers: {
 //             'Content-Type': 'application/json',
@@ -248,6 +249,7 @@
 //         setSearchValue('');
 //         setSkillValues([]);
 //         setExperienceValue('');
+//         // setsearchJob(response)
 
 //         // Navigate to the job search page
 //         navigate('/JobSearch');
@@ -258,6 +260,8 @@
 //       }
 //     }
 //   };
+
+
 
 //   const handleExpand = (event) => {
 //     setExpandedAnchorEl(event.currentTarget);
@@ -284,7 +288,7 @@
 //               variant="standard"
 //               label="Search-skills/Title"
 //               color="secondary"
-//               required
+//               // required
 //               error={skillError && skillValues.length === 0}
 //               helperText={skillError && skillValues.length === 0 ? "This field is required" : ""}
 //               InputProps={{
@@ -334,7 +338,7 @@
 //               variant="standard"
 //               label="Search-location"
 //               color="secondary"
-//               required
+//               // required
 //               error={locationError && searchValue.trim() === ''}
 //               helperText={locationError && searchValue.trim() === '' ? "This field is required" : ""}
 //               InputProps={{
@@ -360,7 +364,7 @@
 //               variant="standard"
 //               label="Search-experience"
 //               color="secondary"
-//               required
+//               // required
 //               error={experienceError && experienceValue.trim() === ''}
 //               helperText={experienceError && experienceValue.trim() === '' ? "This field is required" : ""}
 //               InputProps={{
@@ -409,6 +413,8 @@
 //           ))}
 //         </div>
 //       </Popover>
+//       <ToastContainer />
+
 
 //     </div>
 //     {/* <Companylist /> */}
@@ -425,7 +431,7 @@
 
 
 
-// ==========================================================================>any one value is true it will search result
+// using use context
 
 import React, { useState, useEffect, useContext } from 'react';
 import { makeStyles, TextField, Button, Chip, Collapse, Popover } from '@material-ui/core';
@@ -434,8 +440,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import UserContext from "../Sprint 2/contextFilter";
-
+import UserContext from '../Sprint 2/contextFilter';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -630,6 +635,10 @@ const SearchBar = ({ isJobSearchPage }) => {
     }
   }, [experienceValue]);
 
+  // using user context
+
+  const{searchJob,setsearchJob}=useContext(UserContext);
+  console.log(searchJob,'=======>user context true');
   const handleSearch = async () => {
     let isError = false;
 
@@ -648,6 +657,7 @@ const SearchBar = ({ isJobSearchPage }) => {
         location: searchValue,
         experience: experienceValue,
       };
+   
 
       try {
         const response = await fetch('http://192.168.1.44:8000/search_jobs/', {
@@ -656,27 +666,40 @@ const SearchBar = ({ isJobSearchPage }) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(searchObject), 
-        });
-       
-        console.log(response,"raghul res===>")
+
+          
+        })
+        const data = await response.json();
+
+        console.log(data,'=============prathap');
+
+        
+      const checking={
+        skillValues,
+        searchValue,
+        experienceValue
+      }
+      console.log(checking,"skill values");
 
         if (!response.ok) {
           throw new Error('Failed to send search data to the server');
         }
-
         // Reset all the search values after the search is performed
         setSearchValue('');
         setSkillValues([]);
         setExperienceValue('');
+        setsearchJob(data)
 
         // Navigate to the job search page
-        navigate('/JobSearch');
-        window.location.reload();
+        navigate('/Filter');
+        // window.location.reload();
+     
       } catch (error) {
         console.error('Error sending search data to the server:', error);
         // Handle error gracefully, show error message to the user, etc.
       }
     }
+    
   };
 
 

@@ -19,6 +19,7 @@ console.log(oneData, "=====raghul data");
 useEffect(()=>{},[companyList]);
 console.log(companyList, "=====raghul data company list");
 
+
   const experienceOptions = [
     "0-1 year",
     "1-2 years",
@@ -276,7 +277,7 @@ console.log(companyList, "=====raghul data company list");
           </div>
           <div className="job-location">
             <h3>Locations</h3>
-            <Box className="scroll"  sx={{ width: "100%", height: 300, overflow: "auto" }}>
+            <Box className="scroll"  sx={{ width: "80%", height: 300, overflow: "auto" }}>
               <List>
                 {locations.map((location, index) => (
                   <ListItemButton
@@ -371,6 +372,7 @@ console.log(companyList, "=====raghul data company list");
        {component && <FilteredResults two={oneData} />}
        {searchJob && <FilteredResults two={oneData} />}
        {companyList && <FilteredResults two={oneData} />}
+
       </Grid>
     </Grid>
   );

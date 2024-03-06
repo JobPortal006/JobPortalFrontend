@@ -1,111 +1,183 @@
-
-// import React, { useState, useRef } from 'react';
-// import {
-//     Button,
-//     TextField,
-//     Typography,
-//     AccordionSummary,
-//     AccordionDetails,
-//     Container,
-//     styled,
-//     Input,
-//     Avatar,
-// } from '@mui/material';
+// import React, { useEffect, useState } from 'react';
+// import { CircularProgress, Typography, Grid, TextField, Container, Button, Input, Avatar } from '@mui/material';
 // import { Select, MenuItem } from '@mui/material';
-// import Grid from '@mui/material/Grid';
 // import FormControl from '@mui/material/FormControl';
 // import RadioGroup from '@mui/material/RadioGroup';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import Radio from '@mui/material/Radio';
-// import { MdModeEditOutline } from "react-icons/md";
-// import { InputAdornment } from '@material-ui/core';
-// import './UserProfile.css' 
+// import {
+//     AccordionSummary,
+//     AccordionDetails,
 
-// // Container styling
-// const FormContainer = styled(Container)({
-//     maxWidth: '600px',
-//     margin: 'auto',
-//     marginTop: (theme) => theme.spacing(4),
-// });
+// } from '@mui/material';
+// import { BeatLoader } from 'react-spinners';
+// //  import FormContainer from './FormContainer';
+// import { css } from '@emotion/react';
 
-
+// const override = css`
+//   display: block;
+//   margin: 0 auto;
+// `;
 
 // const UserProfile = () => {
-//     // State for user details
-//     const [userDetails, setUserDetails] = useState({
-//         first_name: '',
-//         last_name: '',
-//         date_of_birth: '',
-//         mobile_number: '',
-//         gender: '',
-//         profile_picture: null,
-
-//     });
-
-//     // State for address
-//     const [address, setAddress] = useState({
-//         current: {
-//             street: '',
-//             city: '',
-//             pincode: '',
-//             state: '',
-//             country: '',
-//         },
-//         permanent: {
-//             street: '',
-//             city: '',
-//             pincode: '',
-//             state: '',
-//             country: '',
-//         },
-//     });
-//     // State for education details
-//     const [education, setEducation] = useState({
-//         sslc_school_name: '',
-//         sslc_start_year: '',
-//         sslc_end_year: '',
-//         sslc_percentage: '',
-//         hsc_school_name: '',
-//         hsc_start_year: '',
-//         hsc_end_year: '',
-//         hsc_percentage: '',
-//         college_name: '',
-//         college_start_year: '',
-//         college_end_year: '',
-//         college_percentage: '',
-//         department: '',
-//         degree: '',
-//         pg_college_name: '',
-//         pg_college_start_year: '',
-//         pg_college_end_year: '',
-//         pg_college_percentage: '',
-//         pg_college_department: '',
-//         pg_college_degree: '',
-//         diploma_college_name: '',
-//         diploma_college_start_year: '',
-//         diploma_college_end_year: '',
-//         diploma_college_department: '',
-//         diploma_college_degree: '',
-//         diploma_college_percentage: ''
-
-
-//     });
-
-//     const [jobPreference, setJobPreference] = useState({
-//         key_skills: '',
-//         industry: '',
-//         department: '',
-//         prefered_locations: ''
-//     })
-
-
-
-//     // State for resume upload
+//     const [userData, setUserData] = useState(null);
+//     const [loading, setLoading] = useState(true);
+//     const [error, setError] = useState(null);
 //     const [resume, setResume] = useState(null);
+//     const [profilePicture, setProfilePicture] = useState(null);
+//     const [loading1, setLoading1] = useState(true);
+//     const [userId, setUserId] = useState(39); // Initial user ID
+//     const [postData, setPostdata] = useState(null);
+//     console.log(postData, '=====postdata=====')
+//     // Handle removing the profile picture
 
+//     useEffect(() => {
+//         // Fetch user data from the API
+//         fetch('http://192.168.1.44:8000/get_user_details/', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 user_id: userId // Make sure userId is defined in your component
+//             })
+//         })
+//             .then(response => {
+//                 if (!response.ok) {
+//                     throw new Error('Failed to fetch user details');
+//                 }
+//                 return response.json();
+//             })
+//             .then(data => {
+//                 setPostdata(data); // Set fetched user data
+//                 setLoading1(false); // Set loading to false when data fetching is complete
+//             })
+//             .catch(error => {
+//                 console.error('Error fetching user details:', error);
+//                 setLoading1(false); // Set loading to false in case of error
+//             });
+//     }, []);
+//     const handleRemoveProfilePicture = () => {
+//         setProfilePicture(null);
 
+//         // Clear the file input value
+//         const fileInput = document.getElementById('profile-picture-input');
+//         if (fileInput) {
+//             fileInput.value = '';
+//         }
+//     };
+//     // Handle profile picture upload
+//     const handleProfilePictureChange = (event) => {
+//         const file = event.target.files[0];
 
+//         setProfilePicture(file);
 
+//         // Update userDetails to include profile_picture
+//         setFormData((prevUserDetails) => ({
+//             ...prevUserDetails,
+//             profile_picture: file,
+//         }));
+//     };
+
+//     const [name, setName] = useState('');
+
+//     const [formData, setFormData] = useState({
+//         data: {
+//             Signup: {
+//                 email: '',
+//                 mobile_number: ''
+//             },
+//             userDetails: {
+//                 first_name: '',
+//                 last_name: '',
+//                 gender: '',
+//                 date_of_birth: '',
+//                 // profile_picture_path:''
+//             },
+//             address: {
+//                 permanent: {
+//                     address_type: 'Permanent',
+//                     city: '',
+//                     state: '',
+//                     country: '',
+//                     pincode: '',
+//                     street: ''
+//                 },
+
+//                 current: {
+//                     address_type: 'Current',
+//                     city: '',
+//                     state: '',
+//                     country: '',
+//                     pincode: '',
+//                     street: ''
+//                 }
+//             },
+
+//             education_details: {
+//                 hsc_end_year: '',
+//                 hsc_percentage: '',
+//                 hsc_start_year: '',
+//                 hsc_school_name: '',
+//                 sslc_end_year: '',
+//                 sslc_percentage: '',
+//                 sslc_school_name: '',
+//                 sslc_start_year: ''
+//             },
+//             college_details: {
+//                 college_end_year: '',
+//                 college_name: '',
+//                 college_percentage: '',
+//                 college_start_year: '',
+//                 degree: '',
+//                 department: '',
+//                 education_type: ''
+//             },
+//             PG_college_details: {
+//                 pg_college_degree: '',
+//                 pg_college_department: '',
+//                 pg_college_end_year: '',
+//                 pg_college_name: '',
+//                 pg_college_percentage: '',
+//                 pg_college_start_year: '',
+//                 pg_college_education_type: ''
+//             },
+//             Diploma_college_details: {
+//                 diploma_college_degree: '',
+//                 diploma_college_department: '',
+//                 diploma_college_end_year: '',
+//                 diploma_college_name: '',
+//                 diploma_college_percentage: '',
+//                 diploma_college_start_year: '',
+//                 diploma_college_education_type: ''
+//             },
+//             professionalDetails: {
+//                 companies: [
+//                     {
+//                         company_name: '',
+//                         years_of_experience: '',
+//                         job_role: '',
+//                         skills: ''
+//                     },
+//                     {
+//                         company_name: '',
+//                         years_of_experience: '',
+//                         job_role: '',
+//                         skills: ''
+//                     }
+//                 ],
+//                 numberOfCompanies: ''
+//             },
+//             jobPreference: {
+//                 department: '',
+//                 industry: '',
+//                 key_skills: '',
+//                 prefered_locations: ''
+//             },
+//             // resume: null 
+
+//         }
+//     });
 
 //     // Handle resume upload
 //     const handleResumeChange = (event) => {
@@ -124,1015 +196,1089 @@
 //         }
 //     };
 
-
-
-//     // State for profile picture
-//     const [profilePicture, setProfilePicture] = useState(null);
-
-
-//     // State for accordion expansion
-
-//     // for user details validations
-//     const [errors, setErrors] = useState({
-//         userDetails: {
-//             first_name: '',
-//             last_name: '',
-//             date_of_birth: '',
-//             mobile_number: '',
-//         },
-//         jobPreference: {
-//             key_skills: '',
-//             industry: '',
-//             department: '',
-//             prefered_locations: '',
-//         },
-//         education: {
-//             sslc_school_name: '',
-//             sslc_start_year: '',
-//             sslc_end_year: '',
-//             sslc_percentage: '',
-//             hsc_school_name: '',
-//             hsc_start_year: '',
-//             hsc_end_year: '',
-//             hsc_percentage: '',
-//             college_name: '',
-//             college_start_year: '',
-//             college_end_year: '',
-//             college_percentage: '',
-//             department: '',
-//             degree: '',
-//             pg_college_name: '',
-//             pg_college_start_year: '',
-//             pg_college_end_year: '',
-//             pg_college_percentage: '',
-//             pg_college_department: '',
-//             pg_college_degree: '',
-//             diploma_college_name: '',
-//             diploma_college_start_year: '',
-//             diploma_college_end_year: '',
-//             diploma_college_department: '',
-//             diploma_college_degree: '',
-//             diploma_college_percentage: ''
-//         }
-//     });
-//     // Handle changes in user details fields
-//     const handleUserDetailsChange = (event) => {
-//         // Clear previous error messages
-//         setErrors({
-//             ...errors,
-//             [event.target.name]: '',
-//         });
-
-//         // Update userDetails only if validation passes
-//         let updatedUserDetails = { ...userDetails };
-
-//         // Add validation logic for first_name and last_name
-//         if (event.target.name === 'first_name' || event.target.name === 'last_name') {
-//             if (/[^A-Za-z]/.test(event.target.value)) {
-//                 // Invalid input, set error message
-//                 setErrors({
-//                     ...errors,
-//                     [event.target.name]: 'Only alphabets allowed for first name and last name',
-//                 });
-//                 return;
-//             }
-//         }
-
-//         // Add validation logic for date_of_birth (allow only numbers)
-//         if (event.target.name === 'date_of_birth') {
-//             if (/[^0-9/]/.test(event.target.value)) {
-//                 // Invalid input, set error message
-//                 setErrors({
-//                     ...errors,
-//                     [event.target.name]: 'Only numbers and / allowed for date of birth',
-//                 });
-//                 return;
-//             }
-//         }
-
-//         // Add validation logic for mobile_number (allow only numbers)
-//         if (event.target.name === 'mobile_number') {
-//             if (/[^0-9]/.test(event.target.value)) {
-//                 // Invalid input, set error message
-//                 setErrors({
-//                     ...errors,
-//                     [event.target.name]: 'Only numbers allowed for mobile number',
-//                 });
-//                 return;
-//             }
-//         }
-
-//         // Update userDetails only if validation passes
-//         updatedUserDetails = {
-//             ...updatedUserDetails,
-//             [event.target.name]: event.target.value,
-//         };
-
-//         setUserDetails(updatedUserDetails);
-//     };
-
-//     // Handle changes in address fields
-//     const handleAddressChange = (type, event) => {
-//         // Clear previous errors for the specific address type
-//         setErrors({
-//             ...errors,
-//             [type]: {
-//                 ...errors[type],
-//                 [event.target.name]: '',
-//             },
-//         });
-
-//         let updatedAddressDetails = { ...address };
-//         if (event.target.name === 'street' || event.target.name === 'city' || event.target.name === 'country' || 
-//         event.target.name === 'state') {
-//             if (/[^A-Za-z\s]/.test(event.target.value)) {
-//                 setErrors({
-//                     ...errors,
-//                     [type]: {
-//                         ...errors[type],
-//                         [event.target.name]: 'Only alphabets allowed for street and city',
-//                     },
-//                 });
-//                 return;
-//             }
-//         } else if (event.target.name === 'pincode') {
-//             if (/[^0-9]/.test(event.target.value)) {
-//                 setErrors({
-//                     ...errors,
-//                     [type]: {
-//                         ...errors[type],
-//                         [event.target.name]: 'Invalid pincode (must be 6 digits)',
-//                     },
-//                 });
-//                 return;
-//             }
-//         }
-
-//         updatedAddressDetails = {
-//             ...updatedAddressDetails,
-//             [type]: {
-//                 ...updatedAddressDetails[type],
-//                 [event.target.name]: event.target.value,
-//             },
-//         };
-
-//         setAddress(updatedAddressDetails);
-//     };
-
-//     // Handle changes in education fields
-//      const handleEducationChange = (event) => {
-//         setErrors({
-//             ...errors,
-//             [event.target.name]: '',
-//         });
-
-//         let updatedEducation = { ...education };
-
-//         if (event.target.name === 'sslc_school_name' || event.target.name === 'hsc_school_name' || event.target.name === 'college_name'
-//             || event.target.name === 'department' || event.target.name === 'degree' || event.target.name === 'pg_college_name'
-//             || event.target.name === 'pg_college_department' || event.target.name === 'pg_college_degree' || event.target.name === 'diploma_college_name'
-//             || event.target.name === 'diploma_college_department' || event.target.name === 'diploma_college_degree') {
-//             if (/[^A-Za-z\s]/.test(event.target.value)) {
-//                 // Invalid input, set error message
-//                 setErrors({
-//                     ...errors,
-//                     [event.target.name]: 'Only alphabets and spaces allowed',
-//                 });
-//                 return;
-//             }
-//         }
-//         if (event.target.name === 'sslc_start_year' || event.target.name === 'sslc_end_year' ||
-//             event.target.name === 'hsc_start_year' || event.target.name === 'hsc_end_year' ||
-//             event.target.name === 'sslc_percentage' || event.target.name === 'hsc_percentage' || event.target.name === 'college_percentage' ||
-//             event.target.name === 'pg_college_percentage' || event.target.name === 'diploma_college_percentage' || event.target.name === 'college_start_year'
-//             || event.target.name === 'college_end_year' || event.target.name === 'pg_college_start_year' || event.target.name === 'pg_college_end_year'
-//             || event.target.name === 'diploma_college_start_year'|| event.target.name === 'diploma_college_end_year') {
-//             if (/[^0-9]/.test(event.target.value)) {
-//                 // Invalid input, set error message
-//                 setErrors({
-//                     ...errors,
-//                     [event.target.name]: 'Only numbers allowed',
-//                 });
-//                 return;
-//             }
-//         }
-
-//         updatedEducation = {
-//             ...updatedEducation,
-//             [event.target.name]: event.target.value,
-//         };
-
-//         setEducation(updatedEducation);
-//     };
-
-
-//     const handlejobPreferenceChange = (event) => {
-//         // Clear previous error messages
-//         setErrors({
-//             ...errors,
-//             jobPreference: {
-//                 ...errors.jobPreference,
-//                 [event.target.name]: '',
-//             },
-//         });
-
-//         // Update jobPreference only if validation passes
-//         let updatedJobPreference = { ...jobPreference };
-
-//         // Add validation logic for key_skills, industry, department, and prefered_locations
-//         if (/[0-9!@#$%^&*().?":{}|<>]/.test(event.target.value)) {
-//             // Invalid input, set error message
-//             setErrors({
-//                 ...errors,
-//                 jobPreference: {
-//                     ...errors.jobPreference,
-//                     [event.target.name]: 'Numbers and symbols are not allowed',
-//                 },
+//     useEffect(() => {
+//         // Fetch data from the API
+//         fetch('http://192.168.1.44:8000/get_user_details_view/')
+//             .then(response => {
+//                 if (!response.ok) {
+//                     throw new Error('Failed to fetch data');
+//                 }
+//                 return response.json();
+//             })
+//             .then(data => {
+//                 setUserData(data);
+//                 // Set resume data
+//                 // setResume(data.resume);
+//                 setFormData({
+//                     data: {
+//                         Signup: {
+//                             email: data.Signup.email,
+//                             mobile_number: data.Signup.mobile_number
+//                         },
+//                         userDetails: {
+//                             first_name: data.userDetails.first_name,
+//                             last_name: data.userDetails.last_name,
+//                             gender: data.userDetails.gender,
+//                             date_of_birth: data.userDetails.date_of_birth,
+//                             // profile_picture_path:userData.profile_picture_path
+//                         },
+//                         address: {
+//                             permanent: {
+//                                 address_type: data.address.permanent.address_type,
+//                                 city: data.address.permanent.city,
+//                                 state: data.address.permanent.state,
+//                                 country: data.address.permanent.country,
+//                                 pincode: data.address.permanent.pincode,
+//                                 street: data.address.permanent.street
+//                             },
+//                             current: {
+//                                 address_type: data.address.current.address_type,
+//                                 city: data.address.current.city,
+//                                 state: data.address.current.state,
+//                                 country: data.address.current.country,
+//                                 pincode: data.address.current.pincode,
+//                                 street: data.address.current.street
+//                             }
+//                         },
+//                         education_details: {
+//                             hsc_start_year: data.education_details.hsc_start_year,
+//                             hsc_end_year: data.education_details.hsc_end_year,
+//                             hsc_percentage: data.education_details.hsc_percentage,
+//                             hsc_school_name: data.education_details.hsc_school_name,
+//                             sslc_end_year: data.education_details.sslc_end_year,
+//                             sslc_percentage: data.education_details.sslc_percentage,
+//                             sslc_school_name: data.education_details.sslc_school_name,
+//                             sslc_start_year: data.education_details.sslc_start_year
+//                         },
+//                         college_details: {
+//                             college_end_year: data.college_details.college_end_year,
+//                             college_name: data.college_details.college_name,
+//                             college_percentage: data.college_details.college_percentage,
+//                             college_start_year: data.college_details.college_start_year,
+//                             degree: data.college_details.degree,
+//                             department: data.college_details.department,
+//                             education_type: data.college_details.education_type
+//                         },
+//                         PG_college_details: {
+//                             pg_college_degree: data.PG_college_details.pg_college_degree,
+//                             pg_college_department: data.PG_college_details.pg_college_department,
+//                             pg_college_end_year: data.PG_college_details.pg_college_end_year,
+//                             pg_college_name: data.PG_college_details.pg_college_name,
+//                             pg_college_percentage: data.PG_college_details.pg_college_percentage,
+//                             pg_college_start_year: data.PG_college_details.pg_college_start_year,
+//                             pg_college_education_type: data.PG_college_details.pg_college_education_type
+//                         },
+//                         Diploma_college_details: {
+//                             diploma_college_degree: data.Diploma_college_details.diploma_college_degree,
+//                             diploma_college_department: data.Diploma_college_details.diploma_college_department,
+//                             diploma_college_end_year: data.Diploma_college_details.diploma_college_end_year,
+//                             diploma_college_name: data.Diploma_college_details.diploma_college_name,
+//                             diploma_college_percentage: data.Diploma_college_details.diploma_college_percentage,
+//                             diploma_college_start_year: data.Diploma_college_details.diploma_college_start_year,
+//                             diploma_college_education_type: data.Diploma_college_details.diploma_college_education_type
+//                         },
+//                         jobPreference: {
+//                             department: data.jobPreference.department,
+//                             industry: data.jobPreference.industry,
+//                             key_skills: data.jobPreference.key_skills,
+//                             prefered_locations: data.jobPreference.prefered_locations
+//                         },
+//                         professionalDetails: {
+//                             companies: data.professionalDetails.companies,
+//                             numberOfCompanies: data.professionalDetails.numberOfCompanies
+//                         }
+//                     }
+//                 }); // Set initial form data
+//                 setLoading(false);
+//             })
+//             .catch(error => {
+//                 setError(error);
+//                 setLoading(false);
 //             });
-//             return;
-//         }
+//     }, []);
 
-//         // Update jobPreference only if validation passes
-//         updatedJobPreference = {
-//             ...updatedJobPreference,
-//             [event.target.name]: event.target.value,
-//         };
+//     const handleChange = (event) => {
+//         // const { name, value } = event.target;
+//         const { name, value } = event.target;
+//         console.log(value, 'companyname')
+//         const [field, index, subfield] = name.split('.');
+//         setFormData(prevData => ({
+//             ...prevData,
+//             data: {
+//                 ...prevData.data,
+//                 Signup: {
+//                     ...prevData.data.Signup,
+//                     [name]: value
+//                 },
+//                 userDetails: {
+//                     ...prevData.data.userDetails,
+//                     [name]: value
+//                 },
 
-//         setJobPreference(updatedJobPreference);
+//                 education_details: {
+//                     ...prevData.data.education_details,
+//                     [name]: value
+//                 },
+//                 college_details: {
+//                     ...prevData.data.college_details,
+//                     [name]: value
+//                 },
+//                 PG_college_details: {
+//                     ...prevData.data.PG_college_details,
+//                     [name]: value
+//                 },
+//                 Diploma_college_details: {
+//                     ...prevData.data.Diploma_college_details,
+//                     [name]: value
+//                 },
+//                 jobPreference: {
+//                     ...prevData.data.jobPreference,
+//                     [name]: value
+//                 },
+//             }
+//         }));
 //     };
-//     // Handle profile picture upload
-//     const handleProfilePictureChange = (event) => {
-//         const file = event.target.files[0];
-
-//         setProfilePicture(file);
-
-//         // Update userDetails to include profile_picture
-//         setUserDetails((prevUserDetails) => ({
-//             ...prevUserDetails,
-//             profile_picture: file,
+//     const handlePermanentAddressChange = (event) => {
+//         const { name, value } = event.target;
+//         setFormData(prevData => ({
+//             ...prevData,
+//             data: {
+//                 ...prevData.data,
+//                 address: {
+//                     ...prevData.data.address,
+//                     permanent: {
+//                         ...prevData.data.address.permanent,
+//                         [name]: value
+//                     }
+//                 }
+//             }
 //         }));
 //     };
 
-//     // Handle removing the profile picture
-//     const handleRemoveProfilePicture = () => {
-//         setProfilePicture(null);
-
-//         // Clear the file input value
-//         const fileInput = document.getElementById('profile-picture-input');
-//         if (fileInput) {
-//             fileInput.value = '';
-//         }
+//     const handleCurrentAddressChange = (event) => {
+//         const { name, value } = event.target;
+//         setFormData(prevData => ({
+//             ...prevData,
+//             data: {
+//                 ...prevData.data,
+//                 address: {
+//                     ...prevData.data.address,
+//                     current: {
+//                         ...prevData.data.address.current,
+//                         [name]: value
+//                     }
+//                 }
+//             }
+//         }));
 //     };
 
 
+//     const response = {
+//         data: {
+//             Signup: {
+//                 email: '',
+//                 mobile_number: ''
+//             },
+//             userDetails: {
+//                 first_name: '',
+//                 last_name: '',
+//                 gender: '',
+//                 date_of_birth: '',
+//                 // profile_picture_path:''
+//             },
+//             address: {
+//                 permanent: {
+//                     address_type: 'Permanent',
+//                     city: '',
+//                     state: '',
+//                     country: '',
+//                     pincode: '',
+//                     street: ''
+//                 },
+//                 current: {
+//                     address_type: 'Current',
+//                     city: '',
+//                     state: '',
+//                     country: '',
+//                     pincode: '',
+//                     street: ''
+//                 }
+//             },
+//             education_details: {
+//                 hsc_end_year: '',
+//                 hsc_percentage: '',
+//                 hsc_start_year: '',
+//                 hsc_school_name: '',
+//                 sslc_end_year: '',
+//                 sslc_percentage: '',
+//                 sslc_school_name: '',
+//                 sslc_start_year: ''
+//             },
+//             college_details: {
+//                 college_end_year: '',
+//                 college_name: '',
+//                 college_percentage: '',
+//                 college_start_year: '',
+//                 degree: '',
+//                 department: '',
+//                 education_type: ''
+//             },
+//             PG_college_details: {
+//                 pg_college_degree: '',
+//                 pg_college_department: '',
+//                 pg_college_end_year: '',
+//                 pg_college_name: '',
+//                 pg_college_percentage: '',
+//                 pg_college_start_year: '',
+//                 pg_college_education_type: ''
+//             },
+//             Diploma_college_details: {
+//                 diploma_college_degree: '',
+//                 diploma_college_department: '',
+//                 diploma_college_end_year: '',
+//                 diploma_college_name: '',
+//                 diploma_college_percentage: '',
+//                 diploma_college_start_year: '',
+//                 diploma_college_education_type: ''
+//             },
+//             jobPreference: {
+//                 department: '',
+//                 industry: '',
+//                 key_skills: '',
+//                 prefered_locations: ''
+//             },
+//             professionalDetails: {
+//                 companies: [
+//                     {
+//                         company_name: '',
+//                         years_of_experience: '',
+//                         job_role: '',
+//                         skills: ''
+//                     },
+//                     {
+//                         company_name: '',
+//                         years_of_experience: '',
+//                         job_role: '',
+//                         skills: ''
+//                     }
+//                 ],
+//                 numberOfCompanies: ''
+//             },
+//         }
+//     };
+
+//     const jsonResponse = JSON.stringify(response);
+//     console.log(jsonResponse);
+
+//     const handleCompanyChange = (event, index, field) => {
+//         const updatedCompanies = [...formData.data.professionalDetails.companies];
+//         updatedCompanies[index][field] = event.target.value;
+
+//         setFormData(prevState => ({
+//             ...prevState,
+//             data: {
+//                 ...prevState.data,
+//                 professionalDetails: {
+//                     ...prevState.data.professionalDetails,
+//                     companies: updatedCompanies
+//                 }
+//             }
+//         }));
+//     };
+
+//     const handleNumberOfCompaniesChange = (event) => {
+//         const { value } = event.target;
+//         const numberOfCompanies = parseInt(value);
+//         const companies = [...formData.data.professionalDetails.companies];
+
+//         // Adjust companies array length based on numberOfCompanies
+//         while (companies.length < numberOfCompanies) {
+//             companies.push({
+//                 company_name: '',
+//                 years_of_experience: '',
+//                 job_role: '',
+//                 skills: ''
+//             });
+//         }
+
+//         while (companies.length > numberOfCompanies) {
+//             companies.pop();
+//         }
+
+//         setFormData(prevState => ({
+//             ...prevState,
+//             data: {
+//                 ...prevState.data,
+//                 professionalDetails: {
+//                     ...prevState.data.professionalDetails,
+//                     numberOfCompanies: value,
+//                     companies: companies
+//                 }
+//             }
+//         }));
+//     };
 
 
-//     const handleSubmit=()=>{
+//     // submit to response with proper 
+//     const handleSubmit = (event) => {
+//         event.preventDefault();
+//         console.log("Updated Form Data:", formData);
 
-//       console.log('=====>')
+//         // Send updated form data to the backend API
+//         fetch('http://192.168.1.44:8000/update_user_details/', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(formData),
+//         })
+//             .then(response => {
+//                 if (!response.ok) {
+//                     throw new Error('Failed to update user details');
+//                 }
+//                 // If response is successful, parse the JSON response
+//                 return response.json();
+//             })
+//             .then(data => {
+//                 // Handle the data received from the server
+//                 console.log("Response from server:", data);
+//                 // Optionally, perform further actions based on the response
+//             })
+//             .catch(error => {
+//                 // Handle error if the request fails
+//                 console.error('Error updating user details:', error);
+//             });
+//     };
+
+//     if (loading) {
+//         return <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+//             <BeatLoader color="#36D7B7" css={override} /> {/* Use BeatLoader for the loading animation */}
+//             <p>Loading profile information...</p> {/* Text indicating that profile information is loading */}
+//         </div>; // Display loading indicator
 //     }
-// // for edit icon to edit the field and to update 
-// const edit=()=>{
 
-// }
+//     if (error) {
+//         return <Typography>Error: {error.message}</Typography>; // Display error message
+//     }
 
-//     const formRef = useRef(null);
+//     if (!userData || !formData) {
+//         return null; // Handle case when userData is not available yet
+//     }
+
 //     return (
-//       <div className='profilebackground-div'>
-//           <div className="profilebackground-div">
-//         <FormContainer style={{marginTop:'60px'}} >
-//             <Typography variant="h4" align="center" gutterBottom>
-//              Profile
-//             </Typography>
+//         <div className='profilebackground-div'>
+//             {loading1 ? (
+//                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+//                     <BeatLoader color="#36D7B7" css={override} /> {/* Use BeatLoader for the loading animation */}
+//                     <p>Loading profile information...</p> {/* Text indicating that profile information is loading */}
+//                 </div>
+//             ) : (
+//                 <div className="profilebackground-div">
+//                     <Container style={{ marginTop: '60px' }} >
+//                         <Typography variant="h4" align="center" gutterBottom>
+//                             Profile
+//                         </Typography>
 
 
-//             <form ref={formRef} onSubmit={handleSubmit} >
-//                 {/* User Details Accordion */}
+//                         <form onSubmit={handleSubmit} >
+//                             {/* User Details Accordion */}
 
-//                     <AccordionSummary >
-//                         <Typography variant="h6">User Details</Typography>
-//                     </AccordionSummary>
-//                     <AccordionDetails>
-//                         <Grid container spacing={2}>
-//                             <Grid item xs={12} sm={6}>
-//                                 {/* First Column */}
-//                                 <TextField className='textfield' 
-//                                     label='First Name'
-//                                     name="first_name"
-//                                     value={userDetails.first_name}
-//                                     onChange={handleUserDetailsChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.first_name)}
-//                                     helperText={errors.first_name}
-//                                     InputProps={{
-//                                       endAdornment: (
-//                                           <InputAdornment position="end">
-//                                              <MdModeEditOutline  onClick={edit} style={{cursor:'pointer'}} /> 
-//                                           </InputAdornment>
-//                                       ),
-//                                   }}
-
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label='Last Name'
-//                                     name="last_name"
-//                                     value={userDetails.last_name}
-//                                     onChange={handleUserDetailsChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.last_name)}
-//                                     helperText={errors.last_name}
-//                                     InputProps={{
-//                                       endAdornment: (
-//                                           <InputAdornment position="end">
-//                                              <MdModeEditOutline /> 
-//                                           </InputAdornment>
-//                                       ),
-//                                   }}
-
-
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label='Date-of-birth (month/date/year)'
-//                                     name="date_of_birth"
-//                                     value={userDetails.date_of_birth}
-//                                     onChange={handleUserDetailsChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.date_of_birth)}
-//                                     helperText={errors.date_of_birth}
-//                                     InputProps={{
-//                                       endAdornment: (
-//                                           <InputAdornment position="end">
-//                                              <MdModeEditOutline /> 
-//                                           </InputAdornment>
-//                                       ),
-//                                   }}
-
-
-//                                 />
-//                             </Grid>
-//                             <Grid item xs={12} sm={6}>
-//                                 {/* Second Column */}
-//                                 <TextField className='textfield'
-//                                     label='Mobile Number'
-//                                     name="mobile_number"
-//                                     value={userDetails.mobile_number}
-//                                     onChange={handleUserDetailsChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-
-//                                     error={Boolean(errors.mobile_number)}
-//                                     helperText={errors.mobile_number}
-//                                     InputProps={{
-//                                       endAdornment: (
-//                                           <InputAdornment position="end">
-//                                              <MdModeEditOutline /> 
-//                                           </InputAdornment>
-//                                       ),
-//                                   }}
-
-
-//                                 />
-//                                 <Select className='textfield'
-//                                     label="gender"
-//                                     name="gender"
-//                                     value={userDetails.gender}
-//                                     onChange={handleUserDetailsChange}
-//                                     fullWidth
-//                                     displayEmpty
-//                                     margin="dense"
-
-//                                     // className='user_details_gender'
-
-
-
-//                                 >
-//                                     <MenuItem value="" disabled>Select Gender</MenuItem>
-//                                     <MenuItem className='male' value="male">Male</MenuItem>
-//                                     <MenuItem value="female">Female</MenuItem>
-//                                     <MenuItem value="other">Other</MenuItem>
-//                                 </Select>
-//                                 <label htmlFor="profile-picture-input">Upload Profile Picture:</label>
-//                                 <br></br>
-//                                 <Input
-//                                     type="file"
-//                                     accept="image/*"
-//                                     onChange={handleProfilePictureChange}
-//                                     margin="dense"
-//                                     id="profile-picture-input"
-//                                 />
-//                             </Grid>
-//                         </Grid>
-
-//                         {profilePicture && (
-//                             <div>
-//                                 <Avatar
-//                                     alt="Profile Picture"
-//                                     src={URL.createObjectURL(profilePicture)}
-//                                     sx={{ width: 100, height: 100, marginTop: 2 }}
-//                                 />
-//                                 <Button color="secondary" onClick={handleRemoveProfilePicture}>
-//                                     Remove Picture
-//                                 </Button>
-//                             </div>
-//                         )}
-//                     </AccordionDetails>
-
-//                 {/* Address Accordion */}
-
-//                     <AccordionSummary >
-//                         <Typography variant="h6">Address</Typography>
-//                     </AccordionSummary>
-//                     <AccordionDetails>
-//                         <Typography variant="h6"> Permanent and current Address:</Typography>
-
-//                         <Grid container spacing={2}>
-//                             <Grid item xs={12} sm={6} >
-//                                 {/* First Column */}
-//                                 <TextField className='textfield' 
-//                                     label="Parmanent Street"
-//                                     name="street"
-//                                     value={address.permanent.street}
-//                                     onChange={(e) => handleAddressChange('permanent', e)}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.permanent && errors.permanent.street)}
-//                                     helperText={errors.permanent && errors.permanent.street}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label=" Parmanent City"
-//                                     name="city"
-//                                     value={address.permanent.city}
-//                                     onChange={(e) => handleAddressChange('permanent', e)}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.permanent && errors.permanent.city)}
-//                                     helperText={errors.permanent && errors.permanent.city}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="Parmanent pincode"
-//                                     name="pincode"
-//                                     value={address.permanent.pincode}
-//                                     onChange={(e) => handleAddressChange('permanent', e)}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.permanent && errors.permanent.pincode)}
-//                                     helperText={errors.permanent && errors.permanent.pincode}
-//                                 />
-
-//                                 <TextField className='textfield'
-//                                     label="Parmanent Country"
-//                                     name="country"
-//                                     value={address.permanent.country}
-//                                     onChange={(e) => handleAddressChange('permanent', e)}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.permanent && errors.permanent.country)}
-//                                     helperText={errors.permanent && errors.permanent.country}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="Parmanent State"
-//                                     name="state"
-//                                     value={address.permanent.state}
-//                                     onChange={(e) => handleAddressChange('permanent', e)}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.permanent && errors.permanent.state)}
-//                                     helperText={errors.permanent && errors.permanent.state}
-//                                 />
-
-//                             </Grid>
-//                             <Grid item xs={12} sm={6} >
-//                                 {/* <Typography variant="h6">Current Address</Typography> */}
-//                                 <TextField className='textfield'
-//                                     label="Current Street"
-//                                     name="street"
-//                                     value={address.current.street}
-//                                     onChange={(e) => handleAddressChange('current', e)}
-//                                     fullWidth
-//                                     margin="dense"
-//                                     error={Boolean(errors.current && errors.current.street)}
-//                                     helperText={errors.current && errors.current.street}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="Current City"
-//                                     name="city"
-//                                     value={address.current.city}
-//                                     onChange={(e) => handleAddressChange('current', e)}
-//                                     fullWidth
-//                                     margin="dense"
-//                                     error={Boolean(errors.current && errors.current.city)}
-//                                     helperText={errors.current && errors.current.city}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="Current Pincode"
-//                                     name="pincode"
-//                                     value={address.current.pincode}
-//                                     onChange={(e) => handleAddressChange('current', e)}
-//                                     fullWidth
-//                                     margin="dense"
-//                                     error={Boolean(errors.current && errors.current.pincode)}
-//                                     helperText={errors.current && errors.current.pincode}
-//                                 />
-
-//                                 <TextField className='textfield'
-//                                     label="Current Country"
-//                                     name="country"
-//                                     value={address.current.country}
-//                                     onChange={(e) => handleAddressChange('current', e)}
-//                                     fullWidth
-//                                     margin="dense"
-//                                     error={Boolean(errors.current && errors.current.country)}
-//                                     helperText={errors.current && errors.current.country}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="Current State"
-//                                     name="state"
-//                                     value={address.current.state}
-//                                     onChange={(e) => handleAddressChange('current', e)}
-//                                     fullWidth
-//                                     margin="dense"
-//                                     error={Boolean(errors.current && errors.current.state)}
-//                                     helperText={errors.current && errors.current.state}
-//                                 />
-
-//                             </Grid>
-//                         </Grid>
-//                     </AccordionDetails>
-
-
-//                 {/* Educatiom Accordion */}
-
-//                     <AccordionSummary > <Typography variant="h6">Education details</Typography></AccordionSummary>
-//                     <AccordionDetails>
-//                         <Grid container spacing={2}>
-//                             <Grid item xs={12} sm={6}>
-
-//                                 {/* First Column */}
-//                                 <TextField className='textfield'
-//                                     label="SSLC-school-name"
-//                                     name="sslc_school_name"
-//                                     value={education.sslc_school_name}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.sslc_school_name)}
-//                                     helperText={errors.sslc_school_name}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="SSLC-start-year"
-//                                     name="sslc_start_year"
-//                                     value={education.sslc_start_year}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.sslc_start_year)}
-//                                     helperText={errors.sslc_start_year}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="SSLC-end-year"
-//                                     name="sslc_end_year"
-//                                     value={education.sslc_end_year}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.sslc_end_year)}
-//                                     helperText={errors.sslc_end_year}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="SSLC-percentage"
-//                                     name="sslc_percentage"
-//                                     value={education.sslc_percentage}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.sslc_percentage)}
-//                                     helperText={errors.sslc_percentage}
-//                                 />
-//                             </Grid>
-
-//                             <Grid item xs={12} sm={6}>
-//                                 {/* Second Column */}
-//                                 <TextField className='textfield'
-//                                     label="HSC-school-name"
-//                                     name="hsc_school_name"
-//                                     value={education.hsc_school_name}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.hsc_school_name)}
-//                                     helperText={errors.hsc_school_name}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="HSC-start-year"
-//                                     name="hsc_start_year"
-//                                     value={education.hsc_start_year}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.hsc_start_year)}
-//                                     helperText={errors.hsc_start_year}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="HSC-end-year"
-//                                     name="hsc_end_year"
-//                                     value={education.hsc_end_year}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.hsc_end_year)}
-//                                     helperText={errors.hsc_end_year}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="HSC-percentage"
-//                                     name="hsc_percentage"
-//                                     value={education.hsc_percentage}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.hsc_percentage)}
-//                                     helperText={errors.hsc_percentage}
-//                                 />
-//                             </Grid>
-//                             <Grid item xs={12} sm={6}>
-//                                 <Typography sx={{ width: '100%' }} >UG Details:</Typography>
-//                                 {/* Third Column */}
-//                                 <TextField className='textfield'
-//                                     label="College-name"
-//                                     name="college_name"
-//                                     value={education.college_name}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.college_name)}
-//                                     helperText={errors.college_name}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="College-start-year"
-//                                     name="college_start_year"
-//                                     value={education.college_start_year}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.college_start_year)}
-//                                     helperText={errors.college_start_year}
-
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="College-end-year"
-//                                     name="college_end_year"
-//                                     value={education.college_end_year}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.college_end_year)}
-//                                     helperText={errors.college_end_year}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="College-percentage"
-//                                     name="college_percentage"
-//                                     value={education.college_percentage}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.college_percentage)}
-//                                     helperText={errors.college_percentage}
-//                                 />
-//                             </Grid>
-
-//                             <Grid item xs={12} sm={6} >
-//                                 <Typography sx={{ color: 'transparent' }}> . </Typography>
-//                                 {/* Fourth Column */}
-//                                 <TextField className='textfield'
-//                                     label="Department"
-//                                     name="department"
-//                                     value={education.department}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.department)}
-//                                     helperText={errors.department}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="Degree"
-//                                     name="degree"
-//                                     value={education.degree}
-//                                     onChange={handleEducationChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.degree)}
-//                                     helperText={errors.degree}
-//                                 />
-//                             </Grid>
-
-
-//                             {/* pg and diplamo */}
-//                             <Grid item xs={12}>
-//                                 {/* Radio Buttons for PG/Diploma */}
-//                                 <FormControl component="fieldset">
-//                                     <RadioGroup
-//                                         className='radio_button'
-//                                         row
-//                                         aria-label="education-type"
-//                                         name="education_type"
-//                                         value={education.education_type}
-//                                         onChange={handleEducationChange}
-//                                     >
-//                                         <FormControlLabel
-//                                             className='pg_button1'
-//                                             value="pg"
-//                                             control={<Radio />}
-//                                             label="PG"
-//                                         />
-//                                         <FormControlLabel
-//                                             className='pg_button2'
-//                                             value="diploma"
-//                                             control={<Radio />}
-//                                             label="Diploma"
-//                                         />
-//                                     </RadioGroup>
-//                                 </FormControl>
-//                             </Grid>
-
-//                             {/* Additional Fields based on Radio Button selection */}
-//                             {education.education_type === 'pg' && (
-//                                 <>
-//                                     {/* Additional PG Fields */}
+//                             <AccordionSummary >
+//                                 <Typography variant="h6">User Details</Typography>
+//                             </AccordionSummary>
+//                             <AccordionDetails>
+//                                 <Grid container spacing={2}>
 //                                     <Grid item xs={12} sm={6}>
+//                                         {/* First Column */}
 //                                         <TextField className='textfield'
-//                                             label="PG-College-name"
-//                                             name="pg_college_name"
-//                                             value={education.pg_college_name}
-//                                             onChange={handleEducationChange}
+//                                             label='First Name'
+//                                             name="first_name"
+//                                             onChange={handleChange}
+//                                             value={formData.data.userDetails.first_name}
 //                                             fullWidth
 //                                             margin="dense"
 
-//                                             error={Boolean(errors.pg_college_name)}
-//                                             helperText={errors.pg_college_name}
 //                                         />
 //                                         <TextField className='textfield'
-//                                             label="PG-College-start-year"
-//                                             name="pg_college_start_year"
-//                                             value={education.pg_college_start_year}
-//                                             onChange={handleEducationChange}
+//                                             label='Last Name'
+//                                             name="last_name"
+//                                             value={formData.data.userDetails.last_name}
+//                                             onChange={handleChange}
 //                                             fullWidth
 //                                             margin="dense"
 
-//                                             error={Boolean(errors.pg_college_start_year)}
-//                                             helperText={errors.pg_college_start_year}
+
+
 //                                         />
 //                                         <TextField className='textfield'
-//                                             label="PG-College-end-year"
-//                                             name="pg_college_end_year"
-//                                             value={education.pg_college_end_year}
-//                                             onChange={handleEducationChange}
+//                                             label='Date-of-birth (month/date/year)'
+//                                             name="date_of_birth"
+//                                             type='date'
+
+//                                             value={formData.data.userDetails.date_of_birth}
+//                                             onChange={handleChange}
 //                                             fullWidth
 //                                             margin="dense"
 
-//                                             error={Boolean(errors.pg_college_end_year)}
-//                                             helperText={errors.pg_college_end_year}
-//                                         />
-//                                         <TextField className='textfield'
-//                                             label="PG-College-percentage"
-//                                             name="pg_college_percentage"
-//                                             value={education.pg_college_percentage}
-//                                             onChange={handleEducationChange}
-//                                             fullWidth
-//                                             margin="dense"
 
-//                                             error={Boolean(errors.pg_college_percentage)}
-//                                             helperText={errors.pg_college_percentage}
+
+
 //                                         />
-//                                         {/* Add other PG fields here */}
 //                                     </Grid>
 //                                     <Grid item xs={12} sm={6}>
+//                                         {/* Second Column */}
 //                                         <TextField className='textfield'
-//                                             label="PG-College-department"
-//                                             name="pg_college_department"
-//                                             value={education.pg_college_department}
-//                                             onChange={handleEducationChange}
+//                                             label='Mobile Number'
+//                                             name="mobile_number"
+//                                             value={formData.data.Signup.mobile_number}
+//                                             onChange={handleChange}
 //                                             fullWidth
 //                                             margin="dense"
 
-//                                             error={Boolean(errors.pg_college_department)}
-//                                             helperText={errors.pg_college_department}
-//                                         />
-//                                         <TextField className='textfield'
-//                                             label="PG-College-degree"
-//                                             name="pg_college_degree"
-//                                             value={education.pg_college_degree}
-//                                             onChange={handleEducationChange}
-//                                             fullWidth
-//                                             margin="dense"
 
-//                                             error={Boolean(errors.pg_college_degree)}
-//                                             helperText={errors.pg_college_degree}
-//                                         />
-//                                     </Grid>
-//                                 </>
-//                             )}
 
-//                             {education.education_type === 'diploma' && (
-//                                 <>
-//                                     {/* Additional Diploma Fields */}
-//                                     <Grid item xs={12} sm={6}>
-//                                         <TextField className='textfield'
-//                                             label="Diploma-college-name"
-//                                             name="diploma_college_name"
-//                                             value={education.diploma_college_name}
-//                                             onChange={handleEducationChange}
-//                                             fullWidth
-//                                             margin="dense"
-//                                             error={Boolean(errors.diploma_college_name)}
-//                                             helperText={errors.diploma_college_name}
 //                                         />
 //                                         <TextField className='textfield'
-//                                             label="Diploma-college-start-year"
-//                                             name="diploma_college_start_year"
-//                                             value={education.diploma_college_start_year}
-//                                             onChange={handleEducationChange}
+//                                             label="gender"
+//                                             name="gender"
+//                                             value={formData.data.userDetails.gender}
+//                                             onChange={handleChange}
 //                                             fullWidth
+//                                             displayEmpty
 //                                             margin="dense"
-//                                             error={Boolean(errors.diploma_college_start_year)}
-//                                             helperText={errors.diploma_college_start_year}
-//                                         />
-//                                         <TextField className='textfield'
-//                                             label="Diploma-college-end-year"
-//                                             name="diploma_college_end_year"
-//                                             value={education.diploma_college_end_year}
-//                                             onChange={handleEducationChange}
-//                                             fullWidth
+//                                         >
+
+//                                             {/* <MenuItem value="" disabled>Select Gender</MenuItem>
+//                                            <MenuItem className='male' value="male">Male</MenuItem>
+//                                            <MenuItem value="female">Female</MenuItem>
+//                                            <MenuItem value="other">Other</MenuItem> */}
+//                                         </TextField>
+//                                         <label htmlFor="profile-picture-input">Upload Profile Picture:</label>
+//                                         <br></br>
+//                                         <Input
+//                                             type="file"
+//                                             accept="image/*"
+//                                             onChange={handleProfilePictureChange}
 //                                             margin="dense"
-//                                             error={Boolean(errors.diploma_college_end_year)}
-//                                             helperText={errors.diploma_college_end_year}
-//                                         />
-//                                         <TextField className='textfield'
-//                                             label="Diploma-college-percentage"
-//                                             name="diploma_college_percentage"
-//                                             value={education.diploma_college_percentage}
-//                                             onChange={handleEducationChange}
-//                                             fullWidth
-//                                             margin="dense"
-//                                             error={Boolean(errors.diploma_college_percentage)}
-//                                             helperText={errors.diploma_college_percentage}
-//                                         />
-//                                         {/* Add other Diploma fields here */}
-//                                     </Grid>
-//                                     <Grid item xs={12} sm={6}>
-//                                         <TextField className='textfield'
-//                                             label="Diploma-college-department"
-//                                             name="diploma_college_department"
-//                                             value={education.diploma_college_department}
-//                                             onChange={handleEducationChange}
-//                                             fullWidth
-//                                             margin="dense"
-//                                             error={Boolean(errors.diploma_college_department)}
-//                                             helperText={errors.diploma_college_department}
-//                                         />
-//                                         <TextField className='textfield'
-//                                             label="Diploma-college-degree"
-//                                             name="diploma_college_degree"
-//                                             value={education.diploma_college_degree}
-//                                             onChange={handleEducationChange}
-//                                             fullWidth
-//                                             margin="dense"
-//                                             error={Boolean(errors.diploma_college_degree)}
-//                                             helperText={errors.diploma_college_degree}
+//                                             id="profile-picture-input"
 //                                         />
 //                                     </Grid>
-//                                 </>
-//                             )}
-//                         </Grid>
-//                     </AccordionDetails>
+//                                 </Grid>
 
-
-//                 {/* job preference */}
-
-//                     <AccordionSummary > <Typography variant="h6">Job Preference</Typography></AccordionSummary>
-//                     <AccordionDetails>
-//                         <Grid container spacing={2}>
-//                             <Grid item xs={12} sm={6}>
-//                                 {/* First Column */}
-//                                 <TextField className='textfield'
-//                                     label="Key-skills"
-//                                     name="key_skills"
-//                                     value={jobPreference.key_skills}
-//                                     onChange={handlejobPreferenceChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.jobPreference.key_skills)}
-//                                     helperText={errors.jobPreference.key_skills}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="Industry"
-//                                     name="industry"
-//                                     value={jobPreference.industry}
-//                                     onChange={handlejobPreferenceChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.jobPreference.industry)}
-//                                     helperText={errors.jobPreference.industry}
-//                                 />
-//                             </Grid>
-//                             <Grid item xs={12} sm={6}>
-//                                 <TextField className='textfield'
-//                                     label="Department"
-//                                     name="department"
-//                                     value={jobPreference.department}
-//                                     onChange={handlejobPreferenceChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.jobPreference.department)}
-//                                     helperText={errors.jobPreference.department}
-//                                 />
-//                                 <TextField className='textfield'
-//                                     label="Prefered locations"
-//                                     name="prefered_locations"
-//                                     value={jobPreference.prefered_locations}
-//                                     onChange={handlejobPreferenceChange}
-//                                     fullWidth
-//                                     margin="dense"
-
-//                                     error={Boolean(errors.jobPreference.prefered_locations)}
-//                                     helperText={errors.jobPreference.prefered_locations}
-//                                 />
-//                             </Grid>
-
-//                         </Grid>
-
-//                     </AccordionDetails>
-
-//                 {/* Resume Accordion */}
-
-//                     <AccordionSummary >
-//                         <Typography variant="h6">Resume</Typography>
-//                     </AccordionSummary>
-//                     <AccordionDetails>
-//                         <Grid container spacing={2}>
-//                             <Grid item xs={12} sm={6}>
-//                                 {/* First Column */}
-//                                 <label htmlFor="resume-input">Upload Resume:</label>
-//                                 <Input
-//                                     type="file"
-//                                     accept=".pdf,.doc,.docx"
-//                                     onChange={handleResumeChange}
-//                                     margin="dense"
-//                                     id="resume-input"
-
-//                                 />
-//                             </Grid>
-//                             <Grid item xs={12} sm={6}>
-//                                 {/* Second Column */}
-//                                 {resume && (
+//                                 {profilePicture && (
 //                                     <div>
-//                                         <Typography variant="subtitle1">Uploaded Resume:</Typography>
-//                                         <Typography>{resume.name}</Typography>
-//                                         <Button color="secondary" onClick={handleRemoveResume}>
-//                                             Remove Resume
+//                                         <Avatar
+//                                             alt="Profile Picture"
+//                                             src={URL.createObjectURL(profilePicture)}
+//                                             sx={{ width: 100, height: 100, marginTop: 2 }}
+//                                         />
+//                                         <Button color="secondary" onClick={handleRemoveProfilePicture}>
+//                                             Remove Picture
 //                                         </Button>
 //                                     </div>
 //                                 )}
-//                             </Grid>
-//                         </Grid>
-//                     </AccordionDetails>
-//                 {/* Submit Button */}
-//                 <Button type="submit" variant="contained" color="primary" fullWidth>
-//                  UPDATE
-//                 </Button>
-//             </form>
+//                             </AccordionDetails>
+
+//                             {/* Address Accordion */}
+
+//                             <AccordionSummary >
+//                                 <Typography variant="h6">Address</Typography>
+//                             </AccordionSummary>
+//                             <AccordionDetails>
+//                                 <Typography variant="h6"> Permanent and current Address:</Typography>
+
+//                                 <Grid container spacing={2}>
+//                                     <Grid item xs={12} sm={6} >
+//                                         {/* First Column */}
+//                                         <TextField className='textfield'
+//                                             label="permanent Street"
+//                                             name="street"
+//                                             value={formData.data.address.permanent.street}
+//                                             onChange={handlePermanentAddressChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label=" permanent City"
+//                                             name="city"
+//                                             value={formData.data.address.permanent.city}
+
+//                                             onChange={handlePermanentAddressChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="permanent pincode"
+//                                             name="pincode"
+//                                             value={formData.data.address.permanent.pincode}
+
+//                                             onChange={handlePermanentAddressChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+
+//                                         <TextField className='textfield'
+//                                             label="permanent Country"
+//                                             name="country"
+//                                             value={formData.data.address.permanent.country}
+
+//                                             onChange={handlePermanentAddressChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="permanent State"
+//                                             name="state"
+//                                             value={formData.data.address.permanent.state}
+
+//                                             onChange={handlePermanentAddressChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+
+//                                     </Grid>
+//                                     <Grid item xs={12} sm={6} >
+//                                         {/* <Typography variant="h6">Current Address</Typography> */}
+//                                         <TextField className='textfield'
+//                                             label="Current Street"
+//                                             name="street"
+//                                             value={formData.data.address.current.street}
+//                                             onChange={handleCurrentAddressChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="Current City"
+//                                             name="city"
+//                                             value={formData.data.address.current.city}
+
+//                                             onChange={handleCurrentAddressChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="Current Pincode"
+//                                             name="pincode"
+//                                             value={formData.data.address.current.pincode}
+
+//                                             onChange={handleCurrentAddressChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+
+//                                         <TextField className='textfield'
+//                                             label="Current Country"
+//                                             name="country"
+//                                             value={formData.data.address.current.country}
+
+//                                             onChange={handleCurrentAddressChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="Current State"
+//                                             name="state"
+//                                             value={formData.data.address.current.state}
+
+//                                             onChange={handleCurrentAddressChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+
+//                                     </Grid>
+//                                 </Grid>
+//                             </AccordionDetails>
+
+
+//                             {/* Educatiom Accordion */}
+
+//                             <AccordionSummary > <Typography variant="h6">Education details</Typography></AccordionSummary>
+//                             <AccordionDetails>
+//                                 <Grid container spacing={2}>
+//                                     <Grid item xs={12} sm={6}>
+
+//                                         {/* First Column */}
+//                                         <TextField className='textfield'
+//                                             label="SSLC-school-name"
+//                                             name="sslc_school_name"
+//                                             value={formData.data.education_details.sslc_school_name}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="SSLC-start-year"
+//                                             name="sslc_start_year"
+//                                             value={formData.data.education_details.sslc_start_year}
+
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="SSLC-end-year"
+//                                             name="sslc_end_year"
+//                                             value={formData.data.education_details.sslc_end_year}
+
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="SSLC-percentage"
+//                                             name="sslc_percentage"
+//                                             value={formData.data.education_details.sslc_percentage}
+
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+
+//                                         />
+//                                     </Grid>
+
+//                                     <Grid item xs={12} sm={6}>
+//                                         {/* Second Column */}
+//                                         <TextField className='textfield'
+//                                             label="HSC-school-name"
+//                                             name="hsc_school_name"
+//                                             value={formData.data.education_details.hsc_school_name}
+
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="HSC-start-year"
+//                                             name="hsc_start_year"
+//                                             value={formData.data.education_details.hsc_start_year}
+
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="HSC-end-year"
+//                                             name="hsc_end_year"
+//                                             value={formData.data.education_details.hsc_end_year}
+
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="HSC-percentage"
+//                                             name="hsc_percentage"
+//                                             value={formData.data.education_details.hsc_percentage}
+
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                     </Grid>
+//                                     <Grid item xs={12} sm={6}>
+//                                         <Typography sx={{ width: '100%' }} >UG Details:</Typography>
+//                                         {/* Third Column */}
+//                                         <TextField className='textfield'
+//                                             label="College-name"
+//                                             name="college_name"
+//                                             value={formData.data.college_details.college_name}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="College-start-year"
+//                                             name="college_start_year"
+//                                             value={formData.data.college_details.college_start_year}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
 
 
 
-//         </FormContainer>
-//         </div>
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="College-end-year"
+//                                             name="college_end_year"
+//                                             value={formData.data.college_details.college_end_year}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="College-percentage"
+//                                             name="college_percentage"
+//                                             value={formData.data.college_details.college_percentage}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                     </Grid>
+
+//                                     <Grid item xs={12} sm={6} >
+//                                         <Typography sx={{ color: 'transparent' }}> . </Typography>
+//                                         {/* Fourth Column */}
+//                                         <TextField className='textfield'
+//                                             label="Department"
+//                                             name="department"
+//                                             value={formData.data.college_details.department}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="Degree"
+//                                             name="degree"
+//                                             value={formData.data.college_details.degree}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+
+//                                         />
+//                                     </Grid>
+
+
+//                                     {/* pg and diplamo */}
+//                                     <Grid item xs={12}>
+//                                         {/* Radio Buttons for PG/Diploma */}
+//                                         <FormControl component="fieldset">
+//                                             <RadioGroup
+//                                                 className='radio_button'
+//                                                 row
+//                                                 aria-label="education-type"
+//                                                 name="education_type"
+//                                                 value={formData.data.PG_college_details}
+//                                                 onChange={handleChange}
+//                                             >
+//                                                 <FormControlLabel
+//                                                     className='pg_button1'
+//                                                     value="pg"
+//                                                     control={<Radio />}
+//                                                     label="PG"
+//                                                 />
+//                                                 <FormControlLabel
+//                                                     className='pg_button2'
+//                                                     value="diploma"
+//                                                     control={<Radio />}
+//                                                     label="Diploma"
+//                                                 />
+//                                             </RadioGroup>
+//                                         </FormControl>
+//                                     </Grid>
+
+//                                     {/* Additional Fields based on Radio Button selection */}
+//                                     {/* {formData.data.college_details.education_type === 'pg' && ( */}
+//                                     <>
+//                                         {/* Additional PG Fields */}
+//                                         <Grid item xs={12} sm={6}>
+//                                             <TextField className='textfield'
+//                                                 label="PG-College-name"
+//                                                 name="pg_college_name"
+//                                                 value={formData.data.PG_college_details.pg_college_name}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+//                                             />
+//                                             <TextField className='textfield'
+//                                                 label="PG-College-start-year"
+//                                                 name="pg_college_start_year"
+//                                                 value={formData.data.PG_college_details.pg_college_start_year}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+//                                             />
+//                                             <TextField className='textfield'
+//                                                 label="PG-College-end-year"
+//                                                 name="pg_college_end_year"
+//                                                 value={formData.data.PG_college_details.pg_college_end_year}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+
+//                                             />
+//                                             <TextField className='textfield'
+//                                                 label="PG-College-percentage"
+//                                                 name="pg_college_percentage"
+//                                                 value={formData.data.PG_college_details.pg_college_percentage}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+
+//                                             />
+//                                             {/* Add other PG fields here */}
+//                                         </Grid>
+//                                         <Grid item xs={12} sm={6}>
+//                                             <TextField className='textfield'
+//                                                 label="PG-College-department"
+//                                                 name="pg_college_department"
+//                                                 value={formData.data.PG_college_details.pg_college_department}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+
+//                                             />
+//                                             <TextField className='textfield'
+//                                                 label="PG-College-degree"
+//                                                 name="pg_college_degree"
+//                                                 value={formData.data.PG_college_details.pg_college_degree}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+
+//                                             />
+//                                         </Grid>
+//                                     </>
+//                                     {/* )} */}
+
+//                                     {/* {formData.data.education_type === 'diploma' && ( */}
+//                                     <>
+//                                         {/* Additional Diploma Fields */}
+//                                         <Grid item xs={12} sm={6}>
+//                                             <TextField className='textfield'
+//                                                 label="Diploma-college-name"
+//                                                 name="diploma_college_name"
+//                                                 value={formData.data.Diploma_college_details.diploma_college_name}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+//                                             />
+//                                             <TextField className='textfield'
+//                                                 label="Diploma-college-start-year"
+//                                                 name="diploma_college_start_year"
+//                                                 value={formData.data.Diploma_college_details.diploma_college_start_year}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+//                                             />
+//                                             <TextField className='textfield'
+//                                                 label="Diploma-college-end-year"
+//                                                 name="diploma_college_end_year"
+//                                                 value={formData.data.Diploma_college_details.diploma_college_end_year}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+//                                             />
+//                                             <TextField className='textfield'
+//                                                 label="Diploma-college-percentage"
+//                                                 name="diploma_college_percentage"
+//                                                 value={formData.data.Diploma_college_details.diploma_college_percentage}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+//                                             />
+//                                             {/* Add other Diploma fields here */}
+//                                         </Grid>
+//                                         <Grid item xs={12} sm={6}>
+//                                             <TextField className='textfield'
+//                                                 label="Diploma-college-department"
+//                                                 name="diploma_college_department"
+//                                                 value={formData.data.Diploma_college_details.diploma_college_department}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+//                                             />
+//                                             <TextField className='textfield'
+//                                                 label="Diploma-college-degree"
+//                                                 name="diploma_college_degree"
+//                                                 value={formData.data.Diploma_college_details.diploma_college_degree}
+//                                                 onChange={handleChange}
+//                                                 fullWidth
+//                                                 margin="dense"
+
+//                                             />
+//                                         </Grid>
+//                                     </>
+//                                     {/* )} */}
+//                                 </Grid>
+//                             </AccordionDetails>
+
+
+//                             {/* job preference */}
+
+//                             <AccordionSummary > <Typography variant="h6">Job Preference</Typography></AccordionSummary>
+//                             <AccordionDetails>
+//                                 <Grid container spacing={2}>
+//                                     <Grid item xs={12} sm={6}>
+//                                         {/* First Column */}
+//                                         <TextField className='textfield'
+//                                             label="Key-skills"
+//                                             name="key_skills"
+//                                             value={formData.data.jobPreference.key_skills}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="Industry"
+//                                             name="industry"
+//                                             value={formData.data.jobPreference.industry}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+//                                         />
+//                                     </Grid>
+//                                     <Grid item xs={12} sm={6}>
+//                                         <TextField className='textfield'
+//                                             label="Department"
+//                                             name="department"
+//                                             value={formData.data.jobPreference.department}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+
+//                                         />
+//                                         <TextField className='textfield'
+//                                             label="Prefered locations"
+//                                             name="prefered_locations"
+//                                             value={formData.data.jobPreference.prefered_locations}
+//                                             onChange={handleChange}
+//                                             fullWidth
+//                                             margin="dense"
+
+
+//                                         />
+//                                     </Grid>
+
+//                                 </Grid>
+
+//                             </AccordionDetails>
+
+//                             <AccordionSummary>
+//                                 <Typography variant="h6">Professional Details</Typography>
+//                             </AccordionSummary>
+//                             <AccordionDetails>
+//             <Grid container spacing={2}>
+//                 {formData.data.professionalDetails.companies.map((company, index) => (
+//                     <Grid item xs={12} sm={6} key={index}>
+//                         <TextField
+//                             className='textfield'
+//                             label="Company Name"
+//                             value={company.company_name}
+//                             onChange={(event) => handleCompanyChange(event, index, 'company_name')}
+//                             fullWidth
+//                         />
+//                         <TextField
+//                             className='textfield'
+//                             label="Years of Experience"
+//                             value={company.years_of_experience}
+//                             onChange={(event) => handleCompanyChange(event, index, 'years_of_experience')}
+//                             fullWidth
+//                             margin="dense"
+//                         />
+//                         <TextField
+//                             className='textfield'
+//                             label="Job Role"
+//                             value={company.job_role}
+//                             onChange={(event) => handleCompanyChange(event, index, 'job_role')}
+//                             fullWidth
+//                             margin="dense"
+//                         />
+//                         <TextField
+//                             className='textfield'
+//                             label="Skills"
+//                             value={company.skills}
+//                             onChange={(event) => handleCompanyChange(event, index, 'skills')}
+//                             fullWidth
+//                             margin="dense"
+//                         />
+//                     </Grid>
+//                 ))}
+//             </Grid>
+//             <TextField
+//                 className='textfield'
+//                 label="Number of Companies"
+//                 name="numberOfCompanies"
+//                 value={formData.data.professionalDetails.numberOfCompanies}
+//                 onChange={handleNumberOfCompaniesChange}
+//                 fullWidth
+//                 margin="dense"
+//             />
+//         </AccordionDetails>
+
+//                             {/* resume */}
+//                             <AccordionSummary >
+//                                 <Typography variant="h6">Resume</Typography>
+//                             </AccordionSummary>
+//                             <AccordionDetails>
+//                                 <Grid container spacing={2}>
+//                                     <Grid item xs={12} sm={6}>
+//                                         {/* First Column */}
+//                                         <label htmlFor="resume-input">Upload Resume:</label>
+//                                         <Input
+//                                             type="file"
+//                                             accept=".pdf,.doc,.docx"
+//                                             onChange={handleResumeChange}
+//                                             margin="dense"
+//                                             id="resume-input"
+//                                         />
+//                                     </Grid>
+//                                     <Grid item xs={12} sm={6}>
+//                                         {/* Second Column */}
+//                                         {resume && (
+//                                             <div>
+//                                                 <Typography variant="subtitle1">Uploaded Resume:</Typography>
+//                                                 <Typography>{resume.name}</Typography>
+//                                                 <Button color="secondary" onClick={handleRemoveResume}>
+//                                                     Remove Resume
+//                                                 </Button>
+//                                             </div>
+//                                         )}
+//                                     </Grid>
+//                                 </Grid>
+//                             </AccordionDetails>
+
+//                             <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button>
+
+//                         </form>
+
+
+
+//                     </Container>
+//                 </div>
+//             )}
 //         </div>
 //     );
 // };
@@ -1142,17 +1288,128 @@
 
 
 
+// ===================================for multiple companies
 
-// ======================================================================================================chcking to get the valuue from the api 
+
+
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Typography, Grid, TextField, Container, Button } from '@mui/material';
+import { CircularProgress, Typography, Grid, TextField, Container, Button, Input, Avatar, InputLabel, InputAdornment, IconButton } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { ArrowUpward, ArrowDownward } from '@material-ui/icons';
+import Radio from '@mui/material/Radio';
+import {
+    AccordionSummary,
+    AccordionDetails,
 
+} from '@mui/material';
+import { BeatLoader } from 'react-spinners';
+//  import FormContainer from './FormContainer';
+// import './UserProfile.css'
+import { css } from '@emotion/react';
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+`;
 
 const UserProfile = () => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    // const [resume, setResume] = useState(null);
+    const [profilePicture, setProfilePicture] = useState(null);
+    const [loading1, setLoading1] = useState(true);
+    const [userId, setUserId] = useState(46); // Initial user ID
+    const [postData, setPostdata] = useState(null);
+    console.log(postData, '=====postdata=====')
+      const [resumeFile, setResumeFile] = useState(null);
+
+    useEffect(() => {
+        // Fetch user data from the API
+        fetch('http://192.168.1.44:8000/get_user_details/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user_id: userId // Make sure userId is defined in your component
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user details');
+                }
+                return response.json();
+            })
+            .then(data => {
+                setPostdata(data); // Set fetched user data
+                setLoading1(false); // Set loading to false when data fetching is complete
+            })
+            .catch(error => {
+                console.error('Error fetching user details:', error);
+                setLoading1(false); // Set loading to false in case of error
+            });
+    }, []);
+    // const handleRemoveProfilePicture = () => {
+    //     setProfilePicture(null);
+
+    //     // Clear the file input value
+    //     const fileInput = document.getElementById('profile-picture-input');
+    //     if (fileInput) {
+    //         fileInput.value = '';
+    //     }
+    // };
+    // // Handle profile picture upload
+    // const handleProfilePictureChange = (event) => {
+    //     const file = event.target.files[0];
+
+    //     setProfilePicture(file);
+
+    //     // Update userDetails to include profile_picture
+    //     setFormData((prevUserDetails) => ({
+    //         ...prevUserDetails,
+    //         profile_picture: file,
+    //     }));
+    // };
+
+    const handleProfilePictureChange = (event) => {
+        const file = event.target.files[0];
+        setProfilePicture(file);
+        // Update formData to include profile_picture_path
+        setFormData(prevData => ({
+            ...prevData,
+            data: {
+                ...prevData.data,
+                userDetails: {
+                    ...prevData.data.userDetails,
+                    profile_picture_path: URL.createObjectURL(file) // Set profile_picture_path with the URL of the uploaded file
+                }
+            }
+        }));
+    };
+
+    const handleRemoveProfilePicture = () => {
+        setProfilePicture(null);
+        // Update formData to remove profile_picture_path
+        setFormData(prevData => ({
+            ...prevData,
+            data: {
+                ...prevData.data,
+                userDetails: {
+                    ...prevData.data.userDetails,
+                    profile_picture_path: '' // Set profile_picture_path to empty string
+                }
+            }
+        }));
+    };
+
+
+
+    const [name, setName] = useState('');
+
     const [formData, setFormData] = useState({
         data: {
             Signup: {
@@ -1163,24 +1420,166 @@ const UserProfile = () => {
                 first_name: '',
                 last_name: '',
                 gender: '',
-                date_of_birth: ''
+                date_of_birth: '',
+                profile_picture_path: ''
             },
-            address:{
-                permanent:{
+            address: {
+                permanent: {
                     address_type: 'Permanent',
-                    city:'',
-                    state:'',   
-                    country:'',
-                    pincode:'',
-                    street:''
+                    city: '',
+                    state: '',
+                    country: '',
+                    pincode: '',
+                    street: ''
                 },
+
+                current: {
+                    address_type: 'Current',
+                    city: '',
+                    state: '',
+                    country: '',
+                    pincode: '',
+                    street: ''
                 }
+            },
+
+            education_details: {
+                hsc_end_year: '',
+                hsc_percentage: '',
+                hsc_start_year: '',
+                hsc_school_name: '',
+                sslc_end_year: '',
+                sslc_percentage: '',
+                sslc_school_name: '',
+                sslc_start_year: ''
+            },
+            college_details: {
+                college_end_year: '',
+                college_name: '',
+                college_percentage: '',
+                college_start_year: '',
+                degree: '',
+                department: '',
+                education_type: ''
+            },
+            PG_college_details: {
+                pg_college_degree: '',
+                pg_college_department: '',
+                pg_college_end_year: '',
+                pg_college_name: '',
+                pg_college_percentage: '',
+                pg_college_start_year: '',
+                pg_college_education_type: ''
+            },
+            Diploma_college_details: {
+                diploma_college_degree: '',
+                diploma_college_department: '',
+                diploma_college_end_year: '',
+                diploma_college_name: '',
+                diploma_college_percentage: '',
+                diploma_college_start_year: '',
+                diploma_college_education_type: ''
+            },
+            professionalDetails: {
+                companies: [
+                    {
+                        company_name: '',
+                        years_of_experience: '',
+                        job_role: '',
+                        skills: ''
+                    },
+                    {
+                        company_name: '',
+                        years_of_experience: '',
+                        job_role: '',
+                        skills: ''
+                    }
+                ],
+                numberOfCompanies: ''
+            },
+            jobPreference: {
+                department: '',
+                industry: '',
+                key_skills: '',
+                prefered_locations: ''
+            },
+            resume:{
+                resume_path:''
+            }
+
         }
     });
 
+    // Handle resume upload
+    // const handleResumeChange = (event) => {
+    //     const file = event.target.files[0];
+    //     setResumeFile(URL.createObjectURL(file));
+
+    //     // Update formData to include resume path
+    //     setFormData(prevData => ({
+    //         ...prevData,
+    //         data: {
+    //             ...prevData.data,
+    //             resume: {
+    //                 ...prevData.data.resume,
+    //                 resume_path: URL.createObjectURL(file) // Set profile_picture_path with the URL of the uploaded file
+    //             }
+    //         }
+    //     }));
+    // };
+
+    // const handleRemoveResume = () => {
+    //     setResumeFile(null);
+
+    //     // Remove resume path from formData
+    //     setFormData(prevData => ({
+    //         ...prevData,
+    //         data: {
+    //             ...prevData.data,
+    //             resume: {
+    //                 ...prevData.data.resume,
+    //                 resume_path: '' // Set profile_picture_path to empty string
+    //             }
+    //         }
+    //     }));
+    // };
+    // Handle resume upload
+const handleResumeChange = (event) => {
+    const file = event.target.files[0];
+    setResumeFile(URL.createObjectURL(file));
+
+    // Update formData to include resume path
+    setFormData(prevData => ({
+        ...prevData,
+        data: {
+            ...prevData.data,
+            resume: {
+                ...prevData.data.resume,
+                resume_path: URL.createObjectURL(file) // Set resume_path with the URL of the uploaded file
+            }
+        }
+    }));
+};
+
+// Handle removing the resume
+const handleRemoveResume = () => {
+    setResumeFile(null);
+
+    // Remove resume path from formData
+    setFormData(prevData => ({
+        ...prevData,
+        data: {
+            ...prevData.data,
+            resume: {
+                ...prevData.data.resume,
+                resume_path: null // Set resume_path to null to indicate that no resume is present
+            }
+        }
+    }));
+};
     useEffect(() => {
         // Fetch data from the API
-        fetch('http://192.168.1.39:8000/get_user_details_view/')
+        fetch('http://192.168.1.44:8000/get_user_details_view/')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
@@ -1189,6 +1588,8 @@ const UserProfile = () => {
             })
             .then(data => {
                 setUserData(data);
+                // Set resume data
+                // setResume(data.resume);
                 setFormData({
                     data: {
                         Signup: {
@@ -1199,21 +1600,81 @@ const UserProfile = () => {
                             first_name: data.userDetails.first_name,
                             last_name: data.userDetails.last_name,
                             gender: data.userDetails.gender,
-                            date_of_birth: data.userDetails.date_of_birth
+                            date_of_birth: data.userDetails.date_of_birth,
+                            profile_picture_path: data.userDetails.profile_picture_path
                         },
-                        address:{
-                            permanent:{
-                                address_type:data.address.permanent.address_type,
-                                city:data.address.permanent.city,
-                                state:data.address.permanent.state,
-                                country:data.address.permanent.country,
-                                pincode:data.address.permanent.pincode,
-                                street:data.address.permanent.street
+                        address: {
+                            permanent: {
+                                address_type: data.address.permanent.address_type,
+                                city: data.address.permanent.city,
+                                state: data.address.permanent.state,
+                                country: data.address.permanent.country,
+                                pincode: data.address.permanent.pincode,
+                                street: data.address.permanent.street
+                            },
+                            current: {
+                                address_type: data.address.current.address_type,
+                                city: data.address.current.city,
+                                state: data.address.current.state,
+                                country: data.address.current.country,
+                                pincode: data.address.current.pincode,
+                                street: data.address.current.street
                             }
+                        },
+                        education_details: {
+                            hsc_start_year: data.education_details.hsc_start_year,
+                            hsc_end_year: data.education_details.hsc_end_year,
+                            hsc_percentage: data.education_details.hsc_percentage,
+                            hsc_school_name: data.education_details.hsc_school_name,
+                            sslc_end_year: data.education_details.sslc_end_year,
+                            sslc_percentage: data.education_details.sslc_percentage,
+                            sslc_school_name: data.education_details.sslc_school_name,
+                            sslc_start_year: data.education_details.sslc_start_year
+                        },
+                        college_details: {
+                            college_end_year: data.college_details.college_end_year,
+                            college_name: data.college_details.college_name,
+                            college_percentage: data.college_details.college_percentage,
+                            college_start_year: data.college_details.college_start_year,
+                            degree: data.college_details.degree,
+                            department: data.college_details.department,
+                            education_type: data.college_details.education_type
+                        },
+                        PG_college_details: {
+                            pg_college_degree: data.PG_college_details.pg_college_degree,
+                            pg_college_department: data.PG_college_details.pg_college_department,
+                            pg_college_end_year: data.PG_college_details.pg_college_end_year,
+                            pg_college_name: data.PG_college_details.pg_college_name,
+                            pg_college_percentage: data.PG_college_details.pg_college_percentage,
+                            pg_college_start_year: data.PG_college_details.pg_college_start_year,
+                            pg_college_education_type: data.PG_college_details.pg_college_education_type
+                        },
+                        Diploma_college_details: {
+                            diploma_college_degree: data.Diploma_college_details.diploma_college_degree,
+                            diploma_college_department: data.Diploma_college_details.diploma_college_department,
+                            diploma_college_end_year: data.Diploma_college_details.diploma_college_end_year,
+                            diploma_college_name: data.Diploma_college_details.diploma_college_name,
+                            diploma_college_percentage: data.Diploma_college_details.diploma_college_percentage,
+                            diploma_college_start_year: data.Diploma_college_details.diploma_college_start_year,
+                            diploma_college_education_type: data.Diploma_college_details.diploma_college_education_type
+                        },
+                        jobPreference: {
+                            department: data.jobPreference.department,
+                            industry: data.jobPreference.industry,
+                            key_skills: data.jobPreference.key_skills,
+                            prefered_locations: data.jobPreference.prefered_locations
+                        },
+                        professionalDetails: {
+                            companies: data.professionalDetails.companies,
+                            numberOfCompanies: data.professionalDetails.numberOfCompanies
+                        },
+                        resume:{
+                            resume_path:data.resume.resume_path
                         }
                     }
                 }); // Set initial form data
                 setLoading(false);
+                setResumeFile(data.resume.resume_path || null);
             })
             .catch(error => {
                 setError(error);
@@ -1222,10 +1683,13 @@ const UserProfile = () => {
     }, []);
 
     const handleChange = (event) => {
+        // const { name, value } = event.target;
         const { name, value } = event.target;
+        console.log(value, 'companyname')
+        const [field, index, subfield] = name.split('.');
         setFormData(prevData => ({
             ...prevData,
-            data: {
+            data: { 
                 ...prevData.data,
                 Signup: {
                     ...prevData.data.Signup,
@@ -1235,44 +1699,293 @@ const UserProfile = () => {
                     ...prevData.data.userDetails,
                     [name]: value
                 },
-                address:{
-                    permanent:{
+
+                education_details: {
+                    ...prevData.data.education_details,
+                    [name]: value
+                },
+                college_details: {
+                    ...prevData.data.college_details,
+                    [name]: value
+                },
+                PG_college_details: {
+                    ...prevData.data.PG_college_details,
+                    [name]: value
+                },
+                Diploma_college_details: {
+                    ...prevData.data.Diploma_college_details,
+                    [name]: value
+                },
+                jobPreference: {
+                    ...prevData.data.jobPreference,
+                    [name]: value
+                },
+                professionalDetails: {
+                    ...prevData.data.professionalDetails,
+                    [name]: value
+                },
+                // professionalDetails: {
+                //     ...prevData.data.professionalDetails.companies,
+                //     [name]: value
+                // }
+
+
+            }
+        }));
+    };
+    const handlePermanentAddressChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevData => ({
+            ...prevData,
+            data: {
+                ...prevData.data,
+                address: {
+                    ...prevData.data.address,
+                    permanent: {
                         ...prevData.data.address.permanent,
-                        [name]:value
+                        [name]: value
                     }
                 }
             }
         }));
     };
 
+    const handleCurrentAddressChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevData => ({
+            ...prevData,
+            data: {
+                ...prevData.data,
+                address: {
+                    ...prevData.data.address,
+                    current: {
+                        ...prevData.data.address.current,
+                        [name]: value
+                    }
+                }
+            }
+        }));
+    };
+
+
+    const response = {
+        data: {
+            Signup: {
+                email: '',
+                mobile_number: ''
+            },
+            userDetails: {
+                first_name: '',
+                last_name: '',
+                gender: '',
+                date_of_birth: '',
+                profile_picture_path: ''
+            },
+            address: {
+                permanent: {
+                    address_type: 'Permanent',
+                    city: '',
+                    state: '',
+                    country: '',
+                    pincode: '',
+                    street: ''
+                },
+                current: {
+                    address_type: 'Current',
+                    city: '',
+                    state: '',
+                    country: '',
+                    pincode: '',
+                    street: ''
+                }
+            },
+            education_details: {
+                hsc_end_year: '',
+                hsc_percentage: '',
+                hsc_start_year: '',
+                hsc_school_name: '',
+                sslc_end_year: '',
+                sslc_percentage: '',
+                sslc_school_name: '',
+                sslc_start_year: ''
+            },
+            college_details: {
+                college_end_year: '',
+                college_name: '',
+                college_percentage: '',
+                college_start_year: '',
+                degree: '',
+                department: '',
+                education_type: ''
+            },
+            PG_college_details: {
+                pg_college_degree: '',
+                pg_college_department: '',
+                pg_college_end_year: '',
+                pg_college_name: '',
+                pg_college_percentage: '',
+                pg_college_start_year: '',
+                pg_college_education_type: ''
+            },
+            Diploma_college_details: {
+                diploma_college_degree: '',
+                diploma_college_department: '',
+                diploma_college_end_year: '',
+                diploma_college_name: '',
+                diploma_college_percentage: '',
+                diploma_college_start_year: '',
+                diploma_college_education_type: ''
+            },
+            jobPreference: {
+                department: '',
+                industry: '',
+                key_skills: '',
+                prefered_locations: ''
+            },
+            professionalDetails: {
+                companies: [
+                    {
+                        company_name: '',
+                        years_of_experience: '',
+                        job_role: '',
+                        skills: ''
+                    },
+                    {
+                        company_name: '',
+                        years_of_experience: '',
+                        job_role: '',
+                        skills: ''
+                    }
+                ],
+                numberOfCompanies: ''
+            },
+            resume:{
+                resume_path:''
+            }
+        }
+    };
+
+    const jsonResponse = JSON.stringify(response);
+    console.log(jsonResponse);
+    const handleCompanyChange = (event, index, field) => {
+        const updatedCompanies = [...formData.data.professionalDetails.companies];
+        updatedCompanies[index][field] = event.target.value;
+
+        setFormData(prevState => ({
+            ...prevState,
+            data: {
+                ...prevState.data,
+                professionalDetails: {
+                    ...prevState.data.professionalDetails,
+                    companies: updatedCompanies
+                }
+            }
+        }));
+    };
+
+    const handleNumberOfCompaniesChange = (event) => {
+        const { value } = event.target;
+        const companies = [...formData.data.professionalDetails.companies];
+
+        // If the length of the companies array is different from the new value,
+        // update the companies array to match the new value
+        if (companies.length !== value) {
+            let updatedCompanies;
+
+            if (value > companies.length) {
+                // If increasing the number of companies, copy existing data and add new empty companies
+                updatedCompanies = [...companies];
+
+                for (let i = companies.length; i < value; i++) {
+                    updatedCompanies.push({
+                        company_name: '',
+                        years_of_experience: '',
+                        job_role: '',
+                        skills: ''
+                    });
+                }
+            } else {
+                // If decreasing the number of companies, trim the array to the new length
+                updatedCompanies = companies.slice(0, value);
+            }
+
+            setFormData(prevState => ({
+                ...prevState,
+                data: {
+                    ...prevState.data,
+                    professionalDetails: {
+                        ...prevState.data.professionalDetails,
+                        numberOfCompanies: value,
+                        companies: updatedCompanies
+                    }
+                }
+            }));
+        }
+    };
+
+
+
+
+
+    // submit to response with proper 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("Updated Form Data:", formData);
+        
+        // Create a new FormData object
+        const formDataToSend = new FormData();
+        
+        // Append profile picture file to FormData if available
+        if (profilePicture) {
+            formDataToSend.append('profilePicture', profilePicture);
+        }
+    
+        // Append other form data fields to FormData
+        formDataToSend.append('userDetails', JSON.stringify(formData.data.userDetails));
+        formDataToSend.append('Signup', JSON.stringify(formData.data.Signup));
+        formDataToSend.append('address', JSON.stringify(formData.data.address));
+        formDataToSend.append('education_details', JSON.stringify(formData.data.education_details));
+        formDataToSend.append('college_details', JSON.stringify(formData.data.college_details));
+        formDataToSend.append('PG_college_details', JSON.stringify(formData.data.PG_college_details));
+        formDataToSend.append('Diploma_college_details', JSON.stringify(formData.data.Diploma_college_details));
+        formDataToSend.append('jobPreference', JSON.stringify(formData.data.jobPreference));
+        formDataToSend.append('professionalDetails', JSON.stringify(formData.data.professionalDetails));
+        formDataToSend.append('resume', JSON.stringify(formData.data.resume));
 
-        // Send updated form data to the backend API
-        fetch('http://192.168.1.39:8000/update_user_details/', {
+    
+        // Log the updated form data
+        for (let pair of formDataToSend.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+    
+        // Send formDataToSend to the backend API
+        fetch('http://192.168.1.44:8000/update_user_details/', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
+            body: formDataToSend,
         })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to update user details');
                 }
-                
-                // Handle success response if needed
-                console.log("User details updated successfully");
+                // If response is successful, parse the JSON response
+                return response.json();
+            })
+            .then(data => {
+                // Handle the data received from the server
+                console.log("Response from server:", data);
+                // Optionally, perform further actions based on the response
             })
             .catch(error => {
                 // Handle error if the request fails
                 console.error('Error updating user details:', error);
             });
     };
+    
 
     if (loading) {
-        return <CircularProgress />; // Display loading indicator
+        return <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <BeatLoader color="#36D7B7" css={override} /> {/* Use BeatLoader for the loading animation */}
+            <p>Loading profile information...</p> {/* Text indicating that profile information is loading */}
+        </div>; // Display loading indicator
     }
 
     if (error) {
@@ -1283,102 +1996,747 @@ const UserProfile = () => {
         return null; // Handle case when userData is not available yet
     }
 
+
+    // for geting images
+
+
     return (
-        <Container maxWidth="sm" style={{ marginTop: '100px' }}> {/* Container for form */}
-            <Typography variant="h4" align="center">User Profile</Typography>
-            <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            name="email"
-                            label="Email"
-                            variant="outlined"
-                            fullWidth
-                            value={formData.data.Signup.email}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            name="mobile_number"
-                            label="Mobile Number"
-                            variant="outlined"
-                            fullWidth
-                            value={formData.data.Signup.mobile_number}
-                            onChange={handleChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="First Name"
-                            name="first_name"
-                            variant="outlined"
-                            fullWidth
-                            value={formData.data.userDetails.first_name}
-                            onChange={handleChange}
-
-                        />
-                    </Grid>
-
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            label="Last Name"
-                            name="last_name"
-                            variant="outlined"
-                            fullWidth
-                            value={formData.data.userDetails.last_name}
-                            onChange={handleChange}
-
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            name="date_of_birth"
-                            type='date'
-                            value={formData.data.userDetails.date_of_birth}
-                            fullWidth
-                            margin="dense"
-                            onChange={handleChange}
-
-                        />
+        <div className='profilebackground-div'>
+            {loading1 ? (
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                    <BeatLoader color="#36D7B7" css={override} /> {/* Use BeatLoader for the loading animation */}
+                    <p>Loading profile information...</p> {/* Text indicating that profile information is loading */}
+                </div>
+            ) : (
+                <div className="profilebackground-div">
+                    <Container style={{ marginTop: '60px' }} >
+                        <Typography variant="h4" align="center" gutterBottom>
+                            Profile
+                        </Typography>
 
 
-<TextField
-                            name="street"
-                            value={formData.data.address.permanent.street}
-                            fullWidth
-                            margin="dense"
-                            onChange={handleChange}
-                            label="street"
+                        <form onSubmit={handleSubmit} >
+                            {/* User Details Accordion */}
+
+                            <AccordionSummary >
+                                <Typography variant="h6">User Details</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6}>
+                                        {/* First Column */}
+                                        <TextField className='textfield'
+                                            label='First Name'
+                                            name="first_name"
+                                            onChange={handleChange}
+                                            value={formData.data.userDetails.first_name}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label='Last Name'
+                                            name="last_name"
+                                            value={formData.data.userDetails.last_name}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
 
 
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
 
-                    <TextField
-                                    label="gender"
-                                    name="gender"
-                                    value={formData.data.userDetails.gender}
-                                    onChange={handleChange}
-                                    // fullWidth
+                                        />
+                                        <TextField className='textfield'
+                                            label='Date-of-birth (month/date/year)'
+                                            name="date_of_birth"
+                                            type='date'
+
+                                            value={formData.data.userDetails.date_of_birth}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+
+
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        {/* Second Column */}
+                                        <TextField className='textfield'
+                                            label='Mobile Number'
+                                            name="mobile_number"
+                                            value={formData.data.Signup.mobile_number}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="gender"
+                                            name="gender"
+                                            value={formData.data.userDetails.gender}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            displayEmpty
+                                            margin="dense"
+                                        >
+
+                                            {/* <MenuItem value="" disabled>Select Gender</MenuItem>
+                                           <MenuItem className='male' value="male">Male</MenuItem>
+                                           <MenuItem value="female">Female</MenuItem>
+                                           <MenuItem value="other">Other</MenuItem> */}
+                                        </TextField>
+                                        <label htmlFor="profile-picture-input">Upload Profile Picture:</label>
+                                        <br />
+                                        <Input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleProfilePictureChange}
+                                            margin="dense"
+                                            id="profile-picture-input"
+                                        />
+                                    </Grid>
+                                </Grid>
+
+                                {profilePicture && (
+                                    <div>
+                                        <Avatar
+                                            alt="Profile Picture"
+                                            src={URL.createObjectURL(profilePicture)}
+                                            sx={{ width: 100, height: 100, marginTop: 2 }}
+                                        />
+                                        <Button color="secondary" onClick={handleRemoveProfilePicture}>
+                                            Remove Picture
+                                        </Button>
+                                    </div>
+                                )}
+
+                                {/* Display profile picture from the backend if available */}
+                                {!profilePicture && formData?.data?.userDetails?.profile_picture_path && (
+                                    <div>
+                                        <Avatar
+                                            alt="Profile Picture"
+                                            src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.userDetails.profile_picture_path}`}
+                                            sx={{ width: 100, height: 100, marginTop: 2 }}
+                                        />
+                                        <Button color="secondary" onClick={handleRemoveProfilePicture}>
+                                            Remove Picture
+                                        </Button>
+                                    </div>
+                                )}        
+                            </AccordionDetails>
+
+                            {/* Address Accordion */}
+
+                            <AccordionSummary >
+                                <Typography variant="h6">Address</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Typography variant="h6"> Permanent and current Address:</Typography>
+
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6} >
+                                        {/* First Column */}
+                                        <TextField className='textfield'
+                                            label="permanent Street"
+                                            name="street"
+                                            value={formData.data.address.permanent.street}
+                                            onChange={handlePermanentAddressChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label=" permanent City"
+                                            name="city"
+                                            value={formData.data.address.permanent.city}
+
+                                            onChange={handlePermanentAddressChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="permanent pincode"
+                                            name="pincode"
+                                            value={formData.data.address.permanent.pincode}
+
+                                            onChange={handlePermanentAddressChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+
+                                        <TextField className='textfield'
+                                            label="permanent Country"
+                                            name="country"
+                                            value={formData.data.address.permanent.country}
+
+                                            onChange={handlePermanentAddressChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="permanent State"
+                                            name="state"
+                                            value={formData.data.address.permanent.state}
+
+                                            onChange={handlePermanentAddressChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} >
+                                        {/* <Typography variant="h6">Current Address</Typography> */}
+                                        <TextField className='textfield'
+                                            label="Current Street"
+                                            name="street"
+                                            value={formData.data.address.current.street}
+                                            onChange={handleCurrentAddressChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="Current City"
+                                            name="city"
+                                            value={formData.data.address.current.city}
+
+                                            onChange={handleCurrentAddressChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="Current Pincode"
+                                            name="pincode"
+                                            value={formData.data.address.current.pincode}
+
+                                            onChange={handleCurrentAddressChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+
+                                        <TextField className='textfield'
+                                            label="Current Country"
+                                            name="country"
+                                            value={formData.data.address.current.country}
+
+                                            onChange={handleCurrentAddressChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="Current State"
+                                            name="state"
+                                            value={formData.data.address.current.state}
+
+                                            onChange={handleCurrentAddressChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+
+                                    </Grid>
+                                </Grid>
+                            </AccordionDetails>
+
+
+                            {/* Educatiom Accordion */}
+
+                            <AccordionSummary > <Typography variant="h6">Education details</Typography></AccordionSummary>
+                            <AccordionDetails>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6}>
+
+                                        {/* First Column */}
+                                        <TextField className='textfield'
+                                            label="SSLC-school-name"
+                                            name="sslc_school_name"
+                                            value={formData.data.education_details.sslc_school_name}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="SSLC-start-year"
+                                            name="sslc_start_year"
+                                            value={formData.data.education_details.sslc_start_year}
+
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="SSLC-end-year"
+                                            name="sslc_end_year"
+                                            value={formData.data.education_details.sslc_end_year}
+
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="SSLC-percentage"
+                                            name="sslc_percentage"
+                                            value={formData.data.education_details.sslc_percentage}
+
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={6}>
+                                        {/* Second Column */}
+                                        <TextField className='textfield'
+                                            label="HSC-school-name"
+                                            name="hsc_school_name"
+                                            value={formData.data.education_details.hsc_school_name}
+
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="HSC-start-year"
+                                            name="hsc_start_year"
+                                            value={formData.data.education_details.hsc_start_year}
+
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="HSC-end-year"
+                                            name="hsc_end_year"
+                                            value={formData.data.education_details.hsc_end_year}
+
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="HSC-percentage"
+                                            name="hsc_percentage"
+                                            value={formData.data.education_details.hsc_percentage}
+
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <Typography sx={{ width: '100%' }} >UG Details:</Typography>
+                                        {/* Third Column */}
+                                        <TextField className='textfield'
+                                            label="College-name"
+                                            name="college_name"
+                                            value={formData.data.college_details.college_name}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="College-start-year"
+                                            name="college_start_year"
+                                            value={formData.data.college_details.college_start_year}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="College-end-year"
+                                            name="college_end_year"
+                                            value={formData.data.college_details.college_end_year}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="College-percentage"
+                                            name="college_percentage"
+                                            value={formData.data.college_details.college_percentage}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={6} >
+                                        <Typography sx={{ color: 'transparent' }}> . </Typography>
+                                        {/* Fourth Column */}
+                                        <TextField className='textfield'
+                                            label="Department"
+                                            name="department"
+                                            value={formData.data.college_details.department}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="Degree"
+                                            name="degree"
+                                            value={formData.data.college_details.degree}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+                                        />
+                                    </Grid>
+
+
+                                    {/* pg and diplamo */}
+                                    <Grid item xs={12}>
+                                        {/* Radio Buttons for PG/Diploma */}
+                                        <FormControl component="fieldset">
+                                            <RadioGroup
+                                                className='radio_button'
+                                                row
+                                                aria-label="education-type"
+                                                name="education_type"
+                                                value={formData.data.PG_college_details}
+                                                onChange={handleChange}
+                                            >
+                                                <FormControlLabel
+                                                    className='pg_button1'
+                                                    value="pg"
+                                                    control={<Radio />}
+                                                    label="PG"
+                                                />
+                                                <FormControlLabel
+                                                    className='pg_button2'
+                                                    value="diploma"
+                                                    control={<Radio />}
+                                                    label="Diploma"
+                                                />
+                                            </RadioGroup>
+                                        </FormControl>
+                                    </Grid>
+
+                                    {/* Additional Fields based on Radio Button selection */}
+                                    {/* {formData.data.college_details.education_type === 'pg' && ( */}
+                                    <>
+                                        {/* Additional PG Fields */}
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField className='textfield'
+                                                label="PG-College-name"
+                                                name="pg_college_name"
+                                                value={formData.data.PG_college_details.pg_college_name}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+                                            />
+                                            <TextField className='textfield'
+                                                label="PG-College-start-year"
+                                                name="pg_college_start_year"
+                                                value={formData.data.PG_college_details.pg_college_start_year}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+                                            />
+                                            <TextField className='textfield'
+                                                label="PG-College-end-year"
+                                                name="pg_college_end_year"
+                                                value={formData.data.PG_college_details.pg_college_end_year}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+
+                                            />
+                                            <TextField className='textfield'
+                                                label="PG-College-percentage"
+                                                name="pg_college_percentage"
+                                                value={formData.data.PG_college_details.pg_college_percentage}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+
+                                            />
+                                            {/* Add other PG fields here */}
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField className='textfield'
+                                                label="PG-College-department"
+                                                name="pg_college_department"
+                                                value={formData.data.PG_college_details.pg_college_department}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+
+                                            />
+                                            <TextField className='textfield'
+                                                label="PG-College-degree"
+                                                name="pg_college_degree"
+                                                value={formData.data.PG_college_details.pg_college_degree}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+
+                                            />
+                                        </Grid>
+                                    </>
+                                    {/* )} */}
+
+                                    {/* {formData.data.education_type === 'diploma' && ( */}
+                                    <>
+                                        {/* Additional Diploma Fields */}
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField className='textfield'
+                                                label="Diploma-college-name"
+                                                name="diploma_college_name"
+                                                value={formData.data.Diploma_college_details.diploma_college_name}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+                                            />
+                                            <TextField className='textfield'
+                                                label="Diploma-college-start-year"
+                                                name="diploma_college_start_year"
+                                                value={formData.data.Diploma_college_details.diploma_college_start_year}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+                                            />
+                                            <TextField className='textfield'
+                                                label="Diploma-college-end-year"
+                                                name="diploma_college_end_year"
+                                                value={formData.data.Diploma_college_details.diploma_college_end_year}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+                                            />
+                                            <TextField className='textfield'
+                                                label="Diploma-college-percentage"
+                                                name="diploma_college_percentage"
+                                                value={formData.data.Diploma_college_details.diploma_college_percentage}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+                                            />
+                                            {/* Add other Diploma fields here */}
+                                        </Grid>
+                                        <Grid item xs={12} sm={6}>
+                                            <TextField className='textfield'
+                                                label="Diploma-college-department"
+                                                name="diploma_college_department"
+                                                value={formData.data.Diploma_college_details.diploma_college_department}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+                                            />
+                                            <TextField className='textfield'
+                                                label="Diploma-college-degree"
+                                                name="diploma_college_degree"
+                                                value={formData.data.Diploma_college_details.diploma_college_degree}
+                                                onChange={handleChange}
+                                                fullWidth
+                                                margin="dense"
+
+                                            />
+                                        </Grid>
+                                    </>
+                                    {/* )} */}
+                                </Grid>
+                            </AccordionDetails>
+
+
+                            {/* job preference */}
+
+                            <AccordionSummary > <Typography variant="h6">Job Preference</Typography></AccordionSummary>
+                            <AccordionDetails>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6}>
+                                        {/* First Column */}
+                                        <TextField className='textfield'
+                                            label="Key-skills"
+                                            name="key_skills"
+                                            value={formData.data.jobPreference.key_skills}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="Industry"
+                                            name="industry"
+                                            value={formData.data.jobPreference.industry}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField className='textfield'
+                                            label="Department"
+                                            name="department"
+                                            value={formData.data.jobPreference.department}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+                                        />
+                                        <TextField className='textfield'
+                                            label="Prefered locations"
+                                            name="prefered_locations"
+                                            value={formData.data.jobPreference.prefered_locations}
+                                            onChange={handleChange}
+                                            fullWidth
+                                            margin="dense"
+
+
+                                        />
+                                    </Grid>
+
+                                </Grid>
+
+                            </AccordionDetails>
+
+                            <AccordionSummary>
+                                <Typography variant="h6">Professional Details</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Grid container spacing={2}>
+                                    {formData.data.professionalDetails.companies.map((company, index) => (
+                                        <Grid item xs={12} sm={6} key={index}>
+                                            <TextField
+                                                className='textfield'
+
+                                                label={`Company ${index + 1}`}
+                                                value={company.company_name}
+                                                onChange={(event) => handleCompanyChange(event, index, 'company_name')}
+                                                fullWidth
+                                            />
+                                            <TextField
+                                                className='textfield'
+                                                label={`Years of Experience`}
+                                                value={company.years_of_experience}
+                                                onChange={(event) => handleCompanyChange(event, index, 'years_of_experience')}
+                                                fullWidth
+                                                margin="dense"
+                                            />
+                                            <TextField
+                                                className='textfield'
+                                                label={`Job Role`}
+                                                value={company.job_role}
+                                                onChange={(event) => handleCompanyChange(event, index, 'job_role')}
+                                                fullWidth
+                                                margin="dense"
+                                            />
+                                            <TextField
+                                                className='textfield'
+                                                label={`Skills`}
+                                                value={company.skills}
+                                                onChange={(event) => handleCompanyChange(event, index, 'skills')}
+                                                fullWidth
+                                                margin="dense"
+                                            />
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                                <TextField
+                                    className='textfield'
+                                    label="Number of Companies"
+                                    type="number"
+                                    name="numberOfCompanies"
+
+                                    value={formData.data.professionalDetails.numberOfCompanies}
+                                    onChange={handleNumberOfCompaniesChange}
+                                    fullWidth
                                     margin="dense"
-                                  
+
+                                />
+                            </AccordionDetails>
+                            {/* resume */}
+                            <AccordionSummary >
+                                <Typography variant="h6">Resume</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                            <Grid container spacing={2}>
+            {/* Your other form fields */}
+            <Grid item xs={12}>
+                <label htmlFor="resume-input">Upload Resume</label>
+                <br />
+                <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleResumeChange}
+                    margin="dense"
+                    id="resume-input"
+                />
+            </Grid>
+
+            {/* Display uploaded resume if available */}
+            {resumeFile && (
+                <div>
+                    <a href={resumeFile} target="_blank" rel="noopener noreferrer">View Resume</a>
+                    <br />
+                    <Button color="secondary" onClick={handleRemoveResume}>
+                        Remove Resume
+                    </Button>
+                </div>
+            )}
+
+            {/* Optionally, display a message if no resume is available */}
+            {!resumeFile && (
+                <div>No resume available</div>
+            )}
+        </Grid>
+
+            </AccordionDetails>
+                            <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button>
+
+                        </form>
 
 
-                                >
-                                    {/* <MenuItem value="" disabled>Select Gender</MenuItem>
-                                    <MenuItem className='male' value="male">Male</MenuItem>
-                                    <MenuItem value="female">Female</MenuItem>
-                                    <MenuItem value="other">Other</MenuItem> */}
-                                </TextField>
 
-                </Grid>
-                </Grid>
-
-                <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button>
-            </form>
-        </Container>
+                    </Container>
+                </div>
+            )}
+        </div>
     );
 };
 

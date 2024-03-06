@@ -38,7 +38,7 @@ function App() {
   const [employeeForm,setEmployeeForm] = useState("");
   const[searchJob,setsearchJob]=useState("")
   const[companyList,setcompanyList]=useState("")
-
+  console.log(companyList,"ggggg========")
   return (
     <UserContext.Provider value={{oneData, setData,employeeForm,setEmployeeForm,searchJob,setsearchJob,companyList,setcompanyList}}>
     <div>

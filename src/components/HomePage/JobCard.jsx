@@ -19,8 +19,8 @@ export const JobCard = () => {
           'Content-Type': 'application/json',
         },
       });
-      console.log(response.data); // Log the response data to the console
-      navigate('/newpost');
+      console.log(response.data);
+      navigate('/Newpost');
     } catch (error) {
       console.error('Error:', error);
     }
