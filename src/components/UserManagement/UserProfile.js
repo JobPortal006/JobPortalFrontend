@@ -1939,7 +1939,7 @@ const handleRemoveResume = () => {
         formDataToSend.append('Diploma_college_details', JSON.stringify(formData.data.Diploma_college_details));
         formDataToSend.append('jobPreference', JSON.stringify(formData.data.jobPreference));
         formDataToSend.append('professionalDetails', JSON.stringify(formData.data.professionalDetails));
-        formDataToSend.append('resume', JSON.stringify(formData.data.resume.resume_path));
+        formDataToSend.append('resume', JSON.stringify(formData.data.resume));
 
     
         // Log the updated form data
