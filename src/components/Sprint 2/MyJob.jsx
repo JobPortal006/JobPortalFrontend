@@ -71,10 +71,6 @@ function MyJob() {
 
   const navigate = useNavigate();
 
-  // use Context
-
-  // const{updateJobId, setUpdateJobId} = useContext(UserContext);
-  // console.log(updateJobId,"UpdateJobId=====>");
 
 
   const ChangeDirect = (jobId) => {

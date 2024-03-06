@@ -1,24 +1,31 @@
-import React, { useState} from "react";
+import React, { useState,useEffect, useContext} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faMoneyBillAlt, faUser, faBuilding, faTools } from '@fortawesome/free-solid-svg-icons';
 import "../Sprint 2/FIlteredResults.css";
-// import SearchBar from "../HomePage/searchBar";
+import SearchBar from "../HomePage/searchBar";
 import { useNavigate } from 'react-router-dom';
 import { Grid } from "@mui/material";
+import UserContext from "./contextFilter";
 
-function FilteredResults(two) {
+
+function FilteredResults() {
   
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [jobsPerPage] = useState(4);
+    const [jobsPerPage] = useState(5);
+    const { searchJob, oneData ,companyList} = useContext(UserContext);
+    console.log(searchJob,'=====raghul data1')
+    console.log(oneData,'=====raghul data2')
 
-    console.log(two,"<===two");
-    const twoArray = two.two;
+
+    useEffect(()=>{},[searchJob,oneData,companyList])
+    // Determine which data to use for rendering
+    const dataToUse = searchJob ? searchJob : oneData || companyList?.data;
   
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-    const currentJobs = twoArray.slice(indexOfFirstJob, indexOfLastJob);
+    const currentJobs = dataToUse?.slice(indexOfFirstJob, indexOfLastJob);
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -56,7 +63,7 @@ function FilteredResults(two) {
                 <div className="loading-popup">Loading...</div> 
             ) : (
                 <div className="job-result" style={{ marginTop: '60px' }}>
-                    
+                <SearchBar isJobSearchPage={true} />
                     {currentJobs.map((job, index) => (
                         <div key={index} className="job-box" onClick={() => handleJobSelect(job)}>
                             <div className="job-top">
@@ -97,7 +104,7 @@ function FilteredResults(two) {
                     ))}
                     <div className="pagination">
                         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-                        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= twoArray.length}>Next</button>
+                        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= oneData.length}>Next</button>
                     </div>
                 </div>
             )}

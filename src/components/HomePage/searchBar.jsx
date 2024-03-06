@@ -630,13 +630,6 @@ const SearchBar = ({ isJobSearchPage }) => {
     }
   }, [experienceValue]);
 
-  // UseContext
-
-  const{viewJob, setViewJob} =  useContext(UserContext);
-
-  console.log(viewJob,"viewJob=====++++>");
-
-
   const handleSearch = async () => {
     let isError = false;
 

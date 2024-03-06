@@ -12,6 +12,13 @@ const Filter = () => {
   const [showAll, setShowAll] = useState(false);
   const [Show, setShow] = useState(false);
 
+  const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList} = useContext(UserContext);
+  console.log(searchJob,'=====search job data')
+console.log(oneData, "=====raghul data");
+
+useEffect(()=>{},[companyList]);
+console.log(companyList, "=====raghul data company list");
+
   const experienceOptions = [
     "0-1 year",
     "1-2 years",
@@ -180,10 +187,9 @@ const Filter = () => {
 
   console.log(filteredData, "Filtered Data ==>");
 
-  const {oneData,setData} = useContext(UserContext);
-console.log(oneData, "010101010110");
 
-  const ApplyFilters = async (five) => {
+
+  const ApplyFilters = async () => {
     const filtered = {  
       location: locations.filter((location) => location.selected).map((location) => location.location),
       employee_type: selectedEmploymentType,
@@ -191,6 +197,8 @@ console.log(oneData, "010101010110");
       salary_range: selectedSalaryType,
       experience: selectedExperience,
     };
+    setsearchJob(null)
+    setcompanyList(null)
     setFilteredData(filtered);
     
  
@@ -361,6 +369,8 @@ console.log(oneData, "010101010110");
       </Grid>
       <Grid item xs={8} sm={8} md={8} xl={8}>
        {component && <FilteredResults two={oneData} />}
+       {searchJob && <FilteredResults two={oneData} />}
+       {companyList && <FilteredResults two={oneData} />}
       </Grid>
     </Grid>
   );
