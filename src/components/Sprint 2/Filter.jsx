@@ -195,7 +195,7 @@ console.log(companyList, "=====raghul data company list");
     // location, employee_type, job_role, salary_range
     try {
       const response = await fetch(
-        "http://192.168.1.57:8000/filter_singleValue/",
+        "http://192.168.1.44:8000/filter_singleValue/",
         {
           method: "POST",
           headers: {
