@@ -83,7 +83,7 @@ const Filter = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://192.168.1.39:8000/location/");
+        const response = await fetch("http://192.168.1.44:8000/location/");
         if (!response) {
           console.error("Failed to fetch locations");
         }
@@ -127,7 +127,7 @@ const Filter = () => {
   useEffect(() => {
     const fetchJobRoles = async () => {
       try {
-        const response = await fetch("http://192.168.1.39:8000/job_role/");
+        const response = await fetch("http://192.168.1.44:8000/job_role/");
         if (!response.ok) {
           console.error("Failed to fetch job roles");
           return;
@@ -196,7 +196,7 @@ console.log(oneData, "010101010110");
  
     try {
       const response = await fetch(
-        "http://192.168.1.57:8000/filter_singleValue/",
+        "http://192.168.1.44:8000/filter_singleValue/",
         {
           method: "POST",
           headers: {
@@ -241,6 +241,7 @@ console.log(oneData, "010101010110");
                         <FormControlLabel
                           control={
                             <Checkbox
+                            color="secondary"
                               checked={selectedExperience.includes(option)}
                               onChange={() => handleExperienceClick(option)}
                             />
@@ -314,7 +315,7 @@ console.log(oneData, "010101010110");
                     key={index}
                     onClick={() => handleRoleClick(index)}
                   >
-                    <Checkbox checked={role.selected} />
+                    <Checkbox checked={role.selected}  />
                     <ListItemText primary={role.role} />
                   </ListItemButton>
                 ))}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -8,6 +8,7 @@ import Container from "@mui/material/Container";
 import { Autocomplete } from "@mui/material";
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
+import UserContext from "./contextFilter";
 
 const EditMyJob = () => {
   const employmentType = [
@@ -81,55 +82,164 @@ const EditMyJob = () => {
     employee_type: "",
     job_role: "",
     location: "",
-    skill_set: [],
+    skills: [],
     qualification: "",
     experience: "",
     salary_range: "",
     no_of_vacancies: "",
   });
 
-  const [employment, setEmployment] = useState("");
-  const [jobRole, setJobRole] = useState("");
-  const [skills, setSkills] = useState([]);
-  const [experience, setExperience] = useState("");
-  const [salary, setSalary] = useState("")
+  // const [employment, setEmployment] = useState("");
+  // const [jobRole, setJobRole] = useState("");
+  // const [skillSet, setSkills] = useState([]);
+  // const [experience, setExperience] = useState("");
+  // const [salary, setSalary] = useState("")
 
-  const handleSubmit = async (event) => {
+  const HandleUpdate = async (event) => {
     event.preventDefault();
 
     const jobPostData = {
-      ...jobPost,
-      experience: experience,
-      employee_type: employment,
-      job_role: jobRole,
-      skill_set: skills,
-      salary_range: salary,
+      ...jobPost
+        // experience: experience,
+        // employee_type: employment,
+        // job_role: jobRole,
+        // skills: skillSet,
+        // salary_range: salary,
     };
 
     console.log(jobPostData);
 
-    let headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Accept", "application/json");
-    headers.append("Origin", "http://192.168.1.39:8000/job_post/");
-    const apiUrl = "http://192.168.1.39:8000/job_post/";
+   
+  // Post
 
-    try {
-      const response = await axios.post(apiUrl, jobPostData, headers);
-     
-      console.log(response, "post JobData ===>");
-      console.log(response.data.status, "Job Post Status==========>");
-
-      if (response.data.status === true) {
-        console.log("Job posted Successfully");
-      } else {
-        console.log("Error in posting the Job");
-        alert("Please fill in all required fields")
+  try {
+    const response = await fetch(
+      " http://192.168.1.62:8000/update_job/",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jobPostData),
       }
-    } catch (error) {
-      console.log(error);
+    );
+
+  
+    if (!response.ok) {
+      throw new Error("Failed to post id data to API");
     }
+
+    const dataUpdate = await response.json();
+    console.log(dataUpdate, "Update====================Data");
+    
+    // fetching data
+
+   
+    console.log("ID data posted successfully:");
+  } catch (error) {
+    console.error("Error posting id data to API:", error);
+    // window.location.reload();
+  }
   };
+
+  const location = useLocation();
+  const viewJobId = location.state.job_id
+  console.log(viewJobId,"viewJobID====>");
+
+  // useEffect(() => {
+  //   if (location.state && location.state.jobId) {
+  //     const id = location.state.jobId;
+  //     console.log(id, "location id===>");
+  //   }
+  // }, [location.state]);
+
+  const [fetchJob, setFetchJob] =  useState("")
+
+console.log(fetchJob,"fetchJob===>");
+
+ 
+
+
+
+ 
+
+  
+
+  
+  // console.log(fetchJob,"fetchJob===>");
+
+  const{updateJobId} = useContext(UserContext);
+  console.log(updateJobId,'updateJobId')
+
+  // useEffect(() => {
+  //   // Passing id and Fetching Data
+  //   // if (location.state && location.state.jobId) {
+  //     // const id = location.state.jobId;
+  //     async function postID() {
+  //       try {
+  //         const response = await fetch(
+  //           " http://192.168.1.57:8000/demoupdate/",
+  //           {
+  //             method: "POST",
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //             body: JSON.stringify({ job_id: viewId}),
+  //           }
+  //         );
+
+        
+  //         if (!response.ok) {
+  //           throw new Error("Failed to post id data to API");
+  //         }
+
+  //         const data = await response.json();
+  //         console.log(data, "Job_id_====================Data");
+  //         setJobPost(data[0])
+  //         // fetching data
+
+         
+  //         console.log("ID data posted successfully:");
+  //       } catch (error) {
+  //         console.error("Error posting id data to API:", error);
+  //         // window.location.reload();
+  //       }
+  //     }
+  //     postID();
+  //   // }
+  // },[viewId]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://192.168.1.62:8000/demoupdate/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ job_id: 44 }),
+          }
+        );
+  
+        if (!response.ok) {
+          throw new Error("Failed to fetch data from API");
+        }
+  
+        const data = await response.json();
+        console.log(data, "Job_id_====================Data");
+        setJobPost(data[0]);
+        console.log("Data fetched successfully");
+      } catch (error) {
+        console.error("Error fetching data from API:", error);
+      }
+    };
+  
+    fetchData();
+  }, [viewJobId]);  
+  
+
 
   return (
     <div>
@@ -158,7 +268,7 @@ const EditMyJob = () => {
               margin="normal"
               fullWidth
               id="company-name"
-              label="Company Name"
+              label={   "Company Name"}
               name="company_name"
               required
               value={jobPost.company_name}
@@ -199,18 +309,18 @@ const EditMyJob = () => {
                 <Autocomplete
                   sx={{ mt: 2 }}
                   options={employmentType}
-                  value={employment}
-                  onChange={(event, newValue) => setEmployment(newValue)}
+                  value={jobPost.employee_type}
+                  onChange={(event, newEvent) => setJobPost({...jobPost, employee_type : newEvent})}
                   renderInput={(text) => <TextField {...text} label="Employment Type" />}
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6} xl={6} xxl={6}>
                 <label>Role*</label>
-                <Autocomplete
+                <Autocomplete   
                   sx={{ mt: 2 }}
                   options={Role}
-                  value={jobRole}
-                  onChange={(event, newValue) => setJobRole(newValue)}
+                  value={jobPost.job_role}
+                  onChange={(event, newEvent) => setJobPost({...jobPost, job_role : newEvent})}
                   renderInput={(job) => <TextField {...job} label="Role" />}
                 />
               </Grid>
@@ -236,8 +346,8 @@ const EditMyJob = () => {
             <Autocomplete
               multiple
               options={jobSkills}
-              value={skills}
-              onChange={(event, newEvent) => setSkills(newEvent)}
+              value={jobPost.skills}
+              onChange={(event, newEvent) => setJobPost({...jobPost, skills : newEvent })}
               renderInput={(para) => <TextField {...para} label="Skills" />}
             />
             <br />
@@ -249,7 +359,7 @@ const EditMyJob = () => {
               label="Qualification"
               name="qualification"
               value={jobPost.qualification}
-              onChange={(e) => setJobPost({ ...jobPost, qualification: e.target.value })}
+              onChange={(e) => setJobPost({ ...jobPost, qualification: e.target.value})}
             />
             <Grid container spacing={2} sx={{ mt: 1 }}>
               <Grid item xs={12} sm={12} md={4} xl={4} xxl={4}>
@@ -258,8 +368,8 @@ const EditMyJob = () => {
                   sx={{ mt: 2 }}
                   fullWidth
                   options={experienceOptions}
-                  value={experience}
-                  onChange={(event, newValue) => setExperience(newValue)}
+                  value={jobPost.experience}
+                  onChange={(event, newEvent) => setJobPost({...jobPost, experience :newEvent})}
                   renderInput={(exp) => <TextField {...exp} label="Experience" />}
                 />
               </Grid>
@@ -283,8 +393,8 @@ const EditMyJob = () => {
                 sx={{mt:2}}
                   fullWidth
                   options={salaryType}
-                  value={salary}
-                  onChange={(event, newValue) => setSalary(newValue)}
+                  value={jobPost.salary_range}
+                  onChange={(event, newEvent) => setJobPost({ ...jobPost, salary_range:newEvent})}
                   renderInput={(range) => <TextField {...range} label="Salary Range" />}
                 />
               </Grid>
@@ -294,9 +404,9 @@ const EditMyJob = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={handleSubmit}
+                onClick={HandleUpdate}
               >
-                Submit
+                Update
               </Button>
             </div>
           </Box>
@@ -307,3 +417,5 @@ const EditMyJob = () => {
 };
 
 export default EditMyJob;
+
+

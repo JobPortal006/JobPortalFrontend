@@ -36,12 +36,14 @@ function App() {
   const [oneData, setData] = useState("");
   const [employeeForm,setEmployeeForm] = useState("");
   const [viewJob, setViewJob] = useState("");
+  const [updateJobId, setUpdateJobId] = useState("")
 
   return (
-    <UserContext.Provider value={{oneData, setData,employeeForm,setEmployeeForm, viewJob, setViewJob}}>
+    <UserContext.Provider value={{oneData, setData,employeeForm,setEmployeeForm, viewJob, setViewJob, updateJobId, setUpdateJobId}}>
     <div>
       <BrowserRouter>
-        <Navbar />
+      
+      
         <Routes>
           <Route index path="/home" element={<Home />} />
           <Route path="/login" element={<LogIn />} />

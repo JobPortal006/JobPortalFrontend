@@ -25,7 +25,7 @@ function FilteredResults(two) {
     const handleJobSelect = async (selectedJob) => {
         try {
             setLoading(true);
-            const response = await fetch('http://192.168.1.39:8000/job_details/', {
+            const response = await fetch('http://192.168.1.44:8000/job_details/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
