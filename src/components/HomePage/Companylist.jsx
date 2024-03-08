@@ -140,7 +140,8 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { JobCard } from './JobCard';
 import UserContext from '../Sprint 2/contextFilter';
-
+import { Divider } from '@material-ui/core';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const Companylist = () => {
   const [companies, setCompanies] = useState([]);
@@ -148,7 +149,7 @@ const Companylist = () => {
   const [error, setError] = useState(null);
   const [startIndex, setStartIndex] = useState(0); // State to track the index of the first item to display
   const navigate = useNavigate();
-  const{companyList,setcompanyList}=useContext(UserContext)
+  const { companyList, setcompanyList } = useContext(UserContext)
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
@@ -172,40 +173,40 @@ const Companylist = () => {
 
   const handleCardClick = async (companyName) => {
     try {
-      console.log(companyName,"companyName------->");
-        // Send request to the backend API
-        const response = await fetch('http://192.168.1.44:8000/job_details_by_companyName/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                company_name: companyName
-            })
-        });
-        const data = await response.json();
-        console.log(data,"data---------->123");
+      console.log(companyName, "companyName------->");
+      // Send request to the backend API
+      const response = await fetch('http://192.168.1.44:8000/job_details_by_companyName/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          company_name: companyName
+        })
+      });
+      const data = await response.json();
+      console.log(data, "data---------->123");
 
-        // if (!response.ok) {
-        //     throw new Error('Failed to send data to the server');
-        // }
-        if (data.status !== true) {
-          alert('Failed to send data to the server');
+      // if (!response.ok) {
+      //     throw new Error('Failed to send data to the server');
+      // }
+      if (data.status !== true) {
+        alert('Failed to send data to the server');
       }
-      else{
+      else {
         navigate("/Filter");
 
       }
-        setcompanyList(data)
-        console.log(companyList,"companyData---->1");
+      setcompanyList(data)
+      console.log(companyList, "companyData---->1");
 
-        // Navigate after response is sent
-        // navigate("/Filter");
+      // Navigate after response is sent
+      // navigate("/Filter");
     } catch (error) {
-        console.error('Error:', error);
-        // Handle error here
+      console.error('Error:', error);
+      // Handle error here
     }
-};
+  };
 
 
   const handleNext = () => {
@@ -220,45 +221,48 @@ const Companylist = () => {
     }
   };
   companies.slice(startIndex, startIndex + 3).map((company, index) => (
-  console.log(company.company_name,'company_name------------')
+    console.log(company.company_name, 'company_name------------')
   ))
 
   return (<>
     <div className="container">
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h6" style={{padding:'10px'}}
+        color="#1A237E" fontSize="30px"
+        fontWeight="bold" textTransform="uppercase" textAlign="center" gutterBottom>
         Job Openings in Top Companies
+
       </Typography>
       <div className="company-list">
         {loading ? (
           <Card className="company-item">
             <CardContent>
-              <Typography variant="h5" component="h2">
+              <h4 variant="h5" component="h2">
                 Loading...
-              </Typography>
+              </h4>
             </CardContent>
           </Card>
         ) : error ? (
           <Card className="company-item">
             <CardContent>
-              <Typography variant="h5" component="h2">
+              <h4 variant="h5" component="h2">
                 {error}
-              </Typography>
+              </h4>
             </CardContent>
           </Card>
         ) : (
           companies.slice(startIndex, startIndex + 3).map((company, index) => (
-            <Card
+            <Card id="card1"
               key={index}
               className="company-item"
               onClick={() => handleCardClick(company.company_name)}
             >
               <CardContent>
                 <div className="icon-container">
-                  <BusinessIcon className="business-icon" /> {/* React office icon */}
-                  <Typography variant="h5" component="h2">
+                  <BusinessIcon  style={{color:'#1A237E'}} className="business-icon" /> {/* React office icon */}
+                  <h4 variant="h5" component="h2" fontSize='25px'>
                     {company.company_name}
-                  </Typography>
-                  <ArrowForwardIcon className="arrow-icon" /> {/* Arrow icon */}
+                  </h4>
+                  < KeyboardArrowRightIcon  className="arrow-icon" /> {/* Arrow icon */}
                 </div>
               </CardContent>
             </Card>
@@ -271,7 +275,7 @@ const Companylist = () => {
       </div>
     </div>
     <JobCard />
-    </>
+  </>
   );
 };
 

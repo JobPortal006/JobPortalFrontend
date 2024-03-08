@@ -1293,7 +1293,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Typography, Grid, TextField, Container, Button, Input, Avatar, InputLabel, InputAdornment, IconButton } from '@mui/material';
+import { CircularProgress, Typography, Grid, TextField, Container, Button, Input, Avatar, InputLabel, InputAdornment, IconButton, Divider } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -1326,7 +1326,7 @@ const UserProfile = () => {
     const [userId, setUserId] = useState(47); // Initial user ID
     const [postData, setPostdata] = useState(null);
     console.log(postData, '=====postdata=====')
-      const [resumeFile, setResumeFile] = useState(null);
+    const [resumeFile, setResumeFile] = useState(null);
 
     useEffect(() => {
         // Fetch user data from the API
@@ -1354,7 +1354,7 @@ const UserProfile = () => {
                 setLoading1(false); // Set loading to false in case of error
             });
     }, []);
- 
+
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
         setProfilePicture(file);
@@ -1483,14 +1483,14 @@ const UserProfile = () => {
                 key_skills: '',
                 prefered_locations: ''
             },
-            resume:{
-                resume_path:''
+            resume: {
+                resume_path: ''
             }
 
         }
     });
 
-   
+
     // Handle resume upload
     const handleResumeChange = (event) => {
         const file = event.target.files[0];
@@ -1518,7 +1518,7 @@ const UserProfile = () => {
             }
         }));
     };
-    
+
     useEffect(() => {
         // Fetch data from the API
         fetch('http://192.168.1.44:8000/get_user_details_view/')
@@ -1610,8 +1610,8 @@ const UserProfile = () => {
                             companies: data.professionalDetails.companies,
                             numberOfCompanies: data.professionalDetails.numberOfCompanies
                         },
-                        resume:{
-                            resume_path:data.resume.resume_path
+                        resume: {
+                            resume_path: data.resume.resume_path
                         }
                     }
                 }); // Set initial form data
@@ -1631,7 +1631,7 @@ const UserProfile = () => {
         const [field, index, subfield] = name.split('.');
         setFormData(prevData => ({
             ...prevData,
-            data: { 
+            data: {
                 ...prevData.data,
                 Signup: {
                     ...prevData.data.Signup,
@@ -1801,8 +1801,8 @@ const UserProfile = () => {
                 ],
                 numberOfCompanies: ''
             },
-            resume:{
-                resume_path:''
+            resume: {
+                resume_path: ''
             }
         }
     };
@@ -1872,9 +1872,9 @@ const UserProfile = () => {
     // submit to response with proper 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
+
         const formDataToSend = new FormData();
-        
+
         if (profilePicture) {
             formDataToSend.append('profilePicture', profilePicture);
         }
@@ -1901,22 +1901,22 @@ const UserProfile = () => {
             method: 'POST',
             body: formDataToSend,
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to update user details');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log("Response from server:", data);
-        })
-        .catch(error => {
-            console.error('Error updating user details:', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update user details');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log("Response from server:", data);
+            })
+            .catch(error => {
+                console.error('Error updating user details:', error);
+            });
     };
 
-    
-    
+
+
 
     if (loading) {
         return <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -1926,7 +1926,7 @@ const UserProfile = () => {
     }
 
     if (error) {
-        return <Typography>Error: {error.message}</Typography>; // Display error message
+        return <Typography style={{ marginTop: '70px' }}>Error: {error.message}</Typography>; // Display error message
     }
 
     if (!userData || !formData) {
@@ -1947,10 +1947,13 @@ const UserProfile = () => {
             ) : (
 
                 <div className="profilebackground-div">
-                    
+
                     <Container style={{ marginTop: '60px' }} >
-                        <Typography variant="h4" align="center" gutterBottom>
+                        <Typography variant="h6"
+                            color="#1A237E" fontSize="25px"
+                            fontWeight="bold" textTransform="uppercase" textAlign="center" gutterBottom>
                             Profile
+                            <Divider sx={{ marginY: 2 }} ></Divider>
                         </Typography>
 
 
@@ -1958,7 +1961,9 @@ const UserProfile = () => {
                             {/* User Details Accordion */}
 
                             <AccordionSummary >
-                                <Typography variant="h6">User Details</Typography>
+                                <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase" >User Details</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
@@ -2064,16 +2069,20 @@ const UserProfile = () => {
                                             Remove Picture
                                         </Button>
                                     </div>
-                                )}        
+                                )}
+                                <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
+
                             </AccordionDetails>
 
                             {/* Address Accordion */}
 
                             <AccordionSummary >
-                                <Typography variant="h6">Address</Typography>
+                                <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Address</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Typography variant="h6"> Permanent and current Address:</Typography>
+                              
 
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6} >
@@ -2132,7 +2141,9 @@ const UserProfile = () => {
 
                                     </Grid>
                                     <Grid item xs={12} sm={6} >
-                                        {/* <Typography variant="h6">Current Address</Typography> */}
+                                        {/* <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">Current Address</Typography> */}
                                         <TextField className='textfield'
                                             label="Current Street"
                                             name="street"
@@ -2186,12 +2197,16 @@ const UserProfile = () => {
 
                                     </Grid>
                                 </Grid>
+                                <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
+
                             </AccordionDetails>
 
 
                             {/* Educatiom Accordion */}
 
-                            <AccordionSummary > <Typography variant="h6">Education details</Typography></AccordionSummary>
+                            <AccordionSummary > <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">Education details</Typography></AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
@@ -2286,7 +2301,9 @@ const UserProfile = () => {
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-                                        <Typography sx={{ width: '100%' }} >UG Details:</Typography>
+                                        <Typography sx={{ width: '100%' }} variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">UG Details:</Typography>
                                         {/* Third Column */}
                                         <TextField className='textfield'
                                             label="College-name"
@@ -2330,7 +2347,9 @@ const UserProfile = () => {
                                     </Grid>
 
                                     <Grid item xs={12} sm={6} >
-                                        <Typography sx={{ color: 'transparent' }}> . </Typography>
+                                        <Typography sx={{ color: 'transparent' }}variant="h6"
+                                         fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase"> . </Typography>
                                         {/* Fourth Column */}
                                         <TextField className='textfield'
                                             label="Department"
@@ -2356,8 +2375,11 @@ const UserProfile = () => {
 
                                     {/* pg and diplamo */}
                                     <Grid item xs={12}>
+                                    <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">PG details</Typography>
                                         {/* Radio Buttons for PG/Diploma */}
-                                        <FormControl component="fieldset">
+                                        {/* <FormControl component="fieldset">
                                             <RadioGroup
                                                 className='radio_button'
                                                 row
@@ -2379,13 +2401,15 @@ const UserProfile = () => {
                                                     label="Diploma"
                                                 />
                                             </RadioGroup>
-                                        </FormControl>
+                                        </FormControl> */}
                                     </Grid>
 
                                     {/* Additional Fields based on Radio Button selection */}
                                     {/* {formData.data.college_details.education_type === 'pg' && ( */}
+                                    
                                     <>
                                         {/* Additional PG Fields */}
+                                      
                                         <Grid item xs={12} sm={6}>
                                             <TextField className='textfield'
                                                 label="PG-College-name"
@@ -2455,6 +2479,7 @@ const UserProfile = () => {
                                     {/* {formData.data.education_type === 'diploma' && ( */}
                                     <>
                                         {/* Additional Diploma Fields */}
+                                        
                                         <Grid item xs={12} sm={6}>
                                             <TextField className='textfield'
                                                 label="Diploma-college-name"
@@ -2517,12 +2542,16 @@ const UserProfile = () => {
                                     </>
                                     {/* )} */}
                                 </Grid>
+                                <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
+
                             </AccordionDetails>
 
 
                             {/* job preference */}
 
-                            <AccordionSummary > <Typography variant="h6">Job Preference</Typography></AccordionSummary>
+                            <AccordionSummary > <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">Job Preference</Typography></AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
@@ -2571,11 +2600,14 @@ const UserProfile = () => {
                                     </Grid>
 
                                 </Grid>
+                                <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
 
                             </AccordionDetails>
 
                             <AccordionSummary>
-                                <Typography variant="h6">Professional Details</Typography>
+                                <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">Professional Details</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
@@ -2628,36 +2660,40 @@ const UserProfile = () => {
                                     margin="dense"
 
                                 />
+                                <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
+
                             </AccordionDetails>
                             {/* resume */}
                             <AccordionSummary >
-                                <Typography variant="h6">Resume</Typography>
+                                <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">Resume</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                            <label htmlFor="resume-input">Upload Resume:</label>
-            <br />
-            <Input
-                type="file"
-                accept=".pdf, .doc, .docx"
-                onChange={handleResumeChange}
-                margin="dense"
-                id="resume-input"
-            />
-            {resumeFile && (
-                <div>
-                    <p>Resume File: {resumeFile.name}</p>
-                    <Button color="secondary" onClick={handleRemoveResume}>
-                        Remove Resume
-                    </Button>
-                </div>
-            )}
+                                <label htmlFor="resume-input">Upload Resume:</label>
+                                <br />
+                                <Input
+                                    type="file"
+                                    accept=".pdf, .doc, .docx"
+                                    onChange={handleResumeChange}
+                                    margin="dense"
+                                    id="resume-input"
+                                />
+                                {resumeFile && (
+                                    <div>
+                                        <p>Resume File: {resumeFile.name}</p>
+                                        <Button color="secondary" onClick={handleRemoveResume}>
+                                            Remove Resume
+                                        </Button>
+                                    </div>
+                                )}
 
-            {formData?.data?.resume?.resume_path && (
-                <div>
-                    <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p>
-                </div>
-            )}
-            </AccordionDetails>
+                                {formData?.data?.resume?.resume_path && (
+                                    <div>
+                                        <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p>
+                                    </div>
+                                )}
+                            </AccordionDetails>
                             <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button>
 
                         </form>

@@ -21,9 +21,13 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 3,
+    marginTop:'45px'
+
   },
   drawerPaper: {
     width: drawerWidth,
+    marginTop:'70px'
+
   },
   toolbar: theme.mixins.toolbar,
   logo: {

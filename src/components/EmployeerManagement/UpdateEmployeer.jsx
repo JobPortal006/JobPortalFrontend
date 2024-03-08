@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Grid, TextField, Button, Typography, Box, MenuItem } from '@mui/material';
+import { Grid, TextField, Button, Typography, Box, MenuItem, Divider } from '@mui/material';
 import errorMessages from '../Json/Employerregister.json';
 import UserContext from '../Sprint 2/contextFilter';
 import axios from 'axios'; // Importing Axios for making HTTP requests
@@ -122,17 +122,22 @@ export const UpdateEmployerregister = () => {
     return (
         <>
             
-            <Grid container spacing={4}>
-                <Grid container spacing={2} justifyContent="center">
+            <Grid container spacing={5}  backgroundColor= '#5C6BC0'>
+                <Grid container spacing={3} justifyContent="center">
                     <Grid item xs={12} sm={6}>
                         
                             <form>
                                 <Grid container spacing={2} justifyContent="center">
-                                <Box sx={{ backgroundColor: '#f5f5f5', padding: '15px', marginBottom: '20px', marginTop:'30px' ,width: '100%',marginLeft:'40px',borderRadius:'20px' }}>
-                                <Typography variant="h4" align="center" style={{ padding: '10px' }}>My Profile</Typography>
+                                <Box sx={{ backgroundColor: '#E8EAF6', padding: '25px', marginBottom: '20px', marginTop:'30px' ,width: '100%',marginLeft:'40px',borderRadius:'2px' }}>
+                                <Typography variant="h4"
+                                        color="#1A237E" 
+                                        fontWeight="bold" textTransform="uppercase" textAlign="center" align="center" style={{ padding: '10px' }}>Profile</Typography>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12}>
-                                        <Typography variant="h5">Company details</Typography>
+                                    <Divider sx={{ marginY: 3,bgcolor: '#3F51B5',borderWidth: '1px' }} />
+                                        <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase" textAlign="center">Company details</Typography>
                                     </Grid>
                                     
                                     <Grid item xs={12}>
@@ -244,7 +249,10 @@ export const UpdateEmployerregister = () => {
                                     {/* <Box sx={{ background: 'rgb(245, 245, 245)', padding: '20px', marginBottom: '20px', width: '100%',marginLeft:'40px',borderRadius:'20px' }}> */}
                                     <Grid container spacing={2}>
                                     <Grid item xs={12}>
-                                        <Typography variant="h5" marginTop="25px" marginBottom="20px">Contact information</Typography>
+                                    <Divider sx={{ marginY: 3,bgcolor: '#3F51B5',borderWidth: '1px' }} />
+                                        <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase" textAlign="center" marginTop="20px">Contact information</Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
@@ -289,7 +297,10 @@ export const UpdateEmployerregister = () => {
                                     {/* <Box sx={{ background: 'rgb(245, 245, 245)', padding: '20px', marginBottom: '20px', width: '100%',marginLeft:'40px',borderRadius:'20px'  }}> */}
                                     <Grid container spacing={2}>
                                     <Grid item xs={12} >
-                                        <Typography variant="h5" marginTop="25px" marginBottom="20px">Company Address</Typography>
+                                    <Divider sx={{ marginY: 3, bgcolor: '#3F51B5',borderWidth: '1px' }} />
+                                        <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase" textAlign="center" marginTop="20px">Company Address</Typography>
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <TextField
@@ -365,6 +376,4 @@ export const UpdateEmployerregister = () => {
         </>
     );
 };
-
-
 
