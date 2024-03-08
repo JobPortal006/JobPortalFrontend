@@ -62,7 +62,7 @@ function App() {
           <Route path="/FilteredResults" element={<FilteredResults />} />
           <Route path="/JobDetails" element={<JobDetails />} />
           <Route path="/EmployerRegister" element={<Employerregister />} />
-
+    
         </Routes>
       </BrowserRouter>
     </div>
