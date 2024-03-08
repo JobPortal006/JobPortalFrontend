@@ -1,4 +1,130 @@
-import React, { useContext, useEffect, useState} from "react";
+// import React, { useContext, useEffect, useState} from "react";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faMapMarkerAlt, faMoneyBillAlt, faUser, faBuilding, faTools } from '@fortawesome/free-solid-svg-icons';
+// import "../Sprint 2/FIlteredResults.css";
+// import SearchBar from "../HomePage/searchBar";
+// import { useNavigate } from 'react-router-dom';
+// import { Grid } from "@mui/material";
+// import UserContext from "./contextFilter";
+
+
+// function FilteredResults() {
+
+//     const navigate = useNavigate();
+//     const [loading, setLoading] = useState(false);
+//     const [currentPage, setCurrentPage] = useState(1);
+//     const [jobsPerPage] = useState(5);
+//     const { searchJob, oneData ,companyList} = useContext(UserContext);
+//     console.log(searchJob,'=====raghul data1')
+//     console.log(oneData,'=====raghul data2')
+
+//     useEffect(()=>{},[searchJob,oneData,companyList])
+//     // Determine which data to use for rendering
+//     const dataToUse = searchJob ? searchJob : oneData || companyList?.data;
+
+//     // console.log(typeof(searchJob),searchJob,"checking data type--->1");
+//     // console.log(typeof(oneData),oneData,"checking data type--->2");
+//     // console.log(typeof(companyList),companyList?.data,"checking data type--->3");
+//     const indexOfLastJob = currentPage * jobsPerPage;
+//     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
+//     const currentJobs = dataToUse?.slice(indexOfFirstJob, indexOfLastJob);
+
+//     const paginate = pageNumber => setCurrentPage(pageNumber);
+
+//     const handleJobSelect = async (selectedJob) => {
+//         try {
+//             setLoading(true);
+//             const response = await fetch('http://192.168.1.44:8000/job_details/', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify(selectedJob),
+//             });
+//             if (!response.ok) {
+//                 throw new Error('Failed to send selected job data to the backend');
+//             } else {
+//                 navigate('/JobDetails');
+//             }
+//             console.log('Selected job data sent successfully:', selectedJob);
+//         } catch (error) {
+//             console.error('Error sending selected job data to the backend:', error);
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
+
+//     return (
+//       <div>
+//       <Grid container>
+     
+//       <Grid  >
+//             {loading ? (
+//                 <div className="loading-popup">Loading...</div>
+//             ) : (
+//                 <div className="job-container" style={{ marginTop: '60px' }}>
+//                     <SearchBar isJobSearchPage={true} />
+//                     {currentJobs.data.map((job, index) => (
+//                         <div key={index} className="job-card" onClick={() => handleJobSelect(job)}>
+//                             <div className="job-header">
+//                                 <div className="job-title company-logo">
+//                                     {job.company_logo && job.company_logo.includes('data:image') ? (
+//                                         <img src={job.company_logo} alt="Company Logo" />
+//                                     ) : (
+//                                         <img src={`data:image/jpeg;base64,${job.company_logo}`} alt="Company Logo" />
+//                                     )}
+//                                     {job.company_name}
+//                                 </div>
+//                                 <div className="company-name " >{job.job_title}</div>
+//                             </div>
+//                             <div className="job-details">
+//                                 <div className="detail">
+//                                     <span className="detail-label"><FontAwesomeIcon icon={faMapMarkerAlt} /> Location:</span> {job.location}
+//                                 </div>
+//                                 <div className="detail">
+//                                     <span className="detail-label"><FontAwesomeIcon icon={faMoneyBillAlt} /> Salary:</span> {job.salary_range}
+//                                 </div>
+//                                 <div className="detail">
+//                                     <span className="detail-label"><FontAwesomeIcon icon={faUser} /> Job Type:</span> {job.employee_type}
+//                                 </div>
+//                                 <div className="detail">
+//                                     <span className="detail-label"><FontAwesomeIcon icon={faTools} /> Qualification:</span> {job.job_role}
+//                                 </div>
+//                                 <div className="detail">
+//                                     <span className="detail-label"><FontAwesomeIcon icon={faUser} /> Experience:</span> {job.experience}
+//                                 </div>
+//                                 <div className="detail">
+//                                     <span className="detail-label"><FontAwesomeIcon icon={faBuilding} /> Vacancies:</span> {job.no_of_vacancies}
+//                                 </div>
+//                                 <div className="detail">
+//                                     <span className="detail-label"><FontAwesomeIcon icon={faTools} /> Skills:</span> {job.skills ? job.skills.join(', ') : ''}
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     ))}
+//                     <div className="pagination">
+//                         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+//                         <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= oneData.length}>Next</button>
+//                     </div>
+//                 </div>
+//             )}
+//             </Grid>
+//             </Grid>
+            
+//             </div>
+//     );
+// }
+
+// export default FilteredResults;
+
+
+
+
+
+
+
+/// checking
+import React, { useState,useEffect, useContext} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faMoneyBillAlt, faUser, faBuilding, faTools } from '@fortawesome/free-solid-svg-icons';
 import "../Sprint 2/FIlteredResults.css";
@@ -9,7 +135,7 @@ import UserContext from "./contextFilter";
 
 
 function FilteredResults() {
-
+  
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,16 +144,16 @@ function FilteredResults() {
     console.log(searchJob,'=====raghul data1')
     console.log(oneData,'=====raghul data2')
 
+
     useEffect(()=>{},[searchJob,oneData,companyList])
     // Determine which data to use for rendering
     const dataToUse = searchJob ? searchJob : oneData || companyList?.data;
-
-    // console.log(typeof(searchJob),searchJob,"checking data type--->1");
-    // console.log(typeof(oneData),oneData,"checking data type--->2");
-    // console.log(typeof(companyList),companyList?.data,"checking data type--->3");
+  
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
     const currentJobs = dataToUse?.slice(indexOfFirstJob, indexOfLastJob);
+
+    
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
@@ -42,7 +168,9 @@ function FilteredResults() {
                 body: JSON.stringify(selectedJob),
             });
             if (!response.ok) {
-                throw new Error('Failed to send selected job data to the backend');
+             throw new Error('Failed to send selected job data to the backend');
+                
+                
             } else {
                 navigate('/JobDetails');
             }
@@ -60,14 +188,14 @@ function FilteredResults() {
      
       <Grid  >
             {loading ? (
-                <div className="loading-popup">Loading...</div>
+                <div className="loading-popup">Loading...</div> 
             ) : (
-                <div className="job-container" style={{ marginTop: '60px' }}>
-                    <SearchBar isJobSearchPage={true} />
+                <div className="job-result" style={{ marginTop: '60px' }}>
+                <SearchBar isJobSearchPage={true} />
                     {currentJobs.map((job, index) => (
-                        <div key={index} className="job-card" onClick={() => handleJobSelect(job)}>
-                            <div className="job-header">
-                                <div className="job-title company-logo">
+                        <div key={index} className="job-box" onClick={() => handleJobSelect(job)}>
+                            <div className="job-top">
+                                <div className="job-heading company-img">
                                     {job.company_logo && job.company_logo.includes('data:image') ? (
                                         <img src={job.company_logo} alt="Company Logo" />
                                     ) : (
@@ -75,29 +203,29 @@ function FilteredResults() {
                                     )}
                                     {job.company_name}
                                 </div>
-                                <div className="company-name " >{job.job_title}</div>
+                                <div className="company-view " >{job.job_title}</div>
                             </div>
-                            <div className="job-details">
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faMapMarkerAlt} /> Location:</span> {job.location}
+                            <div className="job-brief">
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faMapMarkerAlt} /> Location:</span> {job.location}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faMoneyBillAlt} /> Salary:</span> {job.salary_range}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faMoneyBillAlt} /> Salary:</span> {job.salary_range}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faUser} /> Job Type:</span> {job.employee_type}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faUser} /> Job Type:</span> {job.employee_type}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faTools} /> Qualification:</span> {job.job_role}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faTools} /> Qualification:</span> {job.job_role}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faUser} /> Experience:</span> {job.experience}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faUser} /> Experience:</span> {job.experience}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faBuilding} /> Vacancies:</span> {job.no_of_vacancies}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faBuilding} /> Vacancies:</span> {job.no_of_vacancies}
                                 </div>
-                                <div className="detail">
-                                    <span className="detail-label"><FontAwesomeIcon icon={faTools} /> Skills:</span> {job.skills ? job.skills.join(', ') : ''}
+                                <div className="brief">
+                                    <span className="brief-label"><FontAwesomeIcon icon={faTools} /> Skills:</span> {job.skills ? job.skills.join(', ') : ''}
                                 </div>
                             </div>
                         </div>
@@ -116,6 +244,3 @@ function FilteredResults() {
 }
 
 export default FilteredResults;
-
-
-// =============================================raghul checking

@@ -12,7 +12,6 @@ const Filter = () => {
   const [showAll, setShowAll] = useState(false);
   const [Show, setShow] = useState(false);
 
-
   const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList} = useContext(UserContext);
   console.log(searchJob,'=====search job data')
 console.log(oneData, "=====raghul data");
@@ -172,6 +171,16 @@ console.log(companyList, "=====raghul data company list");
     console.log("Selected salary type:", event.target.value);
   };
 
+  // 
+  const handleReset = () => {
+    setSelectedExperience([]);
+    setSelectedEmploymentType("");
+    setSelectedSalaryType("");
+    setLocations(locations.map((location) => ({ ...location, selected: false })));
+    setJobRoles(jobRoles.map((role) => ({ ...role, selected: false })));
+  };
+
+
   // Job Filter
   const [component,setComponent] = useState(false);
 
@@ -192,7 +201,8 @@ console.log(companyList, "=====raghul data company list");
     setsearchJob(null)
     setcompanyList(null)
     setFilteredData(filtered);
-    // location, employee_type, job_role, salary_range
+    
+ 
     try {
       const response = await fetch(
         "http://192.168.1.44:8000/filter_singleValue/",
@@ -207,9 +217,12 @@ console.log(companyList, "=====raghul data company list");
       const FilterData = await response.json();
       console.log(FilterData,"<====filter-Response");
       setData(FilterData)
-      if (!response.ok) {
-        throw new Error("Failed to post data to backend");
+      console.log(oneData.status,"status===>");
+      if (oneData.status !== true) {
+        alert("Failed to post data to backend");
+        
       } else {
+        
         setComponent(true)
       }
       console.log("Data successfully posted to backend");
@@ -224,7 +237,7 @@ console.log(companyList, "=====raghul data company list");
   return (
     <Grid container>
       <Grid item xs={4} sm={4} md={4} xl={4}>
-        <div className="job-filter" style={{ width: "100%" }}>
+        <div className="job-filter" style={{ width: "80%" }}>
           <div className="title">
             <h1>Filter</h1>
             <div className="job-experience">
@@ -239,6 +252,7 @@ console.log(companyList, "=====raghul data company list");
                         <FormControlLabel
                           control={
                             <Checkbox
+                            color="secondary"
                               checked={selectedExperience.includes(option)}
                               onChange={() => handleExperienceClick(option)}
                             />
@@ -305,14 +319,14 @@ console.log(companyList, "=====raghul data company list");
 
           <div className="job-roles">
             <h3>Job Roles</h3>
-            <Box className="scroll" sx={{ width: "80%", height: 300, overflow: "auto" }}>
+            <Box className="scroll" sx={{ width: "100%", height: 300, overflow: "auto" }}>
               <List>
                 {jobRoles.map((role, index) => (
                   <ListItemButton
                     key={index}
                     onClick={() => handleRoleClick(index)}
                   >
-                    <Checkbox checked={role.selected} />
+                    <Checkbox checked={role.selected}  />
                     <ListItemText primary={role.role} />
                   </ListItemButton>
                 ))}
@@ -349,7 +363,10 @@ console.log(companyList, "=====raghul data company list");
             )}
           </div>
           <div className="filter-btn">
-          <Button variant="outlined" onClick={ApplyFilters}>Apply Filters</Button>
+          <Button variant="outlined" style={{ color: 'purple', backgroundColor: 'violet' }} onClick={ApplyFilters}>Apply Filters</Button>
+          <Button style={{marginLeft:"1rem"}} variant="outlined" color="error" onClick={handleReset}>
+          Reset
+        </Button>
           </div>
         </div>
       </Grid>
@@ -364,3 +381,4 @@ console.log(companyList, "=====raghul data company list");
 };
 
 export default Filter;
+

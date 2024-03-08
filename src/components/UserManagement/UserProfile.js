@@ -1309,6 +1309,7 @@ import { BeatLoader } from 'react-spinners';
 //  import FormContainer from './FormContainer';
 // import './UserProfile.css'
 import { css } from '@emotion/react';
+import './UserProfile.css'
 
 const override = css`
   display: block;
@@ -1322,7 +1323,7 @@ const UserProfile = () => {
     // const [resume, setResume] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
     const [loading1, setLoading1] = useState(true);
-    const [userId, setUserId] = useState(46); // Initial user ID
+    const [userId, setUserId] = useState(47); // Initial user ID
     const [postData, setPostdata] = useState(null);
     console.log(postData, '=====postdata=====')
       const [resumeFile, setResumeFile] = useState(null);
@@ -1353,28 +1354,7 @@ const UserProfile = () => {
                 setLoading1(false); // Set loading to false in case of error
             });
     }, []);
-    // const handleRemoveProfilePicture = () => {
-    //     setProfilePicture(null);
-
-    //     // Clear the file input value
-    //     const fileInput = document.getElementById('profile-picture-input');
-    //     if (fileInput) {
-    //         fileInput.value = '';
-    //     }
-    // };
-    // // Handle profile picture upload
-    // const handleProfilePictureChange = (event) => {
-    //     const file = event.target.files[0];
-
-    //     setProfilePicture(file);
-
-    //     // Update userDetails to include profile_picture
-    //     setFormData((prevUserDetails) => ({
-    //         ...prevUserDetails,
-    //         profile_picture: file,
-    //     }));
-    // };
-
+ 
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
         setProfilePicture(file);
@@ -1510,73 +1490,35 @@ const UserProfile = () => {
         }
     });
 
+   
     // Handle resume upload
-    // const handleResumeChange = (event) => {
-    //     const file = event.target.files[0];
-    //     setResumeFile(URL.createObjectURL(file));
-
-    //     // Update formData to include resume path
-    //     setFormData(prevData => ({
-    //         ...prevData,
-    //         data: {
-    //             ...prevData.data,
-    //             resume: {
-    //                 ...prevData.data.resume,
-    //                 resume_path: URL.createObjectURL(file) // Set profile_picture_path with the URL of the uploaded file
-    //             }
-    //         }
-    //     }));
-    // };
-
-    // const handleRemoveResume = () => {
-    //     setResumeFile(null);
-
-    //     // Remove resume path from formData
-    //     setFormData(prevData => ({
-    //         ...prevData,
-    //         data: {
-    //             ...prevData.data,
-    //             resume: {
-    //                 ...prevData.data.resume,
-    //                 resume_path: '' // Set profile_picture_path to empty string
-    //             }
-    //         }
-    //     }));
-    // };
-    // Handle resume upload
-const handleResumeChange = (event) => {
-    const file = event.target.files[0];
-    setResumeFile(URL.createObjectURL(file));
-
-    // Update formData to include resume path
-    setFormData(prevData => ({
-        ...prevData,
-        data: {
-            ...prevData.data,
-            resume: {
-                ...prevData.data.resume,
-                resume_path: URL.createObjectURL(file) // Set resume_path with the URL of the uploaded file
+    const handleResumeChange = (event) => {
+        const file = event.target.files[0];
+        setResumeFile(file);
+        setFormData(prevData => ({
+            ...prevData,
+            data: {
+                ...prevData.data,
+                resume: {
+                    resume_path: file.name
+                }
             }
-        }
-    }));
-};
+        }));
+    };
 
-// Handle removing the resume
-const handleRemoveResume = () => {
-    setResumeFile(null);
-
-    // Remove resume path from formData
-    setFormData(prevData => ({
-        ...prevData,
-        data: {
-            ...prevData.data,
-            resume: {
-                ...prevData.data.resume,
-                resume_path: null // Set resume_path to null to indicate that no resume is present
+    const handleRemoveResume = () => {
+        setResumeFile(null);
+        setFormData(prevData => ({
+            ...prevData,
+            data: {
+                ...prevData.data,
+                resume: {
+                    resume_path: ''
+                }
             }
-        }
-    }));
-};
+        }));
+    };
+    
     useEffect(() => {
         // Fetch data from the API
         fetch('http://192.168.1.44:8000/get_user_details_view/')
@@ -1931,15 +1873,16 @@ const handleRemoveResume = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         
-        // Create a new FormData object
         const formDataToSend = new FormData();
         
-        // Append profile picture file to FormData if available
         if (profilePicture) {
             formDataToSend.append('profilePicture', profilePicture);
         }
-    
-        // Append other form data fields to FormData
+
+        if (resumeFile) {
+            formDataToSend.append('resume', resumeFile);
+        }
+
         formDataToSend.append('userDetails', JSON.stringify(formData.data.userDetails));
         formDataToSend.append('Signup', JSON.stringify(formData.data.Signup));
         formDataToSend.append('address', JSON.stringify(formData.data.address));
@@ -1949,36 +1892,30 @@ const handleRemoveResume = () => {
         formDataToSend.append('Diploma_college_details', JSON.stringify(formData.data.Diploma_college_details));
         formDataToSend.append('jobPreference', JSON.stringify(formData.data.jobPreference));
         formDataToSend.append('professionalDetails', JSON.stringify(formData.data.professionalDetails));
-        formDataToSend.append('resume', JSON.stringify(formData.data.resume));
 
-    
-        // Log the updated form data
         for (let pair of formDataToSend.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }
-    
-        // Send formDataToSend to the backend API
+
         fetch('http://192.168.1.44:8000/update_user_details/', {
             method: 'POST',
             body: formDataToSend,
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to update user details');
-                }
-                // If response is successful, parse the JSON response
-                return response.json();
-            })
-            .then(data => {
-                // Handle the data received from the server
-                console.log("Response from server:", data);
-                // Optionally, perform further actions based on the response
-            })
-            .catch(error => {
-                // Handle error if the request fails
-                console.error('Error updating user details:', error);
-            });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to update user details');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Response from server:", data);
+        })
+        .catch(error => {
+            console.error('Error updating user details:', error);
+        });
     };
+
+    
     
 
     if (loading) {
@@ -2008,7 +1945,9 @@ const handleRemoveResume = () => {
                     <p>Loading profile information...</p> {/* Text indicating that profile information is loading */}
                 </div>
             ) : (
+
                 <div className="profilebackground-div">
+                    
                     <Container style={{ marginTop: '60px' }} >
                         <Typography variant="h4" align="center" gutterBottom>
                             Profile
@@ -2695,37 +2634,29 @@ const handleRemoveResume = () => {
                                 <Typography variant="h6">Resume</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                            <Grid container spacing={2}>
-            {/* Your other form fields */}
-            <Grid item xs={12}>
-                <label htmlFor="resume-input">Upload Resume</label>
-                <br />
-                <input
-                    type="file"
-                    accept=".pdf"
-                    onChange={handleResumeChange}
-                    margin="dense"
-                    id="resume-input"
-                />
-            </Grid>
-
-            {/* Display uploaded resume if available */}
+                            <label htmlFor="resume-input">Upload Resume:</label>
+            <br />
+            <Input
+                type="file"
+                accept=".pdf, .doc, .docx"
+                onChange={handleResumeChange}
+                margin="dense"
+                id="resume-input"
+            />
             {resumeFile && (
                 <div>
-                    <a href={resumeFile} target="_blank" rel="noopener noreferrer">View Resume</a>
-                    <br />
+                    <p>Resume File: {resumeFile.name}</p>
                     <Button color="secondary" onClick={handleRemoveResume}>
                         Remove Resume
                     </Button>
                 </div>
             )}
 
-            {/* Optionally, display a message if no resume is available */}
-            {!resumeFile && (
-                <div>No resume available</div>
+            {formData?.data?.resume?.resume_path && (
+                <div>
+                    <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p>
+                </div>
             )}
-        </Grid>
-
             </AccordionDetails>
                             <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button>
 

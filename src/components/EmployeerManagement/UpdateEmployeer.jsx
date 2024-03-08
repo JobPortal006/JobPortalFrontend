@@ -1,520 +1,370 @@
-import React, { useContext, useState ,useEffect} from 'react';
+import React, { useContext, useState } from 'react';
 import { Grid, TextField, Button, Typography, Box, MenuItem } from '@mui/material';
-import axios from 'axios';
-import { validateCompanyDetails, validateCompanyAddress, validateContactInformation } from '../validation/Employervalidation';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-// Importing error messages from JSON file         
-import errorMessages from '../Json/Employerregister.json'; 
+import errorMessages from '../Json/Employerregister.json';
 import UserContext from '../Sprint 2/contextFilter';
+import axios from 'axios'; // Importing Axios for making HTTP requests
 
-// Defining a functional component named Employerregister
-export const UpdateEmployerregister = ({  }) => { // Destructure form from props
-    const {employeeForm} = useContext(UserContext)
-    // const UpdateForm = form;
+
+export const UpdateEmployerregister = () => {
+    // Extracting employerDetails from the UserContext
+    const { employerDetails } = useContext(UserContext);
+
+    // Initializing state for holding updated employer details
+    const [updatedDetails, setUpdatedDetails] = useState({
+        company_details: {
+            company_logo_path: employerDetails.company_details.company_logo_path || '',
+            company_name: employerDetails.company_details.company_name || '',
+            company_description: employerDetails.company_details.company_description || '',
+            company_industry: employerDetails.company_details.company_industry || '',
+            company_website_link: employerDetails.company_details.company_website_link || '',
+            no_of_employees: employerDetails.company_details.no_of_employees || ''
+        },
+        contact_information: {
+            contact_person_name: employerDetails.company_details.contact_person_name || '',
+            contact_person_position: employerDetails.company_details.contact_person_position || '',
+            email: employerDetails.Signup.email || '',
+            mobile_number: employerDetails.Signup.mobile_number || ''
+        },
+        company_address: {
+            address_type: employerDetails.company_address.address_type || '',
+            city: employerDetails.company_address.city || '',
+            country: employerDetails.company_address.country || '',
+            pincode: employerDetails.company_address.pincode || '',
+            state: employerDetails.company_address.state || '',
+            street: employerDetails.company_address.street || ''
+        }
+    });
+
     
-    console.log(employeeForm,"<=====UpdateForm");
+    // Constructing the complete URL for the company logo
+    const companylogo_link =  updatedDetails.company_details.company_logo_path;
+    
+    const companyLogo = `https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${companylogo_link}`
 
-  // State variables for company details, address, contact information, and errors
-  const [company_details, setcompany_details] = useState({
-    company_logo: null,
-    company_name: '',
-    industry_type: '',
-    company_description: '',
-    no_of_employees: '',
-    company_website_link: ''
-  });
-
-  const [company_address, setcompany_address] = useState({       
-    street: '',
-    city: '',
-    state: '',
-    country: '',
-    pincode: '',
-    address_type: ''
-  });
-
-  const [contact_information, setcontact_information] = useState({
-    contact_person_name: '',
-    contact_person_position: '',
-    email: '',
-    mobile_number: ''
-  });
-
-  const [errors, setErrors] = useState({
-    company_details: {},
-    company_address: {},
-    contact_information: {}
-  });
+    // console.log(companyLogo,"----------logoc")
 
 
-  
-
-    // Event handler for input changes in company details section
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setcompany_details({
-      ...company_details,
-      [name]: value
-    });
-    // Clear error message when input changes
-    setErrors({
-      ...errors,
-      company_details: {
-        ...errors.company_details,
-        [name]: ''
-      }
-    });
-  };
-  
-    // Event handler for changing company logo
-  const handleLogoChange = (e) => {
-  const logo = e.target.files[0];
-  if (logo && logo.size <= 2 * 1024 * 1024) { // 2MB limit
-    setcompany_details({
-      ...company_details,
-      company_logo: logo
-    });
-    // Clear error message when logo changes
-    setErrors({
-      ...errors,
-      company_details: {
-        ...errors.company_details,
-        company_logo: ''
-      }
-    });
-  } else {
-    setErrors({
-      ...errors,
-      company_details: {
-        ...errors.company_details,
-        company_logo: errorMessages.errorMessages.companyDetails.company_logo.sizeLimit
-      }
-    });
-  }
-};
+      // Function to handle changes in input fields
+    const handleChange = (event, section) => {
+        const { name, value } = event.target;
+        setUpdatedDetails(prevState => ({
+            ...prevState,
+            [section]: {
+                ...prevState[section],
+                [name]: value
+            }
+        }));
+    };
 
 
-    // Event handler for removing company logo
-  const handleRemoveLogo = () => {
-    setcompany_details({
-      ...company_details,
-      company_logo: null
-    });
-  };
+     // Function to handle changes in the company logo
+    const handleLogoChange = (event) => {
+        const file = event.target.files[0];
+        setUpdatedDetails(prevState => ({
+            ...prevState,
+            company_details: {
+                ...prevState.company_details,
+                company_logo_path: file
+            }
+        }));
+    };
 
-  // Event handler for address changes
-  const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setcompany_address({
-      ...company_address,
-      [name]: value
-    });
-    // Clear error message when input changes
-    setErrors({
-      ...errors,
-      company_address: {
-        ...errors.company_address,
-        [name]: ''
-      }
-    });
-  };
+       // Function to clear the selected company logo
+    const handleClearLogo = () => {
+        setUpdatedDetails(prevState => ({
+            ...prevState,
+            company_details: {
+                ...prevState.company_details,
+                company_logo_path: ""
+            }
+        }));
+    };
 
-  // Event handler for contact information changes
-  const handleContactChange = (e) => {
-    const { name, value } = e.target;
-    setcontact_information({
-      ...contact_information,
-      [name]: value
-    });
-    // Clear error message when input changes
-    setErrors({
-      ...errors,
-      contact_information: {
-        ...errors.contact_information,
-        [name]: ''
-      }
-    });
-  };
-
-   // Function to handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Validate company details, company address, and contact information using validation functions
-    const companyDetailsErrors = validateCompanyDetails(company_details);
-    const companyAddressErrors = validateCompanyAddress(company_address);
-    const contactInfoErrors = validateContactInformation(contact_information);
-
-    // Set errors state with the validation results for each section
-    setErrors({
-      company_details: companyDetailsErrors,
-      company_address: companyAddressErrors,
-      contact_information: contactInfoErrors
-    });
-
-    // If there are no validation errors in any section, proceed with form submission
-    if (Object.keys(companyDetailsErrors).length === 0 && 
-      Object.keys(companyAddressErrors).length === 0 && 
-      Object.keys(contactInfoErrors).length === 0) {
-
-    try {
-      const formData = new FormData(); // Create a new FormData object to store form data
-
-      // Append company details to formData, excluding the company_logo field
-      Object.keys(company_details).forEach((key) => {
-        if (key !== 'company_logo') {
-          formData.append(key, company_details[key]);
-        }
-      });
-
-        // Append company address
-      Object.keys(company_address).forEach((key) => {
-        formData.append(key, company_address[key]);
-      });
-
-      // Append contact information to formData, prefixing mobile_number with '+91'
-      Object.keys(contact_information).forEach((key) => {
-        if (key === 'mobile_number') {
-          formData.append(key, '+91' + contact_information[key]);
-        } else {
-          formData.append(key, contact_information[key]);
-        }
-      });
-
-      // Append company logo as binary data to formData
-      formData.append('company_logo', company_details.company_logo);
-
-      // Define headers
-      const headers = {
-        'Content-Type': 'multipart/form-data',
-        'Accept': 'application/json',
-        'Origin': 'http://192.168.1.39:8000/employerRegister/'
-      };
-
-      // Define API URL
-      const apiUrl = 'http://192.168.1.39:8000/employerRegister/';
-
-      // Send a POST request to the API endpoint with form data and headers
-      const response = await axios.post(apiUrl, formData, { headers });
-
-      // Check if response data contains a message, otherwise set a default message
-      const message = response.data.message || 'Registration successful';
-      if (response.data.alreadyRegistered) {
-        toast.error('You have already registered.', { position: toast.POSITION.TOP_CENTER });
-      } else {
-        // If not already registered, show a success toast
-        toast.success(message, { position: toast.POSITION.TOP_CENTER });
-      }
-      // Display an alert with the response message
-      // alert(message);
-
-      console.log(response.data); // Log response data
-    } catch (error) {
-      console.error('Error:', error); // Log any errors
-      // Display error message
-      // alert('An error occurred while processing your request. Please try again later.');
-      if (error.response && error.response.status === 500) {
-        // Display error message for internal server error
-        toast.error('Internal server error. Please try again later.', { position: toast.POSITION.TOP_CENTER });
-      } else {
-        // Display generic error message for other errors
-        toast.error('An error occurred while processing your request. Please try again later.', { position: toast.POSITION.TOP_CENTER });
-      }
-    }}
-  };
-
-  
-
-  return (
-    <>
-      <Box sx={{background: 'rgb(9,91,255)',
-    background:'radial-gradient(circle, rgba(9,91,255,1) 0%, rgba(255,174,103,1) 100%)', minHeight: '100vh',padding:'30px' }}>
-        <ToastContainer />
-      <Grid item xs={12}>
-         <Typography variant="h4" align="center" style={{padding:'50px',marginBottom:'40px'}}
-         >{errorMessages.mainFileStrings.employerRegistrationTitle}</Typography>
-      </Grid>
-
-      <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={12} sm={6}>
-      <Box
-        sx={{
-          boxShadow: 6,
-          p: 3,
-          borderRadius: 4,
-          maxWidth: 700,
-          backgroundColor: 'white',
-          marginBottom: 4,
-          minHeight: '600px',
-        }}
-      >
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2} justifyContent="center">
+    // Function to handle updating employer details
+    const handleUpdate = () => {
+        // Create a new FormData object
+        const formData = new FormData();
+    
+        // Append updated employer details to FormData
+        formData.append('contact_person_name', updatedDetails.contact_information.contact_person_name);
+        formData.append('contact_person_position', updatedDetails.contact_information.contact_person_position);
+        formData.append('email', updatedDetails.contact_information.email);
+        formData.append('mobile_number', updatedDetails.contact_information.mobile_number);
+        formData.append('address_type', updatedDetails.company_address.address_type);
+        formData.append('city', updatedDetails.company_address.city);
+        formData.append('country', updatedDetails.company_address.country);
+        formData.append('pincode', updatedDetails.company_address.pincode);
+        formData.append('state', updatedDetails.company_address.state);
+        formData.append('street', updatedDetails.company_address.street);
+        formData.append('company_name', updatedDetails.company_details.company_name);
+        formData.append('company_industry', updatedDetails.company_details.company_industry);
+        formData.append('company_description', updatedDetails.company_details.company_description);
+        formData.append('no_of_employees', updatedDetails.company_details.no_of_employees);
+        formData.append('company_website_link', updatedDetails.company_details.company_website_link);
+        formData.append('company_logo_path', updatedDetails.company_details.company_logo_path);
+    
+    //     const file = updatedDetails.company_details.company_logo_path;
+    // if (file instanceof File) {
+    //     formData.append('company_logo_path', file);
+    // }
             
-            <Grid item xs={12}>
-              <Typography variant="h6">{errorMessages.mainFileStrings.contactInformationTitle}</Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <label htmlFor="upload-company-logo">
-                <Button component="span" variant="contained" color="primary">
-                {errorMessages.mainFileStrings.uploadCompanyLogoLabel}
-                </Button>
-              </label>
-              <input
-                type="file"
-                id="upload-company-logo"
-                name="company_logo"
-                accept="image/*"
-                style={{ display: 'none' }}
-                onChange={handleLogoChange}
-              />
-              {company_details.company_logo && (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <img
-                    src={URL.createObjectURL(employeeForm.company_details.company_logo)}
-                    alt="Company Logo"
-                    style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '50%' ,marginTop:'20px',marginRight:'10px'}}
-                  />
-                  <Button variant="contained" color="error" onClick={handleRemoveLogo} style={{ width: '100px', height: '40px',marginTop:'40px' }}>{errorMessages.mainFileStrings.removeButtonLabel}</Button>
-                </div>
-              )}
-                {errors.company_details.company_logo && (
-                  <Typography variant="body2" color="error">
-                    {errors.company_details.company_logo}
-                  </Typography>
-                )}
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.companyNameLabel}
-                name="company_name"
-                value={employeeForm?.company_details?.company_name}
-                onChange={handleInputChange}
-                error={Boolean(errors.company_details.company_name)}
-                helperText={errors.company_details.company_name}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                select
-                fullWidth
-                label={errorMessages.mainFileStrings.industryTypeLabel}
-                name="industry_type"
-                value={employeeForm?.company_details?.industry_type}
-                onChange={handleInputChange}
-                error={Boolean(errors.company_details.industry_type)}
-                helperText={errors.company_details.industry_type}
-              >
-                    <MenuItem value="">Select Industry Type</MenuItem>
-                    <MenuItem value="Information Technology">Information Technology</MenuItem>
-                    <MenuItem value="Finance">Finance</MenuItem>
-                    <MenuItem value="Healthcare">Healthcare</MenuItem>
-                    <MenuItem value="Education">Education</MenuItem>
-                    <MenuItem value="Manufacturing">Manufacturing</MenuItem>
-              </TextField>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                multiline
-                rows={5}
-                label={errorMessages.mainFileStrings.companyDescriptionLabel}
-                name="company_description"
-                value={employeeForm?.company_details?.company_description}
-                onChange={handleInputChange}
-                error={Boolean(errors.company_details.company_description)}
-                helperText={errors.company_details.company_description}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.numberOfEmployeesLabel}
-                name="no_of_employees"
-                type="number"
-                value={employeeForm?.company_details?.no_of_employees}
-                onChange={handleInputChange}
-                error={Boolean(errors.company_details.no_of_employees)}
-                helperText={errors.company_details.no_of_employees}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField  
-                fullWidth
-                label={errorMessages.mainFileStrings.companyWebsiteLinkLabel}
-                name="company_website_link"
-                type="url"
-                value={employeeForm?.company_details?.company_website_link}
-                onChange={handleInputChange}
-                error={Boolean(errors.company_details.company_website_link)}
-                helperText={errors.company_details.company_website_link}
-              />
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-      <Box
-        sx={{
-          boxShadow: 6,
-          p: 3,
-          borderRadius: 4,
-          maxWidth: 700,
-          margin: '0 auto',
-          backgroundColor: 'white',
-          marginBottom: 2.5
-        }}
-      >
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12}>
-              <Typography variant="h6">Company Address</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.streetLabel}
-                name="street"
-                value={employeeForm?.company_address?.street}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.street)}
-                helperText={errors.company_address.street}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.cityLabel}
-                name="city"
-                value={employeeForm?.company_address?.city}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.city)}
-                helperText={errors.company_address.city}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.stateLabel}
-                name="state"
-                value={employeeForm?.company_address?.state}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.state)}
-                helperText={errors.company_address.state}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.countryLabel}
-                name="country"
-                value={employeeForm?.company_address?.country}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.country)}
-                helperText={errors.company_address.country}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.pincodeLabel}
-                name="pincode"
-                value={employeeForm?.company_address?.pincode}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.pincode)}
-                helperText={errors.company_address.pincode}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                select
-                fullWidth
-                label={errorMessages.mainFileStrings.addressTypeLabel}
-                name="address_type"
-                value={employeeForm?.company_address?.address_type}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.address_type)}
-                helperText={errors.company_address.address_type}
-              >
-                <MenuItem value="Permanent">Permanent</MenuItem>
-                <MenuItem value="Current">Current</MenuItem>
-              </TextField>
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
-      <Box
-        sx={{
-          boxShadow: 6,
-          p: 3,
-          borderRadius: 4,
-          maxWidth: 700,
-          margin: '0 auto',
-          backgroundColor: 'white',
-        }}
-      >
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12}>
-              <Typography variant="h6">{errorMessages.mainFileStrings.contactInformationTitle}</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.contactPersonNameLabel}
-                name="contact_person_name"
-                value={employeeForm?.contact_information?.contact_person_name}
-                onChange={handleContactChange}
-                error={Boolean(errors.contact_information.contact_person_name)}
-                helperText={errors.contact_information.contact_person_name}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.contactPersonPositionLabel}
-                name="contact_person_position"
-                value={employeeForm?.contact_information?.contact_person_position}
-                onChange={handleContactChange}
-                error={Boolean(errors.contact_information.contact_person_position)}
-                helperText={errors.contact_information.contact_person_position}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.emailLabel}
-                name="email"
-                value={employeeForm?.contact_information?.email}
-                onChange={handleContactChange}
-                error={Boolean(errors.contact_information.email)}
-                helperText={errors.contact_information.email}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.mobileNumberLabel}
-                name="mobile_number"
-                value={employeeForm?.contact_information?.mobile_number}
-                onChange={handleContactChange}
-                error={Boolean(errors.contact_information.mobile_number)}
-                helperText={errors.contact_information.mobile_number}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary">Update</Button>
-            </Grid>
-          </Grid>
-        </form>
-      </Box>
-      </Grid>
-      </Grid>
-      </Box>
-      
-    </>
-  );
+        // Send FormData with Axios
+        axios.post('http://192.168.1.44:8000/update_employeer_details/', formData)
+            .then(response => {
+                console.log('Updated Details:', response.data);
+            })
+            .catch(error => {
+                console.error('Error updating details:', error.message);
+            });
+    };
+    
+
+    return (
+        <>
+            
+            <Grid container spacing={4}>
+                <Grid container spacing={2} justifyContent="center">
+                    <Grid item xs={12} sm={6}>
+                        
+                            <form>
+                                <Grid container spacing={2} justifyContent="center">
+                                <Box sx={{ backgroundColor: '#f5f5f5', padding: '15px', marginBottom: '20px', marginTop:'30px' ,width: '100%',marginLeft:'40px',borderRadius:'20px' }}>
+                                <Typography variant="h4" align="center" style={{ padding: '10px' }}>My Profile</Typography>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                        <Typography variant="h5">Company details</Typography>
+                                    </Grid>
+                                    
+                                    <Grid item xs={12}>
+                                        <label htmlFor="upload-company-logo">
+                                            <Button component="span" variant="contained" color="primary">
+                                                Upload Logo
+                                            </Button>
+                                        </label>
+                                        <input
+                                            type="file"
+                                            id="upload-company-logo"
+                                            name="company_logo_path"
+                                            accept="image/*"
+                                            style={{ display: 'none' }}
+                                            onChange={handleLogoChange}
+                                        />
+                                        {companylogo_link  && updatedDetails.company_details.company_logo_path && (
+                                            <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px',marginLeft:'90px' }}> 
+                                                {/* <div style={{ flex: '1' }}> */}
+                                                    <img  src= {companyLogo || companylogo_link}
+                                                        alt="Company Logo" 
+                                                        style={{
+                                                        width: '100px',
+                                                        height: '100px',
+                                                        borderRadius: '50%',
+                                                        border: '1px solid #ccc',
+                                                        marginRight:'20px'   
+                                                    }} />
+                                                    {/* {!companylogo_link && updatedDetails.company_details.company_logo_path &&(
+                                                        <div>
+                                                            <img src= {updatedDetails.company_details.company_logo_path}
+                                                            alt="Profile Picture"/>
+                                                            </div>
+                                                    )} */}
+                                                {/* </div> */}
+                                                <div>
+                                                    <Button variant="outlined" color="secondary"  onClick={handleClearLogo}>Clear</Button>
+                                                </div>
+                                            </div>
+                                        )}
+                                        
+                                        
+
+                                    </Grid>
+
+                             
+
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.companyNameLabel}
+                                            name="company_name"
+                                            value={updatedDetails.company_details.company_name}
+                                            onChange={(event) => handleChange(event, 'company_details')}
+                                        />
+                                    </Grid>
+                                    
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            select
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.industryTypeLabel}
+                                            name="company_industry"
+                                            value={updatedDetails.company_details.company_industry}
+                                            onChange={(event) => handleChange(event, 'company_details')}
+                                        >
+                                            <MenuItem value="">Select Industry Type</MenuItem>
+                                            <MenuItem value="Information Technology">Information Technology</MenuItem>
+                                            <MenuItem value="Finance">Finance</MenuItem>
+                                            <MenuItem value="Healthcare">Healthcare</MenuItem>
+                                            <MenuItem value="Education">Education</MenuItem>
+                                            <MenuItem value="Manufacturing">Manufacturing</MenuItem>
+                                        </TextField>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            fullWidth
+                                            multiline
+                                            rows={5}
+                                            label={errorMessages.mainFileStrings.companyDescriptionLabel}
+                                            name="company_description"
+                                            value={updatedDetails.company_details.company_description}
+                                            onChange={(event) => handleChange(event, 'company_details')}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.numberOfEmployeesLabel}
+                                            type="number"
+                                            name="no_of_employees"
+                                            value={updatedDetails.company_details.no_of_employees}
+                                            onChange={(event) => handleChange(event, 'company_details')}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.companyWebsiteLinkLabel}
+                                            type="url"
+                                            name="company_website_link"
+                                            value={updatedDetails.company_details.company_website_link}
+                                            onChange={(event) => handleChange(event, 'company_details')}
+                                        />
+                                    </Grid>
+                                    </Grid>
+                                    {/* </Box> */}
+                                    
+                                    {/* <Box sx={{ background: 'rgb(245, 245, 245)', padding: '20px', marginBottom: '20px', width: '100%',marginLeft:'40px',borderRadius:'20px' }}> */}
+                                    <Grid container spacing={2}>
+                                    <Grid item xs={12}>
+                                        <Typography variant="h5" marginTop="25px" marginBottom="20px">Contact information</Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.contactPersonNameLabel}
+                                            name="contact_person_name"
+                                            value={updatedDetails.contact_information.contact_person_name}
+                                            onChange={(event) => handleChange(event, 'contact_information')}
+                                            
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.contactPersonPositionLabel}
+                                            name="contact_person_position"
+                                            value={updatedDetails.contact_information.contact_person_position}
+                                            onChange={(event) => handleChange(event, 'contact_information')}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.emailLabel}
+                                            name="email"
+                                            value={updatedDetails.contact_information.email} // Updated value prop
+                                            onChange={(event) => handleChange(event, 'contact_information')} // Updated section parameter
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.mobileNumberLabel}
+                                            name="mobile_number"
+                                            value={updatedDetails.contact_information.mobile_number} // Updated value prop
+                                            onChange={(event) => handleChange(event, 'contact_information')} // Updated section parameter
+                                        />
+                                    </Grid>
+                                    </Grid>
+                                    {/* </Box> */}
+                                    
+                                    {/* <Box sx={{ background: 'rgb(245, 245, 245)', padding: '20px', marginBottom: '20px', width: '100%',marginLeft:'40px',borderRadius:'20px'  }}> */}
+                                    <Grid container spacing={2}>
+                                    <Grid item xs={12} >
+                                        <Typography variant="h5" marginTop="25px" marginBottom="20px">Company Address</Typography>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.streetLabel}
+                                            name="street"
+                                            value={updatedDetails.company_address.street}
+                                            onChange={(event) => handleChange(event, 'company_address')}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.cityLabel}
+                                            name="city"
+                                            value={updatedDetails.company_address.city}
+                                            onChange={(event) => handleChange(event, 'company_address')}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.stateLabel}
+                                            name="state"
+                                            value={updatedDetails.company_address.state}
+                                            onChange={(event) => handleChange(event, 'company_address')}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.countryLabel}
+                                            name="country"
+                                            value={updatedDetails.company_address.country}
+                                            onChange={(event) => handleChange(event, 'company_address')}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.pincodeLabel}
+                                            name="pincode"
+                                            value={updatedDetails.company_address.pincode}
+                                            onChange={(event) => handleChange(event, 'company_address')}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            select
+                                            fullWidth
+                                            label={errorMessages.mainFileStrings.addressTypeLabel}
+                                            name="address_type"
+                                            value={updatedDetails.company_address.address_type}
+                                            onChange={(event) => handleChange(event, 'company_address')}
+                                        >
+                                            <MenuItem value="Permanent">Permanent</MenuItem>
+                                            <MenuItem value="Current">Current</MenuItem>
+                                        </TextField>
+                                    </Grid>
+                                    
+                                    <Grid item xs={12} sm={6}>
+                                        <Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
+                                    </Grid>
+                                    </Grid>
+                                    </Box>
+                                </Grid>
+                            </form>
+                        
+                    </Grid>
+                    {/* Remaining grid item */}
+                </Grid>
+                </Grid>
+        </>
+    );
 };
+
+
+

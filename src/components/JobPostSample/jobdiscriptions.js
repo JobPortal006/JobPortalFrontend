@@ -6,14 +6,16 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WorkIcon from '@mui/icons-material/Work';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';              
+import ApplyJobDialog from './ApplyJobDialog';
 
 const JobDetails = () => {
   const [jobData, setJobData] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const response = await axios.get('http://192.168.1.39:8000/get_job_details/');
+        const response = await axios.get('http://192.168.1.44:8000/get_job_details/');
         if (response.data.status) {
           setJobData(response.data.data[0]);
           console.log('Fetched job data:', response.data.data[0]);
@@ -28,13 +30,32 @@ const JobDetails = () => {
     fetchJobDetails();
   }, []);
 
+  const handleApplyClick = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
   return (
     <Box sx={{ background: 'rgb(255,255,255)', background: 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(196,255,236,1) 46%)', minHeight: '100vh', padding: '30px' }}>
       <Grid container spacing={2} justifyContent="center">
         {jobData.map((job, index) => (
           <Grid item key={index} xs={12} md={6}>
             <Box sx={{ p: 3, border: '1px solid #ccc', marginLeft: '2%', borderRadius: '8px', maxWidth: '100%', backgroundColor: 'white' }}>
-              <Typography variant="h5" gutterBottom>
+            {job.company_logo && job.company_logo.includes('data:image') ? (
+              <img src={job.company_logo} alt="Company Logo" />
+                ) : (
+              <img src={`data:image/jpeg;base64,${job.company_logo}`} alt="Company Logo" style={{
+                position: 'absolute',
+                width: '50px', // Adjust the size of the logo as needed
+                height: 'auto',
+                borderRadius: '50%', // Make the logo rounded
+                border: '1px solid #ccc', // Add a border to the logo
+              }}  />
+                )}
+              <Typography variant="h5" gutterBottom style={{marginLeft:'60px'}}>
                 {job.job_title}
               </Typography>
               <Typography variant="subtitle1" gutterBottom>
@@ -45,16 +66,13 @@ const JobDetails = () => {
               </Typography>
               <Grid container spacing={1} alignItems="center">
                 <Grid item>
-                  <WorkIcon />
+                  <WorkIcon />  
                 </Grid>
                 <Grid item>
                   <Typography variant="subtitle1" marginTop='20px' style={{ marginTop: '10px' }}>Experience: {job.experience}</Typography>
                 </Grid>
                 <Grid item>
-                  <SchoolOutlinedIcon style={{ marginTop: '10px' }} />
-                </Grid>
-                <Grid item>
-                  <Typography variant="subtitle1" marginTop='20px' style={{ marginTop: '10px' }}>Qualification: {job.qualification}</Typography>
+                  <SchoolOutlinedIcon style={{ marginTop: '10px' }}>Qualification: {job.qualification}</SchoolOutlinedIcon>
                 </Grid>
                 <Grid item>
                   <AttachMoneyIcon style={{ marginTop: '10px' }} />
@@ -64,7 +82,7 @@ const JobDetails = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <Grid container justifyContent="flex-end">
-                    <Button variant="contained" color="primary">Apply</Button>
+                    <Button variant="contained" color="primary" onClick={handleApplyClick}>Apply</Button>
                   </Grid>
                 </Grid>
               </Grid>
@@ -72,6 +90,7 @@ const JobDetails = () => {
                 Posted: {job.created_at}
               </Typography>
             </Box>
+            <ApplyJobDialog open={dialogOpen} onClose={handleCloseDialog} />
             <Box sx={{ p: 3, border: '1px solid #ccc', backgroundColor: 'white', marginLeft: '2%', marginTop: '20px', borderRadius: '8px', maxWidth: '100%' }}>
               <Typography variant="h5" gutterBottom>
                 Job Description

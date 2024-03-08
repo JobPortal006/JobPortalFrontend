@@ -160,6 +160,7 @@ const Companylist = () => {
         return response.json();
       })
       .then(data => {
+        console.log(data);
         setCompanies(data);
         setLoading(false);
       })
@@ -185,15 +186,21 @@ const Companylist = () => {
         const data = await response.json();
         console.log(data,"data---------->123");
 
-        if (!response.ok) {
-            throw new Error('Failed to send data to the server');
-        }
+        // if (!response.ok) {
+        //     throw new Error('Failed to send data to the server');
+        // }
+        if (data.status !== true) {
+          alert('Failed to send data to the server');
+      }
+      else{
+        navigate("/Filter");
 
+      }
         setcompanyList(data)
         console.log(companyList,"companyData---->1");
 
         // Navigate after response is sent
-        navigate("/Filter");
+        // navigate("/Filter");
     } catch (error) {
         console.error('Error:', error);
         // Handle error here
@@ -212,6 +219,9 @@ const Companylist = () => {
       setStartIndex(startIndex - 3);
     }
   };
+  companies.slice(startIndex, startIndex + 3).map((company, index) => (
+  console.log(company.company_name,'company_name------------')
+  ))
 
   return (<>
     <div className="container">
