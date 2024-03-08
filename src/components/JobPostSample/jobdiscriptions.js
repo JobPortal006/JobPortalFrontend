@@ -7,6 +7,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';              
 import ApplyJobDialog from './ApplyJobDialog';
+import BASE_URL from '../CommonAPI';
 
 const JobDetails = () => {
   const [jobData, setJobData] = useState([]);
@@ -15,7 +16,7 @@ const JobDetails = () => {
   useEffect(() => {
     const fetchJobDetails = async () => {
       try {
-        const response = await axios.get('http://192.168.1.44:8000/get_job_details/');
+        const response = await axios.get(`${BASE_URL}/get_job_details/`);
         if (response.data.status) {
           setJobData(response.data.data[0]);
           console.log('Fetched job data:', response.data.data[0]);

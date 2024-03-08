@@ -142,7 +142,7 @@ import { JobCard } from './JobCard';
 import UserContext from '../Sprint 2/contextFilter';
 import { Divider } from '@material-ui/core';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-
+import BASE_URL from '../CommonAPI';
 const Companylist = () => {
   const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -153,7 +153,7 @@ const Companylist = () => {
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
-    fetch('http://192.168.1.44:8000/company_name/')
+    fetch(`${BASE_URL}/company_name/`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch data');
@@ -175,7 +175,7 @@ const Companylist = () => {
     try {
       console.log(companyName, "companyName------->");
       // Send request to the backend API
-      const response = await fetch('http://192.168.1.44:8000/job_details_by_companyName/', {
+      const response = await fetch(`${BASE_URL}/job_details_by_companyName/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

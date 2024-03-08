@@ -208,6 +208,7 @@ import UserContext from '../Sprint 2/contextFilter';
 import { UpdateEmployerregister } from '../EmployeerManagement/UpdateEmployeer';
 import { css } from '@emotion/react';
 import MyJob from '../Sprint 2/MyJob';
+import BASE_URL from '../CommonAPI';
 
 const drawerWidth = 210;
 
@@ -278,7 +279,7 @@ const SideNavbar = () => {
   useEffect(() => {
     if (selectedItem === 'My Profile') {
       setLoading(true);
-      axios.post('http://192.168.1.44:8000/get_employeer_details/', {
+      axios.post(`${BASE_URL}/get_employeer_details/`, {
         employee_id: 39
       })
         .then(response => {

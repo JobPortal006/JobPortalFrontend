@@ -11,7 +11,7 @@ import UserContext from '../Sprint 2/contextFilter';
 import { BeatLoader,PacmanLoader,ScaleLoader } from 'react-spinners';
 import { css } from '@emotion/react';
 import './HomeDesign.css'
-
+import BASE_URL from '../CommonAPI';
 
 const override = css`
   display: block;
@@ -137,12 +137,12 @@ const SearchBar = ({ isJobSearchPage }) => {
   const [experienceError, setExperienceError] = useState(false);
   const [expandedAnchorEl, setExpandedAnchorEl] = useState(null);
   const navigate = useNavigate();
-
+ 
 
   useEffect(() => {
     async function fetchLocationSuggestions(input) {
       try {
-        const response = await fetch(`http://192.168.1.44:8000/location/?q=${input}`);
+        const response = await fetch(`${BASE_URL}/location/?q=${input}`);
         const data = await response.json();
         setLocationSuggestions(data.map((item) => item.location));
       } catch (error) {
@@ -161,7 +161,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   useEffect(() => {
     async function fetchSkillSuggestions(input) {
       try {
-        const response = await fetch(`http://192.168.1.44:8000/skill_set/?q=${input}`);
+        const response = await fetch(`${BASE_URL}/skill_set/?q=${input}`);
         const data = await response.json();
 
         if (data && Array.isArray(data)) {
@@ -194,7 +194,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   useEffect(() => {
     async function fetchExperienceSuggestions(input) {
       try {
-        const response = await fetch(`http://192.168.1.44:8000/experience/?q=${input}`);
+        const response = await fetch(`${BASE_URL}/experience/?q=${input}`);
         const data = await response.json();
         setExperienceSuggestions(data.map((item) => item.experience));
       } catch (error) {
@@ -237,7 +237,7 @@ const SearchBar = ({ isJobSearchPage }) => {
 
       try {
         setLoading(true);
-        const response = await fetch('http://192.168.1.44:8000/search_jobs/', {
+        const response = await fetch(`${BASE_URL}/search_jobs/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

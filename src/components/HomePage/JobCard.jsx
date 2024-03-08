@@ -5,13 +5,14 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import BASE_URL from '../CommonAPI';
 
 export const JobCard = () => {
   const navigate = useNavigate();
 
   const handleViewAllClick = async (employeeType) => {
     try {
-      const response = await axios.post('http://192.168.1.44:8000/job_details_by_employeeType/', {
+      const response = await axios.post(`${BASE_URL}/job_details_by_employeeType/`, {
         employee_type: employeeType
       }, {
         headers: {

@@ -4,6 +4,7 @@ import errorMessages from '../Json/Employerregister.json';
 import UserContext from '../Sprint 2/contextFilter';
 import axios from 'axios'; // Importing Axios for making HTTP requests
 
+import BASE_URL from '../CommonAPI';
 
 export const UpdateEmployerregister = () => {
     // Extracting employerDetails from the UserContext
@@ -109,7 +110,7 @@ export const UpdateEmployerregister = () => {
     // }
             
         // Send FormData with Axios
-        axios.post('http://192.168.1.44:8000/update_employeer_details/', formData)
+        axios.post(`${BASE_URL}/update_employeer_details/`, formData)
             .then(response => {
                 console.log('Updated Details:', response.data);
             })
