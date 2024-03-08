@@ -39,11 +39,11 @@ const JobDetails = () => {
   };
 
   return (
-    <Box sx={{ background: 'rgb(255,255,255)', background: 'radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(196,255,236,1) 46%)', minHeight: '100vh', padding: '30px' }}>
+    <Box sx={{backgroundColor:'#1A237E', minHeight: '100vh', padding: '30px' ,marginTop:'20px'}}>
       <Grid container spacing={2} justifyContent="center">
         {jobData.map((job, index) => (
           <Grid item key={index} xs={12} md={6}>
-            <Box sx={{ p: 3, border: '1px solid #ccc', marginLeft: '2%', borderRadius: '8px', maxWidth: '100%', backgroundColor: 'white' }}>
+            <Box sx={{ p: 3, border: '1px solid #ccc', marginLeft: '2%', borderRadius: '8px', maxWidth: '100%', backgroundColor: '#E8EAF6' }}>
             {job.company_logo && job.company_logo.includes('data:image') ? (
               <img src={job.company_logo} alt="Company Logo" />
                 ) : (
@@ -91,7 +91,7 @@ const JobDetails = () => {
               </Typography>
             </Box>
             <ApplyJobDialog open={dialogOpen} onClose={handleCloseDialog} />
-            <Box sx={{ p: 3, border: '1px solid #ccc', backgroundColor: 'white', marginLeft: '2%', marginTop: '20px', borderRadius: '8px', maxWidth: '100%' }}>
+            <Box sx={{ p: 3, border: '1px solid #ccc', backgroundColor: '#E8EAF6', marginLeft: '2%', marginTop: '20px', borderRadius: '8px', maxWidth: '100%' }}>
               <Typography variant="h5" gutterBottom>
                 Job Description
               </Typography>
@@ -111,7 +111,7 @@ const JobDetails = () => {
                 Employment Type: {job.employee_type}
               </Typography>
             </Box>
-            <Box sx={{ p: 3, border: '1px solid #ccc', marginLeft: '2%', backgroundColor: 'white', marginTop: '20px', borderRadius: '8px', maxWidth: '100%' }}>
+            <Box sx={{ p: 3, border: '1px solid #ccc', marginLeft: '2%', backgroundColor: '#E8EAF6', marginTop: '20px', borderRadius: '8px', maxWidth: '100%' }}>
               <Typography variant="h5" gutterBottom>
                 About Company
               </Typography>

@@ -65,7 +65,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   icon: {
-    color: theme.palette.secondary.main,
+    // color: theme.palette.secondary.main,
+    color: '#5C6BC0',
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -110,11 +111,11 @@ const useStyles = makeStyles((theme) => ({
   jobSearchButton: {
     marginLeft: theme.spacing(0), // Adjust margin for mobile
     marginTop: theme.spacing(2), // Adjust margin for mobile
-    background: '#ff4d4d',
+    background: ' #1A237E',
     color: '#ffffff',
     borderRadius: '50px',
     '&:hover': {
-      background: '#ff3333',
+      background: '#5C6BC0',
     },
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(2), // Restore margin for larger screens

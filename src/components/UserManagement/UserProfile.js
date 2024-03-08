@@ -1323,7 +1323,7 @@ const UserProfile = () => {
     // const [resume, setResume] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
     const [loading1, setLoading1] = useState(true);
-    const [userId, setUserId] = useState(47); // Initial user ID
+    const [userId, setUserId] = useState(1); // Initial user ID
     const [postData, setPostdata] = useState(null);
     console.log(postData, '=====postdata=====')
     const [resumeFile, setResumeFile] = useState(null);

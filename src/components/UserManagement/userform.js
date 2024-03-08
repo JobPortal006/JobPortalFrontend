@@ -275,7 +275,7 @@
 //             }
 //         }
 
-      
+
 //         if (event.target.name === 'mobile_number') {
 //             // Adjusted regular expression to allow country code prefix
 //             if (/^\+?\d+$/.test(event.target.value)) {
@@ -292,7 +292,7 @@
 //                 });
 //             }
 //         }
-        
+
 
 //         // Update userDetails only if validation passes
 //         updatedUserDetails = {
@@ -313,7 +313,7 @@
 //                 [event.target.name]: '',
 //             },
 //         });
-    
+
 //         let updatedAddressDetails = { ...address };
 //         if (event.target.name === 'street' || event.target.name === 'city' || event.target.name === 'country' || 
 //         event.target.name === 'state') {
@@ -339,7 +339,7 @@
 //                 return;
 //             }
 //         }
-    
+
 //         updatedAddressDetails = {
 //             ...updatedAddressDetails,
 //             [type]: {
@@ -347,10 +347,10 @@
 //                 [event.target.name]: event.target.value,
 //             },
 //         };
-    
+
 //         setAddress(updatedAddressDetails);
 //     };
-    
+
 //     // Handle changes in education fields
 //      const handleEducationChange = (event) => {
 //         setErrors({
@@ -1714,7 +1714,7 @@ const UserForm = () => {
         //     }
         // }
 
-      
+
         // if (event.target.name === 'email') {
         //     // Adjusted regular expression to allow country code prefix
         //     if (/^\+?\d+$/.test(event.target.value)) {
@@ -1731,7 +1731,7 @@ const UserForm = () => {
         //         });
         //     }
         // }
-        
+
         if (event.target.name === 'email') {
             if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(event.target.value)) {
                 // Valid email format, clear error message
@@ -1747,7 +1747,7 @@ const UserForm = () => {
                 });
             }
         }
-        
+
 
         // Update userDetails only if validation passes
         updatedUserDetails = {
@@ -1768,10 +1768,10 @@ const UserForm = () => {
                 [event.target.name]: '',
             },
         });
-    
+
         let updatedAddressDetails = { ...address };
-        if (event.target.name === 'street' || event.target.name === 'city' || event.target.name === 'country' || 
-        event.target.name === 'state') {
+        if (event.target.name === 'street' || event.target.name === 'city' || event.target.name === 'country' ||
+            event.target.name === 'state') {
             if (/[^A-Za-z\s]/.test(event.target.value)) {
                 setErrors({
                     ...errors,
@@ -1794,7 +1794,7 @@ const UserForm = () => {
                 return;
             }
         }
-    
+
         updatedAddressDetails = {
             ...updatedAddressDetails,
             [type]: {
@@ -1802,12 +1802,12 @@ const UserForm = () => {
                 [event.target.name]: event.target.value,
             },
         };
-    
+
         setAddress(updatedAddressDetails);
     };
-    
+
     // Handle changes in education fields
-     const handleEducationChange = (event) => {
+    const handleEducationChange = (event) => {
         setErrors({
             ...errors,
             [event.target.name]: '',
@@ -1833,7 +1833,7 @@ const UserForm = () => {
             event.target.name === 'sslc_percentage' || event.target.name === 'hsc_percentage' || event.target.name === 'college_percentage' ||
             event.target.name === 'pg_college_percentage' || event.target.name === 'diploma_college_percentage' || event.target.name === 'college_start_year'
             || event.target.name === 'college_end_year' || event.target.name === 'pg_college_start_year' || event.target.name === 'pg_college_end_year'
-            || event.target.name === 'diploma_college_start_year'|| event.target.name === 'diploma_college_end_year') {
+            || event.target.name === 'diploma_college_start_year' || event.target.name === 'diploma_college_end_year') {
             if (/[^0-9]/.test(event.target.value)) {
                 // Invalid input, set error message
                 setErrors({
@@ -1981,7 +1981,7 @@ const UserForm = () => {
             const response = await axios.post('http://192.168.1.44:8000/userRegister/', dataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    
+
                 },
             });
 
@@ -2073,8 +2073,10 @@ const UserForm = () => {
     };
     const formRef = useRef(null);
     return (
-        <FormContainer style={{marginTop:'60px'}}>
-            <Typography variant="h4" align="center" gutterBottom>
+        <FormContainer style={{ marginTop: '60px' }}>
+            <Typography variant="h6"
+                color="#1A237E" fontSize="25px"
+                fontWeight="bold" textTransform="uppercase" align="center" gutterBottom>
                 {UserFormData[language].UserDetail.one}
             </Typography>
             <select value={language} onChange={handleLanguageChange}>
@@ -2086,7 +2088,9 @@ const UserForm = () => {
                 {/* User Details Accordion */}
                 <AccordionWrapper expanded={userDetailsExpanded} onChange={handleUserDetailsExpand} className='user_details'>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6">{UserFormData[language].UserDetail.one}</Typography>
+                        <Typography variant="h6"
+                            color="#1A237E" fontSize="25px"
+                            fontWeight="bold" textTransform="uppercase">{UserFormData[language].UserDetail.one}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid container spacing={2}>
@@ -2119,7 +2123,7 @@ const UserForm = () => {
                                 />
                                 <TextField className='dob'
                                     // label= {UserFormData[language].UserDetail.six}
-                                   
+
                                     name="date_of_birth"
                                     type='date'
                                     value={userDetails.date_of_birth}
@@ -2196,10 +2200,14 @@ const UserForm = () => {
                 {/* Address Accordion */}
                 <AccordionWrapper className='address_accordion' expanded={addressExpanded} onChange={handleAddressExpand}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6">Address</Typography>
+                        <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Address</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Typography variant="h6"> Permanent and current Address:</Typography>
+                        <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase"> Permanent and current Address:</Typography>
 
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6} >
@@ -2263,7 +2271,9 @@ const UserForm = () => {
 
                             </Grid>
                             <Grid item xs={12} sm={6} >
-                                {/* <Typography variant="h6">Current Address</Typography> */}
+                                {/* <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Current Address</Typography> */}
                                 <TextField
                                     label="Current Street"
                                     name="street"
@@ -2324,7 +2334,9 @@ const UserForm = () => {
                 {/* Educatiom Accordion */}
 
                 <AccordionWrapper expanded={educationExpanded} onChange={handleEducationExpand} className='education'>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6">Education details</Typography></AccordionSummary>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Education details</Typography></AccordionSummary>
                     <AccordionDetails>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
@@ -2424,7 +2436,9 @@ const UserForm = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <Typography sx={{ width: '100%' }} >UG Details:</Typography>
+                                <Typography sx={{ width: '100%' }}variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase" >UG Details:</Typography>
                                 {/* Third Column */}
                                 <TextField
                                     label="College-name"
@@ -2474,7 +2488,9 @@ const UserForm = () => {
                             </Grid>
 
                             <Grid item xs={12} sm={6} >
-                                <Typography sx={{ color: 'transparent' }}> . </Typography>
+                                <Typography sx={{ color: 'transparent' }}variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase"> . </Typography>
                                 {/* Fourth Column */}
                                 <TextField
                                     label="Department"
@@ -2688,7 +2704,9 @@ const UserForm = () => {
                     onChange={() => setProfessionalDetailsExpanded(!professionalDetailsExpanded)}
                 >
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6">Professional Details</Typography>
+                        <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Professional Details</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid container spacing={2}>
@@ -2780,7 +2798,9 @@ const UserForm = () => {
                 </AccordionWrapper>
                 {/* job preference */}
                 <AccordionWrapper expanded={jobPreferenceExpanded} onChange={handlejobPreferenceExpand} className='job_preference'>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6">Job Preference</Typography></AccordionSummary>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Job Preference</Typography></AccordionSummary>
                     <AccordionDetails>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
@@ -2841,7 +2861,9 @@ const UserForm = () => {
                 {/* Resume Accordion */}
                 <ResumeAccordionWrapper expanded={resumeExpanded} onChange={handleResumeExpand}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6">Resume</Typography>
+                        <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Resume</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid container spacing={2}>
