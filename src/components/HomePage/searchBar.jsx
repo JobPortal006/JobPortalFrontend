@@ -267,7 +267,7 @@ const SearchBar = ({ isJobSearchPage }) => {
         if (!response.ok) {
           throw new Error('Failed to send search data to the server');
         }
-        // Reset all the search values after the search is performed
+        
         setSearchValue('');
         setSkillValues([]);
         setExperienceValue('');
