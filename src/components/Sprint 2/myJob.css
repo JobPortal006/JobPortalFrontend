@@ -1,14 +1,22 @@
-.job-container {
+.job-main-div {
+  margin-top: 6%;
+  width: 90%;
+  margin-left: 5%;
+}
+
+.myjob-container {
   border-bottom: 1px solid #ccc;
-  padding: 9px ;
-  background-color: thistle;
+  padding: 9px;
+  background-color: #5c6bc0;
 }
 
 .job-display {
   position: relative;
-  background-color: burlywood;
+  /* background-color: rgb(240, 250, 200); */
   padding: 1rem;
-  border:1px solid whitesmoke
+  /* border:1px solid rgb(196, 127, 127) */
+  box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #e8eaf6;
 }
 
 .title {
@@ -26,15 +34,7 @@
   font-size: 24px;
   margin: 0;
 }
-.edit-btn:hover{
-  cursor: pointer;
-  color: whitesmoke;
-}
 
-.delete-btn:hover{
-  cursor: pointer;
-  color: red;
-}
 
 /* Spinner */
 
@@ -45,15 +45,24 @@
   margin-top: 40vh;
 }
 
-.loading li{
+.loading li {
   padding: 9px;
 }
 
-.loading li::marker{
-color: transparent;
-}
-.loading span::marker{
+.loading li::marker {
   color: transparent;
-} 
+}
+.loading span::marker {
+  color: transparent;
+}
 
+.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+  box-shadow: none;
+}
+#icon-menu {
+  box-shadow: none;
+}
+.MuiList-root .MuiList-padding .MuiMenu-list .css-6hp17o-MuiList-root-MuiMenu-list{
+  box-shadow: none;
+}
 

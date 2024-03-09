@@ -1,10 +1,13 @@
 .job-filter {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    background: linear-gradient(to right top, #d16ba5, #c57bbd, #b58ad0, #a499dd, #94a6e4, #90a8ed, #8aaaf5, #84acfe, #95a2ff, #b293ff, #d67eff, #fb5ffb); 
-
+    
+    background-color: #E8EAF6;
     margin: 0;
+  }
+
+  .job-filter h3{
+    color:#5C6BC0 ;
   }
 
   h2 {
@@ -51,6 +54,12 @@
     margin-top: 1rem;
   }
   
+  .job-filter ul{
+    display: flex;
+    flex-direction: column;
+    
+  
+  }
   
   
   .job-card {
@@ -104,7 +113,7 @@
 }
 
 .scroll::-webkit-scrollbar-thumb {
-  background-color: rgb(226, 155, 0); 
+  background-color:#5C6BC0 ; 
 
    border-radius: 10%;
 }
@@ -116,5 +125,5 @@
 
  
   .scroll{
-    border: #333 1px solid;
+    border: #5C6BC0  1px solid;
   }
