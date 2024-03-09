@@ -28,6 +28,7 @@ import {
   handleSubmit,
 } from "../UserManagement/ValidtionLogin.jsx";
 import validation from "../Json/login.json";
+import BASE_URL from '../CommonAPI';
 
 
 
@@ -111,8 +112,8 @@ const LogIn = () => {
 
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
-    headers.append("Origin", "http://192.168.1.38:8000/login/");
-    const apiUrl = "http://192.168.1.38:8000/login/";
+    headers.append("Origin", `${BASE_URL}/login/`);
+    const apiUrl = `${BASE_URL}/login/`;
 
     try {
       const response = await axios.post(apiUrl, dataOne, headers);

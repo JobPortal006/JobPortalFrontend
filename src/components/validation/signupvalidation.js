@@ -4,6 +4,7 @@ import validationMessages from '../Json/signup.json';
 import regexPatterns from '../Json/signupRegularexpression.json';
 import { signInWithPopup } from 'firebase/auth';
 import axios from 'axios';
+import BASE_URL from '../CommonAPI';
 
 export const handleInputChange = (formData, setFormData, errors, setErrors, e) => {
   // Function to handle input changes in the form
@@ -174,9 +175,9 @@ export const handleSubmit = async (formData, setErrors, setShowPassword, setShow
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
-    headers.append('Origin','http://192.168.1.38:8000/signup/');
+    headers.append('Origin',`${BASE_URL}/signup/`);
     // Define API URL
-    const apiUrl = 'http://192.168.1.38:8000/signup/';
+    const apiUrl = `${BASE_URL}/signup/`;
     
     try {
       // Make a POST request to the API

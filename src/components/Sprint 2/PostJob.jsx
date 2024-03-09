@@ -8,6 +8,7 @@ import Container from "@mui/material/Container";
 import { Autocomplete } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from '../CommonAPI';
 
 
 const PostJob = () => {
@@ -207,7 +208,7 @@ const PostJob = () => {
       headers.append("Content-Type", "application/json");
       headers.append("Accept", "application/json");
       headers.append("Origin", "http://192.168.1.44:8000/job_post/");
-      const apiUrl = "http://192.168.1.44:8000/job_post/";
+      const apiUrl = `${BASE_URL}/job_post/`;
 
       try {
         const response = await axios.post(apiUrl, jobPostData, headers);
@@ -243,7 +244,7 @@ const PostJob = () => {
   useEffect(() => {
     const Companies = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/company_name/");
+        const response = await fetch(`${BASE_URL}/company_name/`);
         if (!response.ok) {
           console.error("Failed to fetch Company Name");
           return;

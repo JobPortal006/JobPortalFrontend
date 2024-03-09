@@ -6,6 +6,7 @@ import SearchBar from "../HomePage/searchBar";
 import { useNavigate } from 'react-router-dom';
 import { Grid } from "@mui/material";
 import UserContext from "./contextFilter";
+import BASE_URL from '../CommonAPI';
 
 
 function FilteredResults() {
@@ -34,7 +35,7 @@ function FilteredResults() {
     const handleJobSelect = async (selectedJob) => {
         try {
             setLoading(true);
-            const response = await fetch('http://192.168.1.44:8000/job_details/', {
+            const response = await fetch(`${BASE_URL}/job_details/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

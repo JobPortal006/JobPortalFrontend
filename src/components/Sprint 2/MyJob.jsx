@@ -227,6 +227,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import {HashLoader} from "react-spinners";
 import { makeStyles } from '@mui/styles';
+import BASE_URL from '../CommonAPI';
 
 
 
@@ -262,7 +263,7 @@ function MyJob() {
       async function postID() {
         try {
           const response = await fetch(
-            "http://192.168.1.44:8000/employeer_post_jobs/",
+            `${BASE_URL}/employeer_post_jobs/`,
             {
               method: "POST",
               headers: {
@@ -318,7 +319,7 @@ function MyJob() {
    // Delete API
   const handleDelete = async (jobId) => {
     try {
-      const response = await fetch("http://192.168.1.44:8000/delete_job/", {
+      const response = await fetch(`${BASE_URL}/delete_job/`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

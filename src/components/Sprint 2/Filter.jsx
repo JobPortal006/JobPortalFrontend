@@ -7,6 +7,8 @@ import FilteredResults from "./FilteredResults";
 // import { useNavigate } from "react-router-dom";
 import "../Sprint 2/FilterPage.css";
 import UserContext from "./contextFilter";
+import BASE_URL from '../CommonAPI';
+
 
 const Filter = () => {
   const [showAll, setShowAll] = useState(false);
@@ -91,7 +93,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/location/");
+        const response = await fetch(`${BASE_URL}/location/`);
         if (!response) {
           console.error("Failed to fetch locations");
         }
@@ -135,7 +137,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchJobRoles = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/job_role/");
+        const response = await fetch(`${BASE_URL}/job_role/`);
         if (!response.ok) {
           console.error("Failed to fetch job roles");
           return;
@@ -205,7 +207,7 @@ console.log(companyList, "=====raghul data company list");
  
     try {
       const response = await fetch(
-        "http://192.168.1.44:8000/filter_job/",
+        `${BASE_URL}/filter_job/`,
         {
           method: "POST",
           headers: {
