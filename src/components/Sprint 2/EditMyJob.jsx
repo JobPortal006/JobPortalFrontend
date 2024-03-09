@@ -211,7 +211,7 @@ console.log(fetchJob,"fetchJob===>");
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ job_id: 44 }),
+            body: JSON.stringify({ job_id: viewJobId }),
           }
         );
   

@@ -280,7 +280,7 @@ const SideNavbar = () => {
     if (selectedItem === 'My Profile') {
       setLoading(true);
       axios.post(`${BASE_URL}/get_employeer_details/`, {
-        employee_id: 39
+        employee_id: 5
       })
         .then(response => {
           setEmployerDetails(response.data);
