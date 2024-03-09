@@ -257,8 +257,8 @@ function MyJob() {
   useEffect(() => {
     // Passing id and Fetching Data
     // if (location.state && location.state.id) {
-      // const id = location.state.id; // id post
-      // setEmployeeId(id);
+      const id = location.state.id; // id post
+      setEmployeeId(id);
       async function postID() {
         try {
           const response = await fetch(
@@ -269,7 +269,7 @@ function MyJob() {
                 "Content-Type": "application/json",
               },
               // body: JSON.stringify({ employee_id: id }),
-              body: JSON.stringify({ employee_id: 16 }),
+              body: JSON.stringify({ employee_id: id }),
             }
           );
           if (!response.ok) {

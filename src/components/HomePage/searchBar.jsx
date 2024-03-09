@@ -670,7 +670,16 @@ const SearchBar = ({ isJobSearchPage }) => {
           
         })
         const data = await response.json();
-
+        console.log(data.status,"dadadadadadadadad");
+       
+        console.log(searchJob.status,"SearchJob-Status===>");
+        if(data.status !== true){
+          alert("Job not Found")
+          window.location.reload()
+        } else{
+          navigate('/Filter');
+        }
+      
         console.log(data,'=============prathap');
 
         
@@ -688,10 +697,10 @@ const SearchBar = ({ isJobSearchPage }) => {
         setSearchValue('');
         setSkillValues([]);
         setExperienceValue('');
-        setsearchJob(data)
+        setsearchJob(data.data)
 
         // Navigate to the job search page
-        navigate('/Filter');
+      
         // window.location.reload();
      
       } catch (error) {

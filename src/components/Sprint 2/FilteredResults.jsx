@@ -21,11 +21,13 @@ function FilteredResults() {
 
     useEffect(()=>{},[searchJob,oneData,companyList])
     // Determine which data to use for rendering
-    const dataToUse = searchJob ? searchJob : oneData || companyList?.data;
+    const dataToUse = searchJob ? searchJob : oneData || companyList?.data ;
   
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
     const currentJobs = dataToUse?.slice(indexOfFirstJob, indexOfLastJob);
+ 
+    
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 

@@ -114,7 +114,7 @@ const EditMyJob = () => {
 
   try {
     const response = await fetch(
-      " http://192.168.1.62:8000/update_job/",
+      " http://192.168.1.44:8000/update_job/",
       {
         method: "PUT",
         headers: {
@@ -158,15 +158,6 @@ const EditMyJob = () => {
 console.log(fetchJob,"fetchJob===>");
 
  
-
-
-
- 
-
-  
-
-  
-  // console.log(fetchJob,"fetchJob===>");
 
   const{updateJobId} = useContext(UserContext);
   console.log(updateJobId,'updateJobId')
@@ -213,7 +204,7 @@ console.log(fetchJob,"fetchJob===>");
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.1.62:8000/demoupdate/",
+          "http://192.168.1.44:8000/get_job_details_by_id/",
           {
             method: "POST",
             headers: {
