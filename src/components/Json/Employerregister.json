@@ -6,7 +6,7 @@
         "onlyAlphabets": "Company name should contain only alphabets",
         "noSpace": "Company name should not start with a space"
       },
-      "industry_type": "Industry type is required",
+      "company_industry": "Industry type is required",
       "company_description": {
         "required": "Company description is required",
         "noSpace": "Company description should not start with a space"

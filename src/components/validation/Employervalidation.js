@@ -13,8 +13,8 @@ export const validateCompanyDetails = (companyDetails) => {
     }
 
     // Validate industry type
-    if (!companyDetails.industry_type) {
-        errors.industry_type = errorMessages.companyDetails.industry_type;
+    if (!companyDetails.company_industry) {
+        errors.company_industry = errorMessages.companyDetails.company_industry;
     }
 
     // Validate company description

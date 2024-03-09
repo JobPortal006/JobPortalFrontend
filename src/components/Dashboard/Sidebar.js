@@ -208,6 +208,7 @@ import UserContext from '../Sprint 2/contextFilter';
 import { UpdateEmployerregister } from '../EmployeerManagement/UpdateEmployeer';
 import { css } from '@emotion/react';
 
+
 const drawerWidth = 210;
 
 const useStyles = makeStyles((theme) => ({
@@ -274,7 +275,7 @@ const SideNavbar = () => {
     if (selectedItem === 'My Profile') {
       setLoading(true);
       axios.post('http://192.168.1.44:8000/get_employeer_details/', {
-        employee_id: 39
+        employee_id: 2
       })
         .then(response => {
           setEmployerDetails(response.data);

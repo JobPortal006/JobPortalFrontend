@@ -323,11 +323,16 @@ export const Employerregister = () => {
 
   return (
     <>
-      <Box sx={{background: 'rgb(9,91,255)',
-    background:'radial-gradient(circle, rgba(9,91,255,1) 0%, rgba(255,174,103,1) 100%)', minHeight: '100vh',padding:'30px' }}>
+      <Box sx={{
+        // background: 'rgb(9,91,255)',
+        // background: 'radial-gradient(circle, rgba(9,91,255,1) 0%, rgba(255,174,103,1) 100%)',
+        minHeight: '100vh',
+        padding: '30px',
+        backgroundColor: '#7986CB', // Add indigo color background
+      }}>
         <ToastContainer />
       <Grid item xs={12}>
-         <Typography variant="h4" align="center" style={{padding:'50px',marginBottom:'40px'}}
+         <Typography variant="h3" align="center"  style={{padding:'50px',marginTop:'30px',color:'#E8EAF6'}}
          >{errorMessages.mainFileStrings.employerRegistrationTitle}</Typography>
       </Grid>
 
@@ -348,7 +353,9 @@ export const Employerregister = () => {
           <Grid container spacing={2} justifyContent="center">
             
             <Grid item xs={12}>
-              <Typography variant="h6">{errorMessages.mainFileStrings.contactInformationTitle}</Typography>
+              <Typography variant="h6"
+               color="#1A237E" fontSize="25px"
+               fontWeight="bold" textTransform="uppercase" textAlign="center">Company Information</Typography>
             </Grid>
             <Grid item xs={12}>
               <label htmlFor="upload-company-logo">
@@ -465,7 +472,9 @@ export const Employerregister = () => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2} justifyContent="center">
             <Grid item xs={12}>
-              <Typography variant="h6">{errorMessages.mainFileStrings.contactInformationTitle}</Typography>
+              <Typography variant="h6"
+               color="#1A237E" fontSize="25px"
+               fontWeight="bold" textTransform="uppercase" textAlign="center">{errorMessages.mainFileStrings.contactInformationTitle}</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -530,7 +539,9 @@ export const Employerregister = () => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2} justifyContent="center">
             <Grid item xs={12}>
-              <Typography variant="h6">Company Address</Typography>
+              <Typography variant="h6"
+               color="#1A237E" fontSize="25px"
+               fontWeight="bold" textTransform="uppercase" textAlign="center">Company Address</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField

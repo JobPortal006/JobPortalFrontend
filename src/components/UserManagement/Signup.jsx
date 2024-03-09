@@ -106,17 +106,18 @@ export default function FixedContainer() {
   // JSX structure for the component
   return (
     <>
-      <CssBaseline />
+      <CssBaseline  />
+      
       <Container fixed>
-        <Grid container spacing={2} sx={{ flexDirection: { xs: 'column', sm: 'row' }, padding: '15px', borderRadius: '1px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)', }}>
-          <Grid item xs={12} sm={6} sx={{ bgcolor: '#7f3fff' }} >
+        <Grid container spacing={2} sx={{ flexDirection: { xs: 'column', sm: 'row' }, padding: '15px', borderRadius: '1px', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.10)',backgroundColor:'#E8EAF6' ,marginTop:'20px'  }}>
+          <Grid item xs={12} sm={6} sx={{ bgcolor: '#5C6BC0' }} >
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '80vh', textAlign: 'center', position: 'relative' }}>
               <Typography variant="h4" component="div">
-                <img src={mainimage} style={{ width: '50%', height: 'auto' }} alt={formLabels.mainImage.altText} />
-                <Typography variant='h4'>
+                <img src={mainimage} style={{ width: '50%', height: 'auto' }} alt={formLabels.mainImage.altText} marginBottom="20px"  />
+                <Typography variant='h4' color="#E8EAF6" fontWeight="bold" marginBottom="20px" >
                   {formLabels.mainImage.headerText}
                 </Typography>
-                <Typography variant='h6'>
+                <Typography variant='h6' color="#E8EAF6" fontWeight="bold" >
                   {formLabels.mainImage.subHeaderText}
                 </Typography>
               </Typography>
@@ -124,7 +125,7 @@ export default function FixedContainer() {
           </Grid>
           <Grid item xs={12} sm={6} >
             <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2%' }}>
-              <Typography variant="h4" component="div" mb={3}>
+              <Typography variant="h4" component="div" fontWeight="bold"  color="#1A237E" mb={3}>
                 {formLabels.formLabels.createAccount}
               </Typography>
               <form onSubmit={handleSubmitWrapper}>

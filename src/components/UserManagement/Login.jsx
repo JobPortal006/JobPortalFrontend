@@ -157,14 +157,15 @@ const LogIn = () => {
   return (
     <ThemeProvider theme={defaultTheme}>
     {/*<Toaster toastOptions={{ duration: 4000 }} /> */}
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs"  >
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
+            marginTop: 17,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            
           }}
         >
           <Avatar
