@@ -5,24 +5,32 @@ import '../HomePage/design.css';
 import SearchBox from './searchBar'
 import UserProfile from '../UserManagement/UserProfile';
 import Companylist from './Companylist';
+import HomeDesign from './HomeDesign';
 
 const Home = () => {
-const navigate = useNavigate();
-    const token = localStorage.getItem('googleToken');
-    const otpToken = localStorage.getItem('otpToken');
-    const loginToken = localStorage.getItem('loginToken');
-    useEffect(()=>{
-        if((token === null ) && (otpToken === null) && (loginToken === null)){
-          navigate("/login");
-          
-        }
-        
-    });
+  const navigate = useNavigate();
+  const token = localStorage.getItem('googleToken');
+  const otpToken = localStorage.getItem('otpToken');
+  const loginToken = localStorage.getItem('loginToken');
+  useEffect(() => {
+    if ((token === null) && (otpToken === null) && (loginToken === null)) {
+      navigate("/login");
+
+    }
+
+  });
   return (
-    <div className="background-div" style={{marginTop:'50px'}}>
-      <SearchBox />
-      <Companylist />
-    </div>
+    <>    
+      <div>
+        <HomeDesign />
+        <div className="background-div" style={{ marginTop: '2px' }}>
+        <SearchBox />
+       </div>
+
+        <Companylist />
+      </div>
+    </>
+
   )
 }
 

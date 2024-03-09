@@ -14,6 +14,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import Logo from '../Dashboard/Images/download.png';
 import UserProfile from '../UserManagement/UserProfile';
+import BASE_URL from '../CommonAPI';
 
 const drawerWidth = 205;
 
@@ -21,9 +22,13 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 3,
+    marginTop:'45px'
+
   },
   drawerPaper: {
     width: drawerWidth,
+    marginTop:'70px'
+
   },
   toolbar: theme.mixins.toolbar,
   logo: {

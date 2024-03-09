@@ -1293,7 +1293,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { CircularProgress, Typography, Grid, TextField, Container, Button, Input, Avatar, InputLabel, InputAdornment, IconButton } from '@mui/material';
+import { CircularProgress, Typography, Grid, TextField, Container, Button, Input, Avatar, InputLabel, InputAdornment, IconButton, Divider } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -1309,6 +1309,7 @@ import { BeatLoader } from 'react-spinners';
 //  import FormContainer from './FormContainer';
 // import './UserProfile.css'
 import { css } from '@emotion/react';
+import './UserProfile.css'
 
 const override = css`
   display: block;
@@ -1322,10 +1323,10 @@ const UserProfile = () => {
     // const [resume, setResume] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
     const [loading1, setLoading1] = useState(true);
-    const [userId, setUserId] = useState(46); // Initial user ID
+    const [userId, setUserId] = useState(1); // Initial user ID
     const [postData, setPostdata] = useState(null);
     console.log(postData, '=====postdata=====')
-      const [resumeFile, setResumeFile] = useState(null);
+    const [resumeFile, setResumeFile] = useState(null);
 
     useEffect(() => {
         // Fetch user data from the API
@@ -1353,27 +1354,6 @@ const UserProfile = () => {
                 setLoading1(false); // Set loading to false in case of error
             });
     }, []);
-    // const handleRemoveProfilePicture = () => {
-    //     setProfilePicture(null);
-
-    //     // Clear the file input value
-    //     const fileInput = document.getElementById('profile-picture-input');
-    //     if (fileInput) {
-    //         fileInput.value = '';
-    //     }
-    // };
-    // // Handle profile picture upload
-    // const handleProfilePictureChange = (event) => {
-    //     const file = event.target.files[0];
-
-    //     setProfilePicture(file);
-
-    //     // Update userDetails to include profile_picture
-    //     setFormData((prevUserDetails) => ({
-    //         ...prevUserDetails,
-    //         profile_picture: file,
-    //     }));
-    // };
 
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
@@ -1503,80 +1483,42 @@ const UserProfile = () => {
                 key_skills: '',
                 prefered_locations: ''
             },
-            resume:{
-                resume_path:''
+            resume: {
+                resume_path: ''
             }
 
         }
     });
 
+
     // Handle resume upload
-    // const handleResumeChange = (event) => {
-    //     const file = event.target.files[0];
-    //     setResumeFile(URL.createObjectURL(file));
-
-    //     // Update formData to include resume path
-    //     setFormData(prevData => ({
-    //         ...prevData,
-    //         data: {
-    //             ...prevData.data,
-    //             resume: {
-    //                 ...prevData.data.resume,
-    //                 resume_path: URL.createObjectURL(file) // Set profile_picture_path with the URL of the uploaded file
-    //             }
-    //         }
-    //     }));
-    // };
-
-    // const handleRemoveResume = () => {
-    //     setResumeFile(null);
-
-    //     // Remove resume path from formData
-    //     setFormData(prevData => ({
-    //         ...prevData,
-    //         data: {
-    //             ...prevData.data,
-    //             resume: {
-    //                 ...prevData.data.resume,
-    //                 resume_path: '' // Set profile_picture_path to empty string
-    //             }
-    //         }
-    //     }));
-    // };
-    // Handle resume upload
-const handleResumeChange = (event) => {
-    const file = event.target.files[0];
-    setResumeFile(URL.createObjectURL(file));
-
-    // Update formData to include resume path
-    setFormData(prevData => ({
-        ...prevData,
-        data: {
-            ...prevData.data,
-            resume: {
-                ...prevData.data.resume,
-                resume_path: URL.createObjectURL(file) // Set resume_path with the URL of the uploaded file
+    const handleResumeChange = (event) => {
+        const file = event.target.files[0];
+        setResumeFile(file);
+        setFormData(prevData => ({
+            ...prevData,
+            data: {
+                ...prevData.data,
+                resume: {
+                    resume_path: file.name
+                }
             }
-        }
-    }));
-};
+        }));
+    };
 
-// Handle removing the resume
-const handleRemoveResume = () => {
-    setResumeFile(null);
-
-    // Remove resume path from formData
-    setFormData(prevData => ({
-        ...prevData,
-        data: {
-            ...prevData.data,
-            resume: {
-                ...prevData.data.resume,
-                resume_path: null // Set resume_path to null to indicate that no resume is present
+    const handleRemoveResume = () => {
+        setResumeFile(null);
+        setFormData(prevData => ({
+            ...prevData,
+            data: {
+                ...prevData.data,
+                resume: {
+                    resume_path: ''
+                }
             }
-        }
-    }));
-};
+        }));
+    };
+
     useEffect(() => {
         // Fetch data from the API
         fetch('http://192.168.1.44:8000/get_user_details_view/')
@@ -1668,8 +1610,8 @@ const handleRemoveResume = () => {
                             companies: data.professionalDetails.companies,
                             numberOfCompanies: data.professionalDetails.numberOfCompanies
                         },
-                        resume:{
-                            resume_path:data.resume.resume_path
+                        resume: {
+                            resume_path: data.resume.resume_path
                         }
                     }
                 }); // Set initial form data
@@ -1689,7 +1631,7 @@ const handleRemoveResume = () => {
         const [field, index, subfield] = name.split('.');
         setFormData(prevData => ({
             ...prevData,
-            data: { 
+            data: {
                 ...prevData.data,
                 Signup: {
                     ...prevData.data.Signup,
@@ -1859,8 +1801,8 @@ const handleRemoveResume = () => {
                 ],
                 numberOfCompanies: ''
             },
-            resume:{
-                resume_path:''
+            resume: {
+                resume_path: ''
             }
         }
     };
@@ -1930,16 +1872,17 @@ const handleRemoveResume = () => {
     // submit to response with proper 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
-        // Create a new FormData object
+
         const formDataToSend = new FormData();
-        
-        // Append profile picture file to FormData if available
+
         if (profilePicture) {
             formDataToSend.append('profilePicture', profilePicture);
         }
-    
-        // Append other form data fields to FormData
+
+        if (resumeFile) {
+            formDataToSend.append('resume', resumeFile);
+        }
+
         formDataToSend.append('userDetails', JSON.stringify(formData.data.userDetails));
         formDataToSend.append('Signup', JSON.stringify(formData.data.Signup));
         formDataToSend.append('address', JSON.stringify(formData.data.address));
@@ -1949,15 +1892,11 @@ const handleRemoveResume = () => {
         formDataToSend.append('Diploma_college_details', JSON.stringify(formData.data.Diploma_college_details));
         formDataToSend.append('jobPreference', JSON.stringify(formData.data.jobPreference));
         formDataToSend.append('professionalDetails', JSON.stringify(formData.data.professionalDetails));
-        formDataToSend.append('resume', JSON.stringify(formData.data.resume));
 
-    
-        // Log the updated form data
         for (let pair of formDataToSend.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
         }
-    
-        // Send formDataToSend to the backend API
+
         fetch('http://192.168.1.44:8000/update_user_details/', {
             method: 'POST',
             body: formDataToSend,
@@ -1966,20 +1905,18 @@ const handleRemoveResume = () => {
                 if (!response.ok) {
                     throw new Error('Failed to update user details');
                 }
-                // If response is successful, parse the JSON response
                 return response.json();
             })
             .then(data => {
-                // Handle the data received from the server
                 console.log("Response from server:", data);
-                // Optionally, perform further actions based on the response
             })
             .catch(error => {
-                // Handle error if the request fails
                 console.error('Error updating user details:', error);
             });
     };
-    
+
+
+
 
     if (loading) {
         return <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -1989,7 +1926,7 @@ const handleRemoveResume = () => {
     }
 
     if (error) {
-        return <Typography>Error: {error.message}</Typography>; // Display error message
+        return <Typography style={{ marginTop: '70px' }}>Error: {error.message}</Typography>; // Display error message
     }
 
     if (!userData || !formData) {
@@ -2008,10 +1945,15 @@ const handleRemoveResume = () => {
                     <p>Loading profile information...</p> {/* Text indicating that profile information is loading */}
                 </div>
             ) : (
+
                 <div className="profilebackground-div">
+
                     <Container style={{ marginTop: '60px' }} >
-                        <Typography variant="h4" align="center" gutterBottom>
+                        <Typography variant="h6"
+                            color="#1A237E" fontSize="25px"
+                            fontWeight="bold" textTransform="uppercase" textAlign="center" gutterBottom>
                             Profile
+                            <Divider sx={{ marginY: 2 }} ></Divider>
                         </Typography>
 
 
@@ -2019,7 +1961,9 @@ const handleRemoveResume = () => {
                             {/* User Details Accordion */}
 
                             <AccordionSummary >
-                                <Typography variant="h6">User Details</Typography>
+                                <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase" >User Details</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
@@ -2125,16 +2069,20 @@ const handleRemoveResume = () => {
                                             Remove Picture
                                         </Button>
                                     </div>
-                                )}        
+                                )}
+                                <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
+
                             </AccordionDetails>
 
                             {/* Address Accordion */}
 
                             <AccordionSummary >
-                                <Typography variant="h6">Address</Typography>
+                                <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Address</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Typography variant="h6"> Permanent and current Address:</Typography>
+                              
 
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6} >
@@ -2193,7 +2141,9 @@ const handleRemoveResume = () => {
 
                                     </Grid>
                                     <Grid item xs={12} sm={6} >
-                                        {/* <Typography variant="h6">Current Address</Typography> */}
+                                        {/* <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">Current Address</Typography> */}
                                         <TextField className='textfield'
                                             label="Current Street"
                                             name="street"
@@ -2247,12 +2197,16 @@ const handleRemoveResume = () => {
 
                                     </Grid>
                                 </Grid>
+                                <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
+
                             </AccordionDetails>
 
 
                             {/* Educatiom Accordion */}
 
-                            <AccordionSummary > <Typography variant="h6">Education details</Typography></AccordionSummary>
+                            <AccordionSummary > <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">Education details</Typography></AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
@@ -2347,7 +2301,9 @@ const handleRemoveResume = () => {
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
-                                        <Typography sx={{ width: '100%' }} >UG Details:</Typography>
+                                        <Typography sx={{ width: '100%' }} variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">UG Details:</Typography>
                                         {/* Third Column */}
                                         <TextField className='textfield'
                                             label="College-name"
@@ -2391,7 +2347,9 @@ const handleRemoveResume = () => {
                                     </Grid>
 
                                     <Grid item xs={12} sm={6} >
-                                        <Typography sx={{ color: 'transparent' }}> . </Typography>
+                                        <Typography sx={{ color: 'transparent' }}variant="h6"
+                                         fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase"> . </Typography>
                                         {/* Fourth Column */}
                                         <TextField className='textfield'
                                             label="Department"
@@ -2417,8 +2375,11 @@ const handleRemoveResume = () => {
 
                                     {/* pg and diplamo */}
                                     <Grid item xs={12}>
+                                    <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">PG details</Typography>
                                         {/* Radio Buttons for PG/Diploma */}
-                                        <FormControl component="fieldset">
+                                        {/* <FormControl component="fieldset">
                                             <RadioGroup
                                                 className='radio_button'
                                                 row
@@ -2440,13 +2401,15 @@ const handleRemoveResume = () => {
                                                     label="Diploma"
                                                 />
                                             </RadioGroup>
-                                        </FormControl>
+                                        </FormControl> */}
                                     </Grid>
 
                                     {/* Additional Fields based on Radio Button selection */}
                                     {/* {formData.data.college_details.education_type === 'pg' && ( */}
+                                    
                                     <>
                                         {/* Additional PG Fields */}
+                                      
                                         <Grid item xs={12} sm={6}>
                                             <TextField className='textfield'
                                                 label="PG-College-name"
@@ -2516,6 +2479,7 @@ const handleRemoveResume = () => {
                                     {/* {formData.data.education_type === 'diploma' && ( */}
                                     <>
                                         {/* Additional Diploma Fields */}
+                                        
                                         <Grid item xs={12} sm={6}>
                                             <TextField className='textfield'
                                                 label="Diploma-college-name"
@@ -2578,12 +2542,16 @@ const handleRemoveResume = () => {
                                     </>
                                     {/* )} */}
                                 </Grid>
+                                <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
+
                             </AccordionDetails>
 
 
                             {/* job preference */}
 
-                            <AccordionSummary > <Typography variant="h6">Job Preference</Typography></AccordionSummary>
+                            <AccordionSummary > <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">Job Preference</Typography></AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
@@ -2632,11 +2600,14 @@ const handleRemoveResume = () => {
                                     </Grid>
 
                                 </Grid>
+                                <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
 
                             </AccordionDetails>
 
                             <AccordionSummary>
-                                <Typography variant="h6">Professional Details</Typography>
+                                <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">Professional Details</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
@@ -2689,44 +2660,40 @@ const handleRemoveResume = () => {
                                     margin="dense"
 
                                 />
+                                <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
+
                             </AccordionDetails>
                             {/* resume */}
                             <AccordionSummary >
-                                <Typography variant="h6">Resume</Typography>
+                                <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase">Resume</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                            <Grid container spacing={2}>
-            {/* Your other form fields */}
-            <Grid item xs={12}>
-                <label htmlFor="resume-input">Upload Resume</label>
-                <br />
-                <input
-                    type="file"
-                    accept=".pdf"
-                    onChange={handleResumeChange}
-                    margin="dense"
-                    id="resume-input"
-                />
-            </Grid>
+                                <label htmlFor="resume-input">Upload Resume:</label>
+                                <br />
+                                <Input
+                                    type="file"
+                                    accept=".pdf, .doc, .docx"
+                                    onChange={handleResumeChange}
+                                    margin="dense"
+                                    id="resume-input"
+                                />
+                                {resumeFile && (
+                                    <div>
+                                        <p>Resume File: {resumeFile.name}</p>
+                                        <Button color="secondary" onClick={handleRemoveResume}>
+                                            Remove Resume
+                                        </Button>
+                                    </div>
+                                )}
 
-            {/* Display uploaded resume if available */}
-            {resumeFile && (
-                <div>
-                    <a href={resumeFile} target="_blank" rel="noopener noreferrer">View Resume</a>
-                    <br />
-                    <Button color="secondary" onClick={handleRemoveResume}>
-                        Remove Resume
-                    </Button>
-                </div>
-            )}
-
-            {/* Optionally, display a message if no resume is available */}
-            {!resumeFile && (
-                <div>No resume available</div>
-            )}
-        </Grid>
-
-            </AccordionDetails>
+                                {formData?.data?.resume?.resume_path && (
+                                    <div>
+                                        <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p>
+                                    </div>
+                                )}
+                            </AccordionDetails>
                             <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button>
 
                         </form>

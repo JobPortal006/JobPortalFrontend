@@ -9,6 +9,7 @@ import { Autocomplete } from "@mui/material";
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
 import UserContext from "./contextFilter";
+import BASE_URL from '../CommonAPI';
 
 const EditMyJob = () => {
   const employmentType = [
@@ -114,7 +115,7 @@ const EditMyJob = () => {
 
   try {
     const response = await fetch(
-      " http://192.168.1.44:8000/update_job/",
+      `${BASE_URL}/update_job/`,
       {
         method: "PUT",
         headers: {
@@ -204,7 +205,7 @@ console.log(fetchJob,"fetchJob===>");
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://192.168.1.44:8000/get_job_details_by_id/",
+          `${BASE_URL}/get_job_details_by_id/`,
           {
             method: "POST",
             headers: {

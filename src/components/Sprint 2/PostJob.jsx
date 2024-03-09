@@ -270,18 +270,17 @@ const PostJob = () => {
 
 
   return (
-    <div style={{backgroundColor:"#5C6BC0", height:"170%"}}>
+    <div >
       <Container
         component="main"
-        style={{ width: "80%", marginBottom: "10rem", backgroundColor:"#E8EAF6" }}
+        style={{ width: "80%", marginBottom: "10rem" }}
       >
-       
+        <CssBaseline />
         <Box
           sx={{
             marginTop: 15,
             display: "flex",
             flexDirection: "column",
-            
           }}
         >
           <Box
@@ -578,5 +577,3 @@ const PostJob = () => {
 };
 
 export default PostJob;
-
-

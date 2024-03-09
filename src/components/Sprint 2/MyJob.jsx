@@ -269,7 +269,7 @@ function MyJob() {
                 "Content-Type": "application/json",
               },
               // body: JSON.stringify({ employee_id: id }),
-              body: JSON.stringify({ employee_id: id }),
+              body: JSON.stringify({ employee_id: 16 }),
             }
           );
           if (!response.ok) {
@@ -441,9 +441,5 @@ function MyJob() {
 }
 
 export default MyJob;
-
-
-
-
 
 

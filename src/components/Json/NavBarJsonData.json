@@ -12,11 +12,11 @@
             "two":"Add job posting"
         },
         "candidatejobs":{
-            "one":"Candidate Jobs"
+            "one":"DashBoard"
         },
         "candidatejobsdetails":{
-            "one":"Browse job",
-            "two":"Job categories"
+            "one":"Employer DashBoard",
+            "two":"User DashBoard"
         },
         "logout":{
             "one":"Logout"

@@ -4,6 +4,7 @@ import { faMapMarkerAlt, faMoneyBillAlt, faUser, faBuilding, faTools } from '@fo
 import '../JobPostSample/JobPostSampleStyle.css';
 import SearchBar from "../HomePage/searchBar";
 import { useNavigate } from 'react-router-dom';
+import BASE_URL from '../CommonAPI';
 
 export const Newpost = () => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ export const Newpost = () => {
         async function fetchJobs() {
             try {
                 setLoading(true); // Set loading state when fetching jobs starts
-                const response = await fetch('http://192.168.1.39:8000/job_details_by_employeeType_view/');
+                const response = await fetch(`${BASE_URL}/job_details_by_employeeType_view/`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch jobs');
                 }
@@ -40,7 +41,7 @@ export const Newpost = () => {
     const handleJobSelect = async (selectedJob) => {
         try {
             setLoading(true); // Set loading state when fetching job details starts
-            const response = await fetch('http://192.168.1.39:8000/job_details/', {
+            const response = await fetch(`${BASE_URL}/job_details/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

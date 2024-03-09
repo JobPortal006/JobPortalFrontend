@@ -1,4 +1,3 @@
-// LogIn.jsx
 
 import React, { useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
