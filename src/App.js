@@ -33,6 +33,7 @@ import { Employerregister } from "./components/EmployeerManagement/Employerregis
 import SideNavbar from "./components/Dashboard/Sidebar";
 import { UpdateEmployerregister } from "./components/EmployeerManagement/UpdateEmployeer";
 import { JobCard } from "./components/HomePage/JobCard";
+import { Newpost } from "./components/HomePage/Newpost";
 
 
 function App() {
@@ -66,6 +67,7 @@ function App() {
           <Route path="/EditMyJob" element={<EditMyJob />} />
           <Route path="/FilteredResults" element={<FilteredResults />} />
           <Route path="/JobDetails" element={<JobDetails />} />
+          <Route path="/newpost" element={<Newpost />}/>
           <Route path="/EmployerRegister" element={<Employerregister />} />
           <Route path="/myprofile" element={<UpdateEmployerregister />} />
           <Route path="/jobCard" element={<JobCard />} />
