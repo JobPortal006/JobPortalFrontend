@@ -6,6 +6,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WorkIcon from '@mui/icons-material/Work';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';              
+import BASE_URL from '../CommonAPI';
 
 const JobDetails = () => {
   const [jobData, setJobData] = useState([]);

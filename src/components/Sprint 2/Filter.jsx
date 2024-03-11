@@ -7,6 +7,8 @@ import FilteredResults from "./FilteredResults";
 // import { useNavigate } from "react-router-dom";
 import "../Sprint 2/FilterPage.css";
 import UserContext from "./contextFilter";
+import BASE_URL from '../CommonAPI';
+
 
 const Filter = () => {
   const [showAll, setShowAll] = useState(false);
@@ -91,7 +93,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/location/");
+        const response = await fetch(`${BASE_URL}/location/`);
         if (!response) {
           console.error("Failed to fetch locations");
         }
@@ -135,7 +137,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchJobRoles = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/job_role/");
+        const response = await fetch(`${BASE_URL}/job_role/`);
         if (!response.ok) {
           console.error("Failed to fetch job roles");
           return;
@@ -205,7 +207,7 @@ console.log(companyList, "=====raghul data company list");
  
     try {
       const response = await fetch(
-        "http://192.168.1.44:8000/filter_singleValue/",
+        `${BASE_URL}/filter_job/`,
         {
           method: "POST",
           headers: {
@@ -215,10 +217,10 @@ console.log(companyList, "=====raghul data company list");
         }
       );
       const FilterData = await response.json();
-      console.log(FilterData,"<====filter-Response");
-      setData(FilterData)
-      console.log(oneData.status,"status===>");
-      if (oneData.status !== true) {
+      console.log(FilterData.data,"<====filter-Response");
+      setData(FilterData.data)
+      console.log(FilterData.status,"status===>");
+      if (FilterData.status !== true) {
         alert("Failed to post data to backend");
         
       } else {
@@ -270,7 +272,7 @@ console.log(companyList, "=====raghul data company list");
               className="show-more-button"
                 onClick={() => setShowAll(!showAll)}
                 color="primary"
-                sx={{ fontSize: 15 }}
+                sx={{ fontSize: 17, color:"#5C6BC0 " }}
               >
                 {showAll ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 {showAll ? "Hide" : "Show More"}
@@ -279,14 +281,14 @@ console.log(companyList, "=====raghul data company list");
           </div>
           <div className="job-location">
             <h3>Locations</h3>
-            <Box className="scroll"  sx={{ width: "80%", height: 300, overflow: "auto" }}>
+            <Box className="scroll"  style={{ width: "90%", height: 300, overflow: "auto" }}>
               <List>
                 {locations.map((location, index) => (
                   <ListItemButton
                     key={index}
                     onClick={() => handleLocationClick(index)}
                   >
-                    <Checkbox checked={location.selected} />
+                    <Checkbox color="secondary" checked={location.selected} />
                     <ListItemText primary={location.location} />
                   </ListItemButton>
                 ))}
@@ -299,6 +301,7 @@ console.log(companyList, "=====raghul data company list");
 
             <FormGroup>
               <RadioGroup
+              color="secondary"
                 style={{ marginLeft: "1rem" }}
                 name="employment-type"
                 value={selectedEmploymentType}
@@ -309,7 +312,7 @@ console.log(companyList, "=====raghul data company list");
                   <FormControlLabel
                     key={index}
                     value={type}
-                    control={<Radio />}
+                    control={<Radio color="secondary" />}
                     label={type}
                   />
                 ))}
@@ -319,14 +322,14 @@ console.log(companyList, "=====raghul data company list");
 
           <div className="job-roles">
             <h3>Job Roles</h3>
-            <Box className="scroll" sx={{ width: "100%", height: 300, overflow: "auto" }}>
+            <Box className="scroll" sx={{ width: "90%", height: 300, overflow: "auto" }}>
               <List>
                 {jobRoles.map((role, index) => (
                   <ListItemButton
                     key={index}
                     onClick={() => handleRoleClick(index)}
                   >
-                    <Checkbox checked={role.selected}  />
+                    <Checkbox color="secondary" checked={role.selected}  />
                     <ListItemText primary={role.role} />
                   </ListItemButton>
                 ))}
@@ -337,6 +340,7 @@ console.log(companyList, "=====raghul data company list");
           <div className="job-salary">
             <h3>Salary Range</h3>
             <RadioGroup
+            
               style={{ marginLeft: "1rem" }}
               name="salary-type"
               value={selectedSalaryType}
@@ -346,7 +350,7 @@ console.log(companyList, "=====raghul data company list");
                 <FormControlLabel
                   key={index}
                   value={type}
-                  control={<Radio />}
+                  control={<Radio color="secondary" />}
                   label={type}
                 />
               ))}
@@ -355,7 +359,7 @@ console.log(companyList, "=====raghul data company list");
               <IconButton
                 onClick={() => setShow(!Show)}
                 color="primary"
-                sx={{ fontSize: 15 }}
+                sx={{ fontSize: 17, color:"#5C6BC0" }}
               >
                 {Show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 {Show ? "Hide" : "Show More"}
@@ -363,7 +367,7 @@ console.log(companyList, "=====raghul data company list");
             )}
           </div>
           <div className="filter-btn">
-          <Button variant="outlined" style={{ color: 'purple', backgroundColor: 'violet' }} onClick={ApplyFilters}>Apply Filters</Button>
+          <Button variant="outlined" style={{ color: 'white', backgroundColor: '#5C6BC0' }} onClick={ApplyFilters}>Apply Filters</Button>
           <Button style={{marginLeft:"1rem"}} variant="outlined" color="error" onClick={handleReset}>
           Reset
         </Button>
@@ -381,4 +385,3 @@ console.log(companyList, "=====raghul data company list");
 };
 
 export default Filter;
-

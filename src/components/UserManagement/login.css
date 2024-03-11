@@ -1,8 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Afacad:ital,wght@1,600&family=Archivo:ital@1&family=Hedvig+Letters+Sans&family=Kanit&family=Montserrat:wght@600&family=Noto+Sans+JP&family=Noto+Serif&family=Roboto&family=Roboto+Slab:wght@500&display=swap");
 
+.main-login{
+  margin-bottom: 1px;
+ background-color: #E8EAF6;
+}
+
+.login-container{
+ background-color: #5C6BC0;
+}
 .g-logo {
   height: 20px;
   width: 20px;
+}
+.h1-login{
+  font-weight: 900;
+  font-size: x-large;
+  color: #1A237E;
+  
 }
 .dont-account {
   margin-top: 20px;

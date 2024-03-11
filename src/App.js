@@ -34,6 +34,8 @@ import SideNavbar from "./components/Dashboard/Sidebar";
 import { UpdateEmployerregister } from "./components/EmployeerManagement/UpdateEmployeer";
 import { JobCard } from "./components/HomePage/JobCard";
 import { Newpost } from "./components/HomePage/Newpost";
+import SideNavbar from "./components/Dashboard/Sidebar.js";
+import UserDash from "./components/Dashboard/UserDash.js";
 
 
 function App() {
@@ -71,7 +73,8 @@ function App() {
           <Route path="/EmployerRegister" element={<Employerregister />} />
           <Route path="/myprofile" element={<UpdateEmployerregister />} />
           <Route path="/jobCard" element={<JobCard />} />
-
+          <Route path="/EmployerDashboard" element={<SideNavbar />} />
+          <Route path="/UserDashBoard" element={<UserDash />} />
         </Routes>
       </BrowserRouter>
     </div>

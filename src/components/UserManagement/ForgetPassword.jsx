@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import forget from "../Json/forgetPassword.json";
+import BASE_URL from '../CommonAPI';
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
@@ -46,8 +47,8 @@ const ForgetPassword = () => {
     let headers = new Headers();
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
-    headers.append("Origin", "http://192.168.1.38:8000/forgetpassword/");
-    const apiUrl = "http://192.168.1.38:8000/forgetpassword/";
+    headers.append("Origin",`${BASE_URL}/forgetpassword/`);
+    const apiUrl =`${BASE_URL}/forgetpassword/`;
 
     let data;
     try {

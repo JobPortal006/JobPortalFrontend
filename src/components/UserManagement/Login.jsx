@@ -1,4 +1,3 @@
-// LogIn.jsx
 
 import React, { useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -14,7 +13,7 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Alert, Divider } from "@mui/material";
+import { Divider } from "@mui/material";
 import glogo from "../Login Image/google-icon.svg";
 import jllogo from "../Login Image/JL logo design.jpg";
 import "../UserManagement/login.css";
@@ -29,6 +28,7 @@ import {
   handleSubmit,
 } from "../UserManagement/ValidtionLogin.jsx";
 import validation from "../Json/login.json";
+import BASE_URL from '../CommonAPI';
 
 
 
@@ -112,8 +112,8 @@ const LogIn = () => {
 
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
-    headers.append("Origin", "http://192.168.1.38:8000/login/");
-    const apiUrl = "http://192.168.1.38:8000/login/";
+    headers.append("Origin", `${BASE_URL}/login/`);
+    const apiUrl = `${BASE_URL}/login/`;
 
     try {
       const response = await axios.post(apiUrl, dataOne, headers);
@@ -155,13 +155,17 @@ const LogIn = () => {
   // }, [outputData, navigate]);
 
   return (
+    <div className="login-container">
+    <div>h</div>
     <ThemeProvider theme={defaultTheme}>
     {/*<Toaster toastOptions={{ duration: 4000 }} /> */}
-      <Container component="main" maxWidth="xs"  >
+
+      <Container component="main" maxWidth="xs" className="main-login">
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 17,
+           
+            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -180,9 +184,9 @@ const LogIn = () => {
           >
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5" sx={{ mt: -1 }}>
+          <p component="h1" variant="h5" sx={{ mt: -1 }} className="h1-login" >
             {validation.Context.one}
-          </Typography>
+          </p>
           <Box
             component="form"
             onSubmit={handleLoginSubmit}
@@ -295,6 +299,7 @@ const LogIn = () => {
         </Grid>
       </Container>
     </ThemeProvider>
+    </div>
   );
 };
 

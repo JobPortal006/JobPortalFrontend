@@ -152,6 +152,7 @@ import Filter from "../Sprint 2/Filter";
 import { useContext } from "react";
 import UserContext from "../Sprint 2/contextFilter";
 import { Grid } from "@mui/material";
+import BASE_URL from '../CommonAPI';
 
 function JobPostSample(props) {
     const navigate = useNavigate();
@@ -201,7 +202,7 @@ function JobPostSample(props) {
     const handleJobSelect = async (selectedJob) => {
         try {
             setLoading(true);
-            const response = await fetch('http://192.168.1.39:8000/job_details/', {
+            const response = await fetch(`${BASE_URL}/job_details/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

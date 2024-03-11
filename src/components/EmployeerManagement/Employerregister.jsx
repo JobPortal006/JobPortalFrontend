@@ -6,6 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 // Importing error messages from JSON file
 import errorMessages from '../Json/Employerregister.json'; 
+import BASE_URL from '../CommonAPI';
+
 // import UserContext from '../Sprint 2/contextFilter';
 // import { UpdateEmployerregister } from './UpdateEmployeer';
 
@@ -281,10 +283,10 @@ export const Employerregister = () => {
         const headers = {
           'Content-Type': 'multipart/form-data',
           'Accept': 'application/json',
-          'Origin': 'http://192.168.1.44:8000/employerRegister/'
+          'Origin': `${BASE_URL}/employerRegister/`
         };
 
-        const apiUrl = 'http://192.168.1.44:8000/employerRegister/';
+        const apiUrl = `${BASE_URL}/employerRegister/`;
 
         const response = await axios.post(apiUrl, formData, { headers });
 

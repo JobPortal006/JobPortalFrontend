@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import cnfmPass from "../Json/password.json";
+import BASE_URL from '../CommonAPI';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -147,8 +148,8 @@ const Password = () => {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
-    headers.append('Origin', 'http://192.168.1.36:8000/updatepassword/');
-    const apiUrl = 'http://192.168.1.36:8000/updatepassword/';
+    headers.append('Origin', `${BASE_URL}/updatepassword/`);
+    const apiUrl = `${BASE_URL}/updatepassword/`;
   
     let data;
     try {

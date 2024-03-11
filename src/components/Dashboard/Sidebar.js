@@ -201,12 +201,14 @@ import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import Logo from '../Dashboard/Images/download.png';
 import { Employerregister } from '../EmployeerManagement/Employerregister';
-import PostJob from '../EmployeerManagement/PostJob';
+import PostJob from '../Sprint 2/PostJob';
 import axios from 'axios';
 import { useContext } from 'react';
 import UserContext from '../Sprint 2/contextFilter';
 import { UpdateEmployerregister } from '../EmployeerManagement/UpdateEmployeer';
 import { css } from '@emotion/react';
+import MyJob from '../Sprint 2/MyJob';
+import BASE_URL from '../CommonAPI';
 
 
 const drawerWidth = 210;
@@ -215,9 +217,13 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    marginTop:'100px'
   },
   drawerPaper: {
     width: drawerWidth,
+    marginTop:'70px'
+
+    
   },
   toolbar: theme.mixins.toolbar,
   logo: {
@@ -274,8 +280,10 @@ const SideNavbar = () => {
   useEffect(() => {
     if (selectedItem === 'My Profile') {
       setLoading(true);
-      axios.post('http://192.168.1.44:8000/get_employeer_details/', {
-        employee_id: 2
+      // axios.post('http://192.168.1.44:8000/get_employeer_details/', {
+      //   employee_id: 2
+      axios.post(`${BASE_URL}/get_employeer_details/`, {
+        employee_id: 5
       })
         .then(response => {
           setEmployerDetails(response.data);
@@ -300,7 +308,7 @@ const SideNavbar = () => {
   };
 
   const drawer = (
-    <div>
+    <div  >
       <div className={classes.toolbar} />
       <img src={Logo} alt="Logo" className={classes.logo} />
       <Avatar alt="Profile Picture" src="/broken-image.jpg" className={classes.avatar} />
@@ -390,7 +398,7 @@ const SideNavbar = () => {
             )}
             {selectedItem === 'My Jobs' && (
               <div className={classes.postJobContainer}>
-                <Employerregister />
+                <MyJob />
               </div>
             )}
             {selectedItem === 'Post Jobs' && (

@@ -8,6 +8,7 @@ import Container from "@mui/material/Container";
 import { Autocomplete } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import BASE_URL from '../CommonAPI';
 
 
 const PostJob = () => {
@@ -95,8 +96,12 @@ const PostJob = () => {
   const [jobRole, setJobRole] = useState("");
   const [skills, setSkills] = useState([]);
   const[experience, setExperience] = useState("");
-  const [salary, setSalary] = useState("")
+  const [salary, setSalary] = useState("");
+  // const [qualification, setQualification] = useState([]);
 
+  // console.log(qualification,"qualifications===>");
+
+  
 
   const [errors, setErrors] = useState({
     company_name: false,
@@ -175,6 +180,7 @@ const PostJob = () => {
     !jobEmail ||
     !experience ||
     !salary ||
+    // qualification.length === 0 || null ||
     skills.length === 0 || null;
 
   if (isAnyFieldEmpty) {
@@ -192,6 +198,7 @@ const PostJob = () => {
         employee_type: employment,
         job_role: jobRole,
         skill_set: skills,
+        // qualification : qualification,
         salary_range : salary,
     };
 
@@ -200,8 +207,8 @@ const PostJob = () => {
       let headers = new Headers();
       headers.append("Content-Type", "application/json");
       headers.append("Accept", "application/json");
-      headers.append("Origin", "http://192.168.1.39:8000/job_post/");
-      const apiUrl = "http://192.168.1.39:8000/job_post/";
+      headers.append("Origin", "http://192.168.1.44:8000/job_post/");
+      const apiUrl = `${BASE_URL}/job_post/`;
 
       try {
         const response = await axios.post(apiUrl, jobPostData, headers);
@@ -212,9 +219,9 @@ const PostJob = () => {
 
         if (response.data.status === true) {
           const id = response.data.data ;
-          console.log("Job posted Successfully");
+          console.log(id,"Job posted Successfully");
           // window.location.reload();
-          navigate("/MyJob", { state: { id } });
+          navigate("/MyJob", { state: { id } }); 
         } else {
           console.log("Error in posting the Job");
           alert("Please fill in all required fields")
@@ -237,7 +244,7 @@ const PostJob = () => {
   useEffect(() => {
     const Companies = async () => {
       try {
-        const response = await fetch("http://192.168.1.39:8000/company_name/");
+        const response = await fetch(`${BASE_URL}/company_name/`);
         if (!response.ok) {
           console.error("Failed to fetch Company Name");
           return;
@@ -257,12 +264,14 @@ const PostJob = () => {
     Companies();
   }, []);
 
+// 
+
 
 
 
 
   return (
-    <div>
+    <div >
       <Container
         component="main"
         style={{ width: "80%", marginBottom: "10rem" }}
@@ -270,7 +279,7 @@ const PostJob = () => {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 10,
+            marginTop: 15,
             display: "flex",
             flexDirection: "column",
           }}
@@ -443,8 +452,31 @@ const PostJob = () => {
             //   onBlur={(e)=>handleBlur("skills" , e.target.value )}
               />}
             />
-            <br />
-            <label>Qualification*</label>
+            <br/>
+        
+         {/*     <label>QualiFication*</label>
+            <Autocomplete
+            multiple
+            id="job-qualifications"
+            options={[]} // No options provided
+            freeSolo // Allow manual entry
+            value={qualification}
+            onChange={(event, newEvent) => { setQualification(newEvent);
+              setErrors({ ...errors, qualification: newEvent.length === 0 });  }}            
+              renderInput={(params) => (
+              <TextField
+                {...params}
+                margin="normal"
+                fullWidth
+                label="Qualifications"
+                variant="outlined"
+              />
+            )}
+          />
+                  */}
+             
+      
+          <label>Qualification*</label>
             <TextField
               margin="normal"
               fullWidth
@@ -462,7 +494,7 @@ const PostJob = () => {
               }
             />
 
-           
+          
 
             <Grid container spacing={2} sx={{ mt: 1 }}>
               <Grid item xs={12} sm={12} md={4} xl={4} xxl={4}>
@@ -546,5 +578,3 @@ const PostJob = () => {
 };
 
 export default PostJob;
-
-
