@@ -270,35 +270,7 @@ const UserForm = () => {
             }
         }
 
-        // Add validation logic for date_of_birth (allow only numbers)
-        // if (event.target.name === 'date_of_birth') {
-        //     if (/[^0-9/]/.test(event.target.value)) {
-        //         // Invalid input, set error message
-        //         setErrors({
-        //             ...errors,
-        //             [event.target.name]: 'Only numbers and / allowed for date of birth',
-        //         });
-        //         return;
-        //     }
-        // }
-
-
-        // if (event.target.name === 'email') {
-        //     // Adjusted regular expression to allow country code prefix
-        //     if (/^\+?\d+$/.test(event.target.value)) {
-        //         // Valid input, clear error message
-        //         setErrors({
-        //             ...errors,
-        //             [event.target.name]: '',
-        //         });
-        //     } else {
-        //         // Invalid input, set error message
-        //         setErrors({
-        //             ...errors,
-        //             [event.target.name]: 'Invalid mobile number format',
-        //         });
-        //     }
-        // }
+     
 
         if (event.target.name === 'email') {
             if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(event.target.value)) {

@@ -91,7 +91,7 @@ function FilteredResults() {
                                     <span className="brief-label"><FontAwesomeIcon icon={faUser} /> Job Type:</span> {job.employee_type}
                                 </div>
                                 <div className="brief">
-                                    <span className="brief-label"><FontAwesomeIcon icon={faTools} /> Qualification:</span> {job.job_role}
+                                    <span className="brief-label"><FontAwesomeIcon icon={faTools} /> Qualification:</span> {job.qualification ? job.qualification.join(','):''}
                                 </div>
                                 <div className="brief">
                                     <span className="brief-label"><FontAwesomeIcon icon={faUser} /> Experience:</span> {job.experience}

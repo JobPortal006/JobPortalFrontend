@@ -19,7 +19,10 @@ import { BeatLoader } from 'react-spinners';
 //  import FormContainer from './FormContainer';
 // import './UserProfile.css'
 import { css } from '@emotion/react';
-import './UserProfile.css'
+import './UserProfile.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import BASE_URL from '../CommonAPI';
 
 const override = css`
@@ -34,10 +37,110 @@ const UserProfile = () => {
     // const [resume, setResume] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
     const [loading1, setLoading1] = useState(true);
-    const [userId, setUserId] = useState(1); // Initial user ID
+    const [userId, setUserId] = useState(7); // Initial user ID
     const [postData, setPostdata] = useState(null);
     console.log(postData, '=====postdata=====')
     const [resumeFile, setResumeFile] = useState(null);
+    /// for validation
+    const [error1, setError1] = useState({
+        data: {
+            Signup: {
+                email: '',
+                mobile_number: ''
+            },
+            userDetails: {
+                first_name: '',
+                last_name: '',
+                gender: '',
+                date_of_birth: '',
+                profile_picture_path: ''
+            },
+            address: {
+                permanent: {
+                    address_type: 'Permanent',
+                    city: '',
+                    state: '',
+                    country: '',
+                    pincode: '',
+                    street: ''
+                },
+
+                current: {
+                    address_type: 'Current',
+                    city: '',
+                    state: '',
+                    country: '',
+                    pincode: '',
+                    street: ''
+                }
+            },
+
+            education_details: {
+                hsc_end_year: '',
+                hsc_percentage: '',
+                hsc_start_year: '',
+                hsc_school_name: '',
+                sslc_end_year: '',
+                sslc_percentage: '',
+                sslc_school_name: '',
+                sslc_start_year: ''
+            },
+            college_details: {
+                college_end_year: '',
+                college_name: '',
+                college_percentage: '',
+                college_start_year: '',
+                degree: '',
+                department: '',
+                education_type: ''
+            },
+            PG_college_details: {
+                pg_college_degree: '',
+                pg_college_department: '',
+                pg_college_end_year: '',
+                pg_college_name: '',
+                pg_college_percentage: '',
+                pg_college_start_year: '',
+                pg_college_education_type: ''
+            },
+            Diploma_college_details: {
+                diploma_college_degree: '',
+                diploma_college_department: '',
+                diploma_college_end_year: '',
+                diploma_college_name: '',
+                diploma_college_percentage: '',
+                diploma_college_start_year: '',
+                diploma_college_education_type: ''
+            },
+            professionalDetails: {
+                companies: [
+                    {
+                        company_name: '',
+                        years_of_experience: '',
+                        job_role: '',
+                        skills: ''
+                    },
+                    // {
+                    //     company_name: '',
+                    //     years_of_experience: '',
+                    //     job_role: '',
+                    //     skills: ''
+                    // }
+                ],
+                numberOfCompanies: ''
+            },
+            jobPreference: {
+                department: '',
+                industry: '',
+                key_skills: '',
+                prefered_locations: ''
+            },
+            resume: {
+                resume_path: ''
+            }
+        }
+    })
+
 
     useEffect(() => {
         // Fetch user data from the API
@@ -179,12 +282,12 @@ const UserProfile = () => {
                         job_role: '',
                         skills: ''
                     },
-                    {
-                        company_name: '',
-                        years_of_experience: '',
-                        job_role: '',
-                        skills: ''
-                    }
+                    // {
+                    //     company_name: '',
+                    //     years_of_experience: '',
+                    //     job_role: '',
+                    //     skills: ''
+                    // }
                 ],
                 numberOfCompanies: ''
             },
@@ -336,10 +439,71 @@ const UserProfile = () => {
     }, []);
 
     const handleChange = (event) => {
+
         // const { name, value } = event.target;
         const { name, value } = event.target;
+        setError1({
+            ...error1,
+            [name]: '',
+        });
         console.log(value, 'companyname')
         const [field, index, subfield] = name.split('.');
+        let errorMessage = '';
+    
+        if (name === 'sslc_school_name' || name === 'hsc_school_name' || name === 'college_name'
+            || name === 'department' || name === 'degree' || name === 'pg_college_name'
+            || name === 'pg_college_department' || name === 'pg_college_degree' || name === 'diploma_college_name'
+            || name === 'diploma_college_department' || name === 'diploma_college_degree') {
+            if (/[^A-Za-z\s]/.test(value)) {
+                // Invalid input, set error message
+                setError1({
+                    ...error1,
+                    [name]: 'Only alphabets and spaces allowed',
+                });
+                return;
+            }
+        }
+        if (name === 'sslc_start_year' || name === 'sslc_end_year' ||
+            name === 'hsc_start_year' || name === 'hsc_end_year' ||
+            name === 'sslc_percentage' || name === 'hsc_percentage' || name === 'college_percentage' ||
+            name === 'pg_college_percentage' || name === 'diploma_college_percentage' || name === 'college_start_year'
+            || name === 'college_end_year' || name === 'pg_college_start_year' || name === 'pg_college_end_year'
+            || name === 'diploma_college_start_year' || name === 'diploma_college_end_year') {
+            if (/[^0-9]/.test(value)) {
+                // Invalid input, set error message
+                setError1({
+                    ...error1,
+                    [name]: 'Only numbers allowed',
+                });
+                return;
+            }
+        }
+
+        if (name === 'key_skills' || name === 'industry' || name === 'department' || name === 'prefered_locations') {
+            if (/[^A-Za-z]/.test(value)) {
+                // Invalid input, set error message
+                setError1({
+                    ...error1,
+                    [name]: 'Numbers and symbols are not allowed',
+                });
+                return;
+            }
+
+        }
+
+        if (name === 'first_name' || name === 'last_name') {
+            if (/[^A-Za-z]/.test(value)) {
+                // Invalid input, set error message
+                setError1({
+                    ...error1,
+                    [name]: 'Only alphabets allowed for first name and last name',
+                });
+                return;
+            }
+
+        }
+
+
         setFormData(prevData => ({
             ...prevData,
             data: {
@@ -350,7 +514,9 @@ const UserProfile = () => {
                 },
                 userDetails: {
                     ...prevData.data.userDetails,
-                    [name]: value
+                    [name]: value,
+                    [`${name}_error`]: errorMessage
+
                 },
 
                 education_details: {
@@ -371,7 +537,9 @@ const UserProfile = () => {
                 },
                 jobPreference: {
                     ...prevData.data.jobPreference,
-                    [name]: value
+                    [name]: value,
+                    // [name]: value,
+                    [`${name}_error`]: errorMessage
                 },
                 professionalDetails: {
                     ...prevData.data.professionalDetails,
@@ -620,9 +788,14 @@ const UserProfile = () => {
             })
             .then(data => {
                 console.log("Response from server:", data);
+                toast.success('Profile Updated successful!', { position: toast.POSITION.TOP_CENTER });
+
             })
             .catch(error => {
                 console.error('Error updating user details:', error);
+                // window.alert('Submission failed. Please try again.');
+                toast.error('Submission failed. Please try again.', { position: toast.POSITION.TOP_CENTER });
+
             });
     };
 
@@ -637,7 +810,10 @@ const UserProfile = () => {
     }
 
     if (error) {
-        return <Typography style={{ marginTop: '70px' }}>Error: {error.message}</Typography>; // Display error message
+        return <Typography style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '30px' }}
+        >Error: Server Not Responding
+            {/* {error.message} */}
+        </Typography>; // Display error message
     }
 
     if (!userData || !formData) {
@@ -652,9 +828,10 @@ const UserProfile = () => {
         <div className='profilebackground-div'>
             {loading1 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-                    <BeatLoader color="#36D7B7" css={override} /> {/* Use BeatLoader for the loading animation */}
-                    <p>Loading profile information...</p> {/* Text indicating that profile information is loading */}
+                    <BeatLoader color="#36D7B7" css={override} />
+                    <p>Loading profile information...</p>
                 </div>
+
             ) : (
 
                 <div className="profilebackground-div">
@@ -687,6 +864,10 @@ const UserProfile = () => {
                                             value={formData.data.userDetails.first_name}
                                             fullWidth
                                             margin="dense"
+                                            // error={Boolean(formData.data.userDetails.first_name_error)}
+                                            // helperText={formData.data.userDetails.first_name_error}
+                                            error={Boolean(error1.first_name)}
+                                            helperText={error1.first_name}
 
                                         />
                                         <TextField className='textfield'
@@ -793,7 +974,7 @@ const UserProfile = () => {
                                     fontWeight="bold" textTransform="uppercase">Address</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                              
+
 
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6} >
@@ -916,8 +1097,8 @@ const UserProfile = () => {
                             {/* Educatiom Accordion */}
 
                             <AccordionSummary > <Typography variant="h6"
-                                        color="#1A237E" fontSize="25px"
-                                        fontWeight="bold" textTransform="uppercase">Education details</Typography></AccordionSummary>
+                                color="#1A237E" fontSize="25px"
+                                fontWeight="bold" textTransform="uppercase">Education details</Typography></AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
@@ -1013,8 +1194,8 @@ const UserProfile = () => {
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         <Typography sx={{ width: '100%' }} variant="h6"
-                                        color="#1A237E" fontSize="25px"
-                                        fontWeight="bold" textTransform="uppercase">UG Details:</Typography>
+                                            color="#1A237E" fontSize="25px"
+                                            fontWeight="bold" textTransform="uppercase">UG Details:</Typography>
                                         {/* Third Column */}
                                         <TextField className='textfield'
                                             label="College-name"
@@ -1058,9 +1239,9 @@ const UserProfile = () => {
                                     </Grid>
 
                                     <Grid item xs={12} sm={6} >
-                                        <Typography sx={{ color: 'transparent' }}variant="h6"
-                                         fontSize="25px"
-                                        fontWeight="bold" textTransform="uppercase"> . </Typography>
+                                        <Typography sx={{ color: 'transparent' }} variant="h6"
+                                            fontSize="25px"
+                                            fontWeight="bold" textTransform="uppercase"> . </Typography>
                                         {/* Fourth Column */}
                                         <TextField className='textfield'
                                             label="Department"
@@ -1086,9 +1267,9 @@ const UserProfile = () => {
 
                                     {/* pg and diplamo */}
                                     <Grid item xs={12}>
-                                    <Typography variant="h6"
-                                        color="#1A237E" fontSize="25px"
-                                        fontWeight="bold" textTransform="uppercase">PG details</Typography>
+                                        <Typography variant="h6"
+                                            color="#1A237E" fontSize="25px"
+                                            fontWeight="bold" textTransform="uppercase">PG details</Typography>
                                         {/* Radio Buttons for PG/Diploma */}
                                         {/* <FormControl component="fieldset">
                                             <RadioGroup
@@ -1117,10 +1298,10 @@ const UserProfile = () => {
 
                                     {/* Additional Fields based on Radio Button selection */}
                                     {/* {formData.data.college_details.education_type === 'pg' && ( */}
-                                    
+
                                     <>
                                         {/* Additional PG Fields */}
-                                      
+
                                         <Grid item xs={12} sm={6}>
                                             <TextField className='textfield'
                                                 label="PG-College-name"
@@ -1190,7 +1371,7 @@ const UserProfile = () => {
                                     {/* {formData.data.education_type === 'diploma' && ( */}
                                     <>
                                         {/* Additional Diploma Fields */}
-                                        
+
                                         <Grid item xs={12} sm={6}>
                                             <TextField className='textfield'
                                                 label="Diploma-college-name"
@@ -1261,8 +1442,8 @@ const UserProfile = () => {
                             {/* job preference */}
 
                             <AccordionSummary > <Typography variant="h6"
-                                        color="#1A237E" fontSize="25px"
-                                        fontWeight="bold" textTransform="uppercase">Job Preference</Typography></AccordionSummary>
+                                color="#1A237E" fontSize="25px"
+                                fontWeight="bold" textTransform="uppercase">Job Preference</Typography></AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
@@ -1274,6 +1455,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.key_skills)}
+                                            helperText={error1.key_skills}
 
 
                                         />
@@ -1284,6 +1467,9 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.industry)}
+                                            helperText={error1.industry}
+
 
                                         />
                                     </Grid>
@@ -1295,6 +1481,9 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.department)}
+                                            helperText={error1.department}
+
 
 
                                         />
@@ -1305,6 +1494,9 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.prefered_locations)}
+                                            helperText={error1.prefered_locations}
+
 
 
                                         />
@@ -1317,8 +1509,8 @@ const UserProfile = () => {
 
                             <AccordionSummary>
                                 <Typography variant="h6"
-                                        color="#1A237E" fontSize="25px"
-                                        fontWeight="bold" textTransform="uppercase">Professional Details</Typography>
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Professional Details</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
@@ -1377,8 +1569,8 @@ const UserProfile = () => {
                             {/* resume */}
                             <AccordionSummary >
                                 <Typography variant="h6"
-                                        color="#1A237E" fontSize="25px"
-                                        fontWeight="bold" textTransform="uppercase">Resume</Typography>
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Resume</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <label htmlFor="resume-input">Upload Resume:</label>
@@ -1412,8 +1604,10 @@ const UserProfile = () => {
 
 
                     </Container>
+                    <ToastContainer />
                 </div>
             )}
+
         </div>
     );
 };

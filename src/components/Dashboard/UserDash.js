@@ -15,6 +15,8 @@ import Divider from '@material-ui/core/Divider';
 import Logo from '../Dashboard/Images/download.png';
 import UserProfile from '../UserManagement/UserProfile';
 import BASE_URL from '../CommonAPI';
+import UserDashboard from '../HomePage/UserDashboard';
+import Companylist from '../HomePage/Companylist';
 
 const drawerWidth = 205;
 
@@ -22,12 +24,12 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 3,
-    marginTop:'45px'
+    marginTop: '45px'
 
   },
   drawerPaper: {
     width: drawerWidth,
-    marginTop:'70px'
+    marginTop: '70px'
 
   },
   toolbar: theme.mixins.toolbar,
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
   oppositeContainer: {
     width: '70%',
     maxWidth: '85%',
-    margin:'auto',
+    margin: 'auto',
     flexGrow: 2,
     display: 'flex',
     justifyContent: 'center',
@@ -142,6 +144,13 @@ const UserDash = () => {
       <div className={classes.oppositeContainer}>
         {selectedItem === 'My Profile' && (
           <UserProfile />
+        )}
+      </div>
+      <div className={classes.oppositeContainer}>
+        {selectedItem === 'Dashboard' && (
+          <UserDashboard />
+          // <Companylist />
+
         )}
       </div>
     </div>

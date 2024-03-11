@@ -274,7 +274,7 @@ const Companylist = () => {
         <Button variant="outlined" disabled={startIndex + 3 >= companies.length} onClick={handleNext}>Next <ArrowForwardIcon /></Button>
       </div>
     </div>
-    <JobCard />
+    {/* <JobCard /> */}
   </>
   );
 };
