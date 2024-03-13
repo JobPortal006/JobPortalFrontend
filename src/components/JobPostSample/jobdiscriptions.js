@@ -45,10 +45,10 @@ const JobDetails = () => {
         {jobData.map((job, index) => (
           <Grid item key={index} xs={12} md={6}>
             <Box sx={{ p: 3, border: '1px solid #ccc', marginLeft: '2%', borderRadius: '8px', maxWidth: '100%', backgroundColor: '#E8EAF6' }}>
-            {job.company_logo && job.company_logo.includes('data:image') ? (
-              <img src={job.company_logo} alt="Company Logo" />
+            {job.company_logo_path && job.company_logo_path.includes('data:image') ? (
+              <img  src={job.company_logo_path}  alt="Company Logo" />
                 ) : (
-              <img src={`data:image/jpeg;base64,${job.company_logo}`} alt="Company Logo" style={{
+              <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.company_logo_path}`} alt="Company Logo" style={{
                 position: 'absolute',
                 width: '50px', // Adjust the size of the logo as needed
                 height: 'auto',

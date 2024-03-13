@@ -71,10 +71,10 @@ function FilteredResults() {
                         <div key={index} className="job-box" onClick={() => handleJobSelect(job)}>
                             <div className="job-top">
                                 <div className="job-heading company-img">
-                                    {job.company_logo && job.company_logo.includes('data:image') ? (
-                                        <img src={job.company_logo} alt="Company Logo" />
+                                    {job.company_logo_path && job.company_logo_path.includes('data:image') ? (
+                                        <img src={job.company_logo_path} alt="Company Logo" />
                                     ) : (
-                                        <img src={`data:image/jpeg;base64,${job.company_logo}`} alt="Company Logo" />
+                                        <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.company_logo_path}`} alt="Company Logo" />
                                     )}
                                     {job.company_name}
                                 </div>

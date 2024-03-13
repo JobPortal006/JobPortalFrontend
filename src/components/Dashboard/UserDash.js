@@ -42,6 +42,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
+    marginTop:'80px'
+
   },
   avatar: {
     margin: '0 auto',
@@ -57,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     padding: theme.spacing(3),
     [theme.breakpoints.down('sm')]: {
-      width: '100%', // Set the width to 100% on smaller screens
+      width: '100%', 
     },
   },
 }));
@@ -141,7 +143,7 @@ const UserDash = () => {
           </Drawer>
         </Hidden>
       </nav>
-      <div className={classes.oppositeContainer}>
+      <div className={classes.oppositeContainer} style={{marginLeft:'300px'}}>
         {selectedItem === 'My Profile' && (
           <UserProfile />
         )}
@@ -149,7 +151,7 @@ const UserDash = () => {
       <div className={classes.oppositeContainer}>
         {selectedItem === 'Dashboard' && (
           <UserDashboard />
-          // <Companylist />
+       
 
         )}
       </div>
