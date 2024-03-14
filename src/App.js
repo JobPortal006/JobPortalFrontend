@@ -32,6 +32,7 @@ import {useState} from  'react';
 import { Employerregister } from "./components/EmployeerManagement/Employerregister.jsx";
 import SideNavbar from "./components/Dashboard/Sidebar.js";
 import UserDash from "./components/Dashboard/UserDash.js";
+import { Newpost } from "./components/HomePage/Newpost.js";
 
 
 function App() {
@@ -39,9 +40,10 @@ function App() {
   const [employerDetails, setEmployerDetails] = useState(null);
   const[searchJob,setsearchJob]=useState("")
   const[companyList,setcompanyList]=useState("")
+  const [jobData,setJobData ]  = useState(null);
   console.log(companyList,"ggggg========")
   return (
-    <UserContext.Provider value={{oneData, setData,employerDetails, setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList}}>
+    <UserContext.Provider value={{oneData, setData,employerDetails, setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData }}>
     <div>
       <BrowserRouter>
         <Navbar />
@@ -66,6 +68,7 @@ function App() {
           <Route path="/EmployerRegister" element={<Employerregister />} />
           <Route path="/EmployerDashboard" element={<SideNavbar />} />
           <Route path="/UserDashBoard" element={<UserDash />} />
+          <Route path="/newpost" element={<Newpost />} />
         </Routes>
       </BrowserRouter>
     </div>

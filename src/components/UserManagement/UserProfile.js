@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useEffect, useState } from 'react';
 import { CircularProgress, Typography, Grid, TextField, Container, Button, Input, Avatar, InputLabel, InputAdornment, IconButton, Divider } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
@@ -142,32 +138,40 @@ const UserProfile = () => {
     })
 
 
-    useEffect(() => {
-        // Fetch user data from the API
-        fetch(`${BASE_URL}/get_user_details/`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                user_id: userId // Make sure userId is defined in your component
-            })
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user details');
-                }
-                return response.json();
-            })
-            .then(data => {
-                setPostdata(data); // Set fetched user data
-                setLoading1(false); // Set loading to false when data fetching is complete
-            })
-            .catch(error => {
-                console.error('Error fetching user details:', error);
-                setLoading1(false); // Set loading to false in case of error
-            });
-    }, []);
+    // useEffect(() => {
+    //     // Fetch user data from the API
+    //     const token=localStorage.getItem('loginToken')
+    //     const requestData = {
+    //         token: token,
+    //         // Add other data you need to send here
+    //     };
+    //     fetch(`${BASE_URL}/get_user_details/`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         // body: JSON.stringify({
+    //         //     user_id: userId 
+               
+    //         // }),
+    //         body: JSON.stringify(requestData)
+            
+    //     })
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Failed to fetch user details');
+    //             }
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             setPostdata(data); // Set fetched user data
+    //             setLoading1(false); // Set loading to false when data fetching is complete
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching user details:', error);
+    //             setLoading1(false); // Set loading to false in case of error
+    //         });
+    // }, []);
 
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
@@ -344,6 +348,8 @@ const UserProfile = () => {
             })
             .then(data => {
                 setUserData(data);
+        setLoading1(false); // Set loading to false when data fetching is complete
+
                 // Set resume data
                 // setResume(data.resume);
                 setFormData({
@@ -761,6 +767,8 @@ const UserProfile = () => {
         if (resumeFile) {
             formDataToSend.append('resume', resumeFile);
         }
+        const Token= localStorage.getItem('loginToken')
+
 
         formDataToSend.append('userDetails', JSON.stringify(formData.data.userDetails));
         formDataToSend.append('Signup', JSON.stringify(formData.data.Signup));
@@ -771,6 +779,7 @@ const UserProfile = () => {
         formDataToSend.append('Diploma_college_details', JSON.stringify(formData.data.Diploma_college_details));
         formDataToSend.append('jobPreference', JSON.stringify(formData.data.jobPreference));
         formDataToSend.append('professionalDetails', JSON.stringify(formData.data.professionalDetails));
+        formDataToSend.append('token',Token)
 
         for (let pair of formDataToSend.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
@@ -809,12 +818,13 @@ const UserProfile = () => {
         </div>; // Display loading indicator
     }
 
-    if (error) {
-        return <Typography style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '30px' }}
-        >Error: Server Not Responding
-            {/* {error.message} */}
-        </Typography>; // Display error message
-    }
+    // if (error) {
+    //     return <Typography style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '30px' }}
+    //     >
+    //         {/* Error: Server Not Responding */}
+    //         {error.message}
+    //     </Typography>; // Display error message
+    // }
 
     if (!userData || !formData) {
         return null; // Handle case when userData is not available yet
@@ -1613,3 +1623,10 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+
+
+
+
+
+

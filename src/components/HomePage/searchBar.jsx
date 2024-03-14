@@ -211,7 +211,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   }, [experienceValue]);
 
   // using user context
-
+  const{oneData,setData} = useContext(UserContext);
   const{searchJob,setsearchJob}=useContext(UserContext);
   const [loading, setLoading] = useState(false);
   console.log(searchJob,'=======>user context true');
@@ -246,12 +246,15 @@ const SearchBar = ({ isJobSearchPage }) => {
           
         })
         const data = await response.json();
-        console.log(searchJob.status,"SearchJob-Status===>");
+        const searchResponse = data.data;
+        console.log(searchResponse,"=========Searchresponse");
+        console.log(data.status,"SearchJob-Status===>");
         if(data.status !== true){
           alert("Job not Found")
           window.location.reload();
         } else{
           navigate('/Filter');
+          
         }
 
         console.log(data,'=============prathap');
@@ -267,12 +270,20 @@ const SearchBar = ({ isJobSearchPage }) => {
         if (!response.ok) {
           throw new Error('Failed to send search data to the server');
         }
-        // Reset all the search values after the search is performed
+        
         setSearchValue('');
         setSkillValues([]);
         setExperienceValue('');
-        setsearchJob(data.data)
 
+        if(searchJob !== null){
+        setsearchJob(searchResponse)
+        
+      }else{
+        
+        setData(searchResponse)
+      }
+       
+      
         // Navigate to the job search page
         // navigate('/Filter');
         // window.location.reload();
@@ -299,7 +310,7 @@ const SearchBar = ({ isJobSearchPage }) => {
      {loading ? (<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                     {/* <BeatLoader color="#36D7B7" css={override} />  */}
                     
-                          <BeatLoader color="#F9FCF3" />
+                          <BeatLoader color="black" />
                     <p style={{color:'#FFFCF4'}}>Loading Search Data...</p> {/* Text indicating that profile information is loading */}
                 </div>):(
     <div className={isJobSearchPage ? classes.jobSearchRoot : classes.root}>
@@ -457,10 +468,3 @@ const SearchBar = ({ isJobSearchPage }) => {
 };
 
 export default SearchBar;
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -6,9 +6,12 @@ import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BASE_URL from '../CommonAPI';
+import UserContext from '../Sprint 2/contextFilter';
+
 
 export const JobCard = () => {
   const navigate = useNavigate();
+  const { jobData,setJobData } = useContext(UserContext);
 
   const handleViewAllClick = async (employeeType) => {
     try {
@@ -20,7 +23,10 @@ export const JobCard = () => {
         },
       });
       console.log(response.data); // Log the response data to the console
-      navigate('/newpost');
+      setJobData(response.data);
+      console.log(jobData,"=========jobcard" );
+      // navigate('/newpost');
+      navigate('/Filter');
     } catch (error) {
       console.error('Error:', error);
     }

@@ -4,6 +4,8 @@ import { FaUserCircle, FaBell } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import NavbarData from "../Json/NavBarJsonData.json";
 import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
+import BASE_URL from '../CommonAPI';
 
 const Navbar = () => {
   const [loading, setLoading] = useState(false);
@@ -31,9 +33,31 @@ const Navbar = () => {
         navigate('/CreateAccount')
     };
   
-    const profile = () => {
-      navigate('/UserProfile');
-    };
+    // const profile = () => {
+    //   navigate('/UserProfile');
+    // };
+
+    const profile = async () => {
+      // Retrieve token from local storage
+      const token = localStorage.getItem('loginToken');
+  
+      // Create requestData object with token and other data
+      const requestData = {
+          token: token,
+          // Add other data you need to send here
+      };
+  
+      try {
+          // Make API call to send token and other data to backend
+          await axios.post(`${BASE_URL}/get_user_details/`, requestData);
+  
+          // Navigate to user profile page after token and data are successfully sent
+          navigate('/UserProfile');
+      } catch (error) {
+          console.error('Error sending token and data:', error);
+          // Handle error as needed
+      }
+  };
     const Employerdetails=()=>{
       navigate('/EmployerRegister')
     }

@@ -28,6 +28,7 @@ import Radio from '@mui/material/Radio';
 import axios from 'axios';
 import UserFormData from '../Json/UserForm.json';
 import BASE_URL from '../CommonAPI';
+import { useNavigate } from 'react-router-dom';
 
 // Container styling
 const FormContainer = styled(Container)({
@@ -46,12 +47,14 @@ const ResumeAccordionWrapper = styled(Accordion)({
 });
 
 const UserForm = () => {
+  const navigate = useNavigate();
+
     // State for user details
     const [userDetails, setUserDetails] = useState({
         first_name: '',
         last_name: '',
         date_of_birth: '',
-        email: '',
+        // email: '',
         gender: '',
         profile_picture: null,
 
@@ -210,7 +213,7 @@ const UserForm = () => {
             first_name: '',
             last_name: '',
             date_of_birth: '',
-            email: '',
+            // email: '',
         },
         jobPreference: {
             key_skills: '',
@@ -487,7 +490,9 @@ const UserForm = () => {
             console.log('Please fill at least one address type');
             return;
         }
-
+        // for sending token
+        const Token= localStorage.getItem('loginToken')
+        console.log(Token,'========================sending token to backend')
         // Create a FormData object to send to the backend
         const dataToSend = new FormData();
         dataToSend.append('userDetails', JSON.stringify({
@@ -510,6 +515,7 @@ const UserForm = () => {
         dataToSend.append('resume', resume); // Assuming resume is a File object
         dataToSend.append('profilePicture', profilePicture); // Assuming profilePicture is a File object
         dataToSend.append('jobPreference', JSON.stringify(jobPreference));
+        dataToSend.append('token',Token);
 
         // Log the FormData object
         for (const pair of dataToSend.entries()) {
@@ -593,6 +599,15 @@ const UserForm = () => {
             setProfessionalDetailsExpanded(true);
             setResumeExpanded(true);
             setjobPreferenceExpanded(true);
+
+            /// to naviiagte 
+
+            // if(response.data.status !== true){
+            //     alert("Job not Found")
+            //   } else{
+            //     navigate('/UserProfile');
+                
+            //   }
 
         } catch (error) {
             console.error('API Error:', error);
@@ -679,7 +694,7 @@ const UserForm = () => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 {/* Second Column */}
-                                <TextField
+                                {/* <TextField
                                     label={UserFormData[language].UserDetail.eight}
                                     name="email"
                                     value={userDetails.email}
@@ -691,7 +706,7 @@ const UserForm = () => {
                                     helperText={errors.email}
 
 
-                                />
+                                /> */}
                                 <Select
                                     label="gender"
                                     name="gender"
@@ -702,7 +717,7 @@ const UserForm = () => {
                                     margin="dense"
                                     required
                                     className='user_details_gender'
-
+                                    style={{marginTop:'9px'}}
 
                                 >
                                     <MenuItem value="" disabled>{UserFormData[language].UserDetail.twelve}</MenuItem>
