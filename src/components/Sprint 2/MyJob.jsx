@@ -258,6 +258,8 @@ function MyJob() {
   useEffect(() => {
     // Passing id and Fetching Data
     // if (location.state && location.state.id) {
+      const token = localStorage.getItem('loginToken');
+      console.log(token,"=========token");
       // const id = location.state.id; // id post
       // setEmployeeId(id);
       async function postID() {
@@ -270,7 +272,7 @@ function MyJob() {
                 "Content-Type": "application/json",
               },
               // body: JSON.stringify({ employee_id: id }),
-              body: JSON.stringify({ employee_id: 5 }),
+              body: JSON.stringify({token}),
             }
           );
           if (!response.ok) {

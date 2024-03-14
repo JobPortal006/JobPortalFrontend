@@ -323,7 +323,8 @@ export const ApplyJob = ({ onClose }) => {
             setError('Please fill in all required fields.');
             return;
         }
-    
+        
+        const token = localStorage.getItem('loginToken');
         // Handle form submission logic here
         console.log('Form Data:', formData);
         setError(''); // Clear any previous error
@@ -334,7 +335,7 @@ export const ApplyJob = ({ onClose }) => {
             formDataForUpload.append('email', formData.email);
             formDataForUpload.append('mobileNumber', formData.mobileNumber);
             formDataForUpload.append('resumePath', formData.resumePath);
-            formDataForUpload.append('user_id', formData.userId);
+            formDataForUpload.append('token', token);
             formDataForUpload.append('job_id', formData.jobId);
     
             axios.post('http://192.168.1.44:8000/apply_job/', formDataForUpload, {
@@ -356,6 +357,7 @@ export const ApplyJob = ({ onClose }) => {
         // Make API request if additional_queries is True
         if (showExtraFields) {
             const formDataForUpload = new FormData();
+            const token = localStorage.getItem('loginToken');
             
             formDataForUpload.append('email', formData.email);
             formDataForUpload.append('mobile_number', formData.mobileNumber);
@@ -365,7 +367,7 @@ export const ApplyJob = ({ onClose }) => {
             formDataForUpload.append('total_experience', formData.totalExperience);
             formDataForUpload.append('notice_period', formData.noticePeriod);
             formDataForUpload.append('resume_path', formData.resumePath);
-            formDataForUpload.append('user_id', formData.userId);
+            formDataForUpload.append('token', token);
             formDataForUpload.append('job_id', formData.jobId);
 
             axios.post('http://192.168.1.44:8000/apply_job/', formDataForUpload, {

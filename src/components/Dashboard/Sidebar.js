@@ -279,11 +279,13 @@ const SideNavbar = () => {
 
   useEffect(() => {
     if (selectedItem === 'My Profile') {
+      const token = localStorage.getItem('loginToken');
+        console.log(token,"=========token");
       setLoading(true);
       // axios.post('http://192.168.1.44:8000/get_employeer_details/', {
       //   employee_id: 2
       axios.post(`${BASE_URL}/get_employeer_details/`, {
-        employee_id: 5
+        token
       })
         .then(response => {
           setEmployerDetails(response.data);

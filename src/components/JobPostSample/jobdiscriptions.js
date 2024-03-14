@@ -186,8 +186,9 @@ const JobDetails = () => {
     fetchJobDetails();
   }, []);
   
+  const token = localStorage.getItem('loginToken');
   const [postdata, setPostData] = useState({
-    user_id: 7,
+    token,
     job_id: 45
   });
   const handleApplyClick = async () => {
