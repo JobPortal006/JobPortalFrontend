@@ -178,7 +178,7 @@ import { useNavigate } from 'react-router-dom';
 import NavbarData from "../Json/NavBarJsonData.json";
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
-// import BASE_URL from '../CommonAPI';
+import BASE_URL from '../CommonAPI';
 
 const Navbar = () => {
   const [loading, setLoading] = useState(false);
@@ -209,7 +209,6 @@ const Navbar = () => {
     // const profile = () => {
     //   navigate('/UserProfile');
     // };
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
 
     const profile = async () => {
       // Retrieve token from local storage

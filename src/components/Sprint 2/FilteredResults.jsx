@@ -44,7 +44,7 @@ function FilteredResults() {
         
     }
     const paginate = pageNumber => setCurrentPage(pageNumber);
-
+   
     const handleJobSelect = async (selectedJob) => {
         try {
             setLoading(true);
