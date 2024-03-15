@@ -46,6 +46,11 @@ function FilteredResults() {
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const handleJobSelect = async (selectedJob) => {
+        const Token= localStorage.getItem('loginToken')
+        const Token1={
+            selectedJob,
+            token:Token
+        }
         try {
             setLoading(true);
             const response = await fetch(`${BASE_URL}/job_details/`, {
@@ -53,7 +58,7 @@ function FilteredResults() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(selectedJob),
+                body: JSON.stringify(Token1),
             });
             if (!response.ok) {
              throw new Error('Failed to send selected job data to the backend');
@@ -78,7 +83,7 @@ function FilteredResults() {
             {loading ? (
                 <div className="loading-popup">Loading...</div> 
             ) : (
-                <div className="job-result" style={{ marginTop: '300px', marginLeft:"150px" }}>
+                <div className="job-result" style={{ marginTop: '300px', marginLeft:"20px",width:'800px' }}>
               
                     {currentJobs.map((job, index) => (
                         <div key={index} className="job-box" onClick={() => handleJobSelect(job)}>
@@ -134,4 +139,5 @@ function FilteredResults() {
 }
 
 export default FilteredResults;
+
 
