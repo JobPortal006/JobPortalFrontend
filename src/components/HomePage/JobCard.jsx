@@ -25,9 +25,17 @@ export const JobCard = () => {
       console.log(response.data); // Log the response data to the console
       setJobData(response.data);
       console.log(jobData,"=========jobcard" );
-      navigate('/newpost');
+      // navigate('/newpost');
+      // alert(response.data.message || 'Response received successfully');
+      navigate('/newpost')
+
+    // Display the response message in an alert box after a short delay
+    setTimeout(() => {
+      alert(response.data.message || 'Response received successfully');
+    }, 500); // Adjust the delay as needed
     } catch (error) {
       console.error('Error:', error);
+      // alert('An error occurred while processing your request. Please try again later.');
     }
   };
 

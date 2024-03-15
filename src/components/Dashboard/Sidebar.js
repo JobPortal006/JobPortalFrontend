@@ -190,7 +190,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
-import { BounceLoader } from 'react-spinners';
+import { HashLoader } from 'react-spinners';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import WorkIcon from '@material-ui/icons/Work';
@@ -382,16 +382,16 @@ const SideNavbar = () => {
       <div className={classes.oppositeContainer}>
         {loading ? (
           <div className={classes.loadingContainer}>
-            <BounceLoader
+            <HashLoader
               height={100}
               width={100}
-              color="#4fa98d"
-              ariaLabel="blocks-loading"
-              css={css`
-                display: block;
-                margin: 0 auto;
-              `}
+              color="#1A237E"
+              ariaLabel="grid-loading"
+              radius="12.5"
+              wrapperStyle={{}}
+              wrapperClass="grid-wrapper"
             />
+            <li>Loading...!</li>
           </div>
         ) : (
           <>

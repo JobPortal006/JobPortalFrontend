@@ -639,6 +639,7 @@ import axios from 'axios';
 import { validateCompanyDetails, validateCompanyAddress, validateContactInformation } from '../validation/Employervalidation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'; 
 // Importing error messages from JSON file
 import errorMessages from '../Json/Employerregister.json'; 
 import BASE_URL from '../CommonAPI';
@@ -648,7 +649,7 @@ import BASE_URL from '../CommonAPI';
 
 // Defining a functional component named Employerregister
 export const Employerregister = () => {
- 
+  const navigate = useNavigate();
   // const { employeeForm, setEmployeeForm } = useContext(UserContext);
   // State variables for company details, address, contact information, and errors
   const [company_details, setcompany_details] = useState({
@@ -952,10 +953,18 @@ export const Employerregister = () => {
         const response = await axios.post(apiUrl, formData, { headers });
 
         const message = response.data.message || 'Registration successful';
-        if (response.data.alreadyRegistered) {
-          toast.error('You have already registered.', { position: toast.POSITION.TOP_CENTER });
-        } else {
+        // if (response.data.alreadyRegistered) {
+        //   toast.error('You have already registered.', { position: toast.POSITION.TOP_CENTER });
+        // } else {
+        //   toast.success(message, { position: toast.POSITION.TOP_CENTER });
+        // }
+
+        if (!response.data.alreadyRegistered) {
           toast.success(message, { position: toast.POSITION.TOP_CENTER });
+          // Navigate to /home
+          navigate('/home');
+        } else {
+          toast.error('You have already registered.', { position: toast.POSITION.TOP_CENTER });
         }
 
         const FormdataAll =  {

@@ -15,7 +15,7 @@ function FilteredResults() {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [jobsPerPage] = useState(5);
-    const { searchJob, oneData ,companyList} = useContext(UserContext);
+    const { searchJob, oneData ,companyList, setData,setsearchJob,userFilter,setUserFilter} = useContext(UserContext);
     console.log(searchJob,'=====raghul data1')
     console.log(oneData,'=====raghul data2')
 
@@ -23,16 +23,34 @@ function FilteredResults() {
     useEffect(()=>{},[searchJob,oneData,companyList])
     // Determine which data to use for rendering
     const dataToUse = searchJob ? searchJob : oneData || companyList?.data ;
+    // setsearchJob(false)
+//    if(oneData.length !== 0 ){
+//    setsearchJob(false)
+//    }
+
+
+    
+    console.log(dataToUse,"<====DATATOUSE");
   
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
     const currentJobs = dataToUse?.slice(indexOfFirstJob, indexOfLastJob);
  
-    
-
+    console.log(currentJobs,"<===CurrentJobs");
+    const [noResult, setNoResult] = useState(false)
+    if(dataToUse === null){
+        setNoResult(true)
+        alert("Hello Everyone")
+        
+    }
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const handleJobSelect = async (selectedJob) => {
+        const Token= localStorage.getItem('loginToken')
+        const Token1={
+            selectedJob,
+            token:Token
+        }
         try {
             setLoading(true);
             const response = await fetch(`${BASE_URL}/job_details/`, {
@@ -40,7 +58,7 @@ function FilteredResults() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(selectedJob),
+                body: JSON.stringify(Token1),
             });
             if (!response.ok) {
              throw new Error('Failed to send selected job data to the backend');
@@ -65,16 +83,16 @@ function FilteredResults() {
             {loading ? (
                 <div className="loading-popup">Loading...</div> 
             ) : (
-                <div className="job-result" style={{ marginTop: '60px' }}>
-                <SearchBar isJobSearchPage={true} />
+                <div className="job-result" style={{ marginTop: '300px', marginLeft:"150px" }}>
+              
                     {currentJobs.map((job, index) => (
                         <div key={index} className="job-box" onClick={() => handleJobSelect(job)}>
                             <div className="job-top">
                                 <div className="job-heading company-img">
-                                    {job.company_logo && job.company_logo.includes('data:image') ? (
-                                        <img src={job.company_logo} alt="Company Logo" />
+                                    {job.company_logo_path && job.company_logo_path.includes('data:image') ? (
+                                        <img src={job.company_logo_path} alt="Company Logo" />
                                     ) : (
-                                        <img src={`data:image/jpeg;base64,${job.company_logo}`} alt="Company Logo" />
+                                        <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.company_logo_path}`} alt="Company Logo" />
                                     )}
                                     {job.company_name}
                                 </div>
@@ -105,15 +123,17 @@ function FilteredResults() {
                             </div>
                         </div>
                     ))}
-                    <div className="pagination">
+                    <div className="pagination" style={{marginLeft:"50px", marginBottom:"20px"}}>
                         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-                        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= oneData.length}>Next</button>
+                        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= dataToUse.length}>Next</button>
                     </div>
                 </div>
             )}
             </Grid>
             </Grid>
-            
+            <div>
+             {noResult && <h1>No Result Found</h1>}
+            </div>
             </div>
     );
 }

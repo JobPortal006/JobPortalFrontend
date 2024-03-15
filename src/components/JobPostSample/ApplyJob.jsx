@@ -278,7 +278,6 @@ export const ApplyJob = ({ onClose }) => {
     console.log(detailData,"-post");
 
     const [formData, setFormData] = useState({
-        userId: detailData.user_id,
         jobId: detailData.job_id,
         email: responseData.email || '',
         mobileNumber: responseData.mobile_number || '',
