@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {Checkbox, FormControlLabel, FormGroup, IconButton, Grid, Radio, RadioGroup} from "@mui/material";
+import {Checkbox, FormControlLabel, FormGroup, IconButton, Grid, Radio, RadioGroup,Typography} from "@mui/material";
 import { Box, List, ListItemButton, ListItemText, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -12,8 +12,9 @@ import SearchBar from "../HomePage/searchBar";
 const Filter = () => {
   const [showAll, setShowAll] = useState(false);
   const [Show, setShow] = useState(false);
+  const [errorOne, setErrorOne ] = useState(null)
 
-  const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList} = useContext(UserContext);
+  const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData} = useContext(UserContext);
   console.log(searchJob,'=====search job data')
 console.log(oneData, "=====raghul data");
 
@@ -92,7 +93,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/location/");
+        const response = await fetch("http://192.168.1.46:8000/location/");
         if (!response) {
           console.error("Failed to fetch locations");
         }
@@ -136,7 +137,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchJobRoles = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/job_role/");
+        const response = await fetch("http://192.168.1.46:8000/job_role/");
         if (!response.ok) {
           console.error("Failed to fetch job roles");
           return;
@@ -203,14 +204,13 @@ console.log(companyList, "=====raghul data company list");
     const searchResult = null
     setsearchJob(searchResult)
     setcompanyList(null)
-    // setJobData(null)
     setFilteredData(filtered);
-    
+    setJobData(null)
     
  
     try {
       const response = await fetch(
-        "http://192.168.1.44:8000/filter_job/",
+        "http://192.168.1.46:8000/filter_job/",
         {
           method: "POST",
           headers: {
@@ -223,20 +223,18 @@ console.log(companyList, "=====raghul data company list");
       const FilterResponse = FilterData.data
       console.log(FilterResponse,"<====filter-Response");
       
-    
-    
-     
 
       if(FilterResponse !== null){
         setData(FilterResponse)
-        setsearchJob(null)
+        
       }else{
         setsearchJob(FilterResponse)
-        setData(null)
+        
       }
       console.log(FilterData.status,"status===>");
       if (FilterData.status !== true) {
-        alert("Failed to post data to backend");
+        // alert("Failed to post data to backend");
+        return <p>Error: Server Not Responding</p>
         
       } else {
         
@@ -244,12 +242,22 @@ console.log(companyList, "=====raghul data company list");
       }
       console.log("Data successfully posted to backend");
     } catch (error) {
+      setErrorOne(error)
       console.error("Error posting data to backend:", error.message);
     }
 
+   
+
   }; 
 
+  
 
+  if (errorOne) {
+    return <p style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '30px' }}
+    >Error: Server Not Responding
+    </p>; 
+  }
+  
 
   return (
     <Grid container>
@@ -398,7 +406,7 @@ console.log(companyList, "=====raghul data company list");
        {component && <FilteredResults  />}
        {searchJob && <FilteredResults  />}
        {companyList && <FilteredResults  />}
-       {/* {jobData && <FilteredResults />}   */}
+       {jobData && <FilteredResults  /> }
 
       </Grid>
     </Grid>

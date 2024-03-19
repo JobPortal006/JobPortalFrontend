@@ -174,7 +174,12 @@ const UserDashboard = () => {
       });
   }, []);
 
-  const handleCardClick = async (job) => {
+  const handleCardClick = async (selectedJob) => {
+    const Token= localStorage.getItem('loginToken')
+    const Token1={
+      selectedJob, 
+        token:Token
+    }
       try {
           setLoading1(true);
           const response = await fetch(`${BASE_URL}/job_details/`, {
@@ -182,7 +187,7 @@ const UserDashboard = () => {
               headers: {
                   'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ id: job.job_post_id }),
+              body: JSON.stringify(Token1),
           });
           if (!response.ok) {
            throw new Error('Failed to send selected job data to the backend');
@@ -191,7 +196,7 @@ const UserDashboard = () => {
           } else {
               navigate('/JobDetails');
           }
-          console.log('Selected job data sent successfully:', job);
+          console.log('Selected job data sent successfully:', selectedJob);
       } catch (error) {
           console.error('Error sending selected job data to the backend:', error);
       } finally {

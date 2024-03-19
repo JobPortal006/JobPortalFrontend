@@ -15,14 +15,14 @@ function FilteredResults() {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [jobsPerPage] = useState(5);
-    const { searchJob, oneData ,companyList, setData,setsearchJob,userFilter,setUserFilter} = useContext(UserContext);
+    const { searchJob, oneData ,companyList, setData,setsearchJob,userFilter,setUserFilter,jobData,setJobData} = useContext(UserContext);
     console.log(searchJob,'=====raghul data1')
     console.log(oneData,'=====raghul data2')
 
 
     useEffect(()=>{},[searchJob,oneData,companyList])
     // Determine which data to use for rendering
-    const dataToUse = searchJob ? searchJob : oneData || companyList?.data ;
+    const dataToUse = searchJob ? searchJob : oneData || companyList?.data || jobData?.data;
     // setsearchJob(false)
 //    if(oneData.length !== 0 ){
 //    setsearchJob(false)
@@ -100,7 +100,7 @@ function FilteredResults() {
                             </div>
                             <div className="job-brief">
                                 <div className="brief">
-                                    <span className="brief-label"><FontAwesomeIcon icon={faMapMarkerAlt} /> Location:</span> {job.location}
+                                    <span className="brief-label"><FontAwesomeIcon icon={faMapMarkerAlt} /> Location:</span> {job.location ? job.location.join(','):''}
                                 </div>
                                 <div className="brief">
                                     <span className="brief-label"><FontAwesomeIcon icon={faMoneyBillAlt} /> Salary:</span> {job.salary_range}

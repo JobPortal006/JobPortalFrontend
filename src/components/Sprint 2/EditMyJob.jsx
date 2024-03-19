@@ -82,9 +82,9 @@ const EditMyJob = () => {
     job_description: "",
     employee_type: "",
     job_role: "",
-    location: "",
+    location: [],
     skills: [],
-    qualification: "",
+    qualification: [],
     experience: "",
     salary_range: "",
     no_of_vacancies: "",
@@ -154,14 +154,6 @@ const EditMyJob = () => {
   //   }
   // }, [location.state]);
 
-  const [fetchJob, setFetchJob] =  useState("")
-
-console.log(fetchJob,"fetchJob===>");
-
- 
-
-  const{updateJobId} = useContext(UserContext);
-  console.log(updateJobId,'updateJobId')
 
   // useEffect(() => {
   //   // Passing id and Fetching Data
@@ -320,16 +312,14 @@ console.log(fetchJob,"fetchJob===>");
             <br />
             <label>Location*</label>
             <br />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="job-location"
-              label="Location"
-              name="location"
-              value={jobPost.location}
-              onChange={(e) => setJobPost({ ...jobPost, location: e.target.value })}
-            />
+            <Autocomplete
+            multiple
+             options={jobPost.location}
+            value={jobPost.location}
+            onChange={(event, newEvent) => setJobPost({...jobPost, location : newEvent })}
+            renderInput={(para) => <TextField {...para} label="Location" />}
+          />
+          <br />
             <br />
             <br />
             <label>Skills*</label>
@@ -344,7 +334,17 @@ console.log(fetchJob,"fetchJob===>");
             />
             <br />
             <label>Qualification*</label>
-            <TextField
+            <Autocomplete
+            multiple
+             options={jobPost.qualification}
+            value={jobPost.qualification}
+            onChange={(event, newEvent) => setJobPost({...jobPost, qualification : newEvent })}
+            renderInput={(para) => <TextField {...para} label="Qualification" />}
+          />
+          <br />
+
+
+          {/*   <TextField
               margin="normal"
               fullWidth
               id="job-qualification"
@@ -353,6 +353,7 @@ console.log(fetchJob,"fetchJob===>");
               value={jobPost.qualification}
               onChange={(e) => setJobPost({ ...jobPost, qualification: e.target.value})}
             />
+            */}
             <Grid container spacing={2} sx={{ mt: 1 }}>
               <Grid item xs={12} sm={12} md={4} xl={4} xxl={4}>
                 <label>Experience*</label>
@@ -409,3 +410,6 @@ console.log(fetchJob,"fetchJob===>");
 };
 
 export default EditMyJob;
+
+
+

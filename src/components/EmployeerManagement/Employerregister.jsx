@@ -4,6 +4,7 @@ import axios from 'axios';
 import { validateCompanyDetails, validateCompanyAddress, validateContactInformation } from '../validation/Employervalidation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'; 
 // Importing error messages from JSON file
 import errorMessages from '../Json/Employerregister.json'; 
 import BASE_URL from '../CommonAPI';
@@ -13,7 +14,7 @@ import BASE_URL from '../CommonAPI';
 
 // Defining a functional component named Employerregister
 export const Employerregister = () => {
- 
+  const navigate = useNavigate();
   // const { employeeForm, setEmployeeForm } = useContext(UserContext);
   // State variables for company details, address, contact information, and errors
   const [company_details, setcompany_details] = useState({
@@ -25,14 +26,16 @@ export const Employerregister = () => {
     company_website_link: ''
   });
 
-  const [company_address, setcompany_address] = useState({       
-    street: '',
-    city: '',
-    state: '',
-    country: '',
-    pincode: '',
-    address_type: ''
-  });
+  const [companyAddresses, setCompanyAddresses] = useState([
+    {
+      street: '',
+      city: '',
+      state: '',
+      country: '',
+      pincode: '',
+      address_type: ''
+    }
+  ]);
 
   const [contact_information, setcontact_information] = useState({
     contact_person_name: '',
@@ -103,20 +106,10 @@ export const Employerregister = () => {
   };
 
   // Event handler for address changes
-  const handleAddressChange = (e) => {
-    const { name, value } = e.target;
-    setcompany_address({
-      ...company_address,
-      [name]: value
-    });
-    // Clear error message when input changes
-    setErrors({
-      ...errors,
-      company_address: {
-        ...errors.company_address,
-        [name]: ''
-      }
-    });
+  const handleAddressChange = (index, field, value) => {
+    const newAddresses = [...companyAddresses];
+    newAddresses[index][field] = value;
+    setCompanyAddresses(newAddresses);
   };
 
   // Event handler for contact information changes
@@ -135,6 +128,27 @@ export const Employerregister = () => {
       }
     });
   };
+
+  const handleAddAddress = () => {
+    setCompanyAddresses([...companyAddresses, {
+      street: '',
+      city: '',
+      state: '',
+      country: '',
+      pincode: '',
+      address_type: ''
+    }]);
+  };
+
+  const handleDeleteAddress = (index) => {
+    // Check if the index is not 0 before deleting
+    if (index !== 0) {
+      const newAddresses = [...companyAddresses];
+      newAddresses.splice(index, 1);
+      setCompanyAddresses(newAddresses);
+    }
+  };
+
   
   // const {employeeForm,setEmployeeForm} = useContext(UserContext);
 
@@ -240,12 +254,17 @@ export const Employerregister = () => {
   //   // return <UpdateEmployerregister form={employeeForm} />
   // };
 
+ 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const companyDetailsErrors = validateCompanyDetails(company_details);
-    const companyAddressErrors = validateCompanyAddress(company_address);
+    const companyAddressErrors = companyAddresses.map(validateCompanyAddress);
     const contactInfoErrors = validateContactInformation(contact_information);
+
+      const token = localStorage.getItem('loginToken');
+        console.log(token,"=========token");
 
     setErrors({
       company_details: companyDetailsErrors,
@@ -254,7 +273,8 @@ export const Employerregister = () => {
     });
 
     if (Object.keys(companyDetailsErrors).length === 0 && 
-      Object.keys(companyAddressErrors).length === 0 && 
+      // Object.keys(companyAddressErrors).length === 0 && 
+      companyAddressErrors.every((errors) => Object.keys(errors).length === 0) && 
       Object.keys(contactInfoErrors).length === 0) {
 
       try {
@@ -266,9 +286,13 @@ export const Employerregister = () => {
           }
         });
 
-        Object.keys(company_address).forEach((key) => {
-          formData.append(key, company_address[key]);
-        });
+        // companyAddresses.forEach((address, index) => {
+        //   Object.keys(address).forEach((key) => {
+        //     formData.append(`address_${index}_${key}`, address[key]);
+        //   });
+        // });
+
+        formData.append('company_address', JSON.stringify(companyAddresses));
 
         Object.keys(contact_information).forEach((key) => {
           if (key === 'mobile_number') {
@@ -279,6 +303,9 @@ export const Employerregister = () => {
         });
 
         formData.append('company_logo', company_details.company_logo);
+        formData.append('token', token);
+
+        
 
         const headers = {
           'Content-Type': 'multipart/form-data',
@@ -291,15 +318,23 @@ export const Employerregister = () => {
         const response = await axios.post(apiUrl, formData, { headers });
 
         const message = response.data.message || 'Registration successful';
-        if (response.data.alreadyRegistered) {
-          toast.error('You have already registered.', { position: toast.POSITION.TOP_CENTER });
-        } else {
+        // if (response.data.alreadyRegistered) {
+        //   toast.error('You have already registered.', { position: toast.POSITION.TOP_CENTER });
+        // } else {
+        //   toast.success(message, { position: toast.POSITION.TOP_CENTER });
+        // }
+
+        if (!response.data.alreadyRegistered) {
           toast.success(message, { position: toast.POSITION.TOP_CENTER });
+          // Navigate to /home
+          navigate('/home');
+        } else {
+          toast.error('You have already registered.', { position: toast.POSITION.TOP_CENTER });
         }
 
         const FormdataAll =  {
           company_details,
-          company_address,
+          company_addresses: companyAddresses,
           contact_information
         }
         // setEmployeeForm(FormdataAll);
@@ -314,11 +349,10 @@ export const Employerregister = () => {
       }
     }
 
-    //  return <UpdateEmployerregister form={employeeForm} />
+    
   };
   
-  // // Return UpdateEmployerregister component with form data passed as props
-  // return <UpdateEmployerregister form={employeeForm} />;
+ 
   
 
   
@@ -538,88 +572,113 @@ export const Employerregister = () => {
           marginTop:'20px'
         }}
       >
+        
         <form onSubmit={handleSubmit}>
-          <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12}>
-              <Typography variant="h6"
-               color="#1A237E" fontSize="25px"
-               fontWeight="bold" textTransform="uppercase" textAlign="center">Company Address</Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.streetLabel}
-                name="street"
-                value={company_address.street}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.street)}
-                helperText={errors.company_address.street}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.cityLabel}
-                name="city"
-                value={company_address.city}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.city)}
-                helperText={errors.company_address.city}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.stateLabel}
-                name="state"
-                value={company_address.state}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.state)}
-                helperText={errors.company_address.state}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.countryLabel}
-                name="country"
-                value={company_address.country}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.country)}
-                helperText={errors.company_address.country}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label={errorMessages.mainFileStrings.pincodeLabel}
-                name="pincode"
-                value={company_address.pincode}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.pincode)}
-                helperText={errors.company_address.pincode}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                select
-                fullWidth
-                label={errorMessages.mainFileStrings.addressTypeLabel}
-                name="address_type"
-                value={company_address.address_type}
-                onChange={handleAddressChange}
-                error={Boolean(errors.company_address.address_type)}
-                helperText={errors.company_address.address_type}
-              >
-                <MenuItem value="Permanent">Permanent</MenuItem>
-                <MenuItem value="Current">Current</MenuItem>
-              </TextField>
-            </Grid>
-            <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary">{errorMessages.mainFileStrings.submitButtonLabel}</Button>
-            </Grid>
-          </Grid>
-        </form>
+    <Grid container spacing={2} justifyContent="center">
+    <Grid item xs={12}>
+      <Typography variant="h6"
+       color="#1A237E" fontSize="25px"
+       fontWeight="bold" textTransform="uppercase" textAlign="center">Company Address</Typography>
+    </Grid>
+    {companyAddresses.map((address, index) => (
+      <React.Fragment key={index}>
+        {index !== 0 && (
+      <Grid item xs={12}>
+        <Typography variant="h6" color="#1A237E" fontSize="25px"
+       fontWeight="bold" textTransform="uppercase" textAlign="center">Company Address {index > 0 ? index : ''}</Typography>
+      </Grid>
+    )}
+        <Grid item xs={12} sm={6}>
+        <TextField
+          fullWidth
+          label={errorMessages.mainFileStrings.streetLabel}
+          name={`street_${index}`}
+          value={address.street}
+          onChange={(e) => handleAddressChange(index, 'street', e.target.value)}
+          error={Boolean(errors.company_address[index]?.street)} // Update error prop
+          helperText={errors.company_address[index]?.street} // Display error message
+        />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label={errorMessages.mainFileStrings.cityLabel}
+            name={`city_${index}`}
+            value={address.city}
+            // onChange={(e) => handleAddressChange(index, e)}
+            onChange={(e) => handleAddressChange(index, 'city', e.target.value)}
+            error={Boolean(errors.company_address[index]?.city)} // Update error prop
+            helperText={errors.company_address[index]?.city} 
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label={errorMessages.mainFileStrings.stateLabel}
+            name={`state_${index}`}
+            value={address.state}
+            // onChange={(e) => handleAddressChange(index, e)}
+            onChange={(e) => handleAddressChange(index, 'state', e.target.value)}
+            error={Boolean(errors.company_address[index]?.state)} // Update error prop
+            helperText={errors.company_address[index]?.state} 
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label={errorMessages.mainFileStrings.countryLabel}
+            name={`country_${index}`}
+            value={address.country}
+            // onChange={(e) => handleAddressChange(index, e)}
+            onChange={(e) => handleAddressChange(index, 'country', e.target.value)}
+            error={Boolean(errors.company_address[index]?.country)} // Update error prop
+            helperText={errors.company_address[index]?.country} 
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            fullWidth
+            label={errorMessages.mainFileStrings.pincodeLabel}
+            name={`pincode_${index}`}
+            value={address.pincode}
+            // onChange={(e) => handleAddressChange(index, e)}
+            onChange={(e) => handleAddressChange(index, 'pincode', e.target.value)}
+            error={Boolean(errors.company_address[index]?.pincode)} // Update error prop
+            helperText={errors.company_address[index]?.pincode} 
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            select
+            fullWidth
+            label={errorMessages.mainFileStrings.addressTypeLabel}
+            name={`address_type_${index}`}
+            value={address.address_type}
+            // onChange={(e) => handleAddressChange(index, e)}
+            onChange={(e) => handleAddressChange(index, 'address_type', e.target.value)}
+            error={Boolean(errors.company_address[index]?.address_type)} // Update error prop
+            helperText={errors.company_address[index]?.address_type} 
+          >
+            <MenuItem value="Permanent">Permanent</MenuItem>
+            <MenuItem value="Current">Current</MenuItem>
+          </TextField>
+        </Grid>
+        {index !== 0 && (
+      <Grid item xs={12}>
+        <Button onClick={() => handleDeleteAddress(index)} variant="contained" color="secondary">Delete Address</Button>
+      </Grid>
+    )}
+      </React.Fragment>
+    ))}
+    <Grid item xs={12}>
+      <Button onClick={handleAddAddress} variant="contained" color="primary">Add Address</Button>
+    </Grid>
+    <Grid item xs={12}>
+      <Button type="submit" variant="contained" color="primary">{errorMessages.mainFileStrings.submitButtonLabel}</Button>
+    </Grid>
+  </Grid>
+</form>
+
       </Box>
       
       </Grid>

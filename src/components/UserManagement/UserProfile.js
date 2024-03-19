@@ -18,6 +18,7 @@ import { css } from '@emotion/react';
 import './UserProfile.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 import BASE_URL from '../CommonAPI';
 
@@ -37,6 +38,8 @@ const UserProfile = () => {
     const [postData, setPostdata] = useState(null);
     console.log(postData, '=====postdata=====')
     const [resumeFile, setResumeFile] = useState(null);
+  const navigate = useNavigate();
+
     /// for validation
     const [error1, setError1] = useState({
         data: {
@@ -785,7 +788,7 @@ const UserProfile = () => {
             console.log(pair[0] + ': ' + pair[1]);
         }
 
-        fetch('http://192.168.1.44:8000/update_user_details/', {
+        fetch(`${BASE_URL}/update_user_details/`, {
             method: 'POST',
             body: formDataToSend,
         })
@@ -797,8 +800,12 @@ const UserProfile = () => {
             })
             .then(data => {
                 console.log("Response from server:", data);
-                toast.success('Profile Updated successful!', { position: toast.POSITION.TOP_CENTER });
-
+                // toast.success('Profile Updated successful!', { position: toast.POSITION.TOP_CENTER });
+                alert('Profile Updated successful!')
+              
+            })
+            .then( data=>{
+                navigate('/home')
             })
             .catch(error => {
                 console.error('Error updating user details:', error);

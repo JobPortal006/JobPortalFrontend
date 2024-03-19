@@ -33,6 +33,7 @@ import { Employerregister } from "./components/EmployeerManagement/Employerregis
 import SideNavbar from "./components/Dashboard/Sidebar.js";
 import UserDash from "./components/Dashboard/UserDash.js";
 import { Newpost } from "./components/HomePage/Newpost.js";
+import { ApplyJob } from "./components/JobPostSample/ApplyJob.jsx";
 
 
 function App() {
@@ -41,9 +42,11 @@ function App() {
   const[searchJob,setsearchJob]=useState("")
   const[companyList,setcompanyList]=useState("")
   const [jobData,setJobData ]  = useState(null);
-  console.log(companyList,"ggggg========")
+  const [responseData, setResponseData] = useState(null);
+  const [detailData,setDetailData ]  = useState(null);
   return (
-    <UserContext.Provider value={{oneData, setData,employerDetails, setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData }}>
+    <UserContext.Provider value={{oneData, setData,employerDetails, 
+    setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData  }}>
     <div>
       <BrowserRouter>
         <Navbar />
@@ -69,6 +72,7 @@ function App() {
           <Route path="/EmployerDashboard" element={<SideNavbar />} />
           <Route path="/UserDashBoard" element={<UserDash />} />
           <Route path="/newpost" element={<Newpost />} />
+          <Route path="/applyJob" element={<ApplyJob />} />
         </Routes>
       </BrowserRouter>
     </div>

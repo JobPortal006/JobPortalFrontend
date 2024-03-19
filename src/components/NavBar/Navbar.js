@@ -169,7 +169,7 @@
 
 
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import '../NavBar/Navbar.css';
 import { FaUserCircle, FaBell } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -178,10 +178,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import axios from 'axios';
 import BASE_URL from '../CommonAPI';
 import { BeatLoader } from 'react-spinners';
+import UserContext from '../Sprint 2/contextFilter';
 
 const Navbar = () => {
   const [loading, setLoading] = useState(false);
   const translations = NavbarData.english;
+  const {setData,setsearchJob,setcompanyList,setJobData}=useContext(UserContext)
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
@@ -193,6 +195,10 @@ const Navbar = () => {
   };
 
   const home = () => {
+    setData(false);
+    setsearchJob(false);
+    setcompanyList(false);
+    setJobData(false);
     navigate('/home');
   };
 
@@ -328,7 +334,7 @@ const Navbar = () => {
           </>
         )}
       </div>
-      {loading && <BeatLoader style={{height:'20px'}}/>} {/* Display loading bar if loading */}
+      {loading && <BeatLoader  color='#1A237E' style={{height:'20px'}}/>} {/* Display loading bar if loading */}
     </div>
   );
 };

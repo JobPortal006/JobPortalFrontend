@@ -1,4 +1,3 @@
-
 // Import necessary dependencies and configurations
 import validationMessages from '../Json/signup.json';
 import regexPatterns from '../Json/signupRegularexpression.json';
@@ -165,12 +164,15 @@ export const handleSubmit = async (formData, setErrors, setShowPassword, setShow
     delete formDataWithoutSensitiveInfo.agreeTerms;
 
     // Update mobile number format if present
-    if (formData.mobile_number) {
-      formData.mobile_number = `+91${formData.mobile_number}`;
-    }
+    
+    // if (formData.mobile_number) {
+    //   formData.mobile_number = "+91"+ formData.mobile_number;
+    // }
+    const formattedMobileNumber = `+91${formData.mobile_number}`;
+
 
     // Display form data (without sensitive info) in the console
-    console.log('Form submitted:', formDataWithoutSensitiveInfo);
+    console.log('Form submitted:', formDataWithoutSensitiveInfo );
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -181,7 +183,7 @@ export const handleSubmit = async (formData, setErrors, setShowPassword, setShow
     
     try {
       // Make a POST request to the API
-      const response = await axios.post(apiUrl, formData, headers);
+      const response = await axios.post(apiUrl, { ...formDataWithoutSensitiveInfo, mobile_number: formattedMobileNumber }, formData, headers);
 
       // Log the response and navigate based on API response
       console.log(response, "post data response===>");

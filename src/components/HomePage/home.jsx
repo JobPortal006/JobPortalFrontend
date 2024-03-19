@@ -7,6 +7,7 @@ import UserProfile from '../UserManagement/UserProfile';
 import Companylist from './Companylist';
 import HomeDesign from './HomeDesign';
 import { JobCard } from './JobCard';
+import Bottompage from './Bottom';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -30,6 +31,8 @@ const Home = () => {
 
         <Companylist />
         <JobCard />
+        <Bottompage />
+
       </div>
     </>
 

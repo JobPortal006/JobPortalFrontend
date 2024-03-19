@@ -11,7 +11,7 @@ import UserContext from '../Sprint 2/contextFilter';
 
 export const JobCard = () => {
   const navigate = useNavigate();
-  const { jobData,setJobData } = useContext(UserContext);
+  const { jobData,setJobData ,setsearchJob,setData,setcompanyList} = useContext(UserContext);
 
   const handleViewAllClick = async (employeeType) => {
     try {
@@ -25,10 +25,23 @@ export const JobCard = () => {
       console.log(response.data); // Log the response data to the console
       setJobData(response.data);
       console.log(jobData,"=========jobcard" );
+      if(jobData!==null){
+        setJobData(response.data)
+        setsearchJob(null);
+        setData(null);
+        setcompanyList(null)
+      }
       // navigate('/newpost');
-      navigate('/Filter');
+      // alert(response.data.message || 'Response received successfully');
+      navigate('/Filter')
+
+    // Display the response message in an alert box after a short delay
+    setTimeout(() => {
+      // alert(response.data.message || 'Response received successfully');
+    }, 500); // Adjust the delay as needed
     } catch (error) {
       console.error('Error:', error);
+      // alert('An error occurred while processing your request. Please try again later.');
     }
   };
 
