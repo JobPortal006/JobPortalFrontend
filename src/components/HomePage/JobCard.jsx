@@ -8,10 +8,9 @@ import axios from 'axios';
 import BASE_URL from '../CommonAPI';
 import UserContext from '../Sprint 2/contextFilter';
 
-
 export const JobCard = () => {
   const navigate = useNavigate();
-  const { jobData,setJobData ,setsearchJob,setData,setcompanyList} = useContext(UserContext);
+  const { jobData, setJobData, setsearchJob, setData, setcompanyList } = useContext(UserContext);
 
   const handleViewAllClick = async (employeeType) => {
     try {
@@ -22,136 +21,127 @@ export const JobCard = () => {
           'Content-Type': 'application/json',
         },
       });
-      console.log(response.data); // Log the response data to the console
+      console.log(response.data);
       setJobData(response.data);
-      console.log(jobData,"=========jobcard" );
-      if(jobData!==null){
+      if (jobData !== null) {
         setJobData(response.data)
         setsearchJob(null);
         setData(null);
         setcompanyList(null)
       }
-      // navigate('/newpost');
-      // alert(response.data.message || 'Response received successfully');
-      navigate('/Filter')
-
-    // Display the response message in an alert box after a short delay
-    setTimeout(() => {
-      // alert(response.data.message || 'Response received successfully');
-    }, 500); // Adjust the delay as needed
+      navigate('/Filter');
     } catch (error) {
       console.error('Error:', error);
-      // alert('An error occurred while processing your request. Please try again later.');
     }
   };
 
-  const requestData = [
-    { employee_type: "Full time" },
-    { employee_type: "Part time" },
-    { employee_type: "Work From Home" },
-    { employee_type: "Part time" }
-  ];
-
   return (
     <>
-    <Grid padding='20px'  >
-    <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', color: '#1A237E', fontWeight:'bold',padding:'20px' }}>Employee Types</Typography>
-    <Grid container spacing={2} justifyContent="center" padding='20px'>
-      <Grid item xs={12} sm={6} md={3}>
-          <Paper
-            sx={{ 
-              width: '100%', 
-              paddingTop: '100%', 
-              position: 'relative', 
-              backgroundColor: '#E8EAF6',
-              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-              '&:hover': {
-                backgroundColor: '#9FA8DA', // Updated background color on hover
-                boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
-                cursor: 'pointer'
-              }
-            }}
-            elevation={3}
-          >
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-             
-            <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px',fontWeight:'bold' }}>Hybrid Jobs</Typography>
-            <Button variant="contained" onClick={() => handleViewAllClick('Hybrid')}sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }}>View All</Button>
+      <Grid container justifyContent="center" padding='20px'>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', color: '#1A237E', fontWeight: 'bold', padding: '20px' }}>Employee Types</Typography>
+
+        <Grid item sx={{ overflowX: 'auto' }}>
+          <div style={{ display: 'flex' }}>
+            <Paper
+              sx={{
+                flex: '0 0 auto',
+                width: '300px',
+                margin: '0 10px',
+                padding: '20px',
+                backgroundColor: '#E8EAF6',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                '&:hover': {
+                  backgroundColor: '#9FA8DA',
+                  boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
+                  cursor: 'pointer'
+                }
+              }}
+              elevation={3}
+            >
+              <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px', fontWeight: 'bold' }}>Hybrid Jobs</Typography>
+              <Button variant="contained" onClick={() => handleViewAllClick('Hybrid')} sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }}>View All</Button>
+            </Paper>
+            <Paper
+              sx={{
+                flex: '0 0 auto',
+                width: '300px',
+                margin: '0 10px',
+                padding: '20px',
+                backgroundColor: '#E8EAF6',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                '&:hover': {
+                  backgroundColor: '#9FA8DA',
+                  boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
+                  cursor: 'pointer'
+                }
+              }}
+              elevation={3}
+            >
+              <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px', fontWeight: 'bold' }}>Full Time Jobs</Typography>
+              <Button variant="contained" onClick={() => handleViewAllClick('Full Time')} sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }}>View All</Button>
+            </Paper>
+            <Paper
+              sx={{
+                flex: '0 0 auto',
+                width: '300px',
+                margin: '0 10px',
+                padding: '20px',
+                backgroundColor: '#E8EAF6',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                '&:hover': {
+                  backgroundColor: '#9FA8DA',
+                  boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
+                  cursor: 'pointer'
+                }
+              }}
+              elevation={3}
+            >
+              <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px', fontWeight: 'bold' }}>Temporary Jobs</Typography>
+              <Button variant="contained" onClick={() => handleViewAllClick('Temporary')} sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }}>View All</Button>
+            </Paper>
+            <Paper
+              sx={{
+                flex: '0 0 auto',
+                width: '300px',
+                margin: '0 10px',
+                padding: '20px',
+                backgroundColor: '#E8EAF6',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                '&:hover': {
+                  backgroundColor: '#9FA8DA',
+                  boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
+                  cursor: 'pointer'
+                }
+              }}
+              elevation={3}
+            >
+              <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px', fontWeight: 'bold' }}>Part Time Jobs</Typography>
+              <Button variant="contained" onClick={() => handleViewAllClick('Part Time')} sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }}>View All</Button>
+            </Paper>
+            <Paper
+              sx={{
+                flex: '0 0 auto',
+                width: '300px',
+                margin: '0 10px',
+                padding: '20px',
+                backgroundColor: '#E8EAF6',
+                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                '&:hover': {
+                  backgroundColor: '#9FA8DA',
+                  boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
+                  cursor: 'pointer'
+                }
+              }}
+              elevation={3}
+            >
+              <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px', fontWeight: 'bold' }}>Internship Jobs</Typography>
+              <Button variant="contained" onClick={() => handleViewAllClick('Internship')} sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }}>View All</Button>
+            </Paper>
+
           </div>
-        </Paper>
+        </Grid>
       </Grid>
-      <Grid item xs={12} sm={6} md={3}>
-        <Paper
-          sx={{ 
-            width: '100%', 
-              paddingTop: '100%', 
-              position: 'relative', 
-              backgroundColor: '#E8EAF6',
-              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-              '&:hover': {
-                backgroundColor: '#9FA8DA', // Updated background color on hover
-                boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
-                cursor: 'pointer'
-              }
-          }}
-          elevation={3}
-        >
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-           
-            <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px',fontWeight:'bold' }}>Full Time Jobs</Typography>
-            <Button variant="contained" onClick={() => handleViewAllClick('Full Time')} sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }} >View All</Button>
-          </div>
-        </Paper>
-      </Grid>
-      <Grid item xs={12} sm={6} md={3}>
-        <Paper
-          sx={{ 
-            width: '100%', 
-              paddingTop: '100%', 
-              position: 'relative', 
-              backgroundColor: '#E8EAF6',
-              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-              '&:hover': {
-                backgroundColor: '#9FA8DA', // Updated background color on hover
-                boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
-                cursor: 'pointer'
-              }
-          }}
-          elevation={3}
-        >
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            
-            <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px',fontWeight:'bold' }}>Work From Home Jobs</Typography>
-            <Button variant="contained" onClick={() => handleViewAllClick('Work From Home')} sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }}>View All</Button>
-          </div>
-        </Paper>
-      </Grid>
-      <Grid item xs={12} sm={6} md={3}>
-        <Paper
-          sx={{ 
-            width: '100%', 
-              paddingTop: '100%', 
-              position: 'relative', 
-              backgroundColor: '#E8EAF6',
-              boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-              '&:hover': {
-                backgroundColor: '#9FA8DA', // Updated background color on hover
-                boxShadow: '0px 8px 16px rgba(0, 0, 0, 0.2)',
-                cursor: 'pointer'
-              }
-          }}
-          elevation={3}
-        >
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            
-            <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px',fontWeight:'bold' }}>Part Time Jobs</Typography>
-            <Button variant="contained" onClick={() => handleViewAllClick('Part Time')} sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }}>View All</Button>
-          </div>
-        </Paper>
-      </Grid>
-      
-    </Grid>
-    </Grid>
     </>
   );
 };
+

@@ -211,31 +211,60 @@ const Navbar = () => {
     navigate('/CreateAccount')
   };
 
+  // const profile = async () => {
+  //   setLoading(true); // Start loading
+
+  //   // Retrieve token from local storage
+  //   const token = localStorage.getItem('loginToken');
+
+  //   // Create requestData object with token and other data
+  //   const requestData = {
+  //     token: token,
+  //     // Add other data you need to send here
+  //   };
+
+  //   try {
+  //     // Make API call to send token and other data to backend
+  //     await axios.post(`${BASE_URL}/get_user_details/`, requestData);
+
+  //     // Navigate to user profile page after token and data are successfully sent
+  //     navigate('/UserProfile');
+  //   } catch (error) {
+  //     console.error('Error sending token and data:', error);
+  //     // Handle error as needed
+  //   } finally {
+  //     setLoading(false); // Stop loading
+  //   }
+  // };
+
   const profile = async () => {
     setLoading(true); // Start loading
 
-    // Retrieve token from local storage
     const token = localStorage.getItem('loginToken');
 
-    // Create requestData object with token and other data
     const requestData = {
-      token: token,
-      // Add other data you need to send here
+        token: token,
     };
 
     try {
-      // Make API call to send token and other data to backend
-      await axios.post(`${BASE_URL}/get_user_details/`, requestData);
+        const response = await axios.post(`${BASE_URL}/get_user_details/`, requestData);
 
-      // Navigate to user profile page after token and data are successfully sent
-      navigate('/UserProfile');
+        // Check if the status is true
+        if (response.data.status === true) {
+            navigate('/UserProfile');
+        } else {
+            // Status is false, show alert and navigate to CreateAccount
+            alert("User details not found. Please create an account.");
+            navigate('/CreateAccount');
+        }
     } catch (error) {
-      console.error('Error sending token and data:', error);
-      // Handle error as needed
+        console.error('Error sending token and data:', error);
+        // Handle error as needed
     } finally {
-      setLoading(false); // Stop loading
+        setLoading(false); // Stop loading
     }
-  };
+};
+
 
   const Employerdetails = () => {
     navigate('/EmployerRegister')

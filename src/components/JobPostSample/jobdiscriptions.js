@@ -102,7 +102,9 @@ const JobDetails = () => {
                 <BusinessIcon style={{color:'#1A237E',marginBottom:'5px'}} /> {job.company_name}
               </Typography>
               <Typography variant="h6"  gutterBottom style={{ marginTop: '10px' }}>
-                <LocationOnIcon style={{marginBottom:'5px',color:'#1A237E'}}/> {job.location}
+                <LocationOnIcon style={{marginBottom:'5px',color:'#1A237E'}}/> {job.location.map((location,index)=>(
+                  <span key={index}>{location}{index !== job.location.length - 1 && ','}</span>
+                ))}
               </Typography>
               <Grid container spacing={3} alignItems="center">
                 <Grid item>
@@ -115,8 +117,13 @@ const JobDetails = () => {
                   <SchoolOutlinedIcon />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1" marginTop='20px' style={{ marginTop: '10px' }}><span style={{fontWeight:'bold'}}>Qualification:</span> {job.qualification}</Typography>
-                </Grid>
+                <Typography variant="subtitle1" marginTop='20px' style={{ marginTop: '10px' }}><span style={{fontWeight:'bold'}}>Qualification:</span> {job.qualification.map((qualification, index) => (
+                    <span key={index}>
+                      {qualification}
+                      {index !== job.qualification.length - 1 && ', '} {/* Add comma between qualifications except for the last one */}
+                    </span>
+                  ))}</Typography>     
+                             </Grid>
                 <Grid item>
                   <CurrencyRupeeIcon style={{ marginTop: '10px' }} />
                 </Grid>
@@ -156,6 +163,15 @@ const JobDetails = () => {
               </Typography>
               <Typography variant="h6" marginTop='20px' gutterBottom>
               <span style={{fontWeight:'bold'}}>Role:</span> {job.job_role}
+              </Typography>
+              <Typography variant="h6"  style={{ marginTop: '20px' }}>
+                <span style={{fontWeight:'bold'}}>Skills:</span>
+                {job.skills.map((skill, index) => (
+                  <span key={index}>
+                    {skill}
+                    {index !== job.skills.length - 1 && ', '}
+                  </span>
+                ))}
               </Typography>
               <Typography variant="h6" marginTop='20px' gutterBottom>
               <span style={{fontWeight:'bold'}}>Industry Type:</span>  {job.industry_type}

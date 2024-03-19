@@ -600,15 +600,7 @@ const UserForm = () => {
             setResumeExpanded(true);
             setjobPreferenceExpanded(true);
 
-            /// to naviiagte 
-
-            // if(response.data.status !== true){
-            //     alert("Job not Found")
-            //   } else{
-            //     navigate('/UserProfile');
-                
-            //   }
-
+          
         } catch (error) {
             console.error('API Error:', error);
             // Handle error as needed

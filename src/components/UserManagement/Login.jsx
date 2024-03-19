@@ -32,6 +32,7 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import UserContext from "../Sprint 2/contextFilter.jsx";
+import BASE_URL from '../CommonAPI';
 
 
 
@@ -72,7 +73,7 @@ const LogIn = () => {
     setValue(googlemail);
     
     try {
-      const response = await fetch("http://192.168.1.46:8000/google_email_checks/",{
+      const response = await fetch( `${BASE_URL}/google_email_checks/`,{
         method:"POST",
         headers :{
           "Content-Type" : "application/json",
@@ -101,6 +102,8 @@ const LogIn = () => {
         
         navigate("/home");
         
+      } else {
+        localStorage.clear();
       }
         // if (data._tokenResponse.oauthAccessToken !== undefined) {
         //         navigate("/home");
@@ -167,8 +170,8 @@ const LogIn = () => {
 
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
-    headers.append("Origin", "http://192.168.1.46:8000/login/");
-    const apiUrl = "http://192.168.1.46:8000/login/";
+    headers.append("Origin",  `${BASE_URL}/login/`);
+    const apiUrl =  `${BASE_URL}/login/`;
 
     try {
       const response = await axios.post(apiUrl, dataOne, headers);
