@@ -23,19 +23,21 @@
     margin-top: 6%;
     width: 90%;
     margin-left: 5%;
+   
   }
+
+ 
   
   .myjob-container {
     border-bottom: 1px solid #ccc;
     padding: 9px;
     background-color: #5c6bc0;
+    color: white;
   }
   
   .job-display {
     position: relative;
-    /* background-color: rgb(240, 250, 200); */
     padding: 1rem;
-    /* border:1px solid rgb(196, 127, 127) */
     box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1);
     background-color: #e8eaf6;
   }

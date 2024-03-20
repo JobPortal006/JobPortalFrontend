@@ -206,6 +206,7 @@ h2 {
 .scroll::-webkit-scrollbar-thumb {
 background-color:#5C6BC0 ; 
  border-radius: 10%;
+ 
 }
 
 .scroll::-webkit-scrollbar-track {

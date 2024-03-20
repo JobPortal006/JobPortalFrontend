@@ -11,30 +11,40 @@ import UserContext from "./contextFilter";
 function FilteredResults() {
   
     const navigate = useNavigate();
+    const [errorTwo, setErrorTwo] = useState(null);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [jobsPerPage] = useState(5);
-    const { searchJob, oneData ,companyList} = useContext(UserContext);
+    const { searchJob, oneData ,companyList } = useContext(UserContext);
     console.log(searchJob,'=====raghul data1')
     console.log(oneData,'=====raghul data2')
+    
 
 
     useEffect(()=>{},[searchJob,oneData,companyList])
-    // Determine which data to use for rendering
+
     const dataToUse = searchJob ? searchJob : oneData || companyList?.data ;
+
+    console.log(dataToUse,"<====DATATOUSE");
   
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
     const currentJobs = dataToUse?.slice(indexOfFirstJob, indexOfLastJob);
  
-    
-
+    console.log(currentJobs,"<===CurrentJobs");
+    const [noResult, setNoResult] = useState(false)
+    if(dataToUse === null || dataToUse === undefined){
+        setNoResult(true)
+        
+        // alert("Hello Everyone")
+        
+    }
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const handleJobSelect = async (selectedJob) => {
         try {
             setLoading(true);
-            const response = await fetch('http://192.168.1.44:8000/job_details/', {
+            const response = await fetch('http://192.168.1.46:8000/job_details/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,17 +54,24 @@ function FilteredResults() {
             if (!response.ok) {
              throw new Error('Failed to send selected job data to the backend');
                 
-                
+                 
             } else {
                 navigate('/JobDetails');
             }
             console.log('Selected job data sent successfully:', selectedJob);
         } catch (error) {
+            setErrorTwo(error)
             console.error('Error sending selected job data to the backend:', error);
         } finally {
             setLoading(false);
         }
     };
+
+    if (errorTwo) {
+        return <p style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '30px' }}
+        >Error: Server Not Responding
+        </p>; 
+      }
 
     return (
       <div>
@@ -64,8 +81,8 @@ function FilteredResults() {
             {loading ? (
                 <div className="loading-popup">Loading...</div> 
             ) : (
-                <div className="job-result" style={{ marginTop: '60px' }}>
-                <SearchBar isJobSearchPage={true} />
+                <div className="job-result" style={{ marginTop: '300px', marginLeft:"150px" }}>
+              
                     {currentJobs.map((job, index) => (
                         <div key={index} className="job-box" onClick={() => handleJobSelect(job)}>
                             <div className="job-top">
@@ -104,15 +121,17 @@ function FilteredResults() {
                             </div>
                         </div>
                     ))}
-                    <div className="pagination">
+                    <div className="pagination" style={{marginLeft:"220px", marginBottom:"20px"}}>
                         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
-                        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= oneData.length}>Next</button>
+                        <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= dataToUse.length}>Next</button>
                     </div>
                 </div>
             )}
             </Grid>
             </Grid>
-            
+            <div>
+             {noResult && <h1>No Result Found</h1>}
+            </div>
             </div>
     );
 }

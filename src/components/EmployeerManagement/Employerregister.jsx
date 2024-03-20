@@ -247,6 +247,8 @@ export const Employerregister = () => {
     const companyAddressErrors = validateCompanyAddress(company_address);
     const contactInfoErrors = validateContactInformation(contact_information);
 
+    const token = localStorage.getItem("loginToken");
+
     setErrors({
       company_details: companyDetailsErrors,
       company_address: companyAddressErrors,
@@ -279,6 +281,7 @@ export const Employerregister = () => {
         });
 
         formData.append('company_logo', company_details.company_logo);
+        formData.append('token', token);
 
         const headers = {
           'Content-Type': 'multipart/form-data',

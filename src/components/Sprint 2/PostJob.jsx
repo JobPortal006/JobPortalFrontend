@@ -7,7 +7,11 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Autocomplete } from "@mui/material";
 import axios from "axios";
+import { Radio, RadioGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { FormControl, FormGroup } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 
 const PostJob = () => {
@@ -76,15 +80,15 @@ const PostJob = () => {
   const navigate = useNavigate();
 
   const [jobPost, setJobPost] = useState({
-    company_name: "",
+    // company_name: "",
     job_title: "",
-    email:"",
+    // email:"",
     job_description: "",
     employee_type: "",
     job_role: "",
-    location: "",
+    location: [],
     skill_set: [],
-    qualification: "",
+    qualification: [],
     experience: "",
     salary_range: "",
     no_of_vacancies: "",
@@ -96,16 +100,19 @@ const PostJob = () => {
   const [skills, setSkills] = useState([]);
   const[experience, setExperience] = useState("");
   const [salary, setSalary] = useState("");
-  // const [qualification, setQualification] = useState([]);
+  const [qualification, setQualification] = useState([]);
+  const [Newlocation, setLocation] = useState([]);
 
-  // console.log(qualification,"qualifications===>");
-
+  console.log(qualification,"qualifications===>");
+  console.log(Newlocation, "<==Location");
   
+  const [selectedLocation, setSelectedLocation] = useState([]);
+  console.log(selectedLocation, '<===this is selected Location');
 
   const [errors, setErrors] = useState({
-    company_name: false,
+    
     job_title: false,
-    email: false,
+   
     job_description: false,
     employee_type: false,
     job_role: false,
@@ -114,6 +121,7 @@ const PostJob = () => {
     experience: false,
     salary_range: false,
     no_of_vacancies: false,
+    additionalQueries : false
   });
 
   const handleChange = (e, value, name) => {
@@ -128,6 +136,7 @@ const PostJob = () => {
       setJobPost({ ...jobPost, job_description: updatedValue });
     } else if (name === "location") {
       setJobPost({ ...jobPost, location: updatedValue });
+      
     } else if (name === "qualification") {
       setJobPost({ ...jobPost, qualification: updatedValue });
     } else if (name === "experience") {
@@ -147,8 +156,7 @@ const PostJob = () => {
       setErrors({ ...errors, job_role: !updatedValue }); 
     } else if (name === "skills") {
       setSkills(value);
-    }
-
+    } 
 
 
     // Perform validation for the field
@@ -176,38 +184,44 @@ const PostJob = () => {
     Object.values(errors).some((error) => error) ||
     !employment === null ||
     !jobRole ||
-    !jobEmail ||
     !experience ||
+    !Newlocation ||
+    !selectedLocation || 
     !salary ||
-    // qualification.length === 0 || null ||
+    !additionalQueries ||
+    qualification.length === 0 || null ||
     skills.length === 0 || null;
 
-  if (isAnyFieldEmpty) {
-    // If any field is empty, show alert message
-    alert("Please fill in all required fields");
-    return;
-  }
+  // if (isAnyFieldEmpty) {
+  //   // If any field is empty, show alert message
+  //   alert("Please fill in all required fields");
+  //   return;
+  // }
 
     // If form is valid, submit data
-  
+    const token = localStorage.getItem("loginToken");
       const jobPostData = {
         ...jobPost,
-        email : jobEmail,
+        // email : jobEmail,
         experience : experience,
         employee_type: employment,
         job_role: jobRole,
         skill_set: skills,
-        // qualification : qualification,
+        qualification : qualification,
         salary_range : salary,
+        additional_queries : additionalQueries,
+        location : selectedLocation,
+        token:token
     };
 
       console.log(jobPostData);
 
+
       let headers = new Headers();
       headers.append("Content-Type", "application/json");
       headers.append("Accept", "application/json");
-      headers.append("Origin", "http://192.168.1.44:8000/job_post/");
-      const apiUrl = "http://192.168.1.44:8000/job_post/";
+      headers.append("Origin", "http://192.168.1.46:8000/job_post/");
+      const apiUrl = "http://192.168.1.46:8000/job_post/";
 
       try {
         const response = await axios.post(apiUrl, jobPostData, headers);
@@ -232,18 +246,20 @@ const PostJob = () => {
     
   };
 
+ 
   // company name fetch
 
   const [companyNameList, setCompanyName] = useState([])
 
-  console.log(companyNameList,"<==company anme list");
+  console.log(companyNameList,"<==company name list");
 
+ 
   
 
   useEffect(() => {
     const Companies = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/company_name/");
+        const response = await fetch("http://192.168.1.46:8000/company_name/");
         if (!response.ok) {
           console.error("Failed to fetch Company Name");
           return;
@@ -263,9 +279,56 @@ const PostJob = () => {
     Companies();
   }, []);
 
+  // Location API
+
+  useEffect(()=>{
+    const token = localStorage.getItem("loginToken")
+    const postLocation = async () =>{
+      try{
+      const response = await fetch("http://192.168.1.46:8000/address_location/",
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/josn",
+        },
+        body : JSON.stringify({token})
+      }  
+      );
+
+      if(!response.ok){
+        console.log("Failed to fetch Data");
+      }
+
+      const data = await response.json();
+      const locationNames = data.map((location) => location.address_location);
+      setLocation(locationNames);
+
+      console.log(locationNames, "<-=-=-=location==data");
+    }catch(error) {
+      console.log("Error posting location data : ", error.message);
+    }
+      
+    };
+    postLocation();
+  },[]);
+
+   // Queries
+
+   const [additionalQueries, setAdditionalQueries] = useState('');
+   const questions = ["What is your last CTC ?",
+                      "What is your expected salary ?",
+                      "How much total experience do you have ?",
+                      "What isthe notice period in your current company ?"];
+
+   console.log(additionalQueries,"<====additionalQueries");
+ 
+   const handleRadioChange = (event) => {
+     setAdditionalQueries(event.target.value);
+   };
+
+   
+ 
 // 
-
-
 
 
 
@@ -290,29 +353,7 @@ const PostJob = () => {
           >
             <h3>Post a Job</h3>
             <br />
-            <label>Company Name*</label>
-            <br />
-            <br />
-            <Autocomplete
-              options={companyNameList}
-              fullWidth
-              value={jobPost.company_name}
-              onChange={(event, newValue) =>{
-                setJobPost({ ...jobPost, company_name: newValue });
-                setErrors({ ...errors, company_name: newValue === null });
-              }}
-             
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Company Name"
-                  name="company_name"
-                  error={errors.company_name}
-                  helperText={errors.company_name ? "Company name is required" : ""}
-                  onBlur={(e)=>handleBlur("company_name", e.target.value)}
-                />
-              )}
-            />
+
 
             <br />
             <br />
@@ -336,21 +377,9 @@ const PostJob = () => {
             <br />
             <br />
 
-            <label>Email*</label>
-            <br />
+           
 
-            <TextField
-              margin="normal"
-              fullWidth
-              id="job-email"
-              label="Email"
-              name="email"
-              value={jobPost.jobEmail}
-              onChange={(e) => handleChange(e, e.target.value, "email")}
-              onBlur={(e)=>handleBlur("email", e.target.value)}
-              error={errors.email}
-              helperText={errors.email ? "Job Email is required" : ""}
-            />
+           
 
             <p style={{ marginTop: "1rem" }}>Job Description*</p>
             <TextField
@@ -418,7 +447,7 @@ const PostJob = () => {
               </Grid>
             </Grid>
             <br />
-            <label>Location*</label>
+          {/*   <label>Location*</label>
             <br />
 
             <TextField
@@ -436,6 +465,54 @@ const PostJob = () => {
             />
             <br />
             <br />
+            */}
+
+
+            <label>Location*</label>
+            <br />
+            <br />
+            <Autocomplete
+              options={Newlocation}
+              multiple
+              fullWidth
+              value={jobPost.selectedLocation}
+              onChange={(event, newValue) =>{ 
+                console.log("Selected Location:", newValue);
+                setSelectedLocation(newValue);
+                setErrors({ ...errors, location: newValue.length === 0 });
+              }}
+             
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="Location"
+                  name="location"
+                  error={errors.selectedLocation }
+                  helperText={errors.selectedLocation ? "Location is required" : ""}
+                  onBlur={(e)=>handleBlur("location", e.target.value)}
+                />
+              )}
+            />
+
+{/*
+            <label>Skills*</label>
+            <br />
+            <br />
+            <Autocomplete
+              multiple
+              options={Newlocation}
+              value={selectedLocation}
+              onChange={(event, newEvent) => { setSelectedLocation(newEvent);
+                setErrors({ ...errors, skills: newEvent.length === 0 });  }}
+              renderInput={(para) => <TextField {...para} label="Skills"
+              error={errors.selectedLocation}
+              helperText={errors.selectedLocation ? "Skills is Required" :"" } 
+            //   onBlur={(e)=>handleBlur("skills" , e.target.value )}
+              />}
+            />
+            <br/>
+
+ */}
             <label>Skills*</label>
             <br />
             <br />
@@ -453,7 +530,7 @@ const PostJob = () => {
             />
             <br/>
         
-         {/*     <label>QualiFication*</label>
+            <label>QualiFication*</label>
             <Autocomplete
             multiple
             id="job-qualifications"
@@ -472,10 +549,10 @@ const PostJob = () => {
               />
             )}
           />
-                  */}
+                  
              
       
-          <label>Qualification*</label>
+       {/*     <label>Qualification*</label>
             <TextField
               margin="normal"
               fullWidth
@@ -492,7 +569,7 @@ const PostJob = () => {
                 errors.qualification ? "Qualification is required" : ""
               }
             />
-
+              */}
           
 
             <Grid container spacing={2} sx={{ mt: 1 }}>
@@ -560,6 +637,31 @@ const PostJob = () => {
             </Grid>
            
             <br />
+            <div>
+                <p>
+                Need to ask additional queries to the user ? 
+
+                </p>
+                <RadioGroup
+                name="additional-queries"
+                value={additionalQueries}
+                onChange={handleRadioChange}
+              >
+              <p>
+                <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
+                <FormControlLabel value="No" control={<Radio />} label="No" />
+                </p>
+              </RadioGroup>
+              {additionalQueries === 'Yes' && (
+                <div>
+                  {questions.map((question, index) => (
+                    <p key={index}>{question}</p>
+                  ))}
+                </div>
+              )}
+
+            </div>
+            <br />  
             <div>
               <Button
                 variant="contained"

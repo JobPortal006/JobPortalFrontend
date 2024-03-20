@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {Checkbox, FormControlLabel, FormGroup, IconButton, Grid, Radio, RadioGroup} from "@mui/material";
+import {Checkbox, FormControlLabel, FormGroup, IconButton, Grid, Radio, RadioGroup,Typography} from "@mui/material";
 import { Box, List, ListItemButton, ListItemText, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -7,10 +7,12 @@ import FilteredResults from "./FilteredResults";
 // import { useNavigate } from "react-router-dom";
 import "../Sprint 2/FilterPage.css";
 import UserContext from "./contextFilter";
+import SearchBar from "../HomePage/searchBar";
 
 const Filter = () => {
   const [showAll, setShowAll] = useState(false);
   const [Show, setShow] = useState(false);
+  const [errorOne, setErrorOne ] = useState(null)
 
   const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList} = useContext(UserContext);
   console.log(searchJob,'=====search job data')
@@ -91,7 +93,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/location/");
+        const response = await fetch("http://192.168.1.46:8000/location/");
         if (!response) {
           console.error("Failed to fetch locations");
         }
@@ -135,7 +137,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchJobRoles = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/job_role/");
+        const response = await fetch("http://192.168.1.46:8000/job_role/");
         if (!response.ok) {
           console.error("Failed to fetch job roles");
           return;
@@ -188,6 +190,7 @@ console.log(companyList, "=====raghul data company list");
 
   console.log(filteredData, "Filtered Data ==>");
 
+  
 
 
   const ApplyFilters = async () => {
@@ -198,14 +201,16 @@ console.log(companyList, "=====raghul data company list");
       salary_range: selectedSalaryType,
       experience: selectedExperience,
     };
-    setsearchJob(null)
+    const searchResult = null
+    setsearchJob(searchResult)
     setcompanyList(null)
     setFilteredData(filtered);
+    
     
  
     try {
       const response = await fetch(
-        "http://192.168.1.44:8000/filter_job/",
+        "http://192.168.1.46:8000/filter_job/",
         {
           method: "POST",
           headers: {
@@ -215,11 +220,21 @@ console.log(companyList, "=====raghul data company list");
         }
       );
       const FilterData = await response.json();
-      console.log(FilterData.data,"<====filter-Response");
-      setData(FilterData.data)
+      const FilterResponse = FilterData.data
+      console.log(FilterResponse,"<====filter-Response");
+      
+
+      if(FilterResponse !== null){
+        setData(FilterResponse)
+        
+      }else{
+        setsearchJob(FilterResponse)
+        
+      }
       console.log(FilterData.status,"status===>");
       if (FilterData.status !== true) {
-        alert("Failed to post data to backend");
+        // alert("Failed to post data to backend");
+        return <p>Error: Server Not Responding</p>
         
       } else {
         
@@ -227,16 +242,31 @@ console.log(companyList, "=====raghul data company list");
       }
       console.log("Data successfully posted to backend");
     } catch (error) {
+      setErrorOne(error)
       console.error("Error posting data to backend:", error.message);
     }
 
+   
+
   }; 
 
+  
 
+  if (errorOne) {
+    return <p style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '30px' }}
+    >Error: Server Not Responding
+    </p>; 
+  }
+  
 
   return (
     <Grid container>
+    
       <Grid item xs={4} sm={4} md={4} xl={4}>
+      <div style={{marginLeft:'500px',marginTop:'-160px',marginBottom:'-385px',display:'flex'}}>
+        <SearchBar />
+
+        </div>
         <div className="job-filter" style={{ width: "80%" }}>
           <div className="title">
             <h1>Filter</h1>
@@ -373,9 +403,9 @@ console.log(companyList, "=====raghul data company list");
         </div>
       </Grid>
       <Grid item xs={8} sm={8} md={8} xl={8}>
-       {component && <FilteredResults two={oneData} />}
-       {searchJob && <FilteredResults two={oneData} />}
-       {companyList && <FilteredResults two={oneData} />}
+       {component && <FilteredResults  />}
+       {searchJob && <FilteredResults  />}
+       {companyList && <FilteredResults  />}
 
       </Grid>
     </Grid>

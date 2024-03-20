@@ -171,6 +171,8 @@ const Companylist = () => {
       });
   }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
+  const{setData, setsearchJob} = useContext(UserContext);
+
   const handleCardClick = async (companyName) => {
     try {
       console.log(companyName, "companyName------->");
@@ -200,12 +202,21 @@ const Companylist = () => {
       setcompanyList(data)
       console.log(companyList, "companyData---->1");
 
+       // 
+    if(companyList !== null){
+      setcompanyList(data)
+      setsearchJob(null)
+      setData(null)
+    } 
+
       // Navigate after response is sent
       // navigate("/Filter");
     } catch (error) {
       console.error('Error:', error);
       // Handle error here
     }
+
+   
   };
 
 

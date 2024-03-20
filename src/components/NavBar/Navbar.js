@@ -1,11 +1,13 @@
-import React,{useState} from 'react';
+import React,{useState, useContext} from 'react';
 import '../NavBar/Navbar.css';
 import { FaUserCircle, FaBell } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import NavbarData from "../Json/NavBarJsonData.json";
 import CircularProgress from '@mui/material/CircularProgress';
+import UserContext from '../Sprint 2/contextFilter';
 
 const Navbar = () => {
+  const {setData,setsearchJob,setcompanyList} = useContext(UserContext)
   const [loading, setLoading] = useState(false);
   const translations = NavbarData.english;
     const navigate = useNavigate();
@@ -19,6 +21,9 @@ const Navbar = () => {
     };
   
     const home = () => {
+      setData(false);
+      setsearchJob(false);
+      setcompanyList(false);
       navigate('/home');
     };
   
@@ -50,7 +55,6 @@ const Navbar = () => {
     const otpToken = !!localStorage.getItem('otpToken');
     const storedToken = !!localStorage.getItem("loginToken");
 
-    
     console.log(isLoggedIn,"GoogleToke============<");
     return (
       <div className="Navbar" >

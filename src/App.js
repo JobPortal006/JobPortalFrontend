@@ -32,6 +32,7 @@ import {useState} from  'react';
 import { Employerregister } from "./components/EmployeerManagement/Employerregister.jsx";
 import SideNavbar from "./components/Dashboard/Sidebar.js";
 import UserDash from "./components/Dashboard/UserDash.js";
+import Token from "./components/Sprint 2/Token.jsx";
 
 
 
@@ -40,12 +41,14 @@ function App() {
   const [employerDetails, setEmployerDetails] = useState(null);
   const[searchJob,setsearchJob]=useState("")
   const[companyList,setcompanyList]=useState("")
-  console.log(companyList,"ggggg========")
+
   return (
-    <UserContext.Provider value={{oneData, setData,employerDetails, setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList}}>
+    <UserContext.Provider value={{oneData, setData,employerDetails, setEmployerDetails,searchJob,setsearchJob,companyList,
+                                  setcompanyList}}>
     <div>
       <BrowserRouter>
       <Navbar />
+      
       
         <Routes>
           <Route index path="/home" element={<Home />} />

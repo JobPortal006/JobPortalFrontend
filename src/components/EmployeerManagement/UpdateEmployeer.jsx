@@ -26,24 +26,40 @@ export const UpdateEmployerregister = () => {
             email: employerDetails.Signup.email || '',
             mobile_number: employerDetails.Signup.mobile_number || ''
         },
-        company_address: {
-            address_type: employerDetails.company_address.address_type || '',
-            city: employerDetails.company_address.city || '',
-            country: employerDetails.company_address.country || '',
-            pincode: employerDetails.company_address.pincode || '',
-            state: employerDetails.company_address.state || '',
-            street: employerDetails.company_address.street || ''
-        }
+        company_address: employerDetails.company_address || []
     });
 
     
     // Constructing the complete URL for the company logo
     const companylogo_link =  updatedDetails.company_details.company_logo_path;
     
-    const companyLogo = `https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${companylogo_link}`
+    // const companyLogo = `https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${companylogo_link}`
+
+    let logoUrl;
+    if (typeof companylogo_link === 'object') {
+        // If company_logo_path is a file object (representing a newly uploaded logo)
+        logoUrl = URL.createObjectURL(companylogo_link);
+    } else {
+        // If company_logo_path is a string path (representing an existing logo)
+        logoUrl = `https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${companylogo_link}`;
+    }
 
     // console.log(companyLogo,"----------logoc")
 
+
+    const addAddress = () => {
+        setUpdatedDetails(prevState => ({
+            ...prevState,
+            company_address: [...prevState.company_address, {}]
+        }));
+    };
+
+    const removeAddress = (index) => {
+        setUpdatedDetails(prevState => ({
+            ...prevState,
+            company_address: prevState.company_address.filter((_, i) => i !== index)
+        }));
+    };
 
       // Function to handle changes in input fields
     const handleChange = (event, section) => {
@@ -56,7 +72,20 @@ export const UpdateEmployerregister = () => {
             }
         }));
     };
-
+    
+    const handleAddressChange = (event, index, section) => {
+        const { name, value } = event.target;
+        setUpdatedDetails(prevState => {
+            const updatedAddress = [...prevState.company_address]; // Create a copy of the company_address array
+            const updatedAddressAtIndex = { ...updatedAddress[index] }; // Create a copy of the address object at the specified index
+            updatedAddressAtIndex[name] = value; // Update the specific field in the address object
+            updatedAddress[index] = updatedAddressAtIndex; // Update the address object at the specified index in the copied array
+            return {
+                ...prevState,
+                company_address: updatedAddress // Update the company_address array in the state
+            };
+        });
+    };
 
      // Function to handle changes in the company logo
     const handleLogoChange = (event) => {
@@ -86,24 +115,38 @@ export const UpdateEmployerregister = () => {
         // Create a new FormData object
         const formData = new FormData();
     
-        // Append updated employer details to FormData
+       
+
         formData.append('contact_person_name', updatedDetails.contact_information.contact_person_name);
         formData.append('contact_person_position', updatedDetails.contact_information.contact_person_position);
         formData.append('email', updatedDetails.contact_information.email);
         formData.append('mobile_number', updatedDetails.contact_information.mobile_number);
-        formData.append('address_type', updatedDetails.company_address.address_type);
-        formData.append('city', updatedDetails.company_address.city);
-        formData.append('country', updatedDetails.company_address.country);
-        formData.append('pincode', updatedDetails.company_address.pincode);
-        formData.append('state', updatedDetails.company_address.state);
-        formData.append('street', updatedDetails.company_address.street);
         formData.append('company_name', updatedDetails.company_details.company_name);
         formData.append('company_industry', updatedDetails.company_details.company_industry);
         formData.append('company_description', updatedDetails.company_details.company_description);
         formData.append('no_of_employees', updatedDetails.company_details.no_of_employees);
         formData.append('company_website_link', updatedDetails.company_details.company_website_link);
         formData.append('company_logo_path', updatedDetails.company_details.company_logo_path);
+
+        // updatedDetails.company_address.forEach((address, index) => {
+        //     Object.keys(address).forEach(key => {
+        //         formData.append(`${key}_${index}`, address[key]);
+        //     });
+        // });
     
+        // updatedDetails.company_address.forEach((address, index) => {
+        //     Object.entries(address).forEach(([key, value]) => {
+        //         formData.append(`address${index + 1}_${key}`, value);
+        //     });
+        // });
+
+        formData.append('company_address', JSON.stringify(updatedDetails.company_address));
+
+        const token = localStorage.getItem('loginToken');
+        console.log(token,"=========token");
+
+        formData.append('token', token);
+
     //     const file = updatedDetails.company_details.company_logo_path;
     // if (file instanceof File) {
     //     formData.append('company_logo_path', file);
@@ -142,48 +185,17 @@ export const UpdateEmployerregister = () => {
                                     </Grid>
                                     
                                     <Grid item xs={12}>
-                                        <label htmlFor="upload-company-logo">
-                                            <Button component="span" variant="contained" color="primary">
-                                                Upload Logo
-                                            </Button>
-                                        </label>
-                                        <input
-                                            type="file"
-                                            id="upload-company-logo"
-                                            name="company_logo_path"
-                                            accept="image/*"
-                                            style={{ display: 'none' }}
-                                            onChange={handleLogoChange}
-                                        />
-                                        {companylogo_link  && updatedDetails.company_details.company_logo_path && (
-                                            <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px',marginLeft:'90px' }}> 
-                                                {/* <div style={{ flex: '1' }}> */}
-                                                    <img  src= {companyLogo || companylogo_link}
-                                                        alt="Company Logo" 
-                                                        style={{
-                                                        width: '100px',
-                                                        height: '100px',
-                                                        borderRadius: '50%',
-                                                        border: '1px solid #ccc',
-                                                        marginRight:'20px'   
-                                                    }} />
-                                                    {/* {!companylogo_link && updatedDetails.company_details.company_logo_path &&(
-                                                        <div>
-                                                            <img src= {updatedDetails.company_details.company_logo_path}
-                                                            alt="Profile Picture"/>
-                                                            </div>
-                                                    )} */}
-                                                {/* </div> */}
-                                                <div>
-                                                    <Button variant="outlined" color="secondary"  onClick={handleClearLogo}>Clear</Button>
-                                                </div>
+                                            <label htmlFor="upload-company-logo">
+                                                <Button component="span" variant="contained" color="primary">Upload Logo</Button>
+                                            </label>
+                                            <input type="file" id="upload-company-logo" name="company_logo_path" accept="image/*" style={{ display: 'none' }} onChange={handleLogoChange} />
+                                            <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px', marginLeft: '90px' }}>
+                                            <img src={logoUrl} alt="Company Logo" style={{ width: '100px', height: '100px', borderRadius: '50%', border: '1px solid #ccc', marginRight: '20px' }} />
                                             </div>
-                                        )}
-                                        
-                                        
-
-                                    </Grid>
-
+                                            <div>
+                                                <Button variant="outlined" color="secondary" onClick={handleClearLogo}>Clear</Button>
+                                            </div>
+                                        </Grid>
                              
 
                                     <Grid item xs={12} sm={6}>
@@ -296,7 +308,7 @@ export const UpdateEmployerregister = () => {
                                     {/* </Box> */}
                                     
                                     {/* <Box sx={{ background: 'rgb(245, 245, 245)', padding: '20px', marginBottom: '20px', width: '100%',marginLeft:'40px',borderRadius:'20px'  }}> */}
-                                    <Grid container spacing={2}>
+                                    {/* <Grid container spacing={2}>
                                     <Grid item xs={12} >
                                     <Divider sx={{ marginY: 3, bgcolor: '#3F51B5',borderWidth: '1px' }} />
                                         <Typography variant="h6"
@@ -365,6 +377,91 @@ export const UpdateEmployerregister = () => {
                                     <Grid item xs={12} sm={6}>
                                         <Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
                                     </Grid>
+                                    </Grid> */}
+                                    <Grid item xs={12} >
+                                    <Divider sx={{ marginY: 3, bgcolor: '#3F51B5',borderWidth: '1px' }} />
+                                        <Typography variant="h6"
+                                        color="#1A237E" fontSize="25px"
+                                        fontWeight="bold" textTransform="uppercase" textAlign="center" marginTop="20px">Company Address</Typography>
+                                    </Grid>
+                                    {updatedDetails.company_address && updatedDetails.company_address.map((address, index) => (
+                                        <Grid container spacing={2} key={index}>
+                                            <Grid item xs={12}>
+                                                <Typography variant="h6" color="#1A237E" fontSize="25px" fontWeight="bold" textTransform="uppercase" textAlign="center">Company Address {index > 0 ? index : ''}</Typography>
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField
+                                                    fullWidth
+                                                    label={errorMessages.mainFileStrings.streetLabel}
+                                                    name="street"
+                                                    value={address.street || ''}
+                                                    onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField
+                                                    fullWidth
+                                                    label={errorMessages.mainFileStrings.cityLabel}
+                                                    name="city"
+                                                    value={address.city || ''}
+                                                    onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField
+                                                    fullWidth
+                                                    label={errorMessages.mainFileStrings.stateLabel}
+                                                    name="state"
+                                                    value={address.state || ''}
+                                                    onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField
+                                                    fullWidth
+                                                    label={errorMessages.mainFileStrings.countryLabel}
+                                                    name="country"
+                                                    value={address.country || ''}
+                                                    onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField
+                                                    fullWidth
+                                                    label={errorMessages.mainFileStrings.pincodeLabel}
+                                                    name="pincode"
+                                                    value={address.pincode || ''}
+                                                    onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                />
+                                            </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                                <TextField
+                                                    select
+                                                    fullWidth
+                                                    label={errorMessages.mainFileStrings.addressTypeLabel}
+                                                    name="address_type"
+                                                    value={address.address_type || ''}
+                                                    onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                >
+                                                    <MenuItem value="Permanent">Permanent</MenuItem>
+                                                    <MenuItem value="Current">Current</MenuItem>
+                                                </TextField>
+                                            </Grid>
+                                            {index > 0 && (
+                                                <Grid item xs={12} sm={6}>
+                                                    <Button variant="contained" color="secondary" onClick={() => removeAddress(index)}>Remove Address</Button>
+                                                </Grid>
+                                            )}
+                                        </Grid>
+                                    ))}
+
+                                    <Grid item xs={12}>
+                                        <Button variant="contained" color="primary" onClick={addAddress}>Add Address</Button>
+                                    </Grid>
+                                    
+                                    {/* Update button */}
+                                    <Grid item xs={12} sm={6}>
+                                        <Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
                                     </Grid>
                                     </Box>
                                 </Grid>
@@ -377,4 +474,3 @@ export const UpdateEmployerregister = () => {
         </>
     );
 };
-

@@ -234,6 +234,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
+    marginTop:"5rem"
   },
   avatar: {
     margin: '0 auto',
@@ -254,6 +255,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     margin: '20px auto',
+    marginLeft:"200px",
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
     gap: theme.spacing(2),
@@ -277,10 +279,12 @@ const SideNavbar = () => {
   const { employerDetails, setEmployerDetails } = useContext(UserContext);
 
   useEffect(() => {
+    const token = localStorage.getItem("logintoken")
+    
     if (selectedItem === 'My Profile') {
       setLoading(true);
       axios.post(`${BASE_URL}/get_employeer_details/`, {
-        employee_id: 39
+        token
       })
         .then(response => {
           setEmployerDetails(response.data);

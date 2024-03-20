@@ -6,6 +6,7 @@ import SearchBox from './searchBar'
 import UserProfile from '../UserManagement/UserProfile';
 import Companylist from './Companylist';
 import HomeDesign from './HomeDesign';
+import Token from '../Sprint 2/Token';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Home = () => {
   });
   return (
     <>    
+    
       <div>
         <HomeDesign />
         <div className="background-div" style={{ marginTop: '2px' }}>
