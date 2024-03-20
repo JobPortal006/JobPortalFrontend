@@ -12,6 +12,7 @@ import { FormControl, FormGroup } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
+import BASE_URL from '../CommonAPI';
 
 
 const PostJob = () => {
@@ -220,8 +221,8 @@ const PostJob = () => {
       let headers = new Headers();
       headers.append("Content-Type", "application/json");
       headers.append("Accept", "application/json");
-      headers.append("Origin", "http://192.168.1.46:8000/job_post/");
-      const apiUrl = "http://192.168.1.46:8000/job_post/";
+      headers.append("Origin", `${BASE_URL}/job_post/`);
+      const apiUrl = `${BASE_URL}/job_post/`;
 
       try {
         const response = await axios.post(apiUrl, jobPostData, headers);
@@ -259,7 +260,7 @@ const PostJob = () => {
   useEffect(() => {
     const Companies = async () => {
       try {
-        const response = await fetch("http://192.168.1.46:8000/company_name/");
+        const response = await fetch(`${BASE_URL}/company_name/`);
         if (!response.ok) {
           console.error("Failed to fetch Company Name");
           return;
@@ -285,7 +286,7 @@ const PostJob = () => {
     const token = localStorage.getItem("loginToken")
     const postLocation = async () =>{
       try{
-      const response = await fetch("http://192.168.1.46:8000/address_location/",
+      const response = await fetch(`${BASE_URL}/address_location/`,
       {
         method:"POST",
         headers:{

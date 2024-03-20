@@ -5,13 +5,22 @@ import BusinessIcon from '@mui/icons-material/Business';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import WorkIcon from '@mui/icons-material/Work';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';              
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';             
 import ApplyJobDialog from './ApplyJobDialog';
 import BASE_URL from '../CommonAPI';
+import UserContext from '../Sprint 2/contextFilter';
+import { useContext } from 'react';
 
 const JobDetails = () => {
   const [jobData, setJobData] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const { responseData,setResponseData } = useContext(UserContext);
+  console.log(responseData,"resssssssssssss==up")
+  const { detailData,setDetailData } = useContext(UserContext);
+  console.log(detailData,"detailData=======up")
+  const [alreadyApplied, setAlreadyApplied] = useState(false); // New state for application status
+
+  
 
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -20,19 +29,49 @@ const JobDetails = () => {
         if (response.data.status) {
           setJobData(response.data.data[0]);
           console.log('Fetched job data:', response.data.data[0]);
+          const jobId = response.data.data[0][0].job_post_id; // Assuming job_post_id is the job_id
+          setPostData({ token, job_id: jobId });
         } else {
           console.error('Error:', response.data.message);
+        }
+        // Check if the user has already applied for the job
+        if (response.data.status && response.data.message === false) {
+          setAlreadyApplied(true);
         }
       } catch (error) {
         console.error('Error:', error);
       }
     };
-
+  
     fetchJobDetails();
   }, []);
+  
+  
+  const token = localStorage.getItem('loginToken');
+  const [postdata, setPostData] = useState({
+    token,
+    job_id: null
+  });
 
-  const handleApplyClick = () => {
-    setDialogOpen(true);
+  console.log(postdata,'token====');
+  const handleApplyClick = async () => {
+    try {
+      // Send a POST request to the API endpoint
+      const response = await axios.post(`${BASE_URL}/get_apply_job/`, {
+        postdata
+      });
+      console.log(postdata,'token====2');
+      console.log(response,'responsessss');
+      console.log('Apply job response:', response.data);
+      setDialogOpen(true);
+      
+      setResponseData(response.data); 
+      setDetailData(postdata);
+      console.log(responseData,"----------");
+      
+    } catch (error) {
+      console.error('Error applying for job:', error);
+    }
   };
 
   const handleCloseDialog = () => {
@@ -40,96 +79,137 @@ const JobDetails = () => {
   };
 
   return (
-    <Box sx={{backgroundColor:'#1A237E', minHeight: '100vh', padding: '30px' ,marginTop:'20px'}}>
+    <Box sx={{backgroundColor:'#1A237E', minHeight: '100vh', padding: '30px' ,marginTop:'50px'}}>
       <Grid container spacing={2} justifyContent="center">
         {jobData.map((job, index) => (
-          <Grid item key={index} xs={12} md={6}>
+          <Grid item key={index} xs={12}  md={6} lg={8}>
             <Box sx={{ p: 3, border: '1px solid #ccc', marginLeft: '2%', borderRadius: '8px', maxWidth: '100%', backgroundColor: '#E8EAF6' }}>
-            {job.company_logo && job.company_logo.includes('data:image') ? (
-              <img src={job.company_logo} alt="Company Logo" />
+            {job.company_logo_path && job.company_logo_path.includes('data:image') ? (
+              <img  src={job.company_logo_path}  alt="Company Logo" />
                 ) : (
-              <img src={`data:image/jpeg;base64,${job.company_logo}`} alt="Company Logo" style={{
-                position: 'absolute',
+              <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.company_logo_path}`} alt="Company Logo" style={{
+                position: 'relative',
                 width: '50px', // Adjust the size of the logo as needed
-                height: 'auto',
-                borderRadius: '50%', // Make the logo rounded
+                height: '50px',
+                borderRadius: '25px', // Make the logo rounded
                 border: '1px solid #ccc', // Add a border to the logo
               }}  />
                 )}
-              <Typography variant="h5" gutterBottom style={{marginLeft:'60px'}}>
+              <Typography variant="h5" color="#1A237E" gutterBottom style={{marginTop:'10px',fontWeight:'bold'}}>
                 {job.job_title}
               </Typography>
-              <Typography variant="subtitle1" gutterBottom>
-                <BusinessIcon /> {job.company_name}
+              <Typography variant="h6" gutterBottom>
+                <BusinessIcon style={{color:'#1A237E',marginBottom:'5px'}} /> {job.company_name}
               </Typography>
-              <Typography variant="subtitle1" marginTop='20px' gutterBottom style={{ marginTop: '10px' }}>
-                <LocationOnIcon /> {job.location}
+              <Typography variant="h6"  gutterBottom style={{ marginTop: '10px' }}>
+                <LocationOnIcon style={{marginBottom:'5px',color:'#1A237E'}}/> {job.location.map((location,index)=>(
+                  <span key={index}>{location}{index !== job.location.length - 1 && ','}</span>
+                ))}
               </Typography>
-              <Grid container spacing={1} alignItems="center">
+              <Grid container spacing={3} alignItems="center">
                 <Grid item>
-                  <WorkIcon />  
+                  <WorkIcon style={{marginTop:'8px',color:'#1A237E'}}/>  
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1" marginTop='20px' style={{ marginTop: '10px' }}>Experience: {job.experience}</Typography>
+                  <Typography variant="subtitle1" marginTop='20px' style={{ marginTop: '10px' }}><span style={{fontWeight:'bold'}}>Experience: </span> {job.experience}</Typography>
                 </Grid>
                 <Grid item>
-                  <SchoolOutlinedIcon style={{ marginTop: '10px' }}>Qualification: {job.qualification}</SchoolOutlinedIcon>
+                  <SchoolOutlinedIcon />
                 </Grid>
                 <Grid item>
-                  <AttachMoneyIcon style={{ marginTop: '10px' }} />
+                <Typography variant="subtitle1" marginTop='20px' style={{ marginTop: '10px' }}><span style={{fontWeight:'bold'}}>Qualification:</span> {job.qualification.map((qualification, index) => (
+                    <span key={index}>
+                      {qualification}
+                      {index !== job.qualification.length - 1 && ', '} {/* Add comma between qualifications except for the last one */}
+                    </span>
+                  ))}</Typography>     
+                             </Grid>
+                <Grid item>
+                  <CurrencyRupeeIcon style={{ marginTop: '10px' }} />
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1" style={{ marginTop: '10px' }}>Salary: {job.salary_range}</Typography>
+                  <Typography variant="subtitle1" style={{ marginTop: '10px' }}> <span style={{fontWeight:'bold'}}>Salary:</span> {job.salary_range}</Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <Grid container justifyContent="flex-end">
-                    <Button variant="contained" color="primary" onClick={handleApplyClick}>Apply</Button>
+                  {!alreadyApplied ? (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleApplyClick}
+                    
+                >
+                  Apply
+                </Button>
+            ) : (
+                <Button variant="contained" color="secondary">
+                    Already Applied
+                </Button>
+            )}
                   </Grid>
                 </Grid>
               </Grid>
-              <Typography variant="subtitle2" gutterBottom style={{ marginTop: '10px' }}>
-                Posted: {job.created_at}
+              <Typography variant="subtitle2"  gutterBottom style={{ marginTop: '10px' }}>
+              <span style={{fontWeight:'bold'}}>Posted:</span> {job.created_at}
               </Typography>
             </Box>
             <ApplyJobDialog open={dialogOpen} onClose={handleCloseDialog} />
             <Box sx={{ p: 3, border: '1px solid #ccc', backgroundColor: '#E8EAF6', marginLeft: '2%', marginTop: '20px', borderRadius: '8px', maxWidth: '100%' }}>
-              <Typography variant="h5" gutterBottom>
-                Job Description
+              <Typography variant="h4" color="#1A237E" textAlign="center" gutterBottom>
+              <span style={{fontWeight:'bold'}}>Job Description</span>
               </Typography>
-              <Typography variant="body1">
+              <Typography variant="h6">
                 {job.job_description}
               </Typography>
               <Typography variant="h6" marginTop='20px' gutterBottom>
-                Role: {job.job_role}
+              <span style={{fontWeight:'bold'}}>Role:</span> {job.job_role}
+              </Typography>
+              <Typography variant="h6"  style={{ marginTop: '20px' }}>
+                <span style={{fontWeight:'bold'}}>Skills:</span>
+                {job.skills.map((skill, index) => (
+                  <span key={index}>
+                    {skill}
+                    {index !== job.skills.length - 1 && ', '}
+                  </span>
+                ))}
               </Typography>
               <Typography variant="h6" marginTop='20px' gutterBottom>
-                Industry Type: {job.industry_type}
+              <span style={{fontWeight:'bold'}}>Industry Type:</span>  {job.industry_type}
               </Typography>
               <Typography variant="h6" marginTop='20px' gutterBottom>
-                Education: {job.qualification}
+              <span style={{fontWeight:'bold'}}>Education:</span> {job.qualification}
               </Typography>
               <Typography variant="h6" marginTop='20px' gutterBottom>
-                Employment Type: {job.employee_type}
+              <span style={{fontWeight:'bold'}}>Employment Type:</span>  {job.employee_type}
               </Typography>
             </Box>
             <Box sx={{ p: 3, border: '1px solid #ccc', marginLeft: '2%', backgroundColor: '#E8EAF6', marginTop: '20px', borderRadius: '8px', maxWidth: '100%' }}>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h4" color="#1A237E" textAlign="center" fontWeight="bold" gutterBottom>
                 About Company
               </Typography>
-              <Typography variant="body1">
+              {/* <Typography variant="body1">
                 {job.company_description}
-              </Typography>
+              </Typography> */}
               <Typography variant="h6" marginTop='20px' gutterBottom>
-                Company Description: {job.company_description}
+              <span style={{fontWeight:'bold'}}>Company Description:</span> {job.company_description}
               </Typography>
-              <Typography variant="h6" marginTop='20px' gutterBottom>
+              {/* <Typography variant="h6" marginTop='20px' gutterBottom>
                 Company Address: {`${job.address.street}, ${job.address.city}, ${job.address.state}, ${job.address.country} - ${job.address.pincode}`}
+              </Typography> */}
+              <Typography variant="h6" marginTop='20px' gutterBottom>
+                {job.address.map((address, index) => (
+                  <span key={index}>
+                    <span style={{fontWeight:'bold'}}>{`Company Address ${index + 1}: `}</span>
+                    {`${address.street}, ${address.city}, ${address.state}, ${address.country} - ${address.pincode}`}
+                    {index !== job.address.length - 1 && <br />} {/* Add line break except for the last address */}
+                  </span>
+                ))}
+              </Typography>
+              <Typography variant="h6" marginTop='20px'  gutterBottom>
+                <span style={{fontWeight:'bold'}}>No.of Employees:</span> {job.no_of_employees}
               </Typography>
               <Typography variant="h6" marginTop='20px' gutterBottom>
-                No.of Employees: {job.no_of_employees}
-              </Typography>
-              <Typography variant="h6" marginTop='20px' gutterBottom>
-                Company Website: {job.company_website_link}
+              <span style={{fontWeight:'bold'}}>Company Website:</span> {job.company_website_link}
               </Typography>
             </Box>
           </Grid>

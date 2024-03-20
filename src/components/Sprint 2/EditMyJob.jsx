@@ -410,5 +410,3 @@ const EditMyJob = () => {
 };
 
 export default EditMyJob;
-
-

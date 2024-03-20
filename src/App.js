@@ -26,12 +26,12 @@ import EditMyJob from "./components/Sprint 2/EditMyJob.jsx";
 import FilteredResults from "./components/Sprint 2/FilteredResults.jsx";
 // import JobDetails from "./components/Sprint 2/jobdiscriptions.js";
 import UserContext from "./components/Sprint 2/contextFilter.jsx";
-
-
 import {useState} from  'react';
 import { Employerregister } from "./components/EmployeerManagement/Employerregister.jsx";
 import SideNavbar from "./components/Dashboard/Sidebar.js";
 import UserDash from "./components/Dashboard/UserDash.js";
+import { Newpost } from "./components/HomePage/Newpost.js";
+import { ApplyJob } from "./components/JobPostSample/ApplyJob.jsx";
 import Token from "./components/Sprint 2/Token.jsx";
 
 
@@ -41,10 +41,12 @@ function App() {
   const [employerDetails, setEmployerDetails] = useState(null);
   const[searchJob,setsearchJob]=useState("")
   const[companyList,setcompanyList]=useState("")
-
+  const [jobData,setJobData ]  = useState(null);
+  const [responseData, setResponseData] = useState(null);
+  const [detailData,setDetailData ]  = useState(null);
   return (
-    <UserContext.Provider value={{oneData, setData,employerDetails, setEmployerDetails,searchJob,setsearchJob,companyList,
-                                  setcompanyList}}>
+    <UserContext.Provider value={{oneData, setData,employerDetails,setEmployerDetails,searchJob,setsearchJob,
+      companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData  }}>
     <div>
       <BrowserRouter>
       <Navbar />
@@ -71,6 +73,8 @@ function App() {
           <Route path="/EmployerRegister" element={<Employerregister />} />
           <Route path="/EmployerDashboard" element={<SideNavbar />} />
           <Route path="/UserDashBoard" element={<UserDash />} />
+          <Route path="/newpost" element={<Newpost />} />
+          <Route path="/applyJob" element={<ApplyJob />} />
         </Routes>
       </BrowserRouter>
     </div>

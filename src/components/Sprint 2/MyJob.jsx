@@ -8,8 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from "@mui/material/Tooltip";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-
-
+import BASE_URL from '../CommonAPI';
 // import UserContext from "./contextFilter";
 
 
@@ -34,7 +33,8 @@ function MyJob() {
       async function postID() {
         try {
           const response = await fetch(
-            "http://192.168.1.46:8000/employeer_post_jobs/",
+
+            `${BASE_URL}/employeer_post_jobs/`,
             {
               method: "POST",
               headers: {
@@ -85,7 +85,8 @@ function MyJob() {
   // Delete API
   const handleDelete = async (jobId) => {
     try {
-      const response = await fetch("http://192.168.1.46:8000/delete_job/", {
+
+      const response = await fetch(`${BASE_URL}/delete_job/`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -427,5 +428,3 @@ export default MyJob;
 // }
 
 // export default MyJob;
-
-

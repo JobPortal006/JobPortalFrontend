@@ -149,7 +149,7 @@ const Companylist = () => {
   const [error, setError] = useState(null);
   const [startIndex, setStartIndex] = useState(0); // State to track the index of the first item to display
   const navigate = useNavigate();
-  const { companyList, setcompanyList } = useContext(UserContext)
+  const { companyList, setcompanyList,setsearchJob,setData } = useContext(UserContext)
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
@@ -188,6 +188,11 @@ const Companylist = () => {
       });
       const data = await response.json();
       console.log(data, "data---------->123");
+      if(companyList!==null){
+        setcompanyList(data);
+        setsearchJob(null);
+        setData(null);
+      }
 
       // if (!response.ok) {
       //     throw new Error('Failed to send data to the server');
@@ -285,7 +290,7 @@ const Companylist = () => {
         <Button variant="outlined" disabled={startIndex + 3 >= companies.length} onClick={handleNext}>Next <ArrowForwardIcon /></Button>
       </div>
     </div>
-    <JobCard />
+    {/* <JobCard /> */}
   </>
   );
 };

@@ -1,157 +1,371 @@
-import React,{useState, useContext} from 'react';
+// import React,{useState} from 'react';
+// import '../NavBar/Navbar.css';
+// import { FaUserCircle, FaBell } from 'react-icons/fa';
+// import { useNavigate } from 'react-router-dom';
+// import NavbarData from "../Json/NavBarJsonData.json";
+// import CircularProgress from '@mui/material/CircularProgress';
+// import axios from 'axios';
+// import BASE_URL from '../CommonAPI';
+
+// const Navbar = () => {
+//   const [loading, setLoading] = useState(false);
+//   const translations = NavbarData.english;
+//     const navigate = useNavigate();
+  
+//     const handleLoginClick = () => {
+//       navigate('/login');
+//     };
+  
+//     const handleSignupClick = () => {
+//       navigate('/login');
+//     };
+  
+//     const home = () => {
+//       navigate('/home');
+//     };
+  
+//     const logout = () => {
+//       localStorage.clear();
+//       navigate('/login');
+//     };
+
+//     const CreateAccount=()=>{
+//         navigate('/CreateAccount')
+//     };
+  
+//     // const profile = () => {
+//     //   navigate('/UserProfile');
+//     // };
+
+//     const profile = async () => {
+//       // Retrieve token from local storage
+//       const token = localStorage.getItem('loginToken');
+  
+//       // Create requestData object with token and other data
+//       const requestData = {
+//           token: token,
+//           // Add other data you need to send here
+//       };
+  
+//       try {
+//           // Make API call to send token and other data to backend
+//           await axios.post(`${BASE_URL}/get_user_details/`, requestData);
+  
+//           // Navigate to user profile page after token and data are successfully sent
+//           navigate('/UserProfile');
+//       } catch (error) {
+//           console.error('Error sending token and data:', error);
+//           // Handle error as needed
+//       }
+//   };
+//     const Employerdetails=()=>{
+//       navigate('/EmployerRegister')
+//     }
+//     const EmployerDashboard =()=>{
+//       navigate('/EmployerDashboard')
+//     }
+//     const UserDashBoard=()=>{
+//       navigate('/UserDashBoard')
+//     }
+//     const PostJob=()=>{
+//       navigate('/PostJob')
+//     }
+//     const isLoggedIn = !!localStorage.getItem('googleToken');
+//     const otpToken = !!localStorage.getItem('otpToken');
+//     const storedToken = !!localStorage.getItem("loginToken");
+
+    
+//     console.log(isLoggedIn,"GoogleToke============<");
+//     return (
+//       <div className="Navbar" >
+//         <div className="Navbar__left">
+//           <img src="your-logo.png" alt="Logo" className="Navbar__logo" />
+//         </div>
+  
+//         <div className="Navbar__center">
+//           {(isLoggedIn || otpToken || storedToken ) ? (
+//             <ul>
+//               <li className="Navbar__dropdown" onClick={home}>
+//               {translations.home.one}
+//                 <div className="Navbar__dropdown-content"></div>
+//               </li>
+//               <li className="Navbar__dropdown">
+//               {translations.employer.one}
+//                 <div className="Navbar__dropdown-content">
+//                   <ul>
+//                   <li onClick={Employerdetails}>{translations.employerdetails.one}</li>
+//                     <li onClick={PostJob}>{translations.employerdetails.two}</li>
+//                   </ul>
+//                 </div>
+//               </li>
+//               <li className="Navbar__dropdown">
+//               {translations.candidatejobs.one}
+//                 <div className="Navbar__dropdown-content">
+//                   <ul>
+//                   <li onClick={EmployerDashboard}>{translations.candidatejobsdetails.one}</li>
+//                     <li onClick={UserDashBoard}>{translations.candidatejobsdetails.two}</li>
+//                   </ul>
+//                 </div>
+//               </li>
+//             </ul>
+//           ) : (
+//             <ul>
+//               <li className="Navbar__dropdown">
+//               {translations.employer.one}
+//                 <div className="Navbar__dropdown-content">
+//                   <ul>
+//                   <li>{translations.employerdetails.one}</li>
+//                     <li>{translations.employerdetails.two}</li>
+//                   </ul>
+//                 </div>
+//               </li>
+//               <li className="Navbar__dropdown">
+//               {translations.candidatejobs.one}
+//                 <div className="Navbar__dropdown-content">
+//                   <ul>
+//                   <li  >{translations.candidatejobsdetails.one}</li>
+//                     <li>{translations.candidatejobsdetails.two}</li>
+//                   </ul>
+//                 </div>
+//               </li>
+//             </ul>
+//           )}
+//         </div>
+  
+//         <div className="Navbar__right">
+//           {isLoggedIn || storedToken || otpToken? (
+//             <>
+//               <button className="Navbar__button" id='Nav_btn' onClick={logout}>
+//               {translations.logout.one}
+//               </button>
+//               <button className="Navbar__button" type='submit' onClick={CreateAccount}>
+//               {translations.create_an_account.one}
+//               </button>
+//               <FaUserCircle className="Navbar__user-icon" style={{ fontSize: '20px' }}   onClick={profile}  />
+//               <FaBell className="Navbar__notification-icon" />
+//             </>
+//           ) : (
+//             <>
+//               <button className="Navbar__button" id='Nav_log_btn' onClick={handleLoginClick} disabled={isLoggedIn}>
+//               {translations.login.one}
+//               </button>
+//               <button className="Navbar__button" onClick={handleSignupClick} disabled={isLoggedIn}>
+//               {translations.requiters_login.one}
+//               </button>
+//             </>
+//           )}
+//         </div>
+//         {loading && <CircularProgress />} {/* Display loading bar if loading */}
+//       </div>
+//     );
+//   };
+  
+//   export default Navbar;
+  
+
+
+
+
+
+
+
+import React, { useContext, useState } from 'react';
 import '../NavBar/Navbar.css';
 import { FaUserCircle, FaBell } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import NavbarData from "../Json/NavBarJsonData.json";
 import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios';
+import BASE_URL from '../CommonAPI';
+import { BeatLoader } from 'react-spinners';
 import UserContext from '../Sprint 2/contextFilter';
 
 const Navbar = () => {
-  const {setData,setsearchJob,setcompanyList} = useContext(UserContext)
   const [loading, setLoading] = useState(false);
   const translations = NavbarData.english;
-    const navigate = useNavigate();
-  
-    const handleLoginClick = () => {
-      navigate('/login');
-    };
-  
-    const handleSignupClick = () => {
-      navigate('/login');
-    };
-  
-    const home = () => {
-      setData(false);
-      setsearchJob(false);
-      setcompanyList(false);
-      navigate('/home');
-    };
-  
-    const logout = () => {
-      localStorage.clear();
-      navigate('/login');
-    };
+  const {setData,setsearchJob,setcompanyList,setJobData}=useContext(UserContext)
+  const navigate = useNavigate();
 
-    const CreateAccount=()=>{
-        navigate('/CreateAccount')
-    };
-  
-    const profile = () => {
-      navigate('/UserProfile');
-    };
-    const Employerdetails=()=>{
-      navigate('/EmployerRegister')
-    }
-    const EmployerDashboard =()=>{
-      navigate('/EmployerDashboard')
-    }
-    const UserDashBoard=()=>{
-      navigate('/UserDashBoard')
-    }
-    const PostJob=()=>{
-      navigate('/PostJob')
-    }
-    const isLoggedIn = !!localStorage.getItem('googleToken');
-    const otpToken = !!localStorage.getItem('otpToken');
-    const storedToken = !!localStorage.getItem("loginToken");
-
-    console.log(isLoggedIn,"GoogleToke============<");
-    return (
-      <div className="Navbar" >
-        <div className="Navbar__left">
-          <img src="your-logo.png" alt="Logo" className="Navbar__logo" />
-        </div>
-  
-        <div className="Navbar__center">
-          {(isLoggedIn || otpToken || storedToken ) ? (
-            <ul>
-              <li className="Navbar__dropdown" onClick={home}>
-              {translations.home.one}
-                <div className="Navbar__dropdown-content"></div>
-              </li>
-              <li className="Navbar__dropdown">
-              {translations.employer.one}
-                <div className="Navbar__dropdown-content">
-                  <ul>
-                  <li onClick={Employerdetails}>{translations.employerdetails.one}</li>
-                    <li onClick={PostJob}>{translations.employerdetails.two}</li>
-                  </ul>
-                </div>
-              </li>
-              <li className="Navbar__dropdown">
-              {translations.candidatejobs.one}
-                <div className="Navbar__dropdown-content">
-                  <ul>
-                  <li onClick={EmployerDashboard}>{translations.candidatejobsdetails.one}</li>
-                    <li onClick={UserDashBoard}>{translations.candidatejobsdetails.two}</li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          ) : (
-            <ul>
-              <li className="Navbar__dropdown">
-              {translations.employer.one}
-                <div className="Navbar__dropdown-content">
-                  <ul>
-                  <li>{translations.employerdetails.one}</li>
-                    <li>{translations.employerdetails.two}</li>
-                  </ul>
-                </div>
-              </li>
-              <li className="Navbar__dropdown">
-              {translations.candidatejobs.one}
-                <div className="Navbar__dropdown-content">
-                  <ul>
-                  <li  >{translations.candidatejobsdetails.one}</li>
-                    <li>{translations.candidatejobsdetails.two}</li>
-                  </ul>
-                </div>
-              </li>
-            </ul>
-          )}
-        </div>
-  
-        <div className="Navbar__right">
-          {isLoggedIn || storedToken || otpToken? (
-            <>
-              <button className="Navbar__button" id='Nav_btn' onClick={logout}>
-              {translations.logout.one}
-              </button>
-              <button className="Navbar__button" type='submit' onClick={CreateAccount}>
-              {translations.create_an_account.one}
-              </button>
-              <FaUserCircle className="Navbar__user-icon" style={{ fontSize: '20px' }}   onClick={profile}  />
-              <FaBell className="Navbar__notification-icon" />
-            </>
-          ) : (
-            <>
-              <button className="Navbar__button" id='Nav_log_btn' onClick={handleLoginClick} disabled={isLoggedIn}>
-              {translations.login.one}
-              </button>
-              <button className="Navbar__button" onClick={handleSignupClick} disabled={isLoggedIn}>
-              {translations.requiters_login.one}
-              </button>
-            </>
-          )}
-        </div>
-        {loading && <CircularProgress />} {/* Display loading bar if loading */}
-      </div>
-    );
+  const handleLoginClick = () => {
+    navigate('/login');
   };
-  
-  export default Navbar;
-  
+
+  const handleSignupClick = () => {
+    navigate('/login');
+  };
+
+  const home = () => {
+    setData(false);
+    setsearchJob(false);
+    setcompanyList(false);
+    setJobData(false);
+    navigate('/home');
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
+
+  const CreateAccount = () => {
+    navigate('/CreateAccount')
+  };
+
+  // const profile = async () => {
+  //   setLoading(true); // Start loading
+
+  //   // Retrieve token from local storage
+  //   const token = localStorage.getItem('loginToken');
+
+  //   // Create requestData object with token and other data
+  //   const requestData = {
+  //     token: token,
+  //     // Add other data you need to send here
+  //   };
+
+  //   try {
+  //     // Make API call to send token and other data to backend
+  //     await axios.post(`${BASE_URL}/get_user_details/`, requestData);
+
+  //     // Navigate to user profile page after token and data are successfully sent
+  //     navigate('/UserProfile');
+  //   } catch (error) {
+  //     console.error('Error sending token and data:', error);
+  //     // Handle error as needed
+  //   } finally {
+  //     setLoading(false); // Stop loading
+  //   }
+  // };
+
+  const profile = async () => {
+    setLoading(true); // Start loading
+
+    const token = localStorage.getItem('loginToken');
+
+    const requestData = {
+        token: token,
+    };
+
+    try {
+        const response = await axios.post(`${BASE_URL}/get_user_details/`, requestData);
+
+        // Check if the status is true
+        if (response.data.status === true) {
+            navigate('/UserProfile');
+        } else {
+            // Status is false, show alert and navigate to CreateAccount
+            alert("User details not found. Please create an account.");
+            navigate('/CreateAccount');
+        }
+    } catch (error) {
+        console.error('Error sending token and data:', error);
+        // Handle error as needed
+    } finally {
+        setLoading(false); // Stop loading
+    }
+};
 
 
+  const Employerdetails = () => {
+    navigate('/EmployerRegister')
+  }
+  const EmployerDashboard = () => {
+    navigate('/EmployerDashboard')
+  }
+  const UserDashBoard = () => {
+    navigate('/UserDashBoard')
+  }
+  const PostJob = () => {
+    navigate('/PostJob')
+  }
+  const isLoggedIn = !!localStorage.getItem('googleToken');
+  const otpToken = !!localStorage.getItem('otpToken');
+  const storedToken = !!localStorage.getItem("loginToken");
 
+  console.log(isLoggedIn, "GoogleToken============<");
 
+  return (
+    <div className="Navbar" >
+      <div className="Navbar__left">
+        <img src="your-logo.png" alt="Logo" className="Navbar__logo" />
+      </div>
 
+      <div className="Navbar__center">
+        {(isLoggedIn || otpToken || storedToken) ? (
+          <ul>
+            <li className="Navbar__dropdown" onClick={home}>
+              {translations.home.one}
+              <div className="Navbar__dropdown-content"></div>
+            </li>
+            <li className="Navbar__dropdown">
+              {translations.employer.one}
+              <div className="Navbar__dropdown-content">
+                <ul>
+                  <li onClick={Employerdetails}>{translations.employerdetails.one}</li>
+                  <li onClick={PostJob}>{translations.employerdetails.two}</li>
+                </ul>
+              </div>
+            </li>
+            <li className="Navbar__dropdown">
+              {translations.candidatejobs.one}
+              <div className="Navbar__dropdown-content">
+                <ul>
+                  <li onClick={EmployerDashboard}>{translations.candidatejobsdetails.one}</li>
+                  <li onClick={UserDashBoard}>{translations.candidatejobsdetails.two}</li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        ) : (
+          <ul>
+            <li className="Navbar__dropdown">
+              {translations.employer.one}
+              <div className="Navbar__dropdown-content">
+                <ul>
+                  <li>{translations.employerdetails.one}</li>
+                  <li>{translations.employerdetails.two}</li>
+                </ul>
+              </div>
+            </li>
+            <li className="Navbar__dropdown">
+              {translations.candidatejobs.one}
+              <div className="Navbar__dropdown-content">
+                <ul>
+                  <li  >{translations.candidatejobsdetails.one}</li>
+                  <li>{translations.candidatejobsdetails.two}</li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        )}
+      </div>
 
+      <div className="Navbar__right">
+        {isLoggedIn || storedToken || otpToken ? (
+          <>
+            <button className="Navbar__button" id='Nav_btn' onClick={logout}>
+              {translations.logout.one}
+            </button>
+            <button className="Navbar__button" type='submit' onClick={CreateAccount}>
+              {translations.create_an_account.one}
+            </button>
+            <FaUserCircle className="Navbar__user-icon" style={{ fontSize: '20px' }} onClick={profile} />
+            <FaBell className="Navbar__notification-icon" />
+          </>
+        ) : (
+          <>
+            <button className="Navbar__button" id='Nav_log_btn' onClick={handleLoginClick} disabled={isLoggedIn}>
+              {translations.login.one}
+            </button>
+            <button className="Navbar__button" onClick={handleSignupClick} disabled={isLoggedIn}>
+              {translations.requiters_login.one}
+            </button>
+          </>
+        )}
+      </div>
+      {loading && <BeatLoader  color='#1A237E' style={{height:'20px'}}/>} {/* Display loading bar if loading */}
+    </div>
+  );
+};
 
-
-
-
-
-
-
+export default Navbar;

@@ -6,7 +6,10 @@ import SearchBox from './searchBar'
 import UserProfile from '../UserManagement/UserProfile';
 import Companylist from './Companylist';
 import HomeDesign from './HomeDesign';
+import { JobCard } from './JobCard';
+import Bottompage from './Bottom';
 import Token from '../Sprint 2/Token';
+
 
 const Home = () => {
   const navigate = useNavigate();
@@ -30,6 +33,9 @@ const Home = () => {
        </div>
 
         <Companylist />
+        <JobCard />
+        <Bottompage />
+
       </div>
     </>
 

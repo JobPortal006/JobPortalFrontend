@@ -8,13 +8,14 @@ import FilteredResults from "./FilteredResults";
 import "../Sprint 2/FilterPage.css";
 import UserContext from "./contextFilter";
 import SearchBar from "../HomePage/searchBar";
+import BASE_URL from '../CommonAPI';
 
 const Filter = () => {
   const [showAll, setShowAll] = useState(false);
   const [Show, setShow] = useState(false);
   const [errorOne, setErrorOne ] = useState(null)
 
-  const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList} = useContext(UserContext);
+  const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData} = useContext(UserContext);
   console.log(searchJob,'=====search job data')
 console.log(oneData, "=====raghul data");
 
@@ -93,7 +94,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://192.168.1.46:8000/location/");
+        const response = await fetch(`${BASE_URL}/location/`);
         if (!response) {
           console.error("Failed to fetch locations");
         }
@@ -137,7 +138,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchJobRoles = async () => {
       try {
-        const response = await fetch("http://192.168.1.46:8000/job_role/");
+        const response = await fetch(`${BASE_URL}/job_role/`);
         if (!response.ok) {
           console.error("Failed to fetch job roles");
           return;
@@ -205,13 +206,14 @@ console.log(companyList, "=====raghul data company list");
     setsearchJob(searchResult)
     setcompanyList(null)
     setFilteredData(filtered);
+    setJobData(null)
     
     
  
     try {
       const response = await fetch(
-        "http://192.168.1.46:8000/filter_job/",
-        {
+
+        `${BASE_URL}/filter_job/`,        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -406,6 +408,7 @@ console.log(companyList, "=====raghul data company list");
        {component && <FilteredResults  />}
        {searchJob && <FilteredResults  />}
        {companyList && <FilteredResults  />}
+       {jobData && <FilteredResults  /> }
 
       </Grid>
     </Grid>

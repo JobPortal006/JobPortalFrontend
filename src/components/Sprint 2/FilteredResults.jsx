@@ -6,6 +6,7 @@ import SearchBar from "../HomePage/searchBar";
 import { useNavigate } from 'react-router-dom';
 import { Grid } from "@mui/material";
 import UserContext from "./contextFilter";
+import BASE_URL from '../CommonAPI';
 
 
 function FilteredResults() {
@@ -15,7 +16,8 @@ function FilteredResults() {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [jobsPerPage] = useState(5);
-    const { searchJob, oneData ,companyList } = useContext(UserContext);
+
+    const { searchJob, oneData ,companyList, jobData} = useContext(UserContext);
     console.log(searchJob,'=====raghul data1')
     console.log(oneData,'=====raghul data2')
     
@@ -23,7 +25,13 @@ function FilteredResults() {
 
     useEffect(()=>{},[searchJob,oneData,companyList])
 
-    const dataToUse = searchJob ? searchJob : oneData || companyList?.data ;
+    // Determine which data to use for rendering
+    const dataToUse = searchJob ? searchJob : oneData || companyList?.data || jobData?.data;
+    // setsearchJob(false)
+//    if(oneData.length !== 0 ){
+//    setsearchJob(false)
+//    }
+
 
     console.log(dataToUse,"<====DATATOUSE");
   
@@ -33,23 +41,28 @@ function FilteredResults() {
  
     console.log(currentJobs,"<===CurrentJobs");
     const [noResult, setNoResult] = useState(false)
-    if(dataToUse === null || dataToUse === undefined){
+
+    if(dataToUse === null){
         setNoResult(true)
-        
-        // alert("Hello Everyone")
+        alert("Hello Everyone")
         
     }
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     const handleJobSelect = async (selectedJob) => {
+        const Token= localStorage.getItem('loginToken')
+        const Token1={
+            selectedJob,
+            token:Token
+        }
         try {
             setLoading(true);
-            const response = await fetch('http://192.168.1.46:8000/job_details/', {
+            const response = await fetch(`${BASE_URL}/job_details/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(selectedJob),
+                body: JSON.stringify(Token1),
             });
             if (!response.ok) {
              throw new Error('Failed to send selected job data to the backend');
@@ -81,16 +94,16 @@ function FilteredResults() {
             {loading ? (
                 <div className="loading-popup">Loading...</div> 
             ) : (
-                <div className="job-result" style={{ marginTop: '300px', marginLeft:"150px" }}>
+                <div className="job-result" style={{ marginTop: '300px', marginLeft:"20px",width:'800px' }}>
               
                     {currentJobs.map((job, index) => (
                         <div key={index} className="job-box" onClick={() => handleJobSelect(job)}>
                             <div className="job-top">
                                 <div className="job-heading company-img">
-                                    {job.company_logo && job.company_logo.includes('data:image') ? (
-                                        <img src={job.company_logo} alt="Company Logo" />
+                                    {job.company_logo_path && job.company_logo_path.includes('data:image') ? (
+                                        <img src={job.company_logo_path} alt="Company Logo" />
                                     ) : (
-                                        <img src={`data:image/jpeg;base64,${job.company_logo}`} alt="Company Logo" />
+                                        <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.company_logo_path}`} alt="Company Logo" />
                                     )}
                                     {job.company_name}
                                 </div>
@@ -98,7 +111,7 @@ function FilteredResults() {
                             </div>
                             <div className="job-brief">
                                 <div className="brief">
-                                    <span className="brief-label"><FontAwesomeIcon icon={faMapMarkerAlt} /> Location:</span> {job.location}
+                                    <span className="brief-label"><FontAwesomeIcon icon={faMapMarkerAlt} /> Location:</span> {job.location ? job.location.join(','):''}
                                 </div>
                                 <div className="brief">
                                     <span className="brief-label"><FontAwesomeIcon icon={faMoneyBillAlt} /> Salary:</span> {job.salary_range}
@@ -121,7 +134,8 @@ function FilteredResults() {
                             </div>
                         </div>
                     ))}
-                    <div className="pagination" style={{marginLeft:"220px", marginBottom:"20px"}}>
+
+                    <div className="pagination" style={{marginLeft:"50px", marginBottom:"20px"}}>
                         <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
                         <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= dataToUse.length}>Next</button>
                     </div>
@@ -137,3 +151,5 @@ function FilteredResults() {
 }
 
 export default FilteredResults;
+
+

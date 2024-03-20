@@ -468,10 +468,3 @@ const SearchBar = ({ isJobSearchPage }) => {
 };
 
 export default SearchBar;
-
-
-
-
-
-
-
