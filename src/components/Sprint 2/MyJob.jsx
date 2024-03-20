@@ -23,6 +23,7 @@ function MyJob() {
   
 
   const location = useLocation();
+ 
 
   useEffect(() => {
     // Passing id and Fetching Data
@@ -107,6 +108,12 @@ function MyJob() {
     }
   };
 
+  const userListing = () =>{
+    const id = location.state.id; // id post
+    setEmployeeId(id);
+    navigate("/UserJobList",{state:{job_id:employee_id}})
+  }
+
 
   
   return (
@@ -145,7 +152,7 @@ function MyJob() {
             </Grid>
             <Grid item xs={3}>
               <div>
-                <h3 style={{marginLeft:"-2px"}} className="date">Date</h3>
+                <h3 style={{marginLeft:"-12px"}} className="date">Date</h3>
               </div>
             </Grid>
             <Grid item xs={2}></Grid>
@@ -181,13 +188,13 @@ function MyJob() {
                
               <Tooltip title="Edit"  placement="top" >
              
-              <FontAwesomeIcon icon={faPenToSquare} onClick={() => ChangeDirect(job.job_post_id)} />
+              <FontAwesomeIcon icon={faPenToSquare} style={{cursor:"pointer"}} onClick={() => ChangeDirect(job.job_post_id)} />
               
             </Tooltip>
         </Grid>
             <Grid item xs={1} className="delete-btn">
             <Tooltip title="Delete" placement="top" >
-                <FontAwesomeIcon icon={faTrash}  onClick={() => handleDelete(job.job_post_id)}  />
+                <FontAwesomeIcon icon={faTrash} style={{cursor:"pointer"}}  onClick={() => handleDelete(job.job_post_id)}  />
                 </Tooltip> 
              </Grid>
             </Grid>

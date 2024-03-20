@@ -171,7 +171,6 @@ const Companylist = () => {
       });
   }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
-  const{setData, setsearchJob} = useContext(UserContext);
 
   const handleCardClick = async (companyName) => {
     try {

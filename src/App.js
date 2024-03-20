@@ -33,6 +33,7 @@ import UserDash from "./components/Dashboard/UserDash.js";
 import { Newpost } from "./components/HomePage/Newpost.js";
 import { ApplyJob } from "./components/JobPostSample/ApplyJob.jsx";
 import Token from "./components/Sprint 2/Token.jsx";
+import UsersJobList from "./components/Sprint 2/UsersJobList.jsx";
 
 
 
@@ -75,6 +76,7 @@ function App() {
           <Route path="/UserDashBoard" element={<UserDash />} />
           <Route path="/newpost" element={<Newpost />} />
           <Route path="/applyJob" element={<ApplyJob />} />
+          <Route path="/UserJobList" element={<UsersJobList /> } />
         </Routes>
       </BrowserRouter>
     </div>
