@@ -17,7 +17,7 @@ const Filter = () => {
 
   const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData} = useContext(UserContext);
   console.log(searchJob,'=====search job data')
-console.log(oneData, "=====raghul data");
+console.log(oneData, "=====Jeeva data");
 
 useEffect(()=>{},[companyList]);
 console.log(companyList, "=====raghul data company list");
@@ -65,6 +65,8 @@ console.log(companyList, "=====raghul data company list");
     "27 - 30 LPA",
     "More than  30 LPA",
   ];
+
+  
 
   const renderOptions = showAll
     ? experienceOptions
@@ -208,7 +210,6 @@ console.log(companyList, "=====raghul data company list");
     setFilteredData(filtered);
     setJobData(null)
     
-    
  
     try {
       const response = await fetch(
@@ -225,6 +226,10 @@ console.log(companyList, "=====raghul data company list");
       const FilterResponse = FilterData.data
       console.log(FilterResponse,"<====filter-Response");
       
+        if(FilterData.status === false ){
+          alert("Hello")
+          return
+        }
 
       if(FilterResponse !== null){
         setData(FilterResponse)
@@ -237,6 +242,7 @@ console.log(companyList, "=====raghul data company list");
       if (FilterData.status !== true) {
         // alert("Failed to post data to backend");
         return <p>Error: Server Not Responding</p>
+       
         
       } else {
         
@@ -247,8 +253,6 @@ console.log(companyList, "=====raghul data company list");
       setErrorOne(error)
       console.error("Error posting data to backend:", error.message);
     }
-
-   
 
   }; 
 

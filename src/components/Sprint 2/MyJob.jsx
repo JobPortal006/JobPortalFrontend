@@ -108,10 +108,26 @@ function MyJob() {
     }
   };
 
-  const userListing = () =>{
+  // 
+
+  const userListing = async () =>{
     const id = location.state.id; // id post
     setEmployeeId(id);
-    navigate("/UserJobList",{state:{job_id:employee_id}})
+    
+    try{
+      const response = await fetch("http://192.168.1.46:8000/user_job_apply_list/",
+      {
+        method:"POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body:JSON.stringify({id}),
+      });
+      const data = await response.json();
+      console.log(data, "<====UserListing Data==>");
+    }catch(error){
+
+    }
   }
 
 
