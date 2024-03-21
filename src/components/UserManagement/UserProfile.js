@@ -38,7 +38,7 @@ const UserProfile = () => {
     const [postData, setPostdata] = useState(null);
     console.log(postData, '=====postdata=====')
     const [resumeFile, setResumeFile] = useState(null);
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
     /// for validation
     const [error1, setError1] = useState({
@@ -155,10 +155,10 @@ const UserProfile = () => {
     //         },
     //         // body: JSON.stringify({
     //         //     user_id: userId 
-               
+
     //         // }),
     //         body: JSON.stringify(requestData)
-            
+
     //     })
     //         .then(response => {
     //             if (!response.ok) {
@@ -351,7 +351,7 @@ const UserProfile = () => {
             })
             .then(data => {
                 setUserData(data);
-        setLoading1(false); // Set loading to false when data fetching is complete
+                setLoading1(false); // Set loading to false when data fetching is complete
 
                 // Set resume data
                 // setResume(data.resume);
@@ -458,7 +458,7 @@ const UserProfile = () => {
         console.log(value, 'companyname')
         const [field, index, subfield] = name.split('.');
         let errorMessage = '';
-    
+
         if (name === 'sslc_school_name' || name === 'hsc_school_name' || name === 'college_name'
             || name === 'department' || name === 'degree' || name === 'pg_college_name'
             || name === 'pg_college_department' || name === 'pg_college_degree' || name === 'diploma_college_name'
@@ -542,7 +542,9 @@ const UserProfile = () => {
                 },
                 Diploma_college_details: {
                     ...prevData.data.Diploma_college_details,
-                    [name]: value
+                    [name]: value,
+                    [`${name}_error`]: errorMessage
+
                 },
                 jobPreference: {
                     ...prevData.data.jobPreference,
@@ -565,6 +567,23 @@ const UserProfile = () => {
     };
     const handlePermanentAddressChange = (event) => {
         const { name, value } = event.target;
+        setError1({
+            ...error1,
+            [name]: '',
+        });
+        let errorMessage = '';
+        if (name === 'country' || name === 'city' || name === 'country' || name === 'state') {
+            if (/[^A-Za-z\s]/.test(value)) {
+                // Invalid input, set error message
+                setError1({
+                    ...error1,
+                    [name]: 'Only alphabets and spaces allowed',
+                });
+                return;
+            }
+
+        }
+
         setFormData(prevData => ({
             ...prevData,
             data: {
@@ -573,15 +592,37 @@ const UserProfile = () => {
                     ...prevData.data.address,
                     permanent: {
                         ...prevData.data.address.permanent,
-                        [name]: value
+                        [name]: value,
+                    [`${name}_error`]: errorMessage
+
                     }
                 }
             }
         }));
     };
 
+
+
+
     const handleCurrentAddressChange = (event) => {
         const { name, value } = event.target;
+        setError1({
+            ...error1,
+            [name]: '',
+        });
+        let errorMessage = '';
+        if (name === 'country' || name === 'city' || name === 'country' || name === 'state') {
+            if (/[^A-Za-z\s]/.test(value)) {
+                // Invalid input, set error message
+                setError1({
+                    ...error1,
+                    [name]: 'Only alphabets and spaces allowed',
+                });
+                return;
+            }
+
+        }
+
         setFormData(prevData => ({
             ...prevData,
             data: {
@@ -590,7 +631,9 @@ const UserProfile = () => {
                     ...prevData.data.address,
                     current: {
                         ...prevData.data.address.current,
-                        [name]: value
+                        [name]: value,
+                    [`${name}_error`]: errorMessage
+
                     }
                 }
             }
@@ -770,7 +813,7 @@ const UserProfile = () => {
         if (resumeFile) {
             formDataToSend.append('resume', resumeFile);
         }
-        const Token= localStorage.getItem('loginToken')
+        const Token = localStorage.getItem('loginToken')
 
 
         formDataToSend.append('userDetails', JSON.stringify(formData.data.userDetails));
@@ -782,7 +825,7 @@ const UserProfile = () => {
         formDataToSend.append('Diploma_college_details', JSON.stringify(formData.data.Diploma_college_details));
         formDataToSend.append('jobPreference', JSON.stringify(formData.data.jobPreference));
         formDataToSend.append('professionalDetails', JSON.stringify(formData.data.professionalDetails));
-        formDataToSend.append('token',Token)
+        formDataToSend.append('token', Token)
 
         for (let pair of formDataToSend.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
@@ -802,9 +845,9 @@ const UserProfile = () => {
                 console.log("Response from server:", data);
                 // toast.success('Profile Updated successful!', { position: toast.POSITION.TOP_CENTER });
                 alert('Profile Updated successful!')
-              
+
             })
-            .then( data=>{
+            .then(data => {
                 navigate('/home')
             })
             .catch(error => {
@@ -894,6 +937,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.last_name)}
+                                            helperText={error1.last_name}
 
 
 
@@ -1003,7 +1048,6 @@ const UserProfile = () => {
                                             onChange={handlePermanentAddressChange}
                                             fullWidth
                                             margin="dense"
-
                                         />
                                         <TextField className='textfield'
                                             label=" permanent City"
@@ -1013,7 +1057,8 @@ const UserProfile = () => {
                                             onChange={handlePermanentAddressChange}
                                             fullWidth
                                             margin="dense"
-
+                                            error={Boolean(error1.city)}
+                                            helperText={error1.city}
                                         />
                                         <TextField className='textfield'
                                             label="permanent pincode"
@@ -1023,6 +1068,7 @@ const UserProfile = () => {
                                             onChange={handlePermanentAddressChange}
                                             fullWidth
                                             margin="dense"
+
 
                                         />
 
@@ -1034,6 +1080,8 @@ const UserProfile = () => {
                                             onChange={handlePermanentAddressChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.country)}
+                                            helperText={error1.country}
 
 
                                         />
@@ -1045,6 +1093,8 @@ const UserProfile = () => {
                                             onChange={handlePermanentAddressChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.state)}
+                                            helperText={error1.state}
 
                                         />
 
@@ -1070,6 +1120,8 @@ const UserProfile = () => {
                                             onChange={handleCurrentAddressChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.city)}
+                                            helperText={error1.city}
 
                                         />
                                         <TextField className='textfield'
@@ -1091,6 +1143,8 @@ const UserProfile = () => {
                                             onChange={handleCurrentAddressChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.country)}
+                                            helperText={error1.country}
 
                                         />
                                         <TextField className='textfield'
@@ -1101,6 +1155,8 @@ const UserProfile = () => {
                                             onChange={handleCurrentAddressChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.state)}
+                                            helperText={error1.state}
 
                                         />
 
@@ -1128,6 +1184,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.sslc_school_name)}
+                                            helperText={error1.sslc_school_name}
 
 
                                         />
@@ -1139,6 +1197,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.sslc_start_year)}
+                                            helperText={error1.sslc_start_year}
 
                                         />
                                         <TextField className='textfield'
@@ -1149,6 +1209,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.sslc_end_year)}
+                                            helperText={error1.sslc_end_year}
 
 
                                         />
@@ -1160,6 +1222,9 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.sslc_percentage)}
+                                            helperText={error1.sslc_percentage}
+
 
 
                                         />
@@ -1175,6 +1240,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.hsc_school_name)}
+                                            helperText={error1.hsc_school_name}
 
 
                                         />
@@ -1186,6 +1253,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.hsc_start_year)}
+                                            helperText={error1.hsc_start_year}
 
                                         />
                                         <TextField className='textfield'
@@ -1196,6 +1265,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.hsc_end_year)}
+                                            helperText={error1.hsc_end_year}
 
                                         />
                                         <TextField className='textfield'
@@ -1206,6 +1277,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.hsc_percentage)}
+                                            helperText={error1.hsc_percentage}
 
                                         />
                                     </Grid>
@@ -1221,6 +1294,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.college_name)}
+                                            helperText={error1.college_name}
 
                                         />
                                         <TextField className='textfield'
@@ -1230,6 +1305,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.college_start_year)}
+                                            helperText={error1.college_start_year}
 
 
 
@@ -1241,6 +1318,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.college_end_year)}
+                                            helperText={error1.college_end_year}
 
 
                                         />
@@ -1251,6 +1330,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.college_percentage)}
+                                            helperText={error1.college_percentage}
 
                                         />
                                     </Grid>
@@ -1267,6 +1348,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.department)}
+                                            helperText={error1.department}
 
                                         />
                                         <TextField className='textfield'
@@ -1276,6 +1359,8 @@ const UserProfile = () => {
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
+                                            error={Boolean(error1.degree)}
+                                            helperText={error1.degree}
 
 
                                         />
@@ -1327,6 +1412,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.pg_college_name)}
+                                                helperText={error1.pg_college_name}
 
                                             />
                                             <TextField className='textfield'
@@ -1336,6 +1423,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.pg_college_start_year)}
+                                                helperText={error1.pg_college_start_year}
 
                                             />
                                             <TextField className='textfield'
@@ -1345,6 +1434,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.pg_college_end_year)}
+                                                helperText={error1.pg_college_end_year}
 
 
                                             />
@@ -1355,6 +1446,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.pg_college_percentage)}
+                                                helperText={error1.pg_college_percentage}
 
 
                                             />
@@ -1368,6 +1461,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.pg_college_department)}
+                                                helperText={error1.pg_college_department}
 
 
                                             />
@@ -1378,6 +1473,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.pg_college_degree)}
+                                                helperText={error1.pg_college_degree}
 
 
                                             />
@@ -1397,6 +1494,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.diploma_college_name)}
+                                                helperText={error1.diploma_college_name}
 
                                             />
                                             <TextField className='textfield'
@@ -1406,6 +1505,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.diploma_college_start_year)}
+                                                helperText={error1.diploma_college_start_year}
 
                                             />
                                             <TextField className='textfield'
@@ -1415,6 +1516,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.diploma_college_end_year)}
+                                                helperText={error1.diploma_college_end_year}
 
                                             />
                                             <TextField className='textfield'
@@ -1424,6 +1527,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.diploma_college_percentage)}
+                                                helperText={error1.diploma_college_percentage}
 
                                             />
                                             {/* Add other Diploma fields here */}
@@ -1436,6 +1541,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.diploma_college_department)}
+                                                helperText={error1.diploma_college_department}
 
                                             />
                                             <TextField className='textfield'
@@ -1445,6 +1552,8 @@ const UserProfile = () => {
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
+                                                error={Boolean(error1.diploma_college_degree)}
+                                                helperText={error1.diploma_college_degree}
 
                                             />
                                         </Grid>
