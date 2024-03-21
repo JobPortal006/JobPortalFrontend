@@ -83,7 +83,9 @@ const LogIn = () => {
 
       const googleData = await response.json()
       console.log(googleData,"<====googleData");
-      
+
+      localStorage.setItem("googleSecondToken", googleData.message.token)
+      console.log(googleData.message.token,"<====GoogleSecondToken");
      
       
   
