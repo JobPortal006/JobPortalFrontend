@@ -1719,7 +1719,13 @@ const UserProfile = () => {
 
                                 {formData?.data?.resume?.resume_path && (
                                     <div>
-                                        <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p>
+                                        {/* <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p> */}
+                                        {/* <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p> */}
+                                        <iframe
+                             src={`https://docs.google.com/viewer?url=${encodeURIComponent(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`)}&embedded=true&rm=minimal`}
+                             width="250" height="150" style={{ border: 'none' }}
+                             title="Resume"
+                         />
                                     </div>
                                 )}
                             </AccordionDetails>

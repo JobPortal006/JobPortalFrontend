@@ -155,7 +155,10 @@
 }
 
 .Navbar__logo {
-    max-width: 100px; 
+    /* max-width: 100px; */
+    height: 40px;
+    width: 60px;
+    margin-left: 20px;
 }
 
 .Navbar__center {
