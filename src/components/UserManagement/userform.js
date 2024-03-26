@@ -2043,7 +2043,7 @@ const UserForm = () => {
     useEffect(() => {
         const fetchLocations = async () => {
             try {
-                const response = await axios.get('http://192.168.1.46:8000/locations/');
+                const response = await axios.get(`${BASE_URL}/locations/`);
                 setLocations(response.data);
             } catch (error) {
                 console.error('Error fetching locations:', error);
@@ -2052,37 +2052,84 @@ const UserForm = () => {
             }
         };
 
+        const fetchSkills = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL}/skills/`);
+                setSkills(response.data);
+            } catch (error) {
+                console.error('Error fetching skills:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchLocations();
+        fetchSkills();
     }, []);  
 
-    const handleJobPreferenceChange = (event, value, reason) => {
+    // const handleJobPreferenceChange = (event, value, reason) => {
+    //     setErrors({
+    //         ...errors,
+    //         jobPreference: {
+    //             ...errors.jobPreference,
+    //             prefered_locations: '',
+    //         },
+    //     });
+
+    //     let updatedJobPreference = { ...jobPreference };
+
+    //     if (reason === 'clear') {
+    //         // Clearing the selected value
+    //         updatedJobPreference = {
+    //             ...updatedJobPreference,
+    //             prefered_locations: [],
+    //         };
+    //     } else {
+    //         // Updating the selected value
+    //         updatedJobPreference = {
+    //             ...updatedJobPreference,
+    //             prefered_locations: value.map(item => item.location),
+    //         };
+    //     }
+
+    //     setJobPreference(updatedJobPreference);
+    // };
+
+    const handleJobPreferenceChange = (field) => (event, value, reason) => {
         setErrors({
             ...errors,
             jobPreference: {
                 ...errors.jobPreference,
-                prefered_locations: '',
+                [field]: '',
             },
         });
-
+    
         let updatedJobPreference = { ...jobPreference };
-
+    
         if (reason === 'clear') {
             // Clearing the selected value
             updatedJobPreference = {
                 ...updatedJobPreference,
-                prefered_locations: [],
+                [field]: [],
             };
         } else {
-            // Updating the selected value
-            updatedJobPreference = {
-                ...updatedJobPreference,
-                prefered_locations: value.map(item => item.location),
-            };
+            // Updating the selected value based on the field
+            if (field === 'prefered_locations') {
+                updatedJobPreference = {
+                    ...updatedJobPreference,
+                    [field]: value.map(item => item.location || item),
+                };
+            } else if (field === 'key_skills') {
+                updatedJobPreference = {
+                    ...updatedJobPreference,
+                    [field]: value.map(item => item.skill_set || item),
+                };
+            }
         }
-
+    
         setJobPreference(updatedJobPreference);
     };
-
+    
     // Handle profile picture upload
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
@@ -3060,7 +3107,7 @@ const UserForm = () => {
                         </Grid> */}
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
-                            <TextField
+                            {/* <TextField
                     label="Key-skills"
                     name="key_skills"
                     value={jobPreference.key_skills}
@@ -3070,7 +3117,35 @@ const UserForm = () => {
                     required
                     error={Boolean(errors.jobPreference.key_skills)}
                     helperText={errors.jobPreference.key_skills}
-                />
+                /> */}
+
+<Autocomplete
+                multiple
+                options={skills}
+                getOptionLabel={(option) => option ? option.skill_set : ''}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label="Key Skills"
+                        margin="dense"
+                        error={Boolean(errors.jobPreference.key_skills)}
+                        helperText={errors.jobPreference.key_skills}
+                    />
+                )}
+                value={jobPreference.key_skills.map(skill => ({ skill_set: skill }))} // Convert array of skill names to array of objects
+                onChange={handleJobPreferenceChange('key_skills')}
+                freeSolo // Allow typing new values
+                filterOptions={(options, params) => {
+                    const filtered = options.filter(
+                        (option) =>
+                            option.skill_set.toLowerCase().includes(params.inputValue.toLowerCase())
+                    );
+                    if (params.inputValue !== '' && !filtered.some(option => option.skill_set.toLowerCase() === params.inputValue.toLowerCase())) {
+                        filtered.push({ skill_set: params.inputValue }); // Add typed value if not present in options
+                    }
+                    return filtered;
+                }}
+            />
                 <TextField
                     label="Industry"
                     name="industry"
@@ -3100,32 +3175,32 @@ const UserForm = () => {
                         <CircularProgress />
                     ) : (
                         <Autocomplete
-                        multiple
-                        options={locations}
-                        getOptionLabel={(option) => option ? option.location : ''}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                label="Preferred locations"
-                                margin="dense"
-                                error={Boolean(errors.jobPreference.prefered_locations)}
-                                helperText={errors.jobPreference.prefered_locations}
-                            />
-                        )}
-                        value={jobPreference.prefered_locations.map(location => ({ location }))} // Convert array of location names to array of objects
-                        onChange={(event, value, reason) => handleJobPreferenceChange(event, value, reason)}
-                        freeSolo // Allow typing new values
-                        filterOptions={(options, params) => {
-                            const filtered = options.filter(
-                                (option) =>
-                                    option.location.toLowerCase().includes(params.inputValue.toLowerCase())
-                            );
-                            if (params.inputValue !== '' && !filtered.some(option => option.location.toLowerCase() === params.inputValue.toLowerCase())) {
-                                filtered.push({ location: params.inputValue }); // Add typed value if not present in options
-                            }
-                            return filtered;
-                        }}
+                multiple
+                options={locations}
+                getOptionLabel={(option) => option ? option.location : ''}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label="Preferred Locations"
+                        margin="dense"
+                        error={Boolean(errors.jobPreference.prefered_locations)}
+                        helperText={errors.jobPreference.prefered_locations}
                     />
+                )}
+                value={jobPreference.prefered_locations.map(location => ({ location }))} // Convert array of location names to array of objects
+                onChange={handleJobPreferenceChange('prefered_locations')}
+                freeSolo // Allow typing new values
+                filterOptions={(options, params) => {
+                    const filtered = options.filter(
+                        (option) =>
+                            option.location.toLowerCase().includes(params.inputValue.toLowerCase())
+                    );
+                    if (params.inputValue !== '' && !filtered.some(option => option.location.toLowerCase() === params.inputValue.toLowerCase())) {
+                        filtered.push({ location: params.inputValue }); // Add typed value if not present in options
+                    }
+                    return filtered;
+                }}
+            />
                     )}
                 </div>
                             </Grid>

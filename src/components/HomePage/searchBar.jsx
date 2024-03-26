@@ -142,7 +142,9 @@ const SearchBar = ({ isJobSearchPage }) => {
   useEffect(() => {
     async function fetchLocationSuggestions(input) {
       try {
-        const response = await fetch(`${BASE_URL}/job_apply_locations/?q=${input}`);
+        const api = `${BASE_URL}/job_apply_locations/?q=${input}`
+        console.log((api,'api--------'));
+        const response = await fetch(api);
         const data = await response.json();
         setLocationSuggestions(data.map((item) => item.location));
       } catch (error) {

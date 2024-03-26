@@ -94,7 +94,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/location/`);
+        const response = await fetch(`${BASE_URL}/job_apply_locations/`);
         if (!response) {
           console.error("Failed to fetch locations");
         }
