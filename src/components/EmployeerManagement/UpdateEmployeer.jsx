@@ -3,7 +3,6 @@ import { Grid, TextField, Button, Typography, Box, MenuItem, Divider } from '@mu
 import errorMessages from '../Json/Employerregister.json';
 import UserContext from '../Sprint 2/contextFilter';
 import axios from 'axios'; // Importing Axios for making HTTP requests
-
 import BASE_URL from '../CommonAPI';
 
 export const UpdateEmployerregister = () => {
@@ -28,6 +27,27 @@ export const UpdateEmployerregister = () => {
         },
         company_address: employerDetails.company_address || []
     });
+
+    const [companyDetailsErrors, setCompanyDetailsErrors] = useState({
+        company_logo_pathError: '',
+        company_nameError: '',
+        company_descriptionError: '',
+        company_industryError: '',
+        company_website_linkError: '',
+        no_of_employeesError: ''
+    });
+
+    const [contactInformationErrors, setContactInformationErrors] = useState({
+        contact_person_nameError: '',
+        contact_person_positionError: '',
+        emailError: '',
+        mobile_numberError: ''
+    });
+
+    
+
+    
+    
 
     
     // Constructing the complete URL for the company logo
@@ -62,8 +82,77 @@ export const UpdateEmployerregister = () => {
     };
 
       // Function to handle changes in input fields
+    // const handleChange = (event, section) => {
+    //     const { name, value } = event.target;
+    //     setUpdatedDetails(prevState => ({
+    //         ...prevState,
+    //         [section]: {
+    //             ...prevState[section],
+    //             [name]: value
+    //         }
+    //     }));
+    //      // Clear previous error message when user starts typing again
+    //      setErrors(prevErrors => ({
+    //         ...prevErrors,
+    //         [`${name}Error`]: ''
+    //     }));
+    // };
     const handleChange = (event, section) => {
         const { name, value } = event.target;
+        let errorMessage = '';
+
+        // Validate input based on the field name
+        if (section === 'company_details') {
+            if (name === 'company_logo_path') {
+                if (!value) {
+                    errorMessage = 'Please upload a company logo.';
+                }
+            }else if (name === 'company_name') {
+                if (!/^[A-Za-z\s]+$/.test(value)) {
+                    errorMessage = 'Only alphabets and spaces are allowed.';
+                }
+            }else if (name === 'company_description') {
+                if (!value.trim()) {
+                    errorMessage = 'Company description cannot be empty.';
+                }
+            } else if (name === 'company_website_link') {
+                if (!/^https?:\/\/\S+$/.test(value)) {
+                    errorMessage = 'Please provide a valid website link.';
+                }
+            } else if (name === 'no_of_employees') {
+                if (!value.trim()) {
+                    errorMessage = 'Number of employees cannot be empty.';
+                }
+            }else if (name === 'company_industry') {
+                if (!value) {
+                    errorMessage = 'Please select the industry type.';
+                }
+            }
+            setCompanyDetailsErrors(prevErrors => ({
+                ...prevErrors,
+                [`${name}Error`]: errorMessage
+            }));
+        } else if (section === 'contact_information') {
+            if (name === 'contact_person_name' || name === 'contact_person_position') {
+                if (!/^[A-Za-z\s]+$/.test(value)) {
+                    errorMessage = 'Only alphabets and spaces are allowed.';
+                }
+            } else if (name === 'email') {
+                if (!/^\S+@\S+\.\S+$/.test(value)) {
+                    errorMessage = 'Please provide a valid email address.';
+                }
+            } else if (name === 'mobile_number') {
+                if (!/^\+?\d{10,14}$/.test(value)) {
+                    errorMessage = 'Please provide a valid mobile number.';
+                }
+            }
+            setContactInformationErrors(prevErrors => ({
+                ...prevErrors,
+                [`${name}Error`]: errorMessage
+            }));
+        }
+
+        // Update state with the new value
         setUpdatedDetails(prevState => ({
             ...prevState,
             [section]: {
@@ -72,6 +161,7 @@ export const UpdateEmployerregister = () => {
             }
         }));
     };
+
     
     const handleAddressChange = (event, index, section) => {
         const { name, value } = event.target;
@@ -112,6 +202,11 @@ export const UpdateEmployerregister = () => {
 
     // Function to handle updating employer details
     const handleUpdate = () => {
+
+        const companyDetailsValidation = Object.values(companyDetailsErrors).every(error => !error);
+        const contactInformationValidation = Object.values(contactInformationErrors).every(error => !error);
+
+        if (companyDetailsValidation && contactInformationValidation) {
         // Create a new FormData object
         const formData = new FormData();
     
@@ -156,10 +251,14 @@ export const UpdateEmployerregister = () => {
         axios.post(`${BASE_URL}/update_employeer_details/`, formData)
             .then(response => {
                 console.log('Updated Details:', response.data);
+                const successMessage = response.data.success;
+                // Display alert with success message
+                alert(successMessage);
             })
             .catch(error => {
                 console.error('Error updating details:', error.message);
             });
+        }
     };
     
 
@@ -188,10 +287,13 @@ export const UpdateEmployerregister = () => {
                                             <label htmlFor="upload-company-logo">
                                                 <Button component="span" variant="contained" color="primary">Upload Logo</Button>
                                             </label>
-                                            <input type="file" id="upload-company-logo" name="company_logo_path" accept="image/*" style={{ display: 'none' }} onChange={handleLogoChange} />
+                                            <input type="file" id="upload-company-logo" name="company_logo_path" accept="image/*" style={{ display: 'none' }}  onChange={handleLogoChange} />
                                             <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px', marginLeft: '90px' }}>
                                             <img src={logoUrl} alt="Company Logo" style={{ width: '100px', height: '100px', borderRadius: '50%', border: '1px solid #ccc', marginRight: '20px' }} />
                                             </div>
+                                            {companyDetailsErrors.company_logo_pathError && (
+                                                <Typography variant="body2" color="error" style={{ marginLeft: '90px', marginTop: '10px' }}>{companyDetailsErrors.company_logo_pathError}</Typography>
+                                            )}
                                             <div>
                                                 <Button variant="outlined" color="secondary" onClick={handleClearLogo}>Clear</Button>
                                             </div>
@@ -205,6 +307,8 @@ export const UpdateEmployerregister = () => {
                                             name="company_name"
                                             value={updatedDetails.company_details.company_name}
                                             onChange={(event) => handleChange(event, 'company_details')}
+                                            error={Boolean(companyDetailsErrors.company_nameError)}
+                                            helperText={companyDetailsErrors.company_nameError}
                                         />
                                     </Grid>
                                     
@@ -216,6 +320,8 @@ export const UpdateEmployerregister = () => {
                                             name="company_industry"
                                             value={updatedDetails.company_details.company_industry}
                                             onChange={(event) => handleChange(event, 'company_details')}
+                                            error={Boolean(companyDetailsErrors.company_industryError)}
+                                            helperText={companyDetailsErrors.company_industryError}
                                         >
                                             <MenuItem value="">Select Industry Type</MenuItem>
                                             <MenuItem value="Information Technology">Information Technology</MenuItem>
@@ -234,6 +340,8 @@ export const UpdateEmployerregister = () => {
                                             name="company_description"
                                             value={updatedDetails.company_details.company_description}
                                             onChange={(event) => handleChange(event, 'company_details')}
+                                            error={Boolean(companyDetailsErrors.company_descriptionError)}
+                                            helperText={companyDetailsErrors.company_descriptionError}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -244,6 +352,8 @@ export const UpdateEmployerregister = () => {
                                             name="no_of_employees"
                                             value={updatedDetails.company_details.no_of_employees}
                                             onChange={(event) => handleChange(event, 'company_details')}
+                                            error={Boolean(companyDetailsErrors.no_of_employeesError)}
+                                            helperText={companyDetailsErrors.no_of_employeesError}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -254,6 +364,8 @@ export const UpdateEmployerregister = () => {
                                             name="company_website_link"
                                             value={updatedDetails.company_details.company_website_link}
                                             onChange={(event) => handleChange(event, 'company_details')}
+                                            error={Boolean(companyDetailsErrors.company_website_linkError)}
+                                            helperText={companyDetailsErrors.company_website_linkError}
                                         />
                                     </Grid>
                                     </Grid>
@@ -274,7 +386,8 @@ export const UpdateEmployerregister = () => {
                                             name="contact_person_name"
                                             value={updatedDetails.contact_information.contact_person_name}
                                             onChange={(event) => handleChange(event, 'contact_information')}
-                                            
+                                            error={Boolean(contactInformationErrors.contact_person_nameError)}
+                                            helperText={contactInformationErrors.contact_person_nameError}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -284,6 +397,8 @@ export const UpdateEmployerregister = () => {
                                             name="contact_person_position"
                                             value={updatedDetails.contact_information.contact_person_position}
                                             onChange={(event) => handleChange(event, 'contact_information')}
+                                            error={Boolean(contactInformationErrors.contact_person_positionError)}
+                                            helperText={contactInformationErrors.contact_person_positionError}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -293,6 +408,8 @@ export const UpdateEmployerregister = () => {
                                             name="email"
                                             value={updatedDetails.contact_information.email} // Updated value prop
                                             onChange={(event) => handleChange(event, 'contact_information')} // Updated section parameter
+                                            error={Boolean(contactInformationErrors.emailError)}
+                                            helperText={contactInformationErrors.emailError}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -302,6 +419,8 @@ export const UpdateEmployerregister = () => {
                                             name="mobile_number"
                                             value={updatedDetails.contact_information.mobile_number} // Updated value prop
                                             onChange={(event) => handleChange(event, 'contact_information')} // Updated section parameter
+                                            error={Boolean(contactInformationErrors.mobile_numberError)}
+                                            helperText={contactInformationErrors.mobile_numberError}
                                         />
                                     </Grid>
                                     </Grid>
@@ -378,14 +497,14 @@ export const UpdateEmployerregister = () => {
                                         <Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
                                     </Grid>
                                     </Grid> */}
-                                    <Grid item xs={12} >
+                                    {/* <Grid item xs={12} >
                                     <Divider sx={{ marginY: 3, bgcolor: '#3F51B5',borderWidth: '1px' }} />
-                                        <Typography variant="h6"
-                                        color="#1A237E" fontSize="25px"
-                                        fontWeight="bold" textTransform="uppercase" textAlign="center" marginTop="20px">Company Address</Typography>
-                                    </Grid>
+                                    </Grid> */}
                                     {updatedDetails.company_address && updatedDetails.company_address.map((address, index) => (
                                         <Grid container spacing={2} key={index}>
+                                            <Grid item xs={12} >
+                                                <Divider sx={{ marginY: 3, bgcolor: '#3F51B5',borderWidth: '1px' }} />
+                                                </Grid>
                                             <Grid item xs={12}>
                                                 <Typography variant="h6" color="#1A237E" fontSize="25px" fontWeight="bold" textTransform="uppercase" textAlign="center">Company Address {index > 0 ? index : ''}</Typography>
                                             </Grid>
@@ -455,7 +574,7 @@ export const UpdateEmployerregister = () => {
                                         </Grid>
                                     ))}
 
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} sm={6}>
                                         <Button variant="contained" color="primary" onClick={addAddress}>Add Address</Button>
                                     </Grid>
                                     

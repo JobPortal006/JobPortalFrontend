@@ -4,6 +4,8 @@ import ImageIcon from '@mui/icons-material/Image';
 import UserContext from '../Sprint 2/contextFilter';
 import axios from 'axios';
 import BASE_URL from '../CommonAPI';
+import { useNavigate } from 'react-router-dom';
+
 
 export const ApplyJob = ({ onClose }) => {
     const { responseData } = useContext(UserContext);
@@ -11,6 +13,9 @@ export const ApplyJob = ({ onClose }) => {
     const { detailData } = useContext(UserContext);
     console.log(detailData, "-post");
 
+    const navigate = useNavigate();
+
+    
     const [formData, setFormData] = useState({
         jobId: detailData?.job_id || '',
         email: responseData.email || '',
@@ -67,8 +72,8 @@ export const ApplyJob = ({ onClose }) => {
         if (!showExtraFields) {
             const formDataForUpload = new FormData();
             formDataForUpload.append('email', formData.email);
-            formDataForUpload.append('mobileNumber', formData.mobileNumber);
-            formDataForUpload.append('resumePath', formData.resumePath);
+            formDataForUpload.append('mobile_number', formData.mobileNumber);
+            formDataForUpload.append('resume_path', formData.resumePath);
             formDataForUpload.append('token', token);
             formDataForUpload.append('job_id', formData.jobId);
 
@@ -78,7 +83,15 @@ export const ApplyJob = ({ onClose }) => {
                 }
             }).then(response => {
                 console.log('API Response:', response.data);
-                if (response.data.status === false) {
+                // if (response.data.status === false) {
+                //     setAlreadyApplied(true); // Set the application status
+                // }
+                if (response.data.status === true) {
+                    // Show alert message
+                    alert(response.data.message);
+                    // Navigate to the '/myjobs' page if the application is successful
+                    navigate('/UserDashBoard');
+                } else {
                     setAlreadyApplied(true); // Set the application status
                 }
                 // Handle response as needed
@@ -91,6 +104,10 @@ export const ApplyJob = ({ onClose }) => {
 
     const handleApply = () => {
         // Make API request if additional_queries is True
+        // if (showExtraFields && (!formData.lastCTC || !formData.expectedSalary || !formData.totalExperience || !formData.noticePeriod)) {
+        //     setError('Please fill in all required fields.');
+        //     return;
+        // }
         if (showExtraFields) {
             const formDataForUpload = new FormData();
             const token = localStorage.getItem('loginToken');
@@ -112,7 +129,15 @@ export const ApplyJob = ({ onClose }) => {
                 }
             }).then(response => {
                 console.log('API Response:', response.data);
-                if (response.data.status === false) {
+                // if (response.data.status === false) {
+                //     setAlreadyApplied(true); // Set the application status
+                // }
+                if (response.data.status === true) {
+                    // Show alert message
+                    alert(response.data.message);
+                    // Navigate to the '/myjobs' page if the application is successful
+                    navigate('/UserDashBoard');
+                } else {
                     setAlreadyApplied(true); // Set the application status
                 }
                 // Handle response as needed
@@ -166,7 +191,7 @@ export const ApplyJob = ({ onClose }) => {
                     </Typography>
                     <ImageIcon sx={{ marginRight: '10px' }} />
                     <Typography variant="body2" sx={{ marginRight: '10px' }}>
-                        {formData.resumePath.name}
+                        {formData.resumePath}
                     </Typography>
                     <Button variant="outlined" color="secondary" onClick={handleDeleteResume}>
                         Delete
@@ -249,4 +274,3 @@ export const ApplyJob = ({ onClose }) => {
         </Box>
     );
 };
-

@@ -34,6 +34,8 @@ import SideNavbar from "./components/Dashboard/Sidebar.js";
 import UserDash from "./components/Dashboard/UserDash.js";
 import { Newpost } from "./components/HomePage/Newpost.js";
 import { ApplyJob } from "./components/JobPostSample/ApplyJob.jsx";
+import UserJobList from "../src/components/Sprint 2/UserJobList";
+import { ListProfile } from "./components/Sprint 2/ListProfile";
 
 
 function App() {
@@ -73,6 +75,9 @@ function App() {
           <Route path="/UserDashBoard" element={<UserDash />} />
           <Route path="/newpost" element={<Newpost />} />
           <Route path="/applyJob" element={<ApplyJob />} />
+          <Route path="/UserJobList" element={<UserJobList />} />
+          <Route path="/Listprofile" element={<ListProfile />} />
+
         </Routes>
       </BrowserRouter>
     </div>

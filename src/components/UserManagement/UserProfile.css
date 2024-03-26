@@ -20,6 +20,7 @@
   .textfield{
     background-color: white;
     opacity: 95%;
+    /* border-radius: 50px; */
   }
   .textfield label{
     color: black;
