@@ -52,18 +52,19 @@
 
   
   
-  .title {
+  .title-job {
     font-size: 24px;
+    margin: 0;
+  
+  }
+  
+  .location-job {
+    font-size: 24px;
+  
     margin: 0;
   }
   
-  .location {
-    font-size: 24px;
-  
-    margin: 0;
-  }
-  
-  .date {
+  .date-job {
     font-size: 24px;
     margin: 0;
   }
@@ -103,3 +104,4 @@
   .MuiList-root .MuiList-padding .MuiMenu-list .css-6hp17o-MuiList-root-MuiMenu-list{
     box-shadow: none;
   }
+  

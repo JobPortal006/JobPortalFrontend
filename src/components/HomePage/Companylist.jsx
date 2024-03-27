@@ -375,8 +375,8 @@ const Companylist = () => {
       console.log(data, 'data---------->123');
       if (companyList !== null) {
         setcompanyList(data);
-        setsearchJob(null);
-        setData(null);
+        setsearchJob(false);
+        setData(false);
       }
 
       if (data.status !== true) {
