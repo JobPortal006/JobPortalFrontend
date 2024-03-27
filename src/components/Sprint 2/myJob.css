@@ -19,3 +19,88 @@
     margin: 0;
   } */
   
+  .job-main-div {
+    margin-top: 6%;
+    width: 90%;
+    margin-left: 5%;
+   
+  }
+
+ 
+  
+  .myjob-container {
+    border-bottom: 1px solid #ccc;
+    padding: 9px;
+    background-color: #5c6bc0;
+    color: white;
+  }
+  
+  .job-display {
+    position: relative;
+    padding: 1rem;
+    box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #e8eaf6;
+    transition: transform 0.3s ease-in;
+    margin-bottom: 8px;
+    cursor: pointer;
+  }
+
+  .job-display:hover{
+    transform: scale(1.05);
+
+  }
+
+  
+  
+  .title-job {
+    font-size: 24px;
+    margin: 0;
+  
+  }
+  
+  .location-job {
+    font-size: 24px;
+  
+    margin: 0;
+  }
+  
+  .date-job {
+    font-size: 24px;
+    margin: 0;
+  }
+  .edit-btn:hover{
+    color: #5c6bc0;
+  }
+  .delete-btn:hover{
+    color: red;
+  }
+  
+  /* Spinner */
+  
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40vh;
+  }
+  
+  .loading li {
+    padding: 9px;
+  }
+  
+  .loading li::marker {
+    color: transparent;
+  }
+  .loading span::marker {
+    color: transparent;
+  }
+  
+  .css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+    box-shadow: none;
+  }
+  #icon-menu {
+    box-shadow: none;
+  }
+  .MuiList-root .MuiList-padding .MuiMenu-list .css-6hp17o-MuiList-root-MuiMenu-list{
+    box-shadow: none;
+  }

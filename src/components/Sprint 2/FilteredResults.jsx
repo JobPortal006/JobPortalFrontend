@@ -149,7 +149,7 @@ function FilteredResults() {
             <div className="brief2" style={{marginBottom:"10px" }}>
               <span className="brief-label"><BsPersonSquare  icon={faBuilding} /> Employee Type : </span>{job.employee_type}
             </div>
-            <div style={{ backgroundColor: '#a2beda',padding:"10px", margin: "0 -20px -20px -20px",borderRadius:"10px" }}>
+            <div style={{ backgroundColor: '#a2beda',padding:"10px", margin: "0 -20px -20px -20px",borderRadius:"10px", cursor:"default" }}>
             <div className="skill-set">
               {job.skills && job.skills.map((skills, index) => (
                 <span key={index} className="brief11" style={{ marginRight: '5px' }}>{skills}</span>
@@ -157,7 +157,7 @@ function FilteredResults() {
             </div>
             <div className="created-at">
                 <span className="brief-label1"><FaClockRotateLeft icon={faBuilding} /><span className="text"> {job.created_at} ago </span></span> 
-                <span className="save-icon"><BsFillBookmarksFill /> Save</span>
+                <span className="save-icon" style={{cursor:"pointer"}}><BsFillBookmarksFill /> Save</span>
               </div>
             </div>
           </div>
@@ -166,6 +166,7 @@ function FilteredResults() {
               <Button variant="contained" style={{backgroundColor:"#5C6BC0",color:"white",marginRight:"29rem"}} 
               onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}
               startIcon={<NavigateBeforeIcon />}>Previous</Button>
+
               <Button variant="contained" style={{backgroundColor:"#5C6BC0",color:"white"}} 
               onClick={() => paginate(currentPage + 1)} disabled={indexOfLastJob >= dataToUse.length}
               endIcon={<NavigateNextIcon />}>Next</Button>
