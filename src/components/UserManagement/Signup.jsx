@@ -13,13 +13,13 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import GoogleLogo from '../signup-image/google-icon.svg';
+// import GoogleLogo from '../signup-image/google-icon.svg';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import mainimage from "../signup-image/img.png";
-import { Divider } from '@mui/material';
+// import { Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { auth, provider } from '../../components/Firebase/firebase';
+// import { auth, provider } from '../../components/Firebase/firebase';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import Recruiter from './Recruiter';
@@ -31,7 +31,7 @@ import {
   handleInputChange,
   handleTogglePasswordVisibility,
   handleSubmit,
-  handleGoogleSignIn
+  // handleGoogleSignIn
 } from '../validation/signupvalidation';
 
 export default function FixedContainer() {
@@ -83,11 +83,11 @@ export default function FixedContainer() {
   };
 
   // A wrapper function handleSubmitWrapper is defined to handle form submission using the handleSubmit function from signupvalidation.js.
-  const handleGoogleSignInWrapper = () => {
-    handleGoogleSignIn(auth, provider, setValue, navigate);
-  };
+  // const handleGoogleSignInWrapper = () => {
+  //   handleGoogleSignIn(auth, provider, setValue, navigate);
+  // };
 
-  const [value,setValue] = React.useState('');
+  // const [value,setValue] = React.useState('');
 
 
 // Check if a Google token is present in local storage and navigate to the login page
@@ -241,7 +241,7 @@ export default function FixedContainer() {
                 <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '2%' }}>
                   {formLabels.formLabels.submitButton}
                 </Button>
-                <Divider variant="middle" sx={{ my: 3 }}>
+                {/* <Divider variant="middle" sx={{ my: 3 }}>
                   {formLabels.formLabels.dividerText}
                 </Divider>
                 <Button
@@ -253,7 +253,7 @@ export default function FixedContainer() {
                 >
                   <img src={GoogleLogo} alt="Google Logo" style={{ width: '5%', marginRight: '2%' }} />
                   {formLabels.formLabels.googleButton}
-                </Button>
+                </Button> */}
                 <Typography variant="body2" align="center" sx={{ marginTop: '10px' }}>
                   {formLabels.formLabels.haveAccountText} <Link to="/login">{formLabels.formLabels.signInLink}</Link>
                 </Typography>

@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./myJob.css";
 import { Button, Grid,IconButton, Menu, MenuItem } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {HashLoader} from "react-spinners";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 import Tooltip from "@mui/material/Tooltip";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BASE_URL from '../CommonAPI';
-
-
-
-// import UserContext from "./contextFilter";
+import UserContext from "./contextFilter";
 
 
 function MyJob() {
@@ -20,12 +17,12 @@ function MyJob() {
   const [employee_id, setEmployeeId] = useState("");
   const [loading, setLoading] = useState(true); // State to track loading status
 
-
   console.log(employee_id,"employee_id===id");
   console.log(jobView, "jobView");
   
 
   const location = useLocation();
+ 
 
   useEffect(() => {
     // Passing id and Fetching Data
@@ -36,6 +33,7 @@ function MyJob() {
       async function postID() {
         try {
           const response = await fetch(
+
             `${BASE_URL}/employeer_post_jobs/`,
             {
               method: "POST",
@@ -43,7 +41,7 @@ function MyJob() {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({ token }),
-              // body: JSON.stringify({ employee_id: 13 }),
+              // body: JSON.stringify({ employee_id: id }),
             }
           );
           if (!response.ok) {
@@ -60,6 +58,7 @@ function MyJob() {
           if (data && Array.isArray(data.data) && Array.isArray(data.data[0])) {
             setJobView(data.data[0]);
             setLoading(false); // Set loading to false once data is fetched
+            console.log(data[0].job_post_id);
           } else {
             console.error("Invalid data format received from API");
           }
@@ -87,6 +86,7 @@ function MyJob() {
   // Delete API
   const handleDelete = async (jobId) => {
     try {
+
       const response = await fetch(`${BASE_URL}/delete_job/`, {
         method: "DELETE",
         headers: {
@@ -107,6 +107,11 @@ function MyJob() {
       console.error("Error deleting job:", error);
     }
   };
+
+
+  const userListing = (userJobId) =>{
+    navigate("/UserJobList",{state:{userJobId}})
+  }
 
 
   
@@ -146,7 +151,7 @@ function MyJob() {
             </Grid>
             <Grid item xs={3}>
               <div>
-                <h3 style={{marginLeft:"-2px"}} className="date">Date</h3>
+                <h3 style={{marginLeft:"-12px"}} className="date">Date</h3>
               </div>
             </Grid>
             <Grid item xs={2}></Grid>
@@ -182,13 +187,19 @@ function MyJob() {
                
               <Tooltip title="Edit"  placement="top" >
              
-              <FontAwesomeIcon icon={faPenToSquare} onClick={() => ChangeDirect(job.job_post_id)} />
+              <FontAwesomeIcon icon={faPenToSquare} style={{cursor:"pointer"}} onClick={() => ChangeDirect(job.job_post_id)} />
               
             </Tooltip>
         </Grid>
             <Grid item xs={1} className="delete-btn">
             <Tooltip title="Delete" placement="top" >
-                <FontAwesomeIcon icon={faTrash}  onClick={() => handleDelete(job.job_post_id)}  />
+                <FontAwesomeIcon icon={faTrash} style={{cursor:"pointer"}}  onClick={() => handleDelete(job.job_post_id)}  />
+                </Tooltip> 
+             </Grid>
+
+            <Grid item xs={1} className="view-btn">
+            <Tooltip title="view Users" placement="top" >
+                <FontAwesomeIcon icon={faEye} style={{cursor:"pointer"}}  onClick={() => userListing(job.job_post_id)}  />
                 </Tooltip> 
              </Grid>
             </Grid>
@@ -212,6 +223,7 @@ export default MyJob;
 // import { useNavigate } from "react-router-dom";
 // import {HashLoader} from "react-spinners";
 // import { makeStyles } from '@mui/styles';
+// import BASE_URL from "../CommonAPI";
 
 
 
@@ -233,28 +245,27 @@ export default MyJob;
 
 //   const classes = useStyles();
 
-  
-//   console.log(jobView, "jobView");
+//   console.log(jobView,"jobView");
+//   // console.log(jobView && jobView?.job_post_id, "<//=jobView-id-");
+//   console.log(jobView && jobView.map(job => job.job_post_id), "<//=jobView-id-");
+
 //   console.log(employee_id, "<===Employee_id");
 
 //   const location = useLocation();
 
 //   useEffect(() => {
-//     // Passing id and Fetching Data
-//     // if (location.state && location.state.id) {
-//       const id = location.state.id; // id post
-//       setEmployeeId(id);
+//     const token = localStorage.getItem("loginToken")
 //       async function postID() {
 //         try {
 //           const response = await fetch(
-//             "http://192.168.1.44:8000/employeer_post_jobs/",
+//             `${BASE_URL}/employeer_post_jobs/`,
 //             {
 //               method: "POST",
 //               headers: {
 //                 "Content-Type": "application/json",
 //               },
 //               // body: JSON.stringify({ employee_id: id }),
-//               body: JSON.stringify({ employee_id: id }),
+//               body: JSON.stringify({ token }),
 //             }
 //           );
 //           if (!response.ok) {
@@ -305,7 +316,7 @@ export default MyJob;
 //    // Delete API
 //   const handleDelete = async (jobId) => {
 //     try {
-//       const response = await fetch("http://192.168.1.44:8000/delete_job/", {
+//       const response = await fetch(`${BASE_URL}/delete_job/`, {
 //         method: "DELETE",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -326,7 +337,11 @@ export default MyJob;
 //     }
 //   };
 
-
+//   const userListing = (userJobId) =>{
+    
+//         navigate("/UserJobList",{state:{userJobId}})
+//         console.log(userJobId,"=-=-myjob---==userJobId");
+//       }
 
   
 //   return (
@@ -370,7 +385,7 @@ export default MyJob;
 //           </Grid>
 
 //           {/* Render job view once data is loaded */}
-//           {jobView.map((job, index) => (
+//           {jobView && jobView.map((job, index) => (
 //             <Grid
 //               key={index}
 //               container
@@ -415,8 +430,9 @@ export default MyJob;
 //               >
 //               <MenuItem onClick={() => ChangeDirect(job.job_post_id)}>Edit</MenuItem>
 //               <MenuItem  onClick={() => handleDelete(job.job_post_id)}>Delete</MenuItem>
+//               <MenuItem  onClick={() => userListing(job?.job_post_id)}>View Users</MenuItem>
 //               </Menu>
-              
+//               <p  onClick={() => userListing(job?.job_post_id)} >one</p>
                
                 
 //               </Grid>

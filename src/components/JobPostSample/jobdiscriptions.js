@@ -10,6 +10,7 @@ import ApplyJobDialog from './ApplyJobDialog';
 import BASE_URL from '../CommonAPI';
 import UserContext from '../Sprint 2/contextFilter';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const JobDetails = () => {
   const [jobData, setJobData] = useState([]);
@@ -19,6 +20,8 @@ const JobDetails = () => {
   const { detailData,setDetailData } = useContext(UserContext);
   console.log(detailData,"detailData=======up")
   const [alreadyApplied, setAlreadyApplied] = useState(false); // New state for application status
+
+const navigate = useNavigate();
 
   
 
@@ -56,19 +59,26 @@ const JobDetails = () => {
   console.log(postdata,'token====');
   const handleApplyClick = async () => {
     try {
-      // Send a POST request to the API endpoint
+      if (!token) {
+        // If token is null, display alert and navigate to login page
+        alert('Please create an account and login to apply for the job.');
+        navigate('/login'); // Navigate to the login page
+        return;
+      }
+      
       const response = await axios.post(`${BASE_URL}/get_apply_job/`, {
         postdata
       });
-      console.log(postdata,'token====2');
-      console.log(response,'responsessss');
-      console.log('Apply job response:', response.data);
+
+      if (response.data.message === 'You have not completed the registration process') {
+        alert('Please complete the registration process.');
+        navigate('/CreateAccount'); // Navigate to the user profile page
+        return;
+      }
+
       setDialogOpen(true);
-      
       setResponseData(response.data); 
       setDetailData(postdata);
-      console.log(responseData,"----------");
-      
     } catch (error) {
       console.error('Error applying for job:', error);
     }
@@ -106,15 +116,15 @@ const JobDetails = () => {
                   <span key={index}>{location}{index !== job.location.length - 1 && ','}</span>
                 ))}
               </Typography>
-              <Grid container spacing={3} alignItems="center">
+              <Grid container spacing={0.5} alignItems="center">
                 <Grid item>
                   <WorkIcon style={{marginTop:'8px',color:'#1A237E'}}/>  
                 </Grid>
                 <Grid item>
-                  <Typography variant="subtitle1" marginTop='20px' style={{ marginTop: '10px' }}><span style={{fontWeight:'bold'}}>Experience: </span> {job.experience}</Typography>
+                  <Typography variant="subtitle1"  style={{ marginTop: '10px' }}><span style={{fontWeight:'bold'}}>Experience: </span> {job.experience}</Typography>
                 </Grid>
                 <Grid item>
-                  <SchoolOutlinedIcon />
+                  <SchoolOutlinedIcon style={{marginTop:'8px',color:'#1A237E'}} />
                 </Grid>
                 <Grid item>
                 <Typography variant="subtitle1" marginTop='20px' style={{ marginTop: '10px' }}><span style={{fontWeight:'bold'}}>Qualification:</span> {job.qualification.map((qualification, index) => (
@@ -125,7 +135,7 @@ const JobDetails = () => {
                   ))}</Typography>     
                              </Grid>
                 <Grid item>
-                  <CurrencyRupeeIcon style={{ marginTop: '10px' }} />
+                  <CurrencyRupeeIcon style={{ marginTop: '10px',color:'#1A237E' }} />
                 </Grid>
                 <Grid item>
                   <Typography variant="subtitle1" style={{ marginTop: '10px' }}> <span style={{fontWeight:'bold'}}>Salary:</span> {job.salary_range}</Typography>
@@ -176,9 +186,9 @@ const JobDetails = () => {
               <Typography variant="h6" marginTop='20px' gutterBottom>
               <span style={{fontWeight:'bold'}}>Industry Type:</span>  {job.industry_type}
               </Typography>
-              <Typography variant="h6" marginTop='20px' gutterBottom>
+              {/* <Typography variant="h6" marginTop='20px' gutterBottom>
               <span style={{fontWeight:'bold'}}>Education:</span> {job.qualification}
-              </Typography>
+              </Typography> */}
               <Typography variant="h6" marginTop='20px' gutterBottom>
               <span style={{fontWeight:'bold'}}>Employment Type:</span>  {job.employee_type}
               </Typography>

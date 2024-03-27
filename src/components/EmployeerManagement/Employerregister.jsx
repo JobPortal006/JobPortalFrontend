@@ -893,6 +893,16 @@ export const Employerregister = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Form submitted'); 
+
+    const formdata1 = {
+      company_details,
+      companyAddresses,
+      contact_information
+
+    }
+
+    console.log(formdata1,"666");
 
     const companyDetailsErrors = validateCompanyDetails(company_details);
     const companyAddressErrors = companyAddresses.map(validateCompanyAddress);
@@ -958,7 +968,7 @@ export const Employerregister = () => {
         // } else {
         //   toast.success(message, { position: toast.POSITION.TOP_CENTER });
         // }
-
+        console.log(formdata1,"666");
         if (!response.data.alreadyRegistered) {
           toast.success(message, { position: toast.POSITION.TOP_CENTER });
           // Navigate to /home

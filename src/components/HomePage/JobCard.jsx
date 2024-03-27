@@ -543,7 +543,7 @@ export const JobCard = () => {
   const navigate = useNavigate();
   const { jobData, setJobData, setsearchJob, setData, setcompanyList } = useContext(UserContext);
   const jobTypes = ['Hybrid', 'Full Time', 'Temporary', 'Part Time', 'Internship'];
-  const itemsPerPage = { xs: 1, sm: 2, md: 3, lg: 4 }; // Adjust items per page for different screen sizes
+  const itemsPerPage = { xs: 1, sm: 2, md: 3, lg: 4 }; 
   const [currentPage, setCurrentPage] = useState(0);
 
   const handleNextPage = () => {
@@ -571,77 +571,37 @@ export const JobCard = () => {
         setData(null);
         setcompanyList(null)
       }
+      const message = response.data.message; 
       navigate('/Filter');
+      setTimeout(() => {
+        alert(message);
+      }, 1000); // Delay alert by 1 second
     } catch (error) {
       console.error('Error:', error);
     }
   };
 
-  const itemsPerPageForScreen = itemsPerPage.md; // Get items per page for md screen size
+  const itemsPerPageForScreen = itemsPerPage.md;
 
   const startIndex = currentPage * itemsPerPageForScreen;
   const endIndex = startIndex + itemsPerPageForScreen;
 
   return (
     <>
-      <style>
-        {`
-        .scroll-container {
-          display: flex;
-          overflow-x: auto;
-          max-width: 100%;
-          justify-content: center;
-        }
-
-        .scroll-container::-webkit-scrollbar {
-          display: none;
-        }
-
-        .job-paper {
-          flex: 0 0 auto;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          padding: 20px;
-          background-color: #E8EAF6;
-          box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-          width: 250px;
-          height: 200px;
-          margin-right: 20px; /* Add space between papers */
-        }
-
-        .job-paper:last-child {
-          margin-right: 0; /* Remove margin from last paper */
-        }
-
-        .job-paper:hover {
-          background-color: #9FA8DA;
-          box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-          cursor: pointer;
-        }
-        `}
-      </style>
       <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', color: '#1A237E', fontWeight: 'bold', padding: '20px', marginTop: '40px' }}>Employee Types</Typography>
 
-      <Grid container justifyContent="center" alignItems="flex-start" padding='20px' width='100%'>
-        <Grid item xs={12} sm={6} md={10}>
-          <div className="scroll-container">
-            {jobTypes.slice(startIndex, endIndex).map((type, index) => (
-              <Paper key={index} className="job-paper">
-                <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px', fontWeight: 'bold', textAlign: 'center' }}>{type} Jobs</Typography>
-                <Button variant="contained" onClick={() => handleViewAllClick(type)} sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }}>View All</Button>
-              </Paper>
-            ))}
-          </div>
-          <Grid container justifyContent="center" alignItems="center" marginTop="20px">
-            <Grid item>
-              <Button variant="contained" disabled={currentPage === 0} onClick={handlePrevPage}>Previous</Button>
-            </Grid>
-            <Grid item marginLeft="10px">
-              <Button variant="contained" disabled={endIndex >= jobTypes.length} onClick={handleNextPage}>Next</Button>
-            </Grid>
+      <Grid container spacing={2} justifyContent="center" alignItems="center" padding='20px' width='100%'>
+        {jobTypes.slice(startIndex, endIndex).map((type, index) => (
+          <Grid key={index} item xs={12} sm={6} md={3} lg={3} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px' }}>
+            <Paper style={{ width: '100%', height: '200px', padding: '20px', backgroundColor: '#E8EAF6', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+              <Typography variant="h6" style={{ color: '#1A237E', marginBottom: '10px', fontWeight: 'bold', textAlign: 'center' }}>{type} Jobs</Typography>
+              <Button variant="contained" onClick={() => handleViewAllClick(type)} sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }}>View All</Button>
+            </Paper>
           </Grid>
+        ))}
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '20px' }}>
+          <Button variant="contained" sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }} disabled={currentPage === 0} onClick={handlePrevPage}>Previous</Button>
+          <Button variant="contained" sx={{ backgroundColor: '#1A237E', '&:hover': { backgroundColor: '#3F51B5' } }} disabled={endIndex >= jobTypes.length} onClick={handleNextPage}>Next</Button>
         </Grid>
       </Grid>
     </>

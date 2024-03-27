@@ -66,29 +66,28 @@
       "invalidFormat": "Invalid mobile number"
     }
   },
-
-"mainFileStrings": {
-  "employerRegistrationTitle": "Employer Registration",
-  "contactInformationTitle": "Contact Information",
-  "companyAddressTitle": "Company Address",
-  "companyNameLabel": "Company Name",
-  "industryTypeLabel": "Industrial Type",
-  "companyDescriptionLabel": "Company Description",
-  "numberOfEmployeesLabel": "Number of Employees",
-  "companyWebsiteLinkLabel": "Company Website Link",
-  "uploadCompanyLogoLabel": "Upload Company Logo",
-  "removeButtonLabel": "Remove",
-  "streetLabel": "Street",
-  "cityLabel": "City",
-  "stateLabel": "State",
-  "countryLabel": "Country",
-  "pincodeLabel": "Pincode",
-  "addressTypeLabel": "Address Type",
-  "contactPersonNameLabel": "Contact Person Name",
-  "contactPersonPositionLabel": "Contact Person Position",
-  "emailLabel": "Email",
-  "mobileNumberLabel": "Mobile Number",
-  "submitButtonLabel": "Submit",
-  "companyLogoSizeLimitMessage": "Company logo size must be less than 2MB"
-}
+  "mainFileStrings": {
+    "employerRegistrationTitle": "Employer Registration",
+    "contactInformationTitle": "Contact Information",
+    "companyAddressTitle": "Company Address",
+    "companyNameLabel": "Company Name",
+    "industryTypeLabel": "Industrial Type",
+    "companyDescriptionLabel": "Company Description",
+    "numberOfEmployeesLabel": "Number of Employees",
+    "companyWebsiteLinkLabel": "Company Website Link",
+    "uploadCompanyLogoLabel": "Upload Company Logo",
+    "removeButtonLabel": "Remove",
+    "streetLabel": "Street",
+    "cityLabel": "City",
+    "stateLabel": "State",
+    "countryLabel": "Country",
+    "pincodeLabel": "Pincode",
+    "addressTypeLabel": "Address Type",
+    "contactPersonNameLabel": "Contact Person Name",
+    "contactPersonPositionLabel": "Contact Person Position",
+    "emailLabel": "Email",
+    "mobileNumberLabel": "Mobile Number",
+    "submitButtonLabel": "Submit",
+    "companyLogoSizeLimitMessage": "Company logo size must be less than 2MB"
+  }
 }

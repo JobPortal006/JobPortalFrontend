@@ -114,6 +114,17 @@ const SideNavbar = () => {
     }
   }, [selectedItem, setEmployerDetails]);
 
+  useEffect(() => {
+    const storedItem = localStorage.getItem('selectedItem');
+    if (storedItem) {
+      setSelectedItem(storedItem);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('selectedItem', selectedItem);
+  }, [selectedItem]);
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };

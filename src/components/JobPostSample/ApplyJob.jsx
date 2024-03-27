@@ -1,9 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography,CircularProgress } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
 import UserContext from '../Sprint 2/contextFilter';
 import axios from 'axios';
 import BASE_URL from '../CommonAPI';
+import { useNavigate } from 'react-router-dom';
+
 
 export const ApplyJob = ({ onClose }) => {
     const { responseData } = useContext(UserContext);
@@ -11,6 +13,9 @@ export const ApplyJob = ({ onClose }) => {
     const { detailData } = useContext(UserContext);
     console.log(detailData, "-post");
 
+    const navigate = useNavigate();
+
+    
     const [formData, setFormData] = useState({
         jobId: detailData?.job_id || '',
         email: responseData.email || '',
@@ -23,6 +28,7 @@ export const ApplyJob = ({ onClose }) => {
         noticePeriod: ''
     });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const [showExtraFields, setShowExtraFields] = useState(formData.additionalQueries);
     const [alreadyApplied, setAlreadyApplied] = useState(false); // New state for application status
 
@@ -32,6 +38,7 @@ export const ApplyJob = ({ onClose }) => {
             ...prevState,
             [name]: value,
         }));
+        setError(''); // Clear any previous error
     };
 
     const handleFileChange = (event) => {
@@ -62,13 +69,14 @@ export const ApplyJob = ({ onClose }) => {
         // Handle form submission logic here
         console.log('Form Data:', formData);
         setError(''); // Clear any previous error
+        setLoading(true);
         // onClose(); // Close the dialog
 
         if (!showExtraFields) {
             const formDataForUpload = new FormData();
             formDataForUpload.append('email', formData.email);
-            formDataForUpload.append('mobileNumber', formData.mobileNumber);
-            formDataForUpload.append('resumePath', formData.resumePath);
+            formDataForUpload.append('mobile_number', formData.mobileNumber);
+            formDataForUpload.append('resume_path', formData.resumePath);
             formDataForUpload.append('token', token);
             formDataForUpload.append('job_id', formData.jobId);
 
@@ -78,12 +86,24 @@ export const ApplyJob = ({ onClose }) => {
                 }
             }).then(response => {
                 console.log('API Response:', response.data);
-                if (response.data.status === false) {
+                setLoading(false);
+                // if (response.data.status === false) {
+                //     setAlreadyApplied(true); // Set the application status
+                // }
+                if (response.data.status === true) {
+                    // Show alert message
+                    setTimeout(() => {
+                        alert(response.data.message);
+                    }, 5000);
+                    // Navigate to the '/myjobs' page if the application is successful
+                    navigate('/UserDashBoard');
+                } else {
                     setAlreadyApplied(true); // Set the application status
                 }
                 // Handle response as needed
             }).catch(error => {
                 console.error('API Error:', error);
+                setLoading(false);
                 // Handle error as needed
             });
         }
@@ -91,6 +111,10 @@ export const ApplyJob = ({ onClose }) => {
 
     const handleApply = () => {
         // Make API request if additional_queries is True
+        if (showExtraFields && (!formData.lastCTC || !formData.expectedSalary || !formData.totalExperience || !formData.noticePeriod)) {
+            setError('Please fill in all required fields.');
+            return;
+        }
         if (showExtraFields) {
             const formDataForUpload = new FormData();
             const token = localStorage.getItem('loginToken');
@@ -106,18 +130,33 @@ export const ApplyJob = ({ onClose }) => {
             formDataForUpload.append('token', token);
             formDataForUpload.append('job_id', formData.jobId);
 
+            setLoading(true);
+
             axios.post(`${BASE_URL}/apply_job/`, formDataForUpload, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             }).then(response => {
                 console.log('API Response:', response.data);
-                if (response.data.status === false) {
+                setLoading(false);
+                // if (response.data.status === false) {
+                //     setAlreadyApplied(true); // Set the application status
+                // }
+                if (response.data.status === true) {
+                    // Show alert message
+                    setTimeout(() => {
+                        alert(response.data.message);
+                    }, 5000);
+                    
+                    // Navigate to the '/myjobs' page if the application is successful
+                    navigate('/UserDashBoard');
+                } else {
                     setAlreadyApplied(true); // Set the application status
                 }
                 // Handle response as needed
             }).catch(error => {
                 console.error('API Error:', error);
+                setLoading(false); 
                 // Handle error as needed
             });
         }
@@ -166,7 +205,7 @@ export const ApplyJob = ({ onClose }) => {
                     </Typography>
                     <ImageIcon sx={{ marginRight: '10px' }} />
                     <Typography variant="body2" sx={{ marginRight: '10px' }}>
-                        {formData.resumePath.name}
+                        {formData.resumePath}
                     </Typography>
                     <Button variant="outlined" color="secondary" onClick={handleDeleteResume}>
                         Delete
@@ -232,6 +271,8 @@ export const ApplyJob = ({ onClose }) => {
                     />
                 </>
             )}
+
+            {error && <Typography color="error">{error}</Typography>}
 
             {!alreadyApplied ? (
                 <Button
