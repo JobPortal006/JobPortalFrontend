@@ -16,13 +16,18 @@ const Home = () => {
   const token = localStorage.getItem('googleToken');
   const otpToken = localStorage.getItem('otpToken');
   const loginToken = localStorage.getItem('loginToken');
-  useEffect(() => {
-    if ((token === null) && (otpToken === null) && (loginToken === null)) {
-      navigate("/login");
 
-    }
+  console.log(loginToken,"loginToken---><><");
+//   useEffect(() => {
+//     if (token === null && otpToken === null && loginToken === null) {
+//       navigate("/login");
+//     }
+// }, [token, otpToken, loginToken]);
 
-  });
+  
+
+
+
   return (
     <>    
     

@@ -187,10 +187,10 @@ const Companylist = () => {
       });
       const data = await response.json();
       console.log(data, "data---------->123");
-      if(companyList!==null){
+      if(companyList !== null){
         setcompanyList(data);
-        setsearchJob(null);
-        setData(null);
+        setsearchJob(false);
+        setData(false);
       }
 
       // if (!response.ok) {

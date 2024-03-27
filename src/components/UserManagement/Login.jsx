@@ -37,6 +37,7 @@ import BASE_URL from '../CommonAPI';
 
 
 const LogIn = () => {
+  // localStorage.clear();
   const navigate = useNavigate();
 
   // Navigate to SighUp page
@@ -228,7 +229,6 @@ const LogIn = () => {
 
   return (
     <div className="login-container">
-    <div>h</div>
     <ThemeProvider theme={defaultTheme}>
     <Toaster toastOptions={{ duration: 4000 }} /> 
       <Container component="main" maxWidth="xs" className="main-login">
@@ -272,7 +272,7 @@ const LogIn = () => {
               autoComplete={validation.style.elevn}
               value={email}
               onChange={(e) => {
-                setEmail(e.target.value);
+                setEmail(e.target.value.trim());
                 setEmailError(""); 
               }}
               onBlur={() => emailBlur(email, setEmailError, setPasswordError)}

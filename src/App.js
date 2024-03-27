@@ -26,7 +26,7 @@ import EditMyJob from "./components/Sprint 2/EditMyJob.jsx";
 import FilteredResults from "./components/Sprint 2/FilteredResults.jsx";
 // import JobDetails from "./components/Sprint 2/jobdiscriptions.js";
 import UserContext from "./components/Sprint 2/contextFilter.jsx";
-import {useState} from  'react';
+import {useEffect, useState} from  'react';
 import { Employerregister } from "./components/EmployeerManagement/Employerregister.jsx";
 import SideNavbar from "./components/Dashboard/Sidebar.js";
 import UserDash from "./components/Dashboard/UserDash.js";
@@ -34,7 +34,6 @@ import { Newpost } from "./components/HomePage/Newpost.js";
 import { ApplyJob } from "./components/JobPostSample/ApplyJob.jsx";
 import Token from "./components/Sprint 2/Token.jsx";
 import UsersJobList from "./components/Sprint 2/UsersJobList.jsx";
-
 
 
 function App() {
@@ -45,9 +44,11 @@ function App() {
   const [jobData,setJobData ]  = useState(null);
   const [responseData, setResponseData] = useState(null);
   const [detailData,setDetailData ]  = useState(null);
+  
   return (
     <UserContext.Provider value={{oneData, setData,employerDetails,setEmployerDetails,searchJob,setsearchJob,
-      companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData  }}>
+      companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData }}>
+
     <div>
       <BrowserRouter>
       <Navbar />

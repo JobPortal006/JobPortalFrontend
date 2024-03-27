@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {Checkbox, FormControlLabel, FormGroup, IconButton, Grid, Radio, RadioGroup,Typography} from "@mui/material";
+import {Checkbox, FormControlLabel, FormGroup, IconButton, Grid, Radio, RadioGroup} from "@mui/material";
 import { Box, List, ListItemButton, ListItemText, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -96,7 +96,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/location/`);
+        const response = await fetch(`${BASE_URL}/job_apply_locations/`);
         if (!response) {
           console.error("Failed to fetch locations");
         }
@@ -227,8 +227,11 @@ console.log(companyList, "=====raghul data company list");
       console.log(FilterResponse,"<====filter-Response");
       
         if(FilterData.status === false ){
-          alert("Hello")
-          return
+          setsearchJob(false)
+          setData(false)
+          
+          return 
+          
         }
 
       if(FilterResponse !== null){
@@ -239,11 +242,10 @@ console.log(companyList, "=====raghul data company list");
         
       }
       console.log(FilterData.status,"status===>");
-      if (FilterData.status !== true) {
-        // alert("Failed to post data to backend");
-        return <p>Error: Server Not Responding</p>
-       
+      if (FilterData.status === false) {
         
+        console.log("Filter false====>");
+        return  
       } else {
         
         setComponent(true)
@@ -256,6 +258,8 @@ console.log(companyList, "=====raghul data company list");
 
   }; 
 
+  // Reload
+
   
 
   if (errorOne) {
@@ -266,28 +270,28 @@ console.log(companyList, "=====raghul data company list");
   
 
   return (
-    <Grid container>
-    
+    <Grid container className="containerTop">
+
       <Grid item xs={4} sm={4} md={4} xl={4}>
-      <div style={{marginLeft:'500px',marginTop:'-160px',marginBottom:'-385px',display:'flex'}}>
+      <div style={{marginLeft:'500px',marginTop:'-170px',marginBottom:'-385px',display:'flex'}}>
         <SearchBar />
 
         </div>
         <div className="job-filter" style={{ width: "80%" }}>
           <div className="title">
-            <h1>Filter</h1>
             <div className="job-experience">
-            <h3>Experience level</h3>
+            <h3>Experience</h3>
               <FormGroup>
                 <Grid container>
                   {renderOptions.map((option, index) => (
-                    <Grid item xs={6} key={index}>
+                    <Grid item xs={5} key={index}>
                       {" "}
                       {/* Divide into two columns */}
-                      <div style={{ marginLeft: "1.5rem" }}>
+                      <div style={{ marginLeft: "20px" }}>
                         <FormControlLabel
                           control={
                             <Checkbox
+                            style={{padding:"10px"}}
                             color="secondary"
                               checked={selectedExperience.includes(option)}
                               onChange={() => handleExperienceClick(option)}
@@ -306,7 +310,7 @@ console.log(companyList, "=====raghul data company list");
               className="show-more-button"
                 onClick={() => setShowAll(!showAll)}
                 color="primary"
-                sx={{ fontSize: 17, color:"#5C6BC0 " }}
+                sx={{ fontSize: 15, color:"#5C6BC0 " }}
               >
                 {showAll ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 {showAll ? "Hide" : "Show More"}
@@ -315,14 +319,14 @@ console.log(companyList, "=====raghul data company list");
           </div>
           <div className="job-location">
             <h3>Locations</h3>
-            <Box className="scroll"  style={{ width: "90%", height: 300, overflow: "auto" }}>
+            <Box className="scroll"  style={{ width: "100%", height: 300, overflow: "auto" }}>
               <List>
                 {locations.map((location, index) => (
                   <ListItemButton
                     key={index}
                     onClick={() => handleLocationClick(index)}
                   >
-                    <Checkbox color="secondary" checked={location.selected} />
+                    <Checkbox color="secondary"  style={{padding:"10px"}} checked={location.selected} />
                     <ListItemText primary={location.location} />
                   </ListItemButton>
                 ))}
@@ -335,8 +339,8 @@ console.log(companyList, "=====raghul data company list");
 
             <FormGroup>
               <RadioGroup
-              color="secondary"
-                style={{ marginLeft: "1rem" }}
+               color="secondary"
+                style={{ marginLeft: "1rem"}}
                 name="employment-type"
                 value={selectedEmploymentType}
                 onChange={handleEmploymentTypeChange}
@@ -344,6 +348,7 @@ console.log(companyList, "=====raghul data company list");
               >
                 {employmentType.map((type, index) => (
                   <FormControlLabel
+                  style={{padding:"10px"}}
                     key={index}
                     value={type}
                     control={<Radio color="secondary" />}
@@ -356,14 +361,14 @@ console.log(companyList, "=====raghul data company list");
 
           <div className="job-roles">
             <h3>Job Roles</h3>
-            <Box className="scroll" sx={{ width: "90%", height: 300, overflow: "auto" }}>
+            <Box className="scroll" sx={{ width: "100%", height: 300, overflow: "auto" }}>
               <List>
                 {jobRoles.map((role, index) => (
                   <ListItemButton
                     key={index}
                     onClick={() => handleRoleClick(index)}
                   >
-                    <Checkbox color="secondary" checked={role.selected}  />
+                    <Checkbox color="secondary"  style={{padding:"10px"}} checked={role.selected}  />
                     <ListItemText primary={role.role} />
                   </ListItemButton>
                 ))}
@@ -374,7 +379,7 @@ console.log(companyList, "=====raghul data company list");
           <div className="job-salary">
             <h3>Salary Range</h3>
             <RadioGroup
-            
+
               style={{ marginLeft: "1rem" }}
               name="salary-type"
               value={selectedSalaryType}
@@ -382,6 +387,7 @@ console.log(companyList, "=====raghul data company list");
             >
               {render.map((type, index) => (
                 <FormControlLabel
+                  style={{padding:"10px"}}
                   key={index}
                   value={type}
                   control={<Radio color="secondary" />}
@@ -393,7 +399,7 @@ console.log(companyList, "=====raghul data company list");
               <IconButton
                 onClick={() => setShow(!Show)}
                 color="primary"
-                sx={{ fontSize: 17, color:"#5C6BC0" }}
+                sx={{ fontSize: 15, color:"#5C6BC0" }}
               >
                 {Show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 {Show ? "Hide" : "Show More"}
