@@ -1,6 +1,4 @@
-// LogIn.jsx
-
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -12,7 +10,6 @@ import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Divider } from "@mui/material";
 import glogo from "../Login Image/google-icon.svg";
@@ -22,13 +19,21 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { auth, provider } from "../Firebase/firebase.js";
 import { signInWithPopup } from "@firebase/auth";
-// import { toast, Toaster } from 'react-hot-toast';
+import { toast, Toaster } from 'react-hot-toast';
 import {
   emailBlur,
   handlePasswordBlur,
   handleSubmit,
 } from "../UserManagement/ValidtionLogin.jsx";
 import validation from "../Json/login.json";
+
+import InputAdornment from "@mui/material/InputAdornment";
+import IconButton from "@mui/material/IconButton";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import UserContext from "../Sprint 2/contextFilter.jsx";
+import BASE_URL from '../CommonAPI';
+import { FaWindows } from "react-icons/fa";
 
 
 
@@ -54,35 +59,91 @@ const LogIn = () => {
   const [rememberMe, setRememberMe] = React.useState(false);
   const [outputData, setOutputData] = React.useState("");
 
-  const handleRememberMe = (event) => {
-    setRememberMe(event.target.checked);
-  };
+  // const handleRememberMe = (event) => {
+  //   setRememberMe(event.target.checked);
+  // };
 
 
   const [value, setValue] = React.useState("");
-  
+  console.log(value,"<=====valueGoogle");
 
-  const googleClick = () => {
-    signInWithPopup(auth, provider)
-      .then((data) => {
-        setValue(data.user.email);
+  const googleClick = async () => {
 
-        localStorage.setItem("email", data.user.email);
-        localStorage.setItem( "googleToken",data._tokenResponse.oauthAccessToken);
-
-        const googleToken = localStorage.getItem("googleToken");
-        console.log(googleToken, "Google_Token=========>");
-
-        if (data._tokenResponse.oauthAccessToken !== undefined) {
-          navigate("/home");
-        }
+    const data = await signInWithPopup(auth, provider);
+    const googlemail = data.user.email
+    setValue(googlemail);
+    
+    try {
+      const response = await fetch( `${BASE_URL}/google_email_checks/`,{
+        method:"POST",
+        headers :{
+          "Content-Type" : "application/json",
+        },
+        body : JSON.stringify({email:googlemail})
       })
-      .catch((error) => {
-        console.error(validation.Console.one, error.message);
-      });
+
+      const googleData = await response.json()
+      console.log(googleData,"<====googleData");
+
+      localStorage.setItem("googleSecondToken", googleData.message.token)
+      console.log(googleData.message.token,"<====GoogleSecondToken");
+     
+      
+  
+      localStorage.setItem("email", data.user.email);
+      localStorage.setItem("googleToken", data._tokenResponse.oauthAccessToken);
+  
+      const googleToken = localStorage.getItem("googleToken");
+      // const googlemail = localStorage.getItem("email");
+     
+      console.log(googleToken, "Google_Token=========>");
+      console.log(googlemail, "<====E-mail");
+
+     
+
+      if (googleData.status !== false && data._tokenResponse.oauthAccessToken !== undefined) {
+        
+        navigate("/home");
+        
+      } else {
+        localStorage.clear();
+      }
+        // if (data._tokenResponse.oauthAccessToken !== undefined) {
+        //         navigate("/home");
+        //       }
+    } catch (error) {
+      console.error(validation.Console.one, error.message);
+    }
   };
   
+  
+
+  // const googleClick = () => {
+  //   signInWithPopup(auth, provider)
+  //     .then((data) => {
+  //       setValue(data.user.email);
+
+  //       localStorage.setItem("email", data.user.email);
+  //       localStorage.setItem( "googleToken",data._tokenResponse.oauthAccessToken);
+
+  //       const googleToken =  localStorage.getItem("googleToken");
+  //       const googlemail = localStorage.getItem( "email" );
+  //       setLogGoogle(googlemail); 
+  //       console.log(googleToken, "Google_Token=========>");
+  //       console.log(googlemail,"<====E-mail");
+
+  //       if (data._tokenResponse.oauthAccessToken !== undefined) {
+  //         navigate("/home");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error(validation.Console.one, error.message);
+  //     });
+  // };
+  
   // Navigate to forget password
+
+  
   const handleForget = () => {
     navigate("/ForgetPassword");
   };
@@ -112,12 +173,13 @@ const LogIn = () => {
 
     headers.append("Content-Type", "application/json");
     headers.append("Accept", "application/json");
-    headers.append("Origin", "http://192.168.1.38:8000/login/");
-    const apiUrl = "http://192.168.1.38:8000/login/";
+    headers.append("Origin",  `${BASE_URL}/login/`);
+    const apiUrl =  `${BASE_URL}/login/`;
 
     try {
       const response = await axios.post(apiUrl, dataOne, headers);
       localStorage.setItem("loginToken", response?.data?.message?.token);
+      localStorage.setItem("registered_by",response?.data?.message?.registered_by);
       console.log("LoginToken========>", response.data.message.token);
 
       const outPut = response.data.status;
@@ -127,38 +189,43 @@ const LogIn = () => {
       console.log(dataOne);
       console.log(response.data);
 
+
+
       if (storedToken !== null && outPut === true) {
         navigate("/home");
-
+        window.location.reload();
         console.log("====================================");
         console.log(outPut, "navigation=====>");
         console.log("====================================");
       } else {
         console.log(outPut, "navigation=====>");
-        alert('Enter the Valid Email or Password')
+       toast.error('Enter the Valid Email or Password')
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  //     const storedToken = localStorage.getItem("loginToken");
+  const handleRememberMe = (event) => {
+    setRememberMe(event.target.checked);
+  };
 
-  // if (storedToken !== null && outputData === true) {
-  //   navigate("/home");
+  const [showPassword, setShowPassword] = React.useState(false);
 
-  //   console.log('====================================');
-  //   console.log(outputData, "navigation=====>");
-  //   console.log('====================================');
-  // }
 
-  // }, [outputData, navigate]);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <div className="login-container">
     <div>h</div>
     <ThemeProvider theme={defaultTheme}>
-    {/*<Toaster toastOptions={{ duration: 4000 }} /> */}
+    <Toaster toastOptions={{ duration: 4000 }} /> 
       <Container component="main" maxWidth="xs" className="main-login">
         <CssBaseline />
         <Box
@@ -200,13 +267,14 @@ const LogIn = () => {
               autoComplete={validation.style.elevn}
               value={email}
               onChange={(e) => {
-                setEmail(e.target.value);
+                setEmail(e.target.value.trim());
                 setEmailError(""); 
               }}
               onBlur={() => emailBlur(email, setEmailError, setPasswordError)}
               error={!!emailError}
               helperText={emailError}
             />
+            {/*
             <TextField
               margin="normal"
               fullWidth
@@ -223,6 +291,38 @@ const LogIn = () => {
               onBlur={() => handlePasswordBlur(email, setEmailError)}
               error={!!passwordError}
               helperText={passwordError}
+            />
+             */}
+
+             <TextField
+              margin="normal"
+              fullWidth
+              name={validation.style.thirteen}
+              label={validation.style.fourteen}
+              type={showPassword ? "text" : "password"}
+              id={validation.style.thirteen}
+              autoComplete={validation.style.fifteen}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError("");
+              }}
+              onBlur={() => handlePasswordBlur(email, setEmailError)}
+              error={!!passwordError}
+              helperText={passwordError}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ?<Visibility /> :  <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
 
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>

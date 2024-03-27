@@ -1,12 +1,4 @@
-
-
-
-
-
-
-
-
-// ==========================================================================>any one value is true it will search result
+// // using use context
 
 // import React, { useState, useEffect, useContext } from 'react';
 // import { makeStyles, TextField, Button, Chip, Collapse, Popover } from '@material-ui/core';
@@ -16,8 +8,15 @@
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
 // import UserContext from '../Sprint 2/contextFilter';
+// import { BeatLoader,PacmanLoader,ScaleLoader } from 'react-spinners';
+// import { css } from '@emotion/react';
+// import './HomeDesign.css'
+// import BASE_URL from '../CommonAPI';
 
-
+// const override = css`
+//   display: block;
+//   margin: 0 auto;
+// `;
 // const useStyles = makeStyles((theme) => ({
 //   root: {
 //     display: 'flex',
@@ -66,7 +65,8 @@
 //     },
 //   },
 //   icon: {
-//     color: theme.palette.secondary.main,
+//     // color: theme.palette.secondary.main,
+//     color: '#5C6BC0',
 //   },
 //   chip: {
 //     margin: theme.spacing(0.5),
@@ -111,11 +111,11 @@
 //   jobSearchButton: {
 //     marginLeft: theme.spacing(0), // Adjust margin for mobile
 //     marginTop: theme.spacing(2), // Adjust margin for mobile
-//     background: '#ff4d4d',
+//     background: ' #1A237E',
 //     color: '#ffffff',
 //     borderRadius: '50px',
 //     '&:hover': {
-//       background: '#ff3333',
+//       background: '#5C6BC0',
 //     },
 //     [theme.breakpoints.up('sm')]: {
 //       marginLeft: theme.spacing(2), // Restore margin for larger screens
@@ -142,7 +142,9 @@
 //   useEffect(() => {
 //     async function fetchLocationSuggestions(input) {
 //       try {
-//         const response = await fetch(`http://192.168.1.44:8000/location/?q=${input}`);
+//         const api = `${BASE_URL}/job_apply_locations/?q=${input}`
+//         console.log((api,'api--------'));
+//         const response = await fetch(api);
 //         const data = await response.json();
 //         setLocationSuggestions(data.map((item) => item.location));
 //       } catch (error) {
@@ -161,7 +163,7 @@
 //   useEffect(() => {
 //     async function fetchSkillSuggestions(input) {
 //       try {
-//         const response = await fetch(`http://192.168.1.44:8000/skill_set/?q=${input}`);
+//         const response = await fetch(`${BASE_URL}/skill_set/?q=${input}`);
 //         const data = await response.json();
 
 //         if (data && Array.isArray(data)) {
@@ -194,7 +196,7 @@
 //   useEffect(() => {
 //     async function fetchExperienceSuggestions(input) {
 //       try {
-//         const response = await fetch(`http://192.168.1.44:8000/experience/?q=${input}`);
+//         const response = await fetch(`${BASE_URL}/experience/?q=${input}`);
 //         const data = await response.json();
 //         setExperienceSuggestions(data.map((item) => item.experience));
 //       } catch (error) {
@@ -211,8 +213,10 @@
 //   }, [experienceValue]);
 
 //   // using user context
-
+//   const{oneData,setData} = useContext(UserContext);
 //   const{searchJob,setsearchJob}=useContext(UserContext);
+//   const [loading, setLoading] = useState(false);
+//   console.log(searchJob,'=======>user context true');
 //   const handleSearch = async () => {
 //     let isError = false;
 
@@ -232,33 +236,69 @@
 //         experience: experienceValue,
 //       };
 
+
 //       try {
-//         const response = await fetch('http://192.168.1.44:8000/search_jobs/', {
+//         setLoading(true);
+//         const response = await fetch(`${BASE_URL}/search_jobs/`, {
 //           method: 'POST',
 //           headers: {
 //             'Content-Type': 'application/json',
 //           },
 //           body: JSON.stringify(searchObject), 
-//         });
+
+//         })
+//         const data = await response.json();
+//         const searchResponse = data.data;
+//         console.log(searchResponse,"=========Searchresponse");
+//         console.log(data.status,"SearchJob-Status===>");
+//         if(data.status !== true){
+//           alert("Job not Found")
+//           window.location.reload();
+//         } else{
+//           navigate('/Filter');
+
+//         }
+
+//         console.log(data,'=============prathap');
+
+
+//       const checking={
+//         skillValues,
+//         searchValue,
+//         experienceValue
+//       }
+//       console.log(checking,"skill values");
 
 //         if (!response.ok) {
 //           throw new Error('Failed to send search data to the server');
 //         }
 
-//         // Reset all the search values after the search is performed
 //         setSearchValue('');
 //         setSkillValues([]);
 //         setExperienceValue('');
-//         // setsearchJob(response)
+
+//         if(searchJob !== null){
+//         setsearchJob(searchResponse)
+
+//       }else{
+
+//         setData(searchResponse)
+//       }
+
 
 //         // Navigate to the job search page
-//         navigate('/JobSearch');
-//         window.location.reload();
+//         // navigate('/Filter');
+//         // window.location.reload();
+
 //       } catch (error) {
 //         console.error('Error sending search data to the server:', error);
 //         // Handle error gracefully, show error message to the user, etc.
 //       }
+//       finally {
+//         setLoading(false); // Set loading state to false after receiving response or error
+//       }
 //     }
+
 //   };
 
 
@@ -269,9 +309,16 @@
 
 //   return (
 //     <>
+//      {loading ? (<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+//                     {/* <BeatLoader color="#36D7B7" css={override} />  */}
+
+//                           <BeatLoader color="black" />
+//                     <p style={{color:'#FFFCF4'}}>Loading Search Data...</p> {/* Text indicating that profile information is loading */}
+//                 </div>):(
 //     <div className={isJobSearchPage ? classes.jobSearchRoot : classes.root}>
+//       <p className='lineFour'>Discover 50 lakh+ career opportunities</p>
 //       <div className={isJobSearchPage ? classes.jobSearchContainer : classes.searchContainer}>
-  
+
 //         <Autocomplete
 //           multiple
 //           freeSolo
@@ -308,7 +355,7 @@
 //                     ))}
 //                     {skillValues.length > 2 && (
 //                       <Chip
-                      
+
 //                         label={`+${skillValues.length - 2} more`}
 //                         onClick={handleExpand}
 //                         variant="outlined"
@@ -383,7 +430,7 @@
 //         >
 //           Search
 //         </Button>
-        
+
 //       </div>
 //       <Popover 
 //         open={Boolean(expandedAnchorEl)}
@@ -417,14 +464,12 @@
 
 
 //     </div>
-//     {/* <Companylist /> */}
-
+//                 )}
 //     </>
 //   );
 // };
 
 // export default SearchBar;
-
 
 
 
@@ -441,8 +486,15 @@ import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserContext from '../Sprint 2/contextFilter';
+import { BeatLoader, PacmanLoader, ScaleLoader } from 'react-spinners';
+import { css } from '@emotion/react';
+import './HomeDesign.css'
+import BASE_URL from '../CommonAPI';
 
-
+const override = css`
+  display: block;
+  margin: 0 auto;
+`;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -491,7 +543,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   icon: {
-    color: theme.palette.secondary.main,
+    // color: theme.palette.secondary.main,
+    color: '#5C6BC0',
   },
   chip: {
     margin: theme.spacing(0.5),
@@ -536,11 +589,11 @@ const useStyles = makeStyles((theme) => ({
   jobSearchButton: {
     marginLeft: theme.spacing(0), // Adjust margin for mobile
     marginTop: theme.spacing(2), // Adjust margin for mobile
-    background: '#ff4d4d',
+    background: ' #1A237E',
     color: '#ffffff',
     borderRadius: '50px',
     '&:hover': {
-      background: '#ff3333',
+      background: '#5C6BC0',
     },
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(2), // Restore margin for larger screens
@@ -567,7 +620,9 @@ const SearchBar = ({ isJobSearchPage }) => {
   useEffect(() => {
     async function fetchLocationSuggestions(input) {
       try {
-        const response = await fetch(`http://192.168.1.44:8000/location/?q=${input}`);
+        const api = `${BASE_URL}/job_apply_locations/?q=${input}`
+        console.log((api, 'api--------'));
+        const response = await fetch(api);
         const data = await response.json();
         setLocationSuggestions(data.map((item) => item.location));
       } catch (error) {
@@ -586,7 +641,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   useEffect(() => {
     async function fetchSkillSuggestions(input) {
       try {
-        const response = await fetch(`http://192.168.1.44:8000/skill_set/?q=${input}`);
+        const response = await fetch(`${BASE_URL}/skill_set/?q=${input}`);
         const data = await response.json();
 
         if (data && Array.isArray(data)) {
@@ -619,7 +674,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   useEffect(() => {
     async function fetchExperienceSuggestions(input) {
       try {
-        const response = await fetch(`http://192.168.1.44:8000/experience/?q=${input}`);
+        const response = await fetch(`${BASE_URL}/experience/?q=${input}`);
         const data = await response.json();
         setExperienceSuggestions(data.map((item) => item.experience));
       } catch (error) {
@@ -636,9 +691,10 @@ const SearchBar = ({ isJobSearchPage }) => {
   }, [experienceValue]);
 
   // using user context
-
-  const{searchJob,setsearchJob}=useContext(UserContext);
-  console.log(searchJob,'=======>user context true');
+  const { oneData, setData } = useContext(UserContext);
+  const { searchJob, setsearchJob } = useContext(UserContext);
+  const [loading, setLoading] = useState(false);
+  console.log(searchJob, '=======>user context true');
   const handleSearch = async () => {
     let isError = false;
 
@@ -657,58 +713,70 @@ const SearchBar = ({ isJobSearchPage }) => {
         location: searchValue,
         experience: experienceValue,
       };
-   
+
 
       try {
-        const response = await fetch('http://192.168.1.44:8000/search_jobs/', {
+        setLoading(true);
+        const response = await fetch(`${BASE_URL}/search_jobs/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(searchObject), 
+          body: JSON.stringify(searchObject),
 
-          
         })
         const data = await response.json();
-        console.log(data.status,"dadadadadadadadad");
-       
-        console.log(searchJob.status,"SearchJob-Status===>");
-        if(data.status !== true){
+        const searchResponse = data.data;
+        console.log(searchResponse, "=========Searchresponse");
+        console.log(data.status, "SearchJob-Status===>");
+        if (data.status !== true) {
           alert("Job not Found")
-          window.location.reload()
-        } else{
+          window.location.reload();
+        } else {
           navigate('/Filter');
-        }
-      
-        console.log(data,'=============prathap');
 
-        
-      const checking={
-        skillValues,
-        searchValue,
-        experienceValue
-      }
-      console.log(checking,"skill values");
+        }
+
+        console.log(data, '=============prathap');
+
+
+        const checking = {
+          skillValues,
+          searchValue,
+          experienceValue
+        }
+        console.log(checking, "skill values");
 
         if (!response.ok) {
           throw new Error('Failed to send search data to the server');
         }
-        // Reset all the search values after the search is performed
+
         setSearchValue('');
         setSkillValues([]);
         setExperienceValue('');
-        setsearchJob(data.data)
+
+        if (searchJob !== null) {
+          setsearchJob(searchResponse)
+
+        } else {
+
+          setData(searchResponse)
+        }
+
 
         // Navigate to the job search page
-      
+        // navigate('/Filter');
         // window.location.reload();
-     
+
       } catch (error) {
         console.error('Error sending search data to the server:', error);
         // Handle error gracefully, show error message to the user, etc.
       }
+      finally {
+        setLoading(false); // Set loading state to false after receiving response or error
+      }
     }
-    
+
   };
 
 
@@ -719,165 +787,168 @@ const SearchBar = ({ isJobSearchPage }) => {
 
   return (
     <>
-    <div className={isJobSearchPage ? classes.jobSearchRoot : classes.root}>
-      <div className={isJobSearchPage ? classes.jobSearchContainer : classes.searchContainer}>
-  
-        <Autocomplete
-          multiple
-          freeSolo
-          options={skillSuggestions}
-          value={skillValues}
-          onChange={(event, newValues) => {
-            setSkillValues(newValues);
-            setSkillError(false); // Reset skills error state when input changes
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              className={classes.searchInput}
-              variant="standard"
-              label="Search-skills/Title"
-              color="secondary"
-              // required
-              error={skillError && skillValues.length === 0}
-              helperText={skillError && skillValues.length === 0 ? "This field is required" : ""}
-              InputProps={{
-                ...params.InputProps,
-                startAdornment: <MdSearch className={classes.icon} />,
-                endAdornment: (
-                  <React.Fragment>
-                    {skillValues.slice(0, 2).map((skill, index) => (
-                      <Chip
-                        key={index}
-                        label={skill}
-                        onDelete={() => {
-                          setSkillValues((prevValues) => prevValues.filter((value) => value !== skill));
-                        }}
-                        className={classes.chip}
-                      />
-                    ))}
-                    {skillValues.length > 2 && (
-                      <Chip
-                      
-                        label={`+${skillValues.length - 2} more`}
-                        onClick={handleExpand}
-                        variant="outlined"
-                        className={classes.expandButton}
-                        deleteIcon={<MdExpandMore />}
-                      />
-                    )}
-                  </React.Fragment>
-                ),
-              }}
-            />
-          )}
-          style={{ minWidth: 200 }}
-        />
-              <Autocomplete
-          freeSolo
-          options={locationSuggestions}
-          inputValue={searchValue}
-          onInputChange={(event, newInputValue) => {
-            setSearchValue(newInputValue);
-            setLocationError(false); // Reset location error state when input changes
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              className={classes.searchInput}
-              variant="standard"
-              label="Search-location"
-              color="secondary"
-              // required
-              error={locationError && searchValue.trim() === ''}
-              helperText={locationError && searchValue.trim() === '' ? "This field is required" : ""}
-              InputProps={{
-                ...params.InputProps,
-                startAdornment: <MdSearch className={classes.icon} />,
-              }}
-            />
-          )}
-          style={{ minWidth: 200 }}
-        />
-        <Autocomplete
-          freeSolo
-          options={experienceSuggestions}
-          inputValue={experienceValue}
-          onInputChange={(event, newInputValue) => {
-            setExperienceValue(newInputValue);
-            setExperienceError(false); // Reset experience error state when input changes
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              className={classes.searchInput}
-              variant="standard"
-              label="Search-experience"
-              color="secondary"
-              // required
-              error={experienceError && experienceValue.trim() === ''}
-              helperText={experienceError && experienceValue.trim() === '' ? "This field is required" : ""}
-              InputProps={{
-                ...params.InputProps,
-                startAdornment: <MdSearch className={classes.icon} />,
-              }}
-            />
-          )}
-          style={{ minWidth: 200 }}
-        />
 
-        <Button
-          variant="contained"
-          className={isJobSearchPage ? classes.jobSearchButton : classes.button}
-          onClick={handleSearch}
-        >
-          Search
-        </Button>
-        
-      </div>
-      <Popover 
-        open={Boolean(expandedAnchorEl)}
-        anchorEl={expandedAnchorEl}
-        onClose={() => setExpandedAnchorEl(null)}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-      >
-        <div className={classes.popover}>
-          {skillValues.slice(2).map((skill, index) => (
-            <Chip
-              key={index}
-              label={skill}
-              onDelete={() => {
-                setSkillValues((prevValues) =>
-                  prevValues.filter((value) => value !== skill)
-                );
-              }}
-              className={classes.chip}
-            />
-          ))}
+      <div className={isJobSearchPage ? classes.jobSearchRoot : classes.root}>
+        <p className='lineFour'>Discover 50 lakh+ career opportunities</p>
+        <div className={isJobSearchPage ? classes.jobSearchContainer : classes.searchContainer}>
+
+          <Autocomplete
+            multiple
+            freeSolo
+            options={skillSuggestions}
+            value={skillValues}
+            onChange={(event, newValues) => {
+              setSkillValues(newValues);
+              setSkillError(false); // Reset skills error state when input changes
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                className={classes.searchInput}
+                variant="standard"
+                label="Search-skills/Title"
+                color="secondary"
+                // required
+                error={skillError && skillValues.length === 0}
+                helperText={skillError && skillValues.length === 0 ? "This field is required" : ""}
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: <MdSearch className={classes.icon} />,
+                  endAdornment: (
+                    <React.Fragment>
+                      {skillValues.slice(0, 2).map((skill, index) => (
+                        <Chip
+                          key={index}
+                          label={skill}
+                          onDelete={() => {
+                            setSkillValues((prevValues) => prevValues.filter((value) => value !== skill));
+                          }}
+                          className={classes.chip}
+                        />
+                      ))}
+                      {skillValues.length > 2 && (
+                        <Chip
+
+                          label={`+${skillValues.length - 2} more`}
+                          onClick={handleExpand}
+                          variant="outlined"
+                          className={classes.expandButton}
+                          deleteIcon={<MdExpandMore />}
+                        />
+                      )}
+                    </React.Fragment>
+                  ),
+                }}
+              />
+            )}
+            style={{ minWidth: 200 }}
+          />
+          <Autocomplete
+            freeSolo
+            options={locationSuggestions}
+            inputValue={searchValue}
+            onInputChange={(event, newInputValue) => {
+              setSearchValue(newInputValue);
+              setLocationError(false); // Reset location error state when input changes
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                className={classes.searchInput}
+                variant="standard"
+                label="Search-location"
+                color="secondary"
+                // required
+                error={locationError && searchValue.trim() === ''}
+                helperText={locationError && searchValue.trim() === '' ? "This field is required" : ""}
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: <MdSearch className={classes.icon} />,
+                }}
+              />
+            )}
+            style={{ minWidth: 200 }}
+          />
+          <Autocomplete
+            freeSolo
+            options={experienceSuggestions}
+            inputValue={experienceValue}
+            onInputChange={(event, newInputValue) => {
+              setExperienceValue(newInputValue);
+              setExperienceError(false); // Reset experience error state when input changes
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                className={classes.searchInput}
+                variant="standard"
+                label="Search-experience"
+                color="secondary"
+                // required
+                error={experienceError && experienceValue.trim() === ''}
+                helperText={experienceError && experienceValue.trim() === '' ? "This field is required" : ""}
+                InputProps={{
+                  ...params.InputProps,
+                  startAdornment: <MdSearch className={classes.icon} />,
+                }}
+              />
+            )}
+            style={{ minWidth: 200 }}
+          />
+
+          <Button
+            variant="contained"
+            className={isJobSearchPage ? classes.jobSearchButton : classes.button}
+            onClick={handleSearch}
+            disabled={loading} // Disable the button while loading
+          >
+            {loading ? ( // Display loader if loading
+              <>
+                <BeatLoader color="black" />
+                <span style={{ marginLeft: '5px' }}></span>
+              </>
+            ) : (
+              'Search'
+            )}
+          </Button>
+
+
         </div>
-      </Popover>
-      <ToastContainer />
+        <Popover
+          open={Boolean(expandedAnchorEl)}
+          anchorEl={expandedAnchorEl}
+          onClose={() => setExpandedAnchorEl(null)}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <div className={classes.popover}>
+            {skillValues.slice(2).map((skill, index) => (
+              <Chip
+                key={index}
+                label={skill}
+                onDelete={() => {
+                  setSkillValues((prevValues) =>
+                    prevValues.filter((value) => value !== skill)
+                  );
+                }}
+                className={classes.chip}
+              />
+            ))}
+          </div>
+        </Popover>
+        <ToastContainer />
 
 
-    </div>
-    {/* <Companylist /> */}
+      </div>
 
     </>
   );
 };
 
 export default SearchBar;
-
-
-
-
-
-
-

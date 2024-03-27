@@ -1,16 +1,15 @@
-// import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect, useContext } from "react";
 // import "./myJob.css";
-// import { Grid,IconButton } from "@mui/material";
+// import { Button, Grid,IconButton, Menu, MenuItem } from "@mui/material";
 // import { useLocation } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 // import {HashLoader} from "react-spinners";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+// import { faEye, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 // import Tooltip from "@mui/material/Tooltip";
 // import MoreVertIcon from "@mui/icons-material/MoreVert";
-
-
-// // import UserContext from "./contextFilter";
+// import BASE_URL from '../CommonAPI';
+// import UserContext from "./contextFilter";
 
 
 // function MyJob() {
@@ -18,29 +17,31 @@
 //   const [employee_id, setEmployeeId] = useState("");
 //   const [loading, setLoading] = useState(true); // State to track loading status
 
-
 //   console.log(employee_id,"employee_id===id");
 //   console.log(jobView, "jobView");
   
 
 //   const location = useLocation();
+ 
 
 //   useEffect(() => {
 //     // Passing id and Fetching Data
 //     // if (location.state && location.state.id) {
 //       // const id = location.state.id; // id post
 //       // setEmployeeId(id);
+//       const token = localStorage.getItem("loginToken")
 //       async function postID() {
 //         try {
 //           const response = await fetch(
-//             "http://192.168.1.44:8000/employeer_post_jobs/",
+
+//             `${BASE_URL}/employeer_post_jobs/`,
 //             {
 //               method: "POST",
 //               headers: {
 //                 "Content-Type": "application/json",
 //               },
+//               body: JSON.stringify({ token }),
 //               // body: JSON.stringify({ employee_id: id }),
-//               body: JSON.stringify({ employee_id: 13 }),
 //             }
 //           );
 //           if (!response.ok) {
@@ -50,11 +51,14 @@
 //           const data = await response.json();
 //           console.log(data, "====================");
 
+         
+
 //           // fetching data
 
 //           if (data && Array.isArray(data.data) && Array.isArray(data.data[0])) {
 //             setJobView(data.data[0]);
 //             setLoading(false); // Set loading to false once data is fetched
+//             console.log(data[0].job_post_id);
 //           } else {
 //             console.error("Invalid data format received from API");
 //           }
@@ -66,7 +70,7 @@
 //       }
 //       postID();
 //     // }
-//   }, [location.state]);
+//   }, []);
 
 
 //   const navigate = useNavigate();
@@ -82,7 +86,8 @@
 //   // Delete API
 //   const handleDelete = async (jobId) => {
 //     try {
-//       const response = await fetch("http://192.168.1.62:8000/delete_job/", {
+
+//       const response = await fetch(`${BASE_URL}/delete_job/`, {
 //         method: "DELETE",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -103,15 +108,15 @@
 //     }
 //   };
 
-//   const [anchorEl, setAnchorEl] = useState(null);
- 
-//   const handleClick = (event) => {
-//     setAnchorEl(event.currentTarget);
-//   };
+
+//   const userListing = (userJobId) =>{
+//     navigate("/UserJobList",{state:{userJobId}})
+//   }
+
 
   
 //   return (
-//     <div className="main-div">
+//     <div className="job-main-div">
 //       {loading ? (
 //         // Display loading indicator while data is being fetched
 //         <div className="loading">
@@ -132,11 +137,11 @@
 //             container
 //             alignItems="center"
 //             justifyContent="space-between"
-//             className="job-container"
+//             className="myjob-container"
 //           >
-//             <Grid item xs={4} className="grid-one">
+//             <Grid item xs={3} className="grid-one">
 //               <div>
-//                 <h1 className="title">Title</h1>
+//                 <h1  style={{color:"white"}} className="title">Title</h1>
 //               </div>
 //             </Grid>
 //             <Grid item xs={3}>
@@ -146,7 +151,7 @@
 //             </Grid>
 //             <Grid item xs={3}>
 //               <div>
-//                 <h3 className="date">Date</h3>
+//                 <h3 style={{marginLeft:"-12px"}} className="date">Date</h3>
 //               </div>
 //             </Grid>
 //             <Grid item xs={2}></Grid>
@@ -163,49 +168,40 @@
 //             >
 //               <Grid item xs={3} className="job-elements">
 //                 <div>
-//                   <p className="title">{job.job_title}</p>
+//                   <h3 className="title">{job.job_title}</h3>
 //                 </div>
 //               </Grid>
 //               <Grid item xs={3}>
 //                 <div>
-//                   <p className="location">{job.location}</p>
+//                   <h3 className="location">{job.location[0]}</h3>
+//                   <h3 className="location">{job.location[1]}</h3>
 //                 </div>
 //               </Grid>
 //               <Grid item xs={3}>
 //                 <div>
-//                   <p className="date">{job.created_at}</p>
+//                   <h3 className="date">{job.created_at}</h3>
 //                 </div>
 //               </Grid>
-//               <Grid item xs={1}>
-//                 <div>
-//                 <IconButton
-//                 id="icon-button"
-//                 aria-controls={anchorEl ? "icon-menu" : undefined}
-//                 aria-haspopup="true"
-//                 aria-expanded={anchorEl ? "true" : undefined}
-//                 onClick={handleClick}
-//                 >
-//                 <MoreVertIcon />
-//                 </IconButton>
-//                 <ul>
-//                   <li>Edit</li>
-//                   <li>Delete</li>
-//                 </ul>
-//                 </div>
-//               </Grid>
+
 //               <Grid item xs={1} className="edit-btn">
                
 //               <Tooltip title="Edit"  placement="top" >
-//               <FontAwesomeIcon icon={faPenToSquare} onClick={() => ChangeDirect(job.job_post_id)} />
+             
+//               <FontAwesomeIcon icon={faPenToSquare} style={{cursor:"pointer"}} onClick={() => ChangeDirect(job.job_post_id)} />
+              
 //             </Tooltip>
 //         </Grid>
 //             <Grid item xs={1} className="delete-btn">
 //             <Tooltip title="Delete" placement="top" >
-//                 <FontAwesomeIcon icon={faTrash}  onClick={() => handleDelete(job.job_post_id)}  />
-//                 </Tooltip>
-               
-                
-//               </Grid>
+//                 <FontAwesomeIcon icon={faTrash} style={{cursor:"pointer"}}  onClick={() => handleDelete(job.job_post_id)}  />
+//                 </Tooltip> 
+//              </Grid>
+
+//             <Grid item xs={1} className="view-btn">
+//             <Tooltip title="view Users" placement="top" >
+//                 <FontAwesomeIcon icon={faEye} style={{cursor:"pointer"}}  onClick={() => userListing(job.job_post_id)}  />
+//                 </Tooltip> 
+//              </Grid>
 //             </Grid>
 //           ))}
 //         </div>
@@ -227,12 +223,14 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import {HashLoader} from "react-spinners";
 import { makeStyles } from '@mui/styles';
+import BASE_URL from "../CommonAPI";
 
 
 
 const useStyles = makeStyles(() => ({
   customButton: {
     boxShadow: "none",
+    
   },
 }));
 
@@ -248,28 +246,26 @@ function MyJob() {
 
   const classes = useStyles();
 
-  // console.log(employee_id,"employee_id");
-  console.log(jobView, "jobView");
-  console.log(employee_id, "<===id");
+  console.log(jobView,"jobView");
+  console.log(jobView && jobView.map(job => job.job_post_id), "<//=jobView-id-");
+
+  console.log(employee_id, "<===Employee_id");
 
   const location = useLocation();
 
   useEffect(() => {
-    // Passing id and Fetching Data
-    // if (location.state && location.state.id) {
-      const id = location.state.id; // id post
-      setEmployeeId(id);
+    const token = localStorage.getItem("loginToken")
       async function postID() {
         try {
           const response = await fetch(
-            "http://192.168.1.44:8000/employeer_post_jobs/",
+            `${BASE_URL}/employeer_post_jobs/`,
             {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
               // body: JSON.stringify({ employee_id: id }),
-              body: JSON.stringify({ employee_id: id }),
+              body: JSON.stringify({ token }),
             }
           );
           if (!response.ok) {
@@ -309,16 +305,18 @@ function MyJob() {
   const navigate = useNavigate();
 
   const ChangeDirect = (jobId) => {
-    setDialogOpen(false);
+    // setDialogOpen(false);
     navigate("/EditMyJob",{state: { job_id: jobId }})
+    console.log(jobId,'job_id -----------------');
    
    
   };
 
+
    // Delete API
   const handleDelete = async (jobId) => {
     try {
-      const response = await fetch("http://192.168.1.44:8000/delete_job/", {
+      const response = await fetch(`${BASE_URL}/delete_job/`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -339,7 +337,11 @@ function MyJob() {
     }
   };
 
-
+  const userListing = (userJobId) =>{
+    
+        navigate("/UserJobList",{state:{userJobId}})
+        console.log(userJobId,"=-=-myjob---==userJobId");
+      }
 
   
   return (
@@ -366,24 +368,24 @@ function MyJob() {
           >
             <Grid item xs={4} className="grid-one">
               <div>
-                <h1 className="title">Title</h1>
+                <h3 style={{marginLeft:"10px"}} className="title-job" >Title</h3>
               </div>
             </Grid>
             <Grid item xs={3}>
               <div>
-                <h3 className="location">Location</h3>
+                <h3 className="location-job">Location</h3>
               </div>
             </Grid>
             <Grid item xs={3}>
               <div>
-                <h3 className="date">Date</h3>
+                <h3 className="date-job">Date</h3>
               </div>
             </Grid>
             <Grid item xs={2}></Grid>
           </Grid>
 
           {/* Render job view once data is loaded */}
-          {jobView.map((job, index) => (
+          {jobView && jobView.map((job, index) => (
             <Grid
               key={index}
               container
@@ -393,12 +395,13 @@ function MyJob() {
             >
               <Grid item xs={4} className="job-elements">
                 <div>
-                  <h1 className="title">{job.job_title}</h1>
+                  <h1 className="title-job">{job.job_title}</h1>
                 </div>
               </Grid>
               <Grid item xs={3}>
                 <div>
-                  <h3 className="location">{job.location}</h3>
+                <h3 className="location">{job.location[0]}</h3>
+                <h3 className="location">{job.location[1]}</h3>
                 </div>
               </Grid>
               <Grid item xs={3}>
@@ -413,7 +416,7 @@ function MyJob() {
               aria-controls={anchorEl ? "icon-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={anchorEl ? "true" : undefined}
-              onClick={handleClick}
+              onClick={(event) => handleClick(event,job.job_post_id)}
               >
               <MoreVertIcon />
               </IconButton>
@@ -424,13 +427,12 @@ function MyJob() {
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={() => handleClose(index)}
-              MenuListProps={{ "aria-labelledby": "icon-button" }}
+              // MenuListProps={{ "aria-labelledby": "icon-button" }}
               >
-              <MenuItem onClick={() => ChangeDirect(job.job_post_id)}>Edit</MenuItem>
-              <MenuItem  onClick={() => handleDelete(job.job_post_id)}>Delete</MenuItem>
-              </Menu>
-               
-                
+              <MenuItem onClick={() => ChangeDirect(selectedJobId)}>Edit</MenuItem>
+              <MenuItem onClick={() => handleDelete(selectedJobId)}>Delete</MenuItem>
+              <MenuItem onClick={() => userListing(selectedJobId)}>View Users</MenuItem>
+              </Menu>                
               </Grid>
             </Grid>
           ))}
@@ -441,9 +443,4 @@ function MyJob() {
 }
 
 export default MyJob;
-
-
-
-
-
 

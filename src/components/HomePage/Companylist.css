@@ -82,6 +82,7 @@
     overflow: hidden;
     margin: 0 auto;
     text-align: center;    
+
   }
   
   .header {
@@ -91,16 +92,19 @@
   .company-list {
     display: flex;
     flex-wrap: wrap;
+
   }
   
   .company-item {
     width: calc(33.33% - 20px); /* Adjust as needed for desired number of cards per row */
     margin: 0 10px 20px; /* Adjust margins as needed */
     cursor: pointer;
+
   }
   
   .card-content {
     padding: 16px;
+
   }
   
   .card-title {
@@ -109,7 +113,7 @@
   }
   
   .selected {
-    border: 2px solid #007bff; 
+    border: 2px solid #1A237E; 
   }
   
   .pagination-buttons {
@@ -130,4 +134,14 @@
   .arrow-icon {
     margin-left: 8px;
   }
-  
+  #card1{
+    background-color: #E8EAF6;
+    border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  }
+  #card1:hover{
+  transform: translateY(-5px);
+
+  }

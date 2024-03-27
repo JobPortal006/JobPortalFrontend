@@ -1,9 +1,9 @@
-
 // Import necessary dependencies and configurations
 import validationMessages from '../Json/signup.json';
 import regexPatterns from '../Json/signupRegularexpression.json';
 import { signInWithPopup } from 'firebase/auth';
 import axios from 'axios';
+import BASE_URL from '../CommonAPI';
 
 export const handleInputChange = (formData, setFormData, errors, setErrors, e) => {
   // Function to handle input changes in the form
@@ -164,23 +164,26 @@ export const handleSubmit = async (formData, setErrors, setShowPassword, setShow
     delete formDataWithoutSensitiveInfo.agreeTerms;
 
     // Update mobile number format if present
-    if (formData.mobile_number) {
-      formData.mobile_number = `+91${formData.mobile_number}`;
-    }
+    
+    // if (formData.mobile_number) {
+    //   formData.mobile_number = "+91"+ formData.mobile_number;
+    // }
+    const formattedMobileNumber = `+91${formData.mobile_number}`;
+
 
     // Display form data (without sensitive info) in the console
-    console.log('Form submitted:', formDataWithoutSensitiveInfo);
+    console.log('Form submitted:', formDataWithoutSensitiveInfo );
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
-    headers.append('Origin','http://192.168.1.38:8000/signup/');
+    headers.append('Origin',`${BASE_URL}/signup/`);
     // Define API URL
-    const apiUrl = 'http://192.168.1.38:8000/signup/';
+    const apiUrl = `${BASE_URL}/signup/`;
     
     try {
       // Make a POST request to the API
-      const response = await axios.post(apiUrl, formData, headers);
+      const response = await axios.post(apiUrl, { ...formDataWithoutSensitiveInfo, mobile_number: formattedMobileNumber }, formData, headers);
 
       // Log the response and navigate based on API response
       console.log(response, "post data response===>");

@@ -1,5 +1,11 @@
 
-// import React, { useState, useRef } from 'react';
+
+
+
+
+// // ================================================================================================================================================================================================
+
+// import React, { useState, useRef ,useEffect } from 'react';
 // import {
 //     Button,
 //     TextField,
@@ -21,6 +27,9 @@
 // import Radio from '@mui/material/Radio';
 // import axios from 'axios';
 // import UserFormData from '../Json/UserForm.json';
+// import BASE_URL from '../CommonAPI';
+// import { useNavigate } from 'react-router-dom';
+// import Autocomplete from '@mui/material/Autocomplete';
 
 // // Container styling
 // const FormContainer = styled(Container)({
@@ -39,12 +48,27 @@
 // });
 
 // const UserForm = () => {
+//     useEffect(() => {
+//         fetchLocations();
+//     }, []);
+
+//     const fetchLocations = async () => {
+//         try {
+//             const response = await axios.get('http://192.168.1.46:8000/locations/');
+//             setLocations(response.data);
+//         } catch (error) {
+//             console.error('Error fetching locations:', error);
+//         }
+//     };
+
+//   const navigate = useNavigate();
+
 //     // State for user details
 //     const [userDetails, setUserDetails] = useState({
 //         first_name: '',
 //         last_name: '',
 //         date_of_birth: '',
-//         mobile_number: '',
+//         // email: '',
 //         gender: '',
 //         profile_picture: null,
 
@@ -197,13 +221,15 @@
 //     const [jobPreferenceExpanded, setjobPreferenceExpanded] = useState(true);
 //     // State for professional details accordion expansion
 //     const [professionalDetailsExpanded, setProfessionalDetailsExpanded] = useState(true);
+//     const [locations, setLocations] = useState([]);
+//     const [suggestions, setSuggestions] = useState([]);
 //     // for user details validations
 //     const [errors, setErrors] = useState({
 //         userDetails: {
 //             first_name: '',
 //             last_name: '',
 //             date_of_birth: '',
-//             mobile_number: '',
+//             // email: '',
 //         },
 //         jobPreference: {
 //             key_skills: '',
@@ -263,36 +289,24 @@
 //             }
 //         }
 
-//         // Add validation logic for date_of_birth (allow only numbers)
-//         if (event.target.name === 'date_of_birth') {
-//             if (/[^0-9/]/.test(event.target.value)) {
-//                 // Invalid input, set error message
-//                 setErrors({
-//                     ...errors,
-//                     [event.target.name]: 'Only numbers and / allowed for date of birth',
-//                 });
-//                 return;
-//             }
-//         }
 
-      
-//         if (event.target.name === 'mobile_number') {
-//             // Adjusted regular expression to allow country code prefix
-//             if (/^\+?\d+$/.test(event.target.value)) {
-//                 // Valid input, clear error message
+
+//         if (event.target.name === 'email') {
+//             if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(event.target.value)) {
+//                 // Valid email format, clear error message
 //                 setErrors({
 //                     ...errors,
 //                     [event.target.name]: '',
 //                 });
 //             } else {
-//                 // Invalid input, set error message
+//                 // Invalid email format, set error message
 //                 setErrors({
 //                     ...errors,
-//                     [event.target.name]: 'Invalid mobile number format',
+//                     [event.target.name]: 'Invalid email format',
 //                 });
 //             }
 //         }
-        
+
 
 //         // Update userDetails only if validation passes
 //         updatedUserDetails = {
@@ -313,10 +327,10 @@
 //                 [event.target.name]: '',
 //             },
 //         });
-    
+
 //         let updatedAddressDetails = { ...address };
-//         if (event.target.name === 'street' || event.target.name === 'city' || event.target.name === 'country' || 
-//         event.target.name === 'state') {
+//         if (event.target.name === 'street' || event.target.name === 'city' || event.target.name === 'country' ||
+//             event.target.name === 'state') {
 //             if (/[^A-Za-z\s]/.test(event.target.value)) {
 //                 setErrors({
 //                     ...errors,
@@ -339,7 +353,7 @@
 //                 return;
 //             }
 //         }
-    
+
 //         updatedAddressDetails = {
 //             ...updatedAddressDetails,
 //             [type]: {
@@ -347,12 +361,12 @@
 //                 [event.target.name]: event.target.value,
 //             },
 //         };
-    
+
 //         setAddress(updatedAddressDetails);
 //     };
-    
+
 //     // Handle changes in education fields
-//      const handleEducationChange = (event) => {
+//     const handleEducationChange = (event) => {
 //         setErrors({
 //             ...errors,
 //             [event.target.name]: '',
@@ -378,7 +392,7 @@
 //             event.target.name === 'sslc_percentage' || event.target.name === 'hsc_percentage' || event.target.name === 'college_percentage' ||
 //             event.target.name === 'pg_college_percentage' || event.target.name === 'diploma_college_percentage' || event.target.name === 'college_start_year'
 //             || event.target.name === 'college_end_year' || event.target.name === 'pg_college_start_year' || event.target.name === 'pg_college_end_year'
-//             || event.target.name === 'diploma_college_start_year'|| event.target.name === 'diploma_college_end_year') {
+//             || event.target.name === 'diploma_college_start_year' || event.target.name === 'diploma_college_end_year') {
 //             if (/[^0-9]/.test(event.target.value)) {
 //                 // Invalid input, set error message
 //                 setErrors({
@@ -398,13 +412,47 @@
 //     };
 
 
-//     const handlejobPreferenceChange = (event) => {
+//     // const handlejobPreferenceChange = (event) => {
+//     //     // Clear previous error messages
+//     //     setErrors({
+//     //         ...errors,
+//     //         jobPreference: {
+//     //             ...errors.jobPreference,
+//     //             [event.target.name]: '',
+//     //         },
+//     //     });
+
+//     //     // Update jobPreference only if validation passes
+//     //     let updatedJobPreference = { ...jobPreference };
+
+//     //     // Add validation logic for key_skills, industry, department, and prefered_locations
+//     //     if (/[0-9!@#$%^&*().?":{}|<>]/.test(event.target.value)) {
+//     //         // Invalid input, set error message
+//     //         setErrors({
+//     //             ...errors,
+//     //             jobPreference: {
+//     //                 ...errors.jobPreference,
+//     //                 [event.target.name]: 'Numbers and symbols are not allowed',
+//     //             },
+//     //         });
+//     //         return;
+//     //     }
+
+//     //     // Update jobPreference only if validation passes
+//     //     updatedJobPreference = {
+//     //         ...updatedJobPreference,
+//     //         [event.target.name]: event.target.value,
+//     //     };
+
+//     //     setJobPreference(updatedJobPreference);
+//     // };
+//     const handlejobPreferenceChange = (event, value) => {
 //         // Clear previous error messages
 //         setErrors({
 //             ...errors,
 //             jobPreference: {
 //                 ...errors.jobPreference,
-//                 [event.target.name]: '',
+//                 prefered_locations: '',
 //             },
 //         });
 
@@ -412,13 +460,13 @@
 //         let updatedJobPreference = { ...jobPreference };
 
 //         // Add validation logic for key_skills, industry, department, and prefered_locations
-//         if (/[0-9!@#$%^&*().?":{}|<>]/.test(event.target.value)) {
+//         if (/[0-9!@#$%^&*().?":{}|<>]/.test(value)) {
 //             // Invalid input, set error message
 //             setErrors({
 //                 ...errors,
 //                 jobPreference: {
 //                     ...errors.jobPreference,
-//                     [event.target.name]: 'Numbers and symbols are not allowed',
+//                     prefered_locations: 'Numbers and symbols are not allowed',
 //                 },
 //             });
 //             return;
@@ -427,11 +475,27 @@
 //         // Update jobPreference only if validation passes
 //         updatedJobPreference = {
 //             ...updatedJobPreference,
-//             [event.target.name]: event.target.value,
+//             prefered_locations: value || event.target.value,
 //         };
 
 //         setJobPreference(updatedJobPreference);
 //     };
+
+
+
+//     const handleSuggestionSelect = (value) => {
+//         // Update the job preference with the selected suggestion
+//         setJobPreference(prevState => ({
+//             ...prevState,
+//             prefered_locations: value,
+//         }));
+
+//         // Clear suggestions after selection
+//         setSuggestions([]);
+//     };
+
+
+
 //     // Handle profile picture upload
 //     const handleProfilePictureChange = (event) => {
 //         const file = event.target.files[0];
@@ -492,7 +556,9 @@
 //             console.log('Please fill at least one address type');
 //             return;
 //         }
-
+//         // for sending token
+//         const Token= localStorage.getItem('loginToken')
+//         console.log(Token,'========================sending token to backend')
 //         // Create a FormData object to send to the backend
 //         const dataToSend = new FormData();
 //         dataToSend.append('userDetails', JSON.stringify({
@@ -515,6 +581,7 @@
 //         dataToSend.append('resume', resume); // Assuming resume is a File object
 //         dataToSend.append('profilePicture', profilePicture); // Assuming profilePicture is a File object
 //         dataToSend.append('jobPreference', JSON.stringify(jobPreference));
+//         dataToSend.append('token',Token);
 
 //         // Log the FormData object
 //         for (const pair of dataToSend.entries()) {
@@ -523,10 +590,10 @@
 
 //         try {
 //             // Make API call
-//             const response = await axios.post('http://192.168.1.44:8000/userRegister/', dataToSend, {
+//             const response = await axios.post(`${BASE_URL}/userRegister/`, dataToSend, {
 //                 headers: {
 //                     'Content-Type': 'multipart/form-data',
-//                     // You may need to add other headers like authentication token if required
+
 //                 },
 //             });
 
@@ -539,7 +606,7 @@
 //             //     first_name: '',
 //             //     last_name: '',
 //             //     date_of_birth: '',
-//             //     mobile_number: '',
+//             //     email: '',
 //             //     gender: '',
 //             // });
 //             // setAddress({
@@ -599,6 +666,7 @@
 //             setResumeExpanded(true);
 //             setjobPreferenceExpanded(true);
 
+
 //         } catch (error) {
 //             console.error('API Error:', error);
 //             // Handle error as needed
@@ -618,8 +686,10 @@
 //     };
 //     const formRef = useRef(null);
 //     return (
-//         <FormContainer style={{marginTop:'60px'}}>
-//             <Typography variant="h4" align="center" gutterBottom>
+//         <FormContainer style={{ marginTop: '60px' }}>
+//             <Typography variant="h6"
+//                 color="#1A237E" fontSize="25px"
+//                 fontWeight="bold" textTransform="uppercase" align="center" gutterBottom>
 //                 {UserFormData[language].UserDetail.one}
 //             </Typography>
 //             <select value={language} onChange={handleLanguageChange}>
@@ -631,7 +701,9 @@
 //                 {/* User Details Accordion */}
 //                 <AccordionWrapper expanded={userDetailsExpanded} onChange={handleUserDetailsExpand} className='user_details'>
 //                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-//                         <Typography variant="h6">{UserFormData[language].UserDetail.one}</Typography>
+//                         <Typography variant="h6"
+//                             color="#1A237E" fontSize="25px"
+//                             fontWeight="bold" textTransform="uppercase">{UserFormData[language].UserDetail.one}</Typography>
 //                     </AccordionSummary>
 //                     <AccordionDetails>
 //                         <Grid container spacing={2}>
@@ -662,9 +734,11 @@
 
 
 //                                 />
-//                                 <TextField
-//                                     label={UserFormData[language].UserDetail.six}
+//                                 <TextField className='dob'
+//                                     // label= {UserFormData[language].UserDetail.six}
+
 //                                     name="date_of_birth"
+//                                     type='date'
 //                                     value={userDetails.date_of_birth}
 //                                     onChange={handleUserDetailsChange}
 //                                     fullWidth
@@ -678,19 +752,19 @@
 //                             </Grid>
 //                             <Grid item xs={12} sm={6}>
 //                                 {/* Second Column */}
-//                                 <TextField
+//                                 {/* <TextField
 //                                     label={UserFormData[language].UserDetail.eight}
-//                                     name="mobile_number"
-//                                     value={userDetails.mobile_number}
+//                                     name="email"
+//                                     value={userDetails.email}
 //                                     onChange={handleUserDetailsChange}
 //                                     fullWidth
 //                                     margin="dense"
 //                                     required
-//                                     error={Boolean(errors.mobile_number)}
-//                                     helperText={errors.mobile_number}
+//                                     error={Boolean(errors.email)}
+//                                     helperText={errors.email}
 
 
-//                                 />
+//                                 /> */}
 //                                 <Select
 //                                     label="gender"
 //                                     name="gender"
@@ -701,7 +775,7 @@
 //                                     margin="dense"
 //                                     required
 //                                     className='user_details_gender'
-
+//                                     style={{marginTop:'9px'}}
 
 //                                 >
 //                                     <MenuItem value="" disabled>{UserFormData[language].UserDetail.twelve}</MenuItem>
@@ -739,10 +813,14 @@
 //                 {/* Address Accordion */}
 //                 <AccordionWrapper className='address_accordion' expanded={addressExpanded} onChange={handleAddressExpand}>
 //                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-//                         <Typography variant="h6">Address</Typography>
+//                         <Typography variant="h6"
+//                                     color="#1A237E" fontSize="25px"
+//                                     fontWeight="bold" textTransform="uppercase">Address</Typography>
 //                     </AccordionSummary>
 //                     <AccordionDetails>
-//                         <Typography variant="h6"> Permanent and current Address:</Typography>
+//                         <Typography variant="h6"
+//                                     color="#1A237E" fontSize="25px"
+//                                     fontWeight="bold" textTransform="uppercase"> Permanent and current Address:</Typography>
 
 //                         <Grid container spacing={2}>
 //                             <Grid item xs={12} sm={6} >
@@ -806,7 +884,9 @@
 
 //                             </Grid>
 //                             <Grid item xs={12} sm={6} >
-//                                 {/* <Typography variant="h6">Current Address</Typography> */}
+//                                 {/* <Typography variant="h6"
+//                                     color="#1A237E" fontSize="25px"
+//                                     fontWeight="bold" textTransform="uppercase">Current Address</Typography> */}
 //                                 <TextField
 //                                     label="Current Street"
 //                                     name="street"
@@ -867,7 +947,9 @@
 //                 {/* Educatiom Accordion */}
 
 //                 <AccordionWrapper expanded={educationExpanded} onChange={handleEducationExpand} className='education'>
-//                     <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6">Education details</Typography></AccordionSummary>
+//                     <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6"
+//                                     color="#1A237E" fontSize="25px"
+//                                     fontWeight="bold" textTransform="uppercase">Education details</Typography></AccordionSummary>
 //                     <AccordionDetails>
 //                         <Grid container spacing={2}>
 //                             <Grid item xs={12} sm={6}>
@@ -967,7 +1049,9 @@
 //                                 />
 //                             </Grid>
 //                             <Grid item xs={12} sm={6}>
-//                                 <Typography sx={{ width: '100%' }} >UG Details:</Typography>
+//                                 <Typography sx={{ width: '100%' }}variant="h6"
+//                                     color="#1A237E" fontSize="25px"
+//                                     fontWeight="bold" textTransform="uppercase" >UG Details:</Typography>
 //                                 {/* Third Column */}
 //                                 <TextField
 //                                     label="College-name"
@@ -1017,7 +1101,9 @@
 //                             </Grid>
 
 //                             <Grid item xs={12} sm={6} >
-//                                 <Typography sx={{ color: 'transparent' }}> . </Typography>
+//                                 <Typography sx={{ color: 'transparent' }}variant="h6"
+//                                     color="#1A237E" fontSize="25px"
+//                                     fontWeight="bold" textTransform="uppercase"> . </Typography>
 //                                 {/* Fourth Column */}
 //                                 <TextField
 //                                     label="Department"
@@ -1231,7 +1317,9 @@
 //                     onChange={() => setProfessionalDetailsExpanded(!professionalDetailsExpanded)}
 //                 >
 //                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-//                         <Typography variant="h6">Professional Details</Typography>
+//                         <Typography variant="h6"
+//                                     color="#1A237E" fontSize="25px"
+//                                     fontWeight="bold" textTransform="uppercase">Professional Details</Typography>
 //                     </AccordionSummary>
 //                     <AccordionDetails>
 //                         <Grid container spacing={2}>
@@ -1323,11 +1411,13 @@
 //                 </AccordionWrapper>
 //                 {/* job preference */}
 //                 <AccordionWrapper expanded={jobPreferenceExpanded} onChange={handlejobPreferenceExpand} className='job_preference'>
-//                     <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6">Job Preference</Typography></AccordionSummary>
+//                     <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6"
+//                                     color="#1A237E" fontSize="25px"
+//                                     fontWeight="bold" textTransform="uppercase">Job Preference</Typography></AccordionSummary>
 //                     <AccordionDetails>
-//                         <Grid container spacing={2}>
+//                         {/* <Grid container spacing={2}>
 //                             <Grid item xs={12} sm={6}>
-//                                 {/* First Column */}
+
 //                                 <TextField
 //                                     label="Key-skills"
 //                                     name="key_skills"
@@ -1373,10 +1463,78 @@
 //                                     required
 //                                     error={Boolean(errors.jobPreference.prefered_locations)}
 //                                     helperText={errors.jobPreference.prefered_locations}
+
+
+
+
 //                                 />
 //                             </Grid>
 
-//                         </Grid>
+//                         </Grid> */}
+//                          <Grid container spacing={2}>
+//             <Grid item xs={12} sm={6}>
+//                 {/* First Column */}
+//                 <TextField
+//                     label="Key-skills"
+//                     name="key_skills"
+//                     value={jobPreference.key_skills}
+//                     onChange={handlejobPreferenceChange}
+//                     fullWidth
+//                     margin="dense"
+//                     required
+//                 />
+//                 <TextField
+//                     label="Industry"
+//                     name="industry"
+//                     value={jobPreference.industry}
+//                     onChange={handlejobPreferenceChange}
+//                     fullWidth
+//                     margin="dense"
+//                     required
+//                 />
+//             </Grid>
+//             <Grid item xs={12} sm={6}>
+//                 <TextField
+//                     label="Department"
+//                     name="department"
+//                     value={jobPreference.department}
+//                     onChange={handlejobPreferenceChange}
+//                     fullWidth
+//                     margin="dense"
+//                     required
+//                 />
+//       <Autocomplete
+//                 options={locations}
+//                 getOptionLabel={(option) => option.location}
+//                 renderInput={(params) => (
+//                     <TextField
+//                         {...params}
+//                         label="Preferred locations"
+//                         margin="dense"
+//                         required
+//                         error={Boolean(errors.jobPreference.prefered_locations)}
+//                         helperText={errors.jobPreference.prefered_locations}
+//                     />
+//                 )}
+//                 value={jobPreference.prefered_locations}
+//                 onChange={handlejobPreferenceChange}
+//                 filterOptions={(options, params) => {
+//                     const filtered = options.filter(
+//                         (option) =>
+//                             option.location.toLowerCase().includes(params.inputValue.toLowerCase())
+//                     );
+//                     if (params.inputValue !== '') {
+//                         filtered.push({ location: params.inputValue });
+//                     }
+//                     return filtered;
+//                 }}
+//                 selectOnFocus
+//                 clearOnBlur
+//                 handleHomeEndKeys
+//             /> 
+
+//             </Grid>
+//         </Grid>
 
 //                     </AccordionDetails>
 //                 </AccordionWrapper>
@@ -1384,7 +1542,9 @@
 //                 {/* Resume Accordion */}
 //                 <ResumeAccordionWrapper expanded={resumeExpanded} onChange={handleResumeExpand}>
 //                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-//                         <Typography variant="h6">Resume</Typography>
+//                         <Typography variant="h6"
+//                                     color="#1A237E" fontSize="25px"
+//                                     fontWeight="bold" textTransform="uppercase">Resume</Typography>
 //                     </AccordionSummary>
 //                     <AccordionDetails>
 //                         <Grid container spacing={2}>
@@ -1436,9 +1596,19 @@
 
 
 
+
+// checking with api
+
+
+
+
+
+
+
+
 // ================================================================================================================================================================================================
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
     Button,
     TextField,
@@ -1460,6 +1630,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import axios from 'axios';
 import UserFormData from '../Json/UserForm.json';
+import BASE_URL from '../CommonAPI';
+import { useNavigate } from 'react-router-dom';
+import Autocomplete from '@mui/material/Autocomplete';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Container styling
 const FormContainer = styled(Container)({
@@ -1478,14 +1652,16 @@ const ResumeAccordionWrapper = styled(Accordion)({
 });
 
 const UserForm = () => {
+    const navigate = useNavigate();
+
     // State for user details
     const [userDetails, setUserDetails] = useState({
         first_name: '',
         last_name: '',
         date_of_birth: '',
-        email: '',
+        // email: '',
         gender: '',
-        profile_picture: null,
+        profile_picture: [],
 
     });
 
@@ -1539,10 +1715,11 @@ const UserForm = () => {
     });
 
     const [jobPreference, setJobPreference] = useState({
-        key_skills: '',
+        key_skills: [],
         industry: '',
         department: '',
-        prefered_locations: ''
+        // prefered_locations: ''
+        prefered_locations: []
     })
 
     // State for professional details
@@ -1636,13 +1813,17 @@ const UserForm = () => {
     const [jobPreferenceExpanded, setjobPreferenceExpanded] = useState(true);
     // State for professional details accordion expansion
     const [professionalDetailsExpanded, setProfessionalDetailsExpanded] = useState(true);
+    const [locations, setLocations] = useState([]);
+    const [skills, setSkills] = useState([]);
+    const [suggestions, setSuggestions] = useState([]);
+    const [loading, setLoading] = useState(true);
     // for user details validations
     const [errors, setErrors] = useState({
         userDetails: {
             first_name: '',
             last_name: '',
             date_of_birth: '',
-            email: '',
+            // email: '',
         },
         jobPreference: {
             key_skills: '',
@@ -1702,36 +1883,8 @@ const UserForm = () => {
             }
         }
 
-        // Add validation logic for date_of_birth (allow only numbers)
-        // if (event.target.name === 'date_of_birth') {
-        //     if (/[^0-9/]/.test(event.target.value)) {
-        //         // Invalid input, set error message
-        //         setErrors({
-        //             ...errors,
-        //             [event.target.name]: 'Only numbers and / allowed for date of birth',
-        //         });
-        //         return;
-        //     }
-        // }
 
-      
-        // if (event.target.name === 'email') {
-        //     // Adjusted regular expression to allow country code prefix
-        //     if (/^\+?\d+$/.test(event.target.value)) {
-        //         // Valid input, clear error message
-        //         setErrors({
-        //             ...errors,
-        //             [event.target.name]: '',
-        //         });
-        //     } else {
-        //         // Invalid input, set error message
-        //         setErrors({
-        //             ...errors,
-        //             [event.target.name]: 'Invalid mobile number format',
-        //         });
-        //     }
-        // }
-        
+
         if (event.target.name === 'email') {
             if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(event.target.value)) {
                 // Valid email format, clear error message
@@ -1747,7 +1900,7 @@ const UserForm = () => {
                 });
             }
         }
-        
+
 
         // Update userDetails only if validation passes
         updatedUserDetails = {
@@ -1768,10 +1921,10 @@ const UserForm = () => {
                 [event.target.name]: '',
             },
         });
-    
+
         let updatedAddressDetails = { ...address };
-        if (event.target.name === 'street' || event.target.name === 'city' || event.target.name === 'country' || 
-        event.target.name === 'state') {
+        if (event.target.name === 'street' || event.target.name === 'city' || event.target.name === 'country' ||
+            event.target.name === 'state') {
             if (/[^A-Za-z\s]/.test(event.target.value)) {
                 setErrors({
                     ...errors,
@@ -1794,7 +1947,7 @@ const UserForm = () => {
                 return;
             }
         }
-    
+
         updatedAddressDetails = {
             ...updatedAddressDetails,
             [type]: {
@@ -1802,12 +1955,12 @@ const UserForm = () => {
                 [event.target.name]: event.target.value,
             },
         };
-    
+
         setAddress(updatedAddressDetails);
     };
-    
+
     // Handle changes in education fields
-     const handleEducationChange = (event) => {
+    const handleEducationChange = (event) => {
         setErrors({
             ...errors,
             [event.target.name]: '',
@@ -1833,7 +1986,7 @@ const UserForm = () => {
             event.target.name === 'sslc_percentage' || event.target.name === 'hsc_percentage' || event.target.name === 'college_percentage' ||
             event.target.name === 'pg_college_percentage' || event.target.name === 'diploma_college_percentage' || event.target.name === 'college_start_year'
             || event.target.name === 'college_end_year' || event.target.name === 'pg_college_start_year' || event.target.name === 'pg_college_end_year'
-            || event.target.name === 'diploma_college_start_year'|| event.target.name === 'diploma_college_end_year') {
+            || event.target.name === 'diploma_college_start_year' || event.target.name === 'diploma_college_end_year') {
             if (/[^0-9]/.test(event.target.value)) {
                 // Invalid input, set error message
                 setErrors({
@@ -1853,40 +2006,130 @@ const UserForm = () => {
     };
 
 
-    const handlejobPreferenceChange = (event) => {
-        // Clear previous error messages
+    // const handlejobPreferenceChange = (event) => {
+    //     // Clear previous error messages
+    //     setErrors({
+    //         ...errors,
+    //         jobPreference: {
+    //             ...errors.jobPreference,
+    //             [event.target.name]: '',
+    //         },
+    //     });
+
+    //     // Update jobPreference only if validation passes
+    //     let updatedJobPreference = { ...jobPreference };
+
+    //     // Add validation logic for key_skills, industry, department, and prefered_locations
+    //     if (/[0-9!@#$%^&*().?":{}|<>]/.test(event.target.value)) {
+    //         // Invalid input, set error message
+    //         setErrors({
+    //             ...errors,
+    //             jobPreference: {
+    //                 ...errors.jobPreference,
+    //                 [event.target.name]: 'Numbers and symbols are not allowed',
+    //             },
+    //         });
+    //         return;
+    //     }
+
+    //     // Update jobPreference only if validation passes
+    //     updatedJobPreference = {
+    //         ...updatedJobPreference,
+    //         [event.target.name]: event.target.value,
+    //     };
+
+    //     setJobPreference(updatedJobPreference);
+    // };
+    useEffect(() => {
+        const fetchLocations = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL}/locations/`);
+                setLocations(response.data);
+            } catch (error) {
+                console.error('Error fetching locations:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        const fetchSkills = async () => {
+            try {
+                const response = await axios.get(`${BASE_URL}/skills/`);
+                setSkills(response.data);
+            } catch (error) {
+                console.error('Error fetching skills:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchLocations();
+        fetchSkills();
+    }, []);  
+
+    // const handleJobPreferenceChange = (event, value, reason) => {
+    //     setErrors({
+    //         ...errors,
+    //         jobPreference: {
+    //             ...errors.jobPreference,
+    //             prefered_locations: '',
+    //         },
+    //     });
+
+    //     let updatedJobPreference = { ...jobPreference };
+
+    //     if (reason === 'clear') {
+    //         // Clearing the selected value
+    //         updatedJobPreference = {
+    //             ...updatedJobPreference,
+    //             prefered_locations: [],
+    //         };
+    //     } else {
+    //         // Updating the selected value
+    //         updatedJobPreference = {
+    //             ...updatedJobPreference,
+    //             prefered_locations: value.map(item => item.location),
+    //         };
+    //     }
+
+    //     setJobPreference(updatedJobPreference);
+    // };
+
+    const handleJobPreferenceChange = (field) => (event, value, reason) => {
         setErrors({
             ...errors,
             jobPreference: {
                 ...errors.jobPreference,
-                [event.target.name]: '',
+                [field]: '',
             },
         });
-
-        // Update jobPreference only if validation passes
+    
         let updatedJobPreference = { ...jobPreference };
-
-        // Add validation logic for key_skills, industry, department, and prefered_locations
-        if (/[0-9!@#$%^&*().?":{}|<>]/.test(event.target.value)) {
-            // Invalid input, set error message
-            setErrors({
-                ...errors,
-                jobPreference: {
-                    ...errors.jobPreference,
-                    [event.target.name]: 'Numbers and symbols are not allowed',
-                },
-            });
-            return;
+    
+        if (reason === 'clear') {
+            // Clearing the selected value
+            updatedJobPreference = {
+                ...updatedJobPreference,
+                [field]: [],
+            };
+        } else {
+            // Updating the selected value based on the field
+            if (field === 'prefered_locations') {
+                updatedJobPreference = {
+                    ...updatedJobPreference,
+                    [field]: value.map(item => item.location || item),
+                };
+            } else if (field === 'key_skills') {
+                updatedJobPreference = {
+                    ...updatedJobPreference,
+                    [field]: value.map(item => item.skill_set || item),
+                };
+            }
         }
-
-        // Update jobPreference only if validation passes
-        updatedJobPreference = {
-            ...updatedJobPreference,
-            [event.target.name]: event.target.value,
-        };
-
+    
         setJobPreference(updatedJobPreference);
     };
+    
     // Handle profile picture upload
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
@@ -1947,7 +2190,9 @@ const UserForm = () => {
             console.log('Please fill at least one address type');
             return;
         }
-
+        // for sending token
+        const Token = localStorage.getItem('loginToken')
+        console.log(Token, '========================sending token to backend')
         // Create a FormData object to send to the backend
         const dataToSend = new FormData();
         dataToSend.append('userDetails', JSON.stringify({
@@ -1970,6 +2215,7 @@ const UserForm = () => {
         dataToSend.append('resume', resume); // Assuming resume is a File object
         dataToSend.append('profilePicture', profilePicture); // Assuming profilePicture is a File object
         dataToSend.append('jobPreference', JSON.stringify(jobPreference));
+        dataToSend.append('token', Token);
 
         // Log the FormData object
         for (const pair of dataToSend.entries()) {
@@ -1978,10 +2224,10 @@ const UserForm = () => {
 
         try {
             // Make API call
-            const response = await axios.post('http://192.168.1.44:8000/userRegister/', dataToSend, {
+            const response = await axios.post(`${BASE_URL}/userRegister/`, dataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
-                    
+
                 },
             });
 
@@ -2054,6 +2300,7 @@ const UserForm = () => {
             setResumeExpanded(true);
             setjobPreferenceExpanded(true);
 
+
         } catch (error) {
             console.error('API Error:', error);
             // Handle error as needed
@@ -2073,8 +2320,10 @@ const UserForm = () => {
     };
     const formRef = useRef(null);
     return (
-        <FormContainer style={{marginTop:'60px'}}>
-            <Typography variant="h4" align="center" gutterBottom>
+        <FormContainer style={{ marginTop: '60px' }}>
+            <Typography variant="h6"
+                color="#1A237E" fontSize="25px"
+                fontWeight="bold" textTransform="uppercase" align="center" gutterBottom>
                 {UserFormData[language].UserDetail.one}
             </Typography>
             <select value={language} onChange={handleLanguageChange}>
@@ -2086,7 +2335,9 @@ const UserForm = () => {
                 {/* User Details Accordion */}
                 <AccordionWrapper expanded={userDetailsExpanded} onChange={handleUserDetailsExpand} className='user_details'>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6">{UserFormData[language].UserDetail.one}</Typography>
+                        <Typography variant="h6"
+                            color="#1A237E" fontSize="25px"
+                            fontWeight="bold" textTransform="uppercase">{UserFormData[language].UserDetail.one}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid container spacing={2}>
@@ -2119,7 +2370,7 @@ const UserForm = () => {
                                 />
                                 <TextField className='dob'
                                     // label= {UserFormData[language].UserDetail.six}
-                                   
+
                                     name="date_of_birth"
                                     type='date'
                                     value={userDetails.date_of_birth}
@@ -2135,7 +2386,7 @@ const UserForm = () => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 {/* Second Column */}
-                                <TextField
+                                {/* <TextField
                                     label={UserFormData[language].UserDetail.eight}
                                     name="email"
                                     value={userDetails.email}
@@ -2147,7 +2398,7 @@ const UserForm = () => {
                                     helperText={errors.email}
 
 
-                                />
+                                /> */}
                                 <Select
                                     label="gender"
                                     name="gender"
@@ -2158,7 +2409,7 @@ const UserForm = () => {
                                     margin="dense"
                                     required
                                     className='user_details_gender'
-
+                                    style={{ marginTop: '9px' }}
 
                                 >
                                     <MenuItem value="" disabled>{UserFormData[language].UserDetail.twelve}</MenuItem>
@@ -2196,10 +2447,14 @@ const UserForm = () => {
                 {/* Address Accordion */}
                 <AccordionWrapper className='address_accordion' expanded={addressExpanded} onChange={handleAddressExpand}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6">Address</Typography>
+                        <Typography variant="h6"
+                            color="#1A237E" fontSize="25px"
+                            fontWeight="bold" textTransform="uppercase">Address</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Typography variant="h6"> Permanent and current Address:</Typography>
+                        <Typography variant="h6"
+                            color="#1A237E" fontSize="25px"
+                            fontWeight="bold" textTransform="uppercase"> Permanent and current Address:</Typography>
 
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6} >
@@ -2263,7 +2518,9 @@ const UserForm = () => {
 
                             </Grid>
                             <Grid item xs={12} sm={6} >
-                                {/* <Typography variant="h6">Current Address</Typography> */}
+                                {/* <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Current Address</Typography> */}
                                 <TextField
                                     label="Current Street"
                                     name="street"
@@ -2324,7 +2581,9 @@ const UserForm = () => {
                 {/* Educatiom Accordion */}
 
                 <AccordionWrapper expanded={educationExpanded} onChange={handleEducationExpand} className='education'>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6">Education details</Typography></AccordionSummary>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6"
+                        color="#1A237E" fontSize="25px"
+                        fontWeight="bold" textTransform="uppercase">Education details</Typography></AccordionSummary>
                     <AccordionDetails>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
@@ -2424,7 +2683,9 @@ const UserForm = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <Typography sx={{ width: '100%' }} >UG Details:</Typography>
+                                <Typography sx={{ width: '100%' }} variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase" >UG Details:</Typography>
                                 {/* Third Column */}
                                 <TextField
                                     label="College-name"
@@ -2474,7 +2735,9 @@ const UserForm = () => {
                             </Grid>
 
                             <Grid item xs={12} sm={6} >
-                                <Typography sx={{ color: 'transparent' }}> . </Typography>
+                                <Typography sx={{ color: 'transparent' }} variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase"> . </Typography>
                                 {/* Fourth Column */}
                                 <TextField
                                     label="Department"
@@ -2688,7 +2951,9 @@ const UserForm = () => {
                     onChange={() => setProfessionalDetailsExpanded(!professionalDetailsExpanded)}
                 >
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6">Professional Details</Typography>
+                        <Typography variant="h6"
+                            color="#1A237E" fontSize="25px"
+                            fontWeight="bold" textTransform="uppercase">Professional Details</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid container spacing={2}>
@@ -2780,11 +3045,13 @@ const UserForm = () => {
                 </AccordionWrapper>
                 {/* job preference */}
                 <AccordionWrapper expanded={jobPreferenceExpanded} onChange={handlejobPreferenceExpand} className='job_preference'>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6">Job Preference</Typography></AccordionSummary>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6"
+                        color="#1A237E" fontSize="25px"
+                        fontWeight="bold" textTransform="uppercase">Job Preference</Typography></AccordionSummary>
                     <AccordionDetails>
-                        <Grid container spacing={2}>
+                        {/* <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
-                                {/* First Column */}
+                               
                                 <TextField
                                     label="Key-skills"
                                     name="key_skills"
@@ -2830,9 +3097,113 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.jobPreference.prefered_locations)}
                                     helperText={errors.jobPreference.prefered_locations}
+
+
+
+                                    
                                 />
                             </Grid>
 
+                        </Grid> */}
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                            {/* <TextField
+                    label="Key-skills"
+                    name="key_skills"
+                    value={jobPreference.key_skills}
+                    onChange={(event) => setJobPreference({...jobPreference, key_skills: event.target.value})}
+                    fullWidth
+                    margin="dense"
+                    required
+                    error={Boolean(errors.jobPreference.key_skills)}
+                    helperText={errors.jobPreference.key_skills}
+                /> */}
+
+<Autocomplete
+                multiple
+                options={skills}
+                getOptionLabel={(option) => option ? option.skill_set : ''}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label="Key Skills"
+                        margin="dense"
+                        error={Boolean(errors.jobPreference.key_skills)}
+                        helperText={errors.jobPreference.key_skills}
+                    />
+                )}
+                value={jobPreference.key_skills.map(skill => ({ skill_set: skill }))} // Convert array of skill names to array of objects
+                onChange={handleJobPreferenceChange('key_skills')}
+                freeSolo // Allow typing new values
+                filterOptions={(options, params) => {
+                    const filtered = options.filter(
+                        (option) =>
+                            option.skill_set.toLowerCase().includes(params.inputValue.toLowerCase())
+                    );
+                    if (params.inputValue !== '' && !filtered.some(option => option.skill_set.toLowerCase() === params.inputValue.toLowerCase())) {
+                        filtered.push({ skill_set: params.inputValue }); // Add typed value if not present in options
+                    }
+                    return filtered;
+                }}
+            />
+                <TextField
+                    label="Industry"
+                    name="industry"
+                    value={jobPreference.industry}
+                    onChange={(event) => setJobPreference({...jobPreference, industry: event.target.value})}
+                    fullWidth
+                    margin="dense"
+                    required
+                    error={Boolean(errors.jobPreference.industry)}
+                    helperText={errors.jobPreference.industry}
+                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                            <TextField
+                    label="Department"
+                    name="department"
+                    value={jobPreference.department}
+                    onChange={(event) => setJobPreference({...jobPreference, department: event.target.value})}
+                    fullWidth
+                    margin="dense"
+                    required
+                    error={Boolean(errors.jobPreference.department)}
+                    helperText={errors.jobPreference.department}
+                />
+                      <div>
+                    {loading ? (
+                        <CircularProgress />
+                    ) : (
+                        <Autocomplete
+                multiple
+                options={locations}
+                getOptionLabel={(option) => option ? option.location : ''}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label="Preferred Locations"
+                        margin="dense"
+                        error={Boolean(errors.jobPreference.prefered_locations)}
+                        helperText={errors.jobPreference.prefered_locations}
+                    />
+                )}
+                value={jobPreference.prefered_locations.map(location => ({ location }))} // Convert array of location names to array of objects
+                onChange={handleJobPreferenceChange('prefered_locations')}
+                freeSolo // Allow typing new values
+                filterOptions={(options, params) => {
+                    const filtered = options.filter(
+                        (option) =>
+                            option.location.toLowerCase().includes(params.inputValue.toLowerCase())
+                    );
+                    if (params.inputValue !== '' && !filtered.some(option => option.location.toLowerCase() === params.inputValue.toLowerCase())) {
+                        filtered.push({ location: params.inputValue }); // Add typed value if not present in options
+                    }
+                    return filtered;
+                }}
+            />
+                    )}
+                </div>
+                            </Grid>
                         </Grid>
 
                     </AccordionDetails>
@@ -2841,7 +3212,9 @@ const UserForm = () => {
                 {/* Resume Accordion */}
                 <ResumeAccordionWrapper expanded={resumeExpanded} onChange={handleResumeExpand}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6">Resume</Typography>
+                        <Typography variant="h6"
+                            color="#1A237E" fontSize="25px"
+                            fontWeight="bold" textTransform="uppercase">Resume</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <Grid container spacing={2}>

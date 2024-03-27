@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import List from '@material-ui/core/List';
+import List from '@material-ui/core/List' ;
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
+import { HashLoader } from 'react-spinners';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import WorkIcon from '@material-ui/icons/Work';
@@ -16,24 +17,35 @@ import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
 import Logo from '../Dashboard/Images/download.png';
 import { Employerregister } from '../EmployeerManagement/Employerregister';
-import PostJob from '../EmployeerManagement/PostJob';
+import PostJob from '../Sprint 2/PostJob';
+import axios from 'axios';
+import { useContext } from 'react';
+import UserContext from '../Sprint 2/contextFilter';
+import { UpdateEmployerregister } from '../EmployeerManagement/UpdateEmployeer';
+import { css } from '@emotion/react';
+import MyJob from '../Sprint 2/MyJob';
+import BASE_URL from '../CommonAPI';
 
-const drawerWidth = 205;
+
+const drawerWidth = 210;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
-    flexShrink: 3,
+    flexShrink: 0,
+    marginTop:'100px'
   },
   drawerPaper: {
     width: drawerWidth,
+    marginTop:'70px'
+
+    
   },
   toolbar: theme.mixins.toolbar,
   logo: {
     height: 50,
-    margin: '20px auto',
+    margin: '30px auto',
     display: 'block',
-
   },
   menuButton: {
     [theme.breakpoints.up('sm')]: {
@@ -45,35 +57,72 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   oppositeContainer: {
-    width: '70%',
-    maxWidth: '80%',
-    margin:'auto',
-    flexGrow: 2,
+    flex: 2,
     display: 'flex',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: theme.spacing(3),
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column',
-    },
+    marginTop:'40px'
+    // padding: theme.spacing(2),
   },
   postJobContainer: {
     width: '100%',
-    maxWidth: '1100px', // Adjust this value as needed
+    maxWidth: '1100px',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: '20px auto', // Add margin to create space
+    margin: '20px auto',
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
     gap: theme.spacing(2),
     padding: theme.spacing(2),
+  },
+  loadingContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%',
+    width: '100%',
+    marginTop:'200px'
   },
 }));
 
 const SideNavbar = () => {
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('Dashboard');
+  const [selectedItem, setSelectedItem] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { employerDetails, setEmployerDetails } = useContext(UserContext);
+
+  useEffect(() => {
+    if (selectedItem === 'My Profile') {
+      const token = localStorage.getItem('loginToken');
+        console.log(token,"=========token");
+      setLoading(true);
+      // axios.post('http://192.168.1.44:8000/get_employeer_details/', {
+      //   employee_id: 2
+      axios.post(`${BASE_URL}/get_employeer_details/`, {
+        token
+      })
+        .then(response => {
+          setEmployerDetails(response.data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching employer details:', error);
+          setLoading(false);
+        });
+    }
+  }, [selectedItem, setEmployerDetails]);
+  useEffect(() => {
+    const storedItem = localStorage.getItem('selectedItem');
+    if (storedItem) {
+      setSelectedItem(storedItem);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('selectedItem', selectedItem);
+  }, [selectedItem]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -81,14 +130,13 @@ const SideNavbar = () => {
 
   const handleListItemClick = (item) => {
     setSelectedItem(item);
-    // Only close the drawer on mobile if it was open to begin with
     if (mobileOpen) {
       setMobileOpen(false);
     }
   };
 
   const drawer = (
-    <div>
+    <div  >
       <div className={classes.toolbar} />
       <img src={Logo} alt="Logo" className={classes.logo} />
       <Avatar alt="Profile Picture" src="/broken-image.jpg" className={classes.avatar} />
@@ -158,13 +206,35 @@ const SideNavbar = () => {
         </Hidden>
       </nav>
       <div className={classes.oppositeContainer}>
-        {selectedItem === 'My Profile' && (
-          <Employerregister />
-        )}
-        {selectedItem === 'Post Jobs' && (
-          <div className={classes.postJobContainer}>
-            <PostJob />
+        {loading ? (
+          <div className={classes.loadingContainer}>
+            <HashLoader
+              height={100}
+              width={100}
+              color="#1A237E"
+              ariaLabel="grid-loading"
+              radius="12.5"
+              wrapperStyle={{}}
+              wrapperClass="grid-wrapper"
+            />
+            <li>Loading...!</li>
           </div>
+        ) : (
+          <>
+            {selectedItem === 'My Profile' && employerDetails && (
+              <UpdateEmployerregister style={{ width: '100%' }} />
+            )}
+            {selectedItem === 'My Jobs' && (
+              <div className={classes.postJobContainer}>
+                <MyJob />
+              </div>
+            )}
+            {selectedItem === 'Post Jobs' && (
+              <div className={classes.postJobContainer}>
+                <PostJob />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
@@ -172,4 +242,3 @@ const SideNavbar = () => {
 };
 
 export default SideNavbar;
-

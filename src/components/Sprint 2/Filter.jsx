@@ -7,14 +7,17 @@ import FilteredResults from "./FilteredResults";
 // import { useNavigate } from "react-router-dom";
 import "../Sprint 2/FilterPage.css";
 import UserContext from "./contextFilter";
+import SearchBar from "../HomePage/searchBar";
+import BASE_URL from '../CommonAPI';
 
 const Filter = () => {
   const [showAll, setShowAll] = useState(false);
   const [Show, setShow] = useState(false);
+  const [errorOne, setErrorOne ] = useState(null)
 
-  const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList} = useContext(UserContext);
+  const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData} = useContext(UserContext);
   console.log(searchJob,'=====search job data')
-console.log(oneData, "=====raghul data");
+console.log(oneData, "=====Jeeva data");
 
 useEffect(()=>{},[companyList]);
 console.log(companyList, "=====raghul data company list");
@@ -63,6 +66,8 @@ console.log(companyList, "=====raghul data company list");
     "More than  30 LPA",
   ];
 
+  
+
   const renderOptions = showAll
     ? experienceOptions
     : experienceOptions.slice(0, 5);
@@ -91,7 +96,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/location/");
+        const response = await fetch(`${BASE_URL}/job_apply_locations/`);
         if (!response) {
           console.error("Failed to fetch locations");
         }
@@ -135,7 +140,7 @@ console.log(companyList, "=====raghul data company list");
   useEffect(() => {
     const fetchJobRoles = async () => {
       try {
-        const response = await fetch("http://192.168.1.44:8000/job_role/");
+        const response = await fetch(`${BASE_URL}/job_role/`);
         if (!response.ok) {
           console.error("Failed to fetch job roles");
           return;
@@ -188,6 +193,7 @@ console.log(companyList, "=====raghul data company list");
 
   console.log(filteredData, "Filtered Data ==>");
 
+  
 
 
   const ApplyFilters = async () => {
@@ -198,15 +204,17 @@ console.log(companyList, "=====raghul data company list");
       salary_range: selectedSalaryType,
       experience: selectedExperience,
     };
-    setsearchJob(null)
+    const searchResult = null
+    setsearchJob(searchResult)
     setcompanyList(null)
     setFilteredData(filtered);
+    setJobData(null)
     
  
     try {
       const response = await fetch(
-        "http://192.168.1.44:8000/filter_job/",
-        {
+
+        `${BASE_URL}/filter_job/`,        {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -215,43 +223,75 @@ console.log(companyList, "=====raghul data company list");
         }
       );
       const FilterData = await response.json();
-      console.log(FilterData.data,"<====filter-Response");
-      setData(FilterData.data)
-      console.log(FilterData.status,"status===>");
-      if (FilterData.status !== true) {
-        alert("Failed to post data to backend");
+      const FilterResponse = FilterData.data
+      console.log(FilterResponse,"<====filter-Response");
+      
+        if(FilterData.status === false ){
+          setsearchJob(false)
+          setData(false)
+          
+          return 
+          
+        }
+
+      if(FilterResponse !== null){
+        setData(FilterResponse)
         
+      }else{
+        setsearchJob(FilterResponse)
+        
+      }
+      console.log(FilterData.status,"status===>");
+      if (FilterData.status === false) {
+        
+        console.log("Filter false====>");
+        return  
       } else {
         
         setComponent(true)
       }
       console.log("Data successfully posted to backend");
     } catch (error) {
+      setErrorOne(error)
       console.error("Error posting data to backend:", error.message);
     }
 
   }; 
 
+  // Reload
 
+  
+
+  if (errorOne) {
+    return <p style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', fontSize: '30px' }}
+    >Error: Server Not Responding
+    </p>; 
+  }
+  
 
   return (
-    <Grid container>
+    <Grid container className="containerTop">
+
       <Grid item xs={4} sm={4} md={4} xl={4}>
+      <div style={{marginLeft:'500px',marginTop:'-170px',marginBottom:'-385px',display:'flex'}}>
+        <SearchBar />
+
+        </div>
         <div className="job-filter" style={{ width: "80%" }}>
           <div className="title">
-            <h1>Filter</h1>
             <div className="job-experience">
-            <h3>Experience level</h3>
+            <h3>Experience</h3>
               <FormGroup>
                 <Grid container>
                   {renderOptions.map((option, index) => (
-                    <Grid item xs={6} key={index}>
+                    <Grid item xs={5} key={index}>
                       {" "}
                       {/* Divide into two columns */}
-                      <div style={{ marginLeft: "1.5rem" }}>
+                      <div style={{ marginLeft: "20px" }}>
                         <FormControlLabel
                           control={
                             <Checkbox
+                            style={{padding:"10px"}}
                             color="secondary"
                               checked={selectedExperience.includes(option)}
                               onChange={() => handleExperienceClick(option)}
@@ -270,7 +310,7 @@ console.log(companyList, "=====raghul data company list");
               className="show-more-button"
                 onClick={() => setShowAll(!showAll)}
                 color="primary"
-                sx={{ fontSize: 17, color:"#5C6BC0 " }}
+                sx={{ fontSize: 15, color:"#5C6BC0 " }}
               >
                 {showAll ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 {showAll ? "Hide" : "Show More"}
@@ -279,14 +319,14 @@ console.log(companyList, "=====raghul data company list");
           </div>
           <div className="job-location">
             <h3>Locations</h3>
-            <Box className="scroll"  style={{ width: "90%", height: 300, overflow: "auto" }}>
+            <Box className="scroll"  style={{ width: "100%", height: 300, overflow: "auto" }}>
               <List>
                 {locations.map((location, index) => (
                   <ListItemButton
                     key={index}
                     onClick={() => handleLocationClick(index)}
                   >
-                    <Checkbox color="secondary" checked={location.selected} />
+                    <Checkbox color="secondary"  style={{padding:"10px"}} checked={location.selected} />
                     <ListItemText primary={location.location} />
                   </ListItemButton>
                 ))}
@@ -299,8 +339,8 @@ console.log(companyList, "=====raghul data company list");
 
             <FormGroup>
               <RadioGroup
-              color="secondary"
-                style={{ marginLeft: "1rem" }}
+               color="secondary"
+                style={{ marginLeft: "1rem"}}
                 name="employment-type"
                 value={selectedEmploymentType}
                 onChange={handleEmploymentTypeChange}
@@ -308,6 +348,7 @@ console.log(companyList, "=====raghul data company list");
               >
                 {employmentType.map((type, index) => (
                   <FormControlLabel
+                  style={{padding:"10px"}}
                     key={index}
                     value={type}
                     control={<Radio color="secondary" />}
@@ -320,14 +361,14 @@ console.log(companyList, "=====raghul data company list");
 
           <div className="job-roles">
             <h3>Job Roles</h3>
-            <Box className="scroll" sx={{ width: "90%", height: 300, overflow: "auto" }}>
+            <Box className="scroll" sx={{ width: "100%", height: 300, overflow: "auto" }}>
               <List>
                 {jobRoles.map((role, index) => (
                   <ListItemButton
                     key={index}
                     onClick={() => handleRoleClick(index)}
                   >
-                    <Checkbox color="secondary" checked={role.selected}  />
+                    <Checkbox color="secondary"  style={{padding:"10px"}} checked={role.selected}  />
                     <ListItemText primary={role.role} />
                   </ListItemButton>
                 ))}
@@ -338,7 +379,7 @@ console.log(companyList, "=====raghul data company list");
           <div className="job-salary">
             <h3>Salary Range</h3>
             <RadioGroup
-            
+
               style={{ marginLeft: "1rem" }}
               name="salary-type"
               value={selectedSalaryType}
@@ -346,6 +387,7 @@ console.log(companyList, "=====raghul data company list");
             >
               {render.map((type, index) => (
                 <FormControlLabel
+                  style={{padding:"10px"}}
                   key={index}
                   value={type}
                   control={<Radio color="secondary" />}
@@ -357,7 +399,7 @@ console.log(companyList, "=====raghul data company list");
               <IconButton
                 onClick={() => setShow(!Show)}
                 color="primary"
-                sx={{ fontSize: 17, color:"#5C6BC0" }}
+                sx={{ fontSize: 15, color:"#5C6BC0" }}
               >
                 {Show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 {Show ? "Hide" : "Show More"}
@@ -373,9 +415,10 @@ console.log(companyList, "=====raghul data company list");
         </div>
       </Grid>
       <Grid item xs={8} sm={8} md={8} xl={8}>
-       {component && <FilteredResults two={oneData} />}
-       {searchJob && <FilteredResults two={oneData} />}
-       {companyList && <FilteredResults two={oneData} />}
+       {component && <FilteredResults  />}
+       {searchJob && <FilteredResults  />}
+       {companyList && <FilteredResults  />}
+       {jobData && <FilteredResults  /> }
 
       </Grid>
     </Grid>

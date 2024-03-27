@@ -1,0 +1,104 @@
+.profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.profile-wrapper {
+    width: 70%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 35px;
+    border-radius: 10px;
+    background-color: #E8EAF6;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+}
+
+.profile-wrapper h4 {
+    text-align: left;
+}
+
+.profile-wrapper h3 {
+    text-align: center;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    background-color: #7986CB;
+    border-radius: 20px;
+    overflow: hidden; /* Ensure child elements don't overflow */
+}
+
+.profile-details .personal-details,
+.profile-details .contact-details {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1; /* Make child elements expand to fill the space */
+}
+
+.profile-details .personal-details p,
+.profile-details .contact-details p {
+    margin: 5px 20px 5px 0;
+}
+
+.profile-details .profile-picture {
+    padding: 20px;
+    width: 200px;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.profile-details .profile-picture img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.resume-details iframe {
+    width: 100%;
+}
+
+.address-details {
+    margin-top: 20px;
+}
+
+.address-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.address-column {
+    flex: 0 1 45%; /* Adjust width of columns */
+}
+
+
+@media screen and (max-width: 768px) {
+    .profile-details {
+        flex-direction: column; /* Change to column layout on smaller screens */
+        align-items: center; /* Center align content */
+    }
+
+    .profile-details .profile-picture {
+        width: 150px;
+    }
+
+    .profile-details .profile-picture img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .address-row {
+        flex-direction: column; /* Stack columns vertically on smaller screens */
+    }
+
+    .address-column {
+        width: 100%; /* Make columns take full width on smaller screens */
+    }
+}
+

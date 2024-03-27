@@ -10,6 +10,7 @@ import { toast, Toaster } from "react-hot-toast";
 import axios from "axios"; // Import axios
 import otpnum from "../Json/otp.json";
 import { useMediaQuery } from "@mui/material";
+import BASE_URL from '../CommonAPI';
 
 const OTPlogin = () => {
   const [mobile_number, setPhone] = useState("");
@@ -31,11 +32,8 @@ const OTPlogin = () => {
         Accept: "application/json",
       };
 
-      const response = await axios.post(
-        "http://192.168.1.44:8000/loginWithOTP/",
-        { mobile_number },
-        { headers: headers }
-      );
+
+      const response = await axios.post(`${BASE_URL}/loginWithOTP/`, { mobile_number }, { headers: headers });
       const otpverify = response.data.status;
 
       console.log(response, "OTP_Response====>");
