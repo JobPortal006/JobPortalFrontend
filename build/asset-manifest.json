@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.1ba176f6.css",
-    "main.js": "/static/js/main.c35c6b64.js",
-    "static/js/592.bf6ca574.chunk.js": "/static/js/592.bf6ca574.chunk.js",
-    "static/media/design1.jpg": "/static/media/design1.c75aac530b411960bb09.jpg",
-    "static/media/homebaground.jpg": "/static/media/homebaground.1bb11bfab7109d2f28f1.jpg",
-    "static/media/img.png": "/static/media/img.de55db2dbad5fb706077.png",
-    "static/media/JL logo design.jpg": "/static/media/JL logo design.339d57f332f31dbe99bc.jpg",
-    "static/media/google-icon.svg": "/static/media/google-icon.15b6cb611e2ef4ea86dc62873e5c6db5.svg",
-    "index.html": "/index.html",
-    "main.1ba176f6.css.map": "/static/css/main.1ba176f6.css.map",
-    "main.c35c6b64.js.map": "/static/js/main.c35c6b64.js.map",
-    "592.bf6ca574.chunk.js.map": "/static/js/592.bf6ca574.chunk.js.map"
+    "main.css": "/JobPortalFrontend/static/css/main.c8347f5a.css",
+    "main.js": "/JobPortalFrontend/static/js/main.1b69f9b1.js",
+    "static/js/592.bf6ca574.chunk.js": "/JobPortalFrontend/static/js/592.bf6ca574.chunk.js",
+    "static/media/design1.jpg": "/JobPortalFrontend/static/media/design1.c75aac530b411960bb09.jpg",
+    "static/media/homebaground.jpg": "/JobPortalFrontend/static/media/homebaground.1bb11bfab7109d2f28f1.jpg",
+    "static/media/img.png": "/JobPortalFrontend/static/media/img.de55db2dbad5fb706077.png",
+    "static/media/JL logo design.jpg": "/JobPortalFrontend/static/media/JL logo design.339d57f332f31dbe99bc.jpg",
+    "static/media/google-icon.svg": "/JobPortalFrontend/static/media/google-icon.15b6cb611e2ef4ea86dc62873e5c6db5.svg",
+    "index.html": "/JobPortalFrontend/index.html",
+    "main.c8347f5a.css.map": "/JobPortalFrontend/static/css/main.c8347f5a.css.map",
+    "main.1b69f9b1.js.map": "/JobPortalFrontend/static/js/main.1b69f9b1.js.map",
+    "592.bf6ca574.chunk.js.map": "/JobPortalFrontend/static/js/592.bf6ca574.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1ba176f6.css",
-    "static/js/main.c35c6b64.js"
+    "static/css/main.c8347f5a.css",
+    "static/js/main.1b69f9b1.js"
   ]
 }
