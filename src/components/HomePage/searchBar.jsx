@@ -692,7 +692,7 @@ const SearchBar = ({ isJobSearchPage }) => {
 
   // using user context
   const { oneData, setData } = useContext(UserContext);
-  const { searchJob, setsearchJob } = useContext(UserContext);
+  const { searchJob, setsearchJob,setCompanyList } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   console.log(searchJob, '=======>user context true');
   const handleSearch = async () => {
@@ -757,6 +757,7 @@ const SearchBar = ({ isJobSearchPage }) => {
 
         if (searchJob !== null) {
           setsearchJob(searchResponse)
+          setCompanyList(false)
 
         } else {
 

@@ -53,6 +53,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
+          <Route index path="/" element={<Home />} />
           <Route index path="/home" element={<Home />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/signup" element={<SignUp1 />} />
