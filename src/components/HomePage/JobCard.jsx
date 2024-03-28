@@ -42,9 +42,9 @@ export const JobCard = () => {
       }
       const message = response.data.message; 
       navigate('/Filter');
-      setTimeout(() => {
-        alert(message);
-      }, 1000); // Delay alert by 1 second
+      // setTimeout(() => {
+      //   alert(message);
+      // }, 1000); // Delay alert by 1 second
     } catch (error) {
       console.error('Error:', error);
     }

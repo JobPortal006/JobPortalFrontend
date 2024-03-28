@@ -790,7 +790,9 @@ const SearchBar = ({ isJobSearchPage }) => {
     <>
 
       <div className={isJobSearchPage ? classes.jobSearchRoot : classes.root}>
-        <p className='lineFour'>Discover 50 lakh+ career opportunities</p>
+        {/* <p className='lineFour'>Discover 50 lakh+ career opportunities</p> */}
+        <p className='lineFour'>Discover Your Dream Job Here...</p>
+
         <div className={isJobSearchPage ? classes.jobSearchContainer : classes.searchContainer}>
 
           <Autocomplete

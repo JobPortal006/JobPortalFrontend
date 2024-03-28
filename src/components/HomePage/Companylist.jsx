@@ -380,11 +380,11 @@ const Companylist = () => {
       }
 
       if (data.status !== true) {
-        alert('Failed to send data to the server');
+        alert('Job not Post yet');
       } else {
         navigate('/Filter');
       }
-      setcompanyList(data);
+      // setcompanyList(data);
     } catch (error) {
       console.error('Error:', error);
     } finally {
