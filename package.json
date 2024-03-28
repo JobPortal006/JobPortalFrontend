@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "description": "project description",
-  "homepage": "https://jobportal006.github.io/JobPortalFrontend/",
   "dependencies": {
     "@date-io/date-fns": "^2.17.0",
     "@emotion/react": "^11.11.3",
