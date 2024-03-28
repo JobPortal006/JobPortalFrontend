@@ -2065,7 +2065,7 @@ const UserForm = () => {
 
         fetchLocations();
         fetchSkills();
-    }, []);  
+    }, []);
 
     // const handleJobPreferenceChange = (event, value, reason) => {
     //     setErrors({
@@ -2103,9 +2103,9 @@ const UserForm = () => {
                 [field]: '',
             },
         });
-   
+
         let updatedJobPreference = { ...jobPreference };
-   
+
         if (reason === 'clear') {
             // Clearing the selected value
             updatedJobPreference = {
@@ -2126,10 +2126,10 @@ const UserForm = () => {
                 };
             }
         }
-   
+
         setJobPreference(updatedJobPreference);
     };
-   
+
     // Handle profile picture upload
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
@@ -2372,7 +2372,7 @@ const UserForm = () => {
             <form ref={formRef} onSubmit={handleSubmit} >
                 {/* User Details Accordion */}
                 <div className='user_details1'>
-                    <AccordionWrapper expanded={userDetailsExpanded} onChange={handleUserDetailsExpand} style={{border:"2px solid #a2beda",borderRadius:"10px",marginTop:"5px"}}>
+                    <AccordionWrapper expanded={userDetailsExpanded} onChange={handleUserDetailsExpand} style={{ border: "2px solid #a2beda", borderRadius: "10px", marginTop: "5px" }}>
                         <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}>
                             <Typography variant="h4"
                                 color="#1A237E" fontSize="22px"
@@ -2446,7 +2446,7 @@ const UserForm = () => {
                                         helperText={errors.last_name}
                                         className='input-box'
                                     />
-                                    <TextField 
+                                    <TextField
                                         // label= {UserFormData[language].UserDetail.six}
 
                                         name="date_of_birth"
@@ -2477,7 +2477,7 @@ const UserForm = () => {
                                         error={Boolean(errors.date_of_birth)}
                                         helperText={errors.date_of_birth}
                                         className='input-box'
-                                        // style={{border:"2px solid #1A237E"}}
+                                    // style={{border:"2px solid #1A237E"}}
 
 
                                     />
@@ -2497,7 +2497,7 @@ const UserForm = () => {
 
 
                                     /> */}
-                                     <Select
+                                    <Select
                                         name="gender"
                                         value={userDetails.gender}
                                         onChange={handleUserDetailsChange}
@@ -2508,8 +2508,8 @@ const UserForm = () => {
                                         className='user_details_gender input-box' // Merged className attributes
                                         sx={{
                                             marginTop: '8px',
-                                            marginBottom:"5px",
-                                            height:"58px",
+                                            marginBottom: "5px",
+                                            height: "58px",
                                             borderRadius: "10px",
                                             border: "2px solid #a2beda", // Set initial border color
                                             '&:hover': {
@@ -2530,13 +2530,13 @@ const UserForm = () => {
                                             },
                                         }}
                                     >
-                                        <MenuItem className="menu-item11" style={{border:"2px solid #a2beda",borderRadius:"7px",margin:"5px"}} value="" disabled>{UserFormData[language].UserDetail.twelve}</MenuItem>
-                                        <MenuItem className="menu-item11" style={{border:"2px solid #a2beda",borderRadius:"7px",margin:"5px",backgroundColor:"white"}} value="male">{UserFormData[language].UserDetail.fourteen}</MenuItem>
-                                        <MenuItem className="menu-item11" style={{border:"2px solid #a2beda",borderRadius:"7px",margin:"5px"}} value="female">{UserFormData[language].UserDetail.sixteen}</MenuItem>
-                                        <MenuItem className="menu-item11" style={{border:"2px solid #a2beda",borderRadius:"7px",margin:"5px"}} value="other">{UserFormData[language].UserDetail.eighteen}</MenuItem>
+                                        <MenuItem className="menu-item11" style={{ border: "2px solid #a2beda", borderRadius: "7px", margin: "5px" }} value="" disabled>{UserFormData[language].UserDetail.twelve}</MenuItem>
+                                        <MenuItem className="menu-item11" style={{ border: "2px solid #a2beda", borderRadius: "7px", margin: "5px", backgroundColor: "white" }} value="male">{UserFormData[language].UserDetail.fourteen}</MenuItem>
+                                        <MenuItem className="menu-item11" style={{ border: "2px solid #a2beda", borderRadius: "7px", margin: "5px" }} value="female">{UserFormData[language].UserDetail.sixteen}</MenuItem>
+                                        <MenuItem className="menu-item11" style={{ border: "2px solid #a2beda", borderRadius: "7px", margin: "5px" }} value="other">{UserFormData[language].UserDetail.eighteen}</MenuItem>
                                     </Select>
 
-                            <label htmlFor="profile-picture-input" style={{ color: '#1A237E', cursor: 'pointer', marginBottom: '10px', display: 'block' }}>
+                                    <label htmlFor="profile-picture-input" style={{ color: '#1A237E', cursor: 'pointer', marginBottom: '10px', display: 'block' }}>
                                         {UserFormData[language].UserDetail.twenty}
                                     </label>
                                     <div style={{ display: 'flex' }}>
@@ -2551,27 +2551,27 @@ const UserForm = () => {
                                             }}
                                         />
                                         <label htmlFor="profile-picture-input">
-                                        <IconButton
-                                        component="span"
-                                        size="small"
-                                        sx={{
-                                            border: '2px solid #a2beda',
-                                            borderRadius: '10px',
-                                            padding: '10px',
-                                            '&:hover': {
-                                                borderColor: '#1A237E', // Change border color on hover
-                                            },
-                                            '& svg': {
-                                                fontSize: '50px', // Increase icon size
-                                                color: '#1A237E' // Change icon color
-                                            }
-                                        }}
-                                    >
-                                        <CloudUploadIcon />
-                                        {profilePicture && profilePicture.name && (
-                                            <span style={{ marginLeft: '5px' }}>{profilePicture.name}</span>
-                                        )}
-                                    </IconButton>
+                                            <IconButton
+                                                component="span"
+                                                size="small"
+                                                sx={{
+                                                    border: '2px solid #a2beda',
+                                                    borderRadius: '10px',
+                                                    padding: '10px',
+                                                    '&:hover': {
+                                                        borderColor: '#1A237E', // Change border color on hover
+                                                    },
+                                                    '& svg': {
+                                                        fontSize: '50px', // Increase icon size
+                                                        color: '#1A237E' // Change icon color
+                                                    }
+                                                }}
+                                            >
+                                                <CloudUploadIcon />
+                                                {profilePicture && profilePicture.name && (
+                                                    <span style={{ marginLeft: '5px' }}>{profilePicture.name}</span>
+                                                )}
+                                            </IconButton>
                                         </label>
                                         {profilePicture && (
                                             <div style={{ marginLeft: '10px' }}>
@@ -2591,12 +2591,12 @@ const UserForm = () => {
                                 </Grid>
                             </Grid>
 
-                           
+
                         </AccordionDetails>
                     </AccordionWrapper>
                 </div>
                 {/* Address Accordion */}
-                <AccordionWrapper className='user_details1' expanded={addressExpanded} onChange={handleAddressExpand} style={{border:"2px solid #a2beda",borderRadius:"10px"}}>
+                <AccordionWrapper className='user_details1' expanded={addressExpanded} onChange={handleAddressExpand} style={{ border: "2px solid #a2beda", borderRadius: "10px" }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}>
                         <Typography variant="h6"
                             color="#1A237E" fontSize="25px"
@@ -2913,7 +2913,7 @@ const UserForm = () => {
 
                 {/* Educatiom Accordion */}
 
-                <AccordionWrapper expanded={educationExpanded} onChange={handleEducationExpand} className='education' style={{border:"2px solid #a2beda",borderRadius:"10px"}}>
+                <AccordionWrapper expanded={educationExpanded} onChange={handleEducationExpand} className='education' style={{ border: "2px solid #a2beda", borderRadius: "10px" }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}> <Typography variant="h6"
                         color="#1A237E" fontSize="25px"
                         fontWeight="bold" textTransform="uppercase">Education details</Typography></AccordionSummary>
@@ -2960,7 +2960,7 @@ const UserForm = () => {
                                     margin="dense"
                                     required
                                     error={Boolean(errors.sslc_start_year)}
-                                    helperText={errors.sslc_start_year}sx={{
+                                    helperText={errors.sslc_start_year} sx={{
                                         '& .MuiOutlinedInput-root': {
                                             borderRadius: '10px', // Set border radius
                                             '& fieldset': {
@@ -3158,9 +3158,9 @@ const UserForm = () => {
                                     }}
                                 />
                             </Grid>
-                                <Typography sx={{ width: '100%' }} variant="h6"
-                                    color="#1A237E" fontSize="25px" style={{ marginTop:"15px",backgroundColor: "#a2beda",padding:"15px",borderRadius:"10px" ,margin:"10px 0 10px 17px", marginBottom:"-10px"}}
-                                    fontWeight="bold" textTransform="uppercase" >UG Details:</Typography>
+                            <Typography sx={{ width: '100%' }} variant="h6"
+                                color="#1A237E" fontSize="25px" style={{ marginTop: "15px", backgroundColor: "#a2beda", padding: "15px", borderRadius: "10px", margin: "10px 0 10px 17px", marginBottom: "-10px" }}
+                                fontWeight="bold" textTransform="uppercase" >UG Details:</Typography>
                             <Grid item xs={12} sm={6}>
                                 {/* Third Column */}
                                 <TextField
@@ -3356,14 +3356,14 @@ const UserForm = () => {
                                         name="education_type"
                                         value={education.education_type}
                                         onChange={handleEducationChange}
-                                        
+
                                     >
                                         <FormControlLabel
                                             className='pg_button1'
                                             value="pg"
                                             control={<Radio />}
                                             label="PG"
-                                            
+
                                         />
                                         <FormControlLabel
                                             className='pg_button2'
@@ -3748,7 +3748,7 @@ const UserForm = () => {
                     expanded={professionalDetailsExpanded}
                     className='professional_details'
                     onChange={() => setProfessionalDetailsExpanded(!professionalDetailsExpanded)}
-                    style={{border:"2px solid #a2beda",borderRadius:"10px"}}
+                    style={{ border: "2px solid #a2beda", borderRadius: "10px" }}
                 >
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}>
                         <Typography variant="h6"
@@ -3769,7 +3769,7 @@ const UserForm = () => {
                                         className='fresher'
                                     />
                                     &nbsp; Fresher
-                                </label> <br/>
+                                </label> <br />
                                 <label className="experience-label">
                                     <input
                                         type="radio"
@@ -3820,7 +3820,7 @@ const UserForm = () => {
                                     {Array.from({ length: Number(professionalDetails.numberOfCompanies) || 0 }).map(
                                         (_, index) => (
                                             <Grid item xs={12} key={index}>
-                                                <Typography variant="subtitle1" style={{color:"#1A237E", backgroundColor: "#a2beda",padding:"15px",borderRadius:"10px" , marginBottom:"10px"}}>Company {index + 1}</Typography>
+                                                <Typography variant="subtitle1" style={{ color: "#1A237E", backgroundColor: "#a2beda", padding: "15px", borderRadius: "10px", marginBottom: "10px" }}>Company {index + 1}</Typography>
                                                 <TextField
                                                     label="Company Name"
                                                     name="company_name"
@@ -3935,7 +3935,7 @@ const UserForm = () => {
                     </AccordionDetails>
                 </AccordionWrapper>
                 {/* job preference */}
-                <AccordionWrapper expanded={jobPreferenceExpanded} onChange={handlejobPreferenceExpand} className='job_preference' style={{border:"2px solid #a2beda",borderRadius:"10px"}}>
+                <AccordionWrapper expanded={jobPreferenceExpanded} onChange={handlejobPreferenceExpand} className='job_preference' style={{ border: "2px solid #a2beda", borderRadius: "10px" }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}> <Typography variant="h6"
                         color="#1A237E" fontSize="25px"
                         fontWeight="bold" textTransform="uppercase">Job Preference</Typography></AccordionSummary>
@@ -3998,7 +3998,7 @@ const UserForm = () => {
                         </Grid> */}
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
-                            {/* <TextField
+                                {/* <TextField
                     label="Key-skills"
                     name="key_skills"
                     value={jobPreference.key_skills}
@@ -4010,7 +4010,7 @@ const UserForm = () => {
                     helperText={errors.jobPreference.key_skills}
                 /> */}
 
-              {/* <Autocomplete
+                                {/* <Autocomplete
                 multiple
                 options={skills}
                 getOptionLabel={(option) => option ? option.skill_set : ''}
@@ -4055,187 +4055,187 @@ const UserForm = () => {
                     return filtered;
                 }}
             /> */}
-            <Autocomplete
-                multiple
-                options={skills}
-                getOptionLabel={(option) => option ? option.skill_set : ''}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label="Key Skills"
-                        margin="dense"
-                        error={Boolean(errors.jobPreference.key_skills)}
-                        helperText={errors.jobPreference.key_skills}
-                        sx={{
-                            '& .MuiOutlinedInput-root': {
-                                borderRadius: '10px', // Set border radius
-                                '& fieldset': {
-                                    borderColor: '#a2beda', // Set border color
-                                    borderWidth: '2px' // Set border width
-                                },
-                                '&:hover fieldset': {
-                                    borderColor: '#1A237E', // Set border color on hover
-                                    borderWidth: '2px' // Set border width
-                                },
-                                '&.Mui-focused fieldset': {
-                                    borderColor: '#1A237E', // Set border color on focus
-                                    borderWidth: '2px' // Set border width
-                                },
-                            },
-                            color: "#1A237E" // Text color
-                        }}
-                    />
-                )}
-                value={jobPreference.key_skills.map(skill => ({ skill_set: skill }))} // Convert array of skill names to array of objects
-                onChange={handleJobPreferenceChange('key_skills')}
-                freeSolo // Allow typing new values
-                filterOptions={(options, params) => {
-                    const filtered = options.filter(
-                        (option) =>
-                            option.skill_set.toLowerCase().includes(params.inputValue.toLowerCase())
-                    );
-                    if (params.inputValue !== '' && !filtered.some(option => option.skill_set.toLowerCase() === params.inputValue.toLowerCase())) {
-                        filtered.push({ skill_set: params.inputValue }); // Add typed value if not present in options
-                    }
-                    return filtered;
-                }}
-                PaperComponent={({ children }) => (
-                    <Paper
-                        sx={{
-                            backgroundColor: '#E8EAF6', // Background color
-                            border: '1px solid #1A237E', // Border color
-                            borderRadius: '10px', // Border radius
-                        }}
-                    >
-                        {children}
-                    </Paper>
-                )}
-            />
-                <TextField
-                    label="Industry"
-                    name="industry"
-                    value={jobPreference.industry}
-                    onChange={(event) => setJobPreference({...jobPreference, industry: event.target.value})}
-                    fullWidth
-                    margin="dense"
-                    required
-                    error={Boolean(errors.jobPreference.industry)}
-                    helperText={errors.jobPreference.industry}
-                    sx={{
-                        '& .MuiOutlinedInput-root': {
-                            borderRadius: '10px', // Set border radius
-                            '& fieldset': {
-                                borderColor: '#a2beda', // Set border color
-                                borderWidth: '2px' // Set border width
-                            },
-                            '&:hover fieldset': {
-                                borderColor: '#1A237E', // Set border color on hover
-                                borderWidth: '2px' // Set border width
-                            },
-                            '&.Mui-focused fieldset': {
-                                borderColor: '#1A237E', // Set border color on focus
-                                borderWidth: '2px' // Set border width
-                            },
-                        },
-                        color: "#1A237E" // Text color
-                    }}
-                />
+                                <Autocomplete
+                                    multiple
+                                    options={skills}
+                                    getOptionLabel={(option) => option ? option.skill_set : ''}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Key Skills"
+                                            margin="dense"
+                                            error={Boolean(errors.jobPreference.key_skills)}
+                                            helperText={errors.jobPreference.key_skills}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
+                                        />
+                                    )}
+                                    value={jobPreference.key_skills.map(skill => ({ skill_set: skill }))} // Convert array of skill names to array of objects
+                                    onChange={handleJobPreferenceChange('key_skills')}
+                                    freeSolo // Allow typing new values
+                                    filterOptions={(options, params) => {
+                                        const filtered = options.filter(
+                                            (option) =>
+                                                option.skill_set.toLowerCase().includes(params.inputValue.toLowerCase())
+                                        );
+                                        if (params.inputValue !== '' && !filtered.some(option => option.skill_set.toLowerCase() === params.inputValue.toLowerCase())) {
+                                            filtered.push({ skill_set: params.inputValue }); // Add typed value if not present in options
+                                        }
+                                        return filtered;
+                                    }}
+                                    PaperComponent={({ children }) => (
+                                        <Paper
+                                            sx={{
+                                                backgroundColor: '#E8EAF6', // Background color
+                                                border: '1px solid #1A237E', // Border color
+                                                borderRadius: '10px', // Border radius
+                                            }}
+                                        >
+                                            {children}
+                                        </Paper>
+                                    )}
+                                />
+                                <TextField
+                                    label="Industry"
+                                    name="industry"
+                                    value={jobPreference.industry}
+                                    onChange={(event) => setJobPreference({ ...jobPreference, industry: event.target.value })}
+                                    fullWidth
+                                    margin="dense"
+                                    required
+                                    error={Boolean(errors.jobPreference.industry)}
+                                    helperText={errors.jobPreference.industry}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                            <TextField
-                    label="Department"
-                    name="department"
-                    value={jobPreference.department}
-                    onChange={(event) => setJobPreference({...jobPreference, department: event.target.value})}
-                    fullWidth
-                    margin="dense"
-                    required
-                    error={Boolean(errors.jobPreference.department)}
-                    helperText={errors.jobPreference.department}
-                    sx={{
-                        '& .MuiOutlinedInput-root': {
-                            borderRadius: '10px', // Set border radius
-                            '& fieldset': {
-                                borderColor: '#a2beda', // Set border color
-                                borderWidth: '2px' // Set border width
-                            },
-                            '&:hover fieldset': {
-                                borderColor: '#1A237E', // Set border color on hover
-                                borderWidth: '2px' // Set border width
-                            },
-                            '&.Mui-focused fieldset': {
-                                borderColor: '#1A237E', // Set border color on focus
-                                borderWidth: '2px' // Set border width
-                            },
-                        },
-                        color: "#1A237E" // Text color
-                    }}
-                />
-                      <div>
-                    {loading ? (
-                        <CircularProgress />
-                    ) : (
-                        <Autocomplete
-                        multiple
-                        options={locations}
-                        getOptionLabel={(option) => option ? option.location : ''}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                label="Preferred Locations"
-                                margin="dense"
-                                error={Boolean(errors.jobPreference.prefered_locations)}
-                                helperText={errors.jobPreference.prefered_locations}
-                                sx={{
-                                    '& .MuiOutlinedInput-root': {
-                                        borderRadius: '10px', // Set border radius
-                                        '& fieldset': {
-                                            borderColor: '#a2beda', // Set border color
-                                            borderWidth: '2px' // Set border width
+                                <TextField
+                                    label="Department"
+                                    name="department"
+                                    value={jobPreference.department}
+                                    onChange={(event) => setJobPreference({ ...jobPreference, department: event.target.value })}
+                                    fullWidth
+                                    margin="dense"
+                                    required
+                                    error={Boolean(errors.jobPreference.department)}
+                                    helperText={errors.jobPreference.department}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
                                         },
-                                        '&:hover fieldset': {
-                                            borderColor: '#1A237E', // Set border color on hover
-                                            borderWidth: '2px' // Set border width
-                                        },
-                                        '&.Mui-focused fieldset': {
-                                            borderColor: '#1A237E', // Set border color on focus
-                                            borderWidth: '2px' // Set border width
-                                        },
-                                    },
-                                    color: "#1A237E" // Text color
-                                }}
-                            />
-                        )}
-                        value={jobPreference.prefered_locations.map(location => ({ location }))} // Convert array of location names to array of objects
-                        onChange={handleJobPreferenceChange('prefered_locations')}
-                        freeSolo // Allow typing new values
-                        filterOptions={(options, params) => {
-                            const filtered = options.filter(
-                                (option) =>
-                                    option.location.toLowerCase().includes(params.inputValue.toLowerCase())
-                            );
-                            if (params.inputValue !== '' && !filtered.some(option => option.location.toLowerCase() === params.inputValue.toLowerCase())) {
-                                filtered.push({ location: params.inputValue }); // Add typed value if not present in options
-                            }
-                            return filtered;
-                        }}
-                        PaperComponent={({ children }) => (
-                            <Paper
-                                sx={{
-                                    backgroundColor: '#E8EAF6', // Background color
-                                    border: '1px solid #1A237E', // Border color
-                                    borderRadius: '10px', // Border radius
-                                    // '&:hover': {
-                                    //     backgroundColor: '#BDBDBD', // Mouse-over background color
-                                    // },
-                                }}
-                            >
-                                {children}
-                            </Paper>
-                        )}
-                    />
-                    )}
-                </div>
+                                        color: "#1A237E" // Text color
+                                    }}
+                                />
+                                <div>
+                                    {loading ? (
+                                        <CircularProgress />
+                                    ) : (
+                                        <Autocomplete
+                                            multiple
+                                            options={locations}
+                                            getOptionLabel={(option) => option ? option.location : ''}
+                                            renderInput={(params) => (
+                                                <TextField
+                                                    {...params}
+                                                    label="Preferred Locations"
+                                                    margin="dense"
+                                                    error={Boolean(errors.jobPreference.prefered_locations)}
+                                                    helperText={errors.jobPreference.prefered_locations}
+                                                    sx={{
+                                                        '& .MuiOutlinedInput-root': {
+                                                            borderRadius: '10px', // Set border radius
+                                                            '& fieldset': {
+                                                                borderColor: '#a2beda', // Set border color
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                            '&:hover fieldset': {
+                                                                borderColor: '#1A237E', // Set border color on hover
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                            '&.Mui-focused fieldset': {
+                                                                borderColor: '#1A237E', // Set border color on focus
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                        },
+                                                        color: "#1A237E" // Text color
+                                                    }}
+                                                />
+                                            )}
+                                            value={jobPreference.prefered_locations.map(location => ({ location }))} // Convert array of location names to array of objects
+                                            onChange={handleJobPreferenceChange('prefered_locations')}
+                                            freeSolo // Allow typing new values
+                                            filterOptions={(options, params) => {
+                                                const filtered = options.filter(
+                                                    (option) =>
+                                                        option.location.toLowerCase().includes(params.inputValue.toLowerCase())
+                                                );
+                                                if (params.inputValue !== '' && !filtered.some(option => option.location.toLowerCase() === params.inputValue.toLowerCase())) {
+                                                    filtered.push({ location: params.inputValue }); // Add typed value if not present in options
+                                                }
+                                                return filtered;
+                                            }}
+                                            PaperComponent={({ children }) => (
+                                                <Paper
+                                                    sx={{
+                                                        backgroundColor: '#E8EAF6', // Background color
+                                                        border: '1px solid #1A237E', // Border color
+                                                        borderRadius: '10px', // Border radius
+                                                        // '&:hover': {
+                                                        //     backgroundColor: '#BDBDBD', // Mouse-over background color
+                                                        // },
+                                                    }}
+                                                >
+                                                    {children}
+                                                </Paper>
+                                            )}
+                                        />
+                                    )}
+                                </div>
                             </Grid>
                         </Grid>
 
@@ -4243,7 +4243,7 @@ const UserForm = () => {
                 </AccordionWrapper>
 
                 {/* Resume Accordion */}
-                <ResumeAccordionWrapper expanded={resumeExpanded} onChange={handleResumeExpand} style={{border:"2px solid #a2beda",borderRadius:"10px"}}>
+                <ResumeAccordionWrapper expanded={resumeExpanded} onChange={handleResumeExpand} style={{ border: "2px solid #a2beda", borderRadius: "10px" }}>
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}>
                         <Typography variant="h6"
                             color="#1A237E" fontSize="25px"
@@ -4251,7 +4251,7 @@ const UserForm = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                         {/* <Grid container spacing={2}> */}
-                            {/* <Grid item xs={12} sm={6}>
+                        {/* <Grid item xs={12} sm={6}>
                                 <label htmlFor="resume-input">Upload Resume:</label>
                                 <Input
                                     type="file"
@@ -4274,61 +4274,61 @@ const UserForm = () => {
                                     </div>
                                 )}
                             </Grid> */}
-                            <label htmlFor="resume-input" style={{ color: '#1A237E', cursor: 'pointer', display: 'block', marginBottom: "10px" }}>
-                                            Upload Resume:
-                                        </label>
-                                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                                            <input
-                                                type="file"
-                                                accept=".pdf,.doc,.docx"
-                                                onChange={handleResumeChange}
-                                                margin="dense"
-                                                id="resume-input"
-                                                style={{
-                                                    display: 'none',
-                                                }}
-                                            />
-                                            <label htmlFor="resume-input">
-                                                <IconButton
-                                                    component="span"
-                                                    size="small"
-                                                    sx={{
-                                                        border: '2px solid #a2beda',
-                                                        borderRadius: '10px',
-                                                        padding: '10px',
-                                                        '&:hover': {
-                                                            borderColor: '#1A237E', // Change border color on hover
-                                                        },
-                                                        '& svg': {
-                                                            fontSize: '50px', // Increase icon size
-                                                            color: '#1A237E' // Change icon color
-                                                        }
-                                                    }}
-                                                >
-                                                    <FaFileUpload />
-                                                    {resume && resume.name && (
-                                                        <span style={{ marginLeft: '5px' }}>{resume.name}</span>
-                                                    )}
-                                                </IconButton>
-                                            </label>
-                                            {resume && resume.name && (
-                                            <div style={{ marginLeft: '10px' }}>
-                                                <div
-                                                variant="contained"
-                                                onClick={handleRemoveResume}
-                                                className='resumeButton'
-                                                style={{
-                                                    border: '2px solid #a2beda',
-                                                    borderRadius: '10px',
-                                                    padding: '10px',
-                                                    cursor: 'pointer', // Change cursor on hover
-                                                }}
-                                            >
-                                                Remove Resume
-                                            </div>
-                                            </div>
-                                        )}
-                                        </div>
+                        <label htmlFor="resume-input" style={{ color: '#1A237E', cursor: 'pointer', display: 'block', marginBottom: "10px" }}>
+                            Upload Resume:
+                        </label>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <input
+                                type="file"
+                                accept=".pdf,.doc,.docx"
+                                onChange={handleResumeChange}
+                                margin="dense"
+                                id="resume-input"
+                                style={{
+                                    display: 'none',
+                                }}
+                            />
+                            <label htmlFor="resume-input">
+                                <IconButton
+                                    component="span"
+                                    size="small"
+                                    sx={{
+                                        border: '2px solid #a2beda',
+                                        borderRadius: '10px',
+                                        padding: '10px',
+                                        '&:hover': {
+                                            borderColor: '#1A237E', // Change border color on hover
+                                        },
+                                        '& svg': {
+                                            fontSize: '50px', // Increase icon size
+                                            color: '#1A237E' // Change icon color
+                                        }
+                                    }}
+                                >
+                                    <FaFileUpload />
+                                    {resume && resume.name && (
+                                        <span style={{ marginLeft: '5px' }}>{resume.name}</span>
+                                    )}
+                                </IconButton>
+                            </label>
+                            {resume && resume.name && (
+                                <div style={{ marginLeft: '10px' }}>
+                                    <div
+                                        variant="contained"
+                                        onClick={handleRemoveResume}
+                                        className='resumeButton'
+                                        style={{
+                                            border: '2px solid #a2beda',
+                                            borderRadius: '10px',
+                                            padding: '10px',
+                                            cursor: 'pointer', // Change cursor on hover
+                                        }}
+                                    >
+                                        Remove Resume
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                         {/* </Grid> */}
                     </AccordionDetails>
                 </ResumeAccordionWrapper>
@@ -4343,20 +4343,20 @@ const UserForm = () => {
                         color="primary"
                         disabled={isLoading} // Disable button while loading
                         sx={{
-                            width:"180px",
+                            width: "180px",
                             borderRadius: '10px', // Rounded corners
                             padding: '7px 15px', // Padding
                             fontSize: '20px', // Font size
                             fontWeight: 'bold', // Bold font weight
                             textTransform: 'none', // Disable text transformation
                             boxShadow: 'none', // Disable box shadow
-                            marginBottom:"20px",
+                            marginBottom: "20px",
                             '&:hover': {
                                 backgroundColor: '#1A237E', // Change background color on hover
                             },
                         }}
                     >
-                     {isLoading ? 'Please wait, account is creating...' : 'Submit'}
+                        {isLoading ? 'Please wait, account is creating...' : 'Submit'}
                     </Button>
                 </div>
             </form>
