@@ -28,6 +28,7 @@ export const ApplyJob = ({ onClose }) => {
         noticePeriod: ''
     });
     const [error, setError] = useState('');
+    const [errorone, setErrorOne] = useState('');
     const [showExtraFields, setShowExtraFields] = useState(formData.additionalQueries);
     const [alreadyApplied, setAlreadyApplied] = useState(false); // New state for application status
 
@@ -104,13 +105,14 @@ export const ApplyJob = ({ onClose }) => {
 
     const handleApply = () => {
         // Make API request if additional_queries is True
-        // if (showExtraFields && (!formData.lastCTC || !formData.expectedSalary || !formData.totalExperience || !formData.noticePeriod)) {
-        //     setError('Please fill in all required fields.');
-        //     return;
-        // }
+        if (showExtraFields && (!formData.email || !formData.mobileNumber || !formData.resumePath || !formData.lastCTC || !formData.expectedSalary || !formData.totalExperience || !formData.noticePeriod)) {
+            setErrorOne('Please fill in all required fields.');
+            return;
+        }
         if (showExtraFields) {
             const formDataForUpload = new FormData();
             const token = localStorage.getItem('loginToken');
+            setErrorOne('');
 
             formDataForUpload.append('email', formData.email);
             formDataForUpload.append('mobile_number', formData.mobileNumber);
@@ -219,6 +221,7 @@ export const ApplyJob = ({ onClose }) => {
 
             {showExtraFields === "Yes" && (
                 <>
+                {errorone && <Typography color="error">{errorone}</Typography>}
                     <TextField
                         fullWidth
                         label="What is your last CTC?"

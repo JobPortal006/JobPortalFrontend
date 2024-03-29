@@ -241,7 +241,7 @@ export default function FixedContainer() {
                 <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '2%' }}>
                   {formLabels.formLabels.submitButton}
                 </Button>
-                <Divider variant="middle" sx={{ my: 3 }}>
+                {/* <Divider variant="middle" sx={{ my: 3 }}>
                   {formLabels.formLabels.dividerText}
                 </Divider>
                 <Button
@@ -253,7 +253,7 @@ export default function FixedContainer() {
                 >
                   <img src={GoogleLogo} alt="Google Logo" style={{ width: '5%', marginRight: '2%' }} />
                   {formLabels.formLabels.googleButton}
-                </Button>
+                </Button> */}
                 <Typography variant="body2" align="center" sx={{ marginTop: '10px' }}>
                   {formLabels.formLabels.haveAccountText} <Link to="/login">{formLabels.formLabels.signInLink}</Link>
                 </Typography>
