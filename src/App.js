@@ -47,6 +47,8 @@ function App() {
   const [jobData,setJobData ]  = useState(null);
   const [responseData, setResponseData] = useState(null);
   const [detailData,setDetailData ]  = useState(null);
+
+  console.log(process.env.REACT_APP_API, "env");
   return (
     <UserContext.Provider value={{oneData, setData,employerDetails, 
     setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData  }}>

@@ -226,7 +226,7 @@ const Navbar = () => {
   const logout = () => {
     localStorage.clear();
     navigate('/login');
-    window.location.reload();
+    // window.location.reload();
   };
 
   const CreateAccount = () => {

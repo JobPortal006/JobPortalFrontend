@@ -350,7 +350,7 @@ function MyJob() {
         // Display loading indicator while data is being fetched
         <div className="loading">
         <ul>         
-         <li style={{color:"red"}}>
+         <li style={{color:"red", marginTop:"-170px"}}>
           <HashLoader color="#5c6bc0" />
           </li>
           <li>Loading...!</li>

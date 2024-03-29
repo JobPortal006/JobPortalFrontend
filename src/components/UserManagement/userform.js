@@ -1,8 +1,3 @@
-
-
-
-
-
 // // ================================================================================================================================================================================================
 
 // import React, { useState, useRef ,useEffect } from 'react';
@@ -1531,7 +1526,7 @@
 //                 selectOnFocus
 //                 clearOnBlur
 //                 handleHomeEndKeys
-//             /> 
+//             />
 
 //             </Grid>
 //         </Grid>
@@ -1631,9 +1626,14 @@ import Radio from '@mui/material/Radio';
 import axios from 'axios';
 import UserFormData from '../Json/UserForm.json';
 import BASE_URL from '../CommonAPI';
+import "../UserManagement/userform.css";
 import { useNavigate } from 'react-router-dom';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { FaFileUpload } from "react-icons/fa";
+import { Paper } from '@mui/material'
 
 // Container styling
 const FormContainer = styled(Container)({
@@ -2103,9 +2103,9 @@ const UserForm = () => {
                 [field]: '',
             },
         });
-    
+   
         let updatedJobPreference = { ...jobPreference };
-    
+   
         if (reason === 'clear') {
             // Clearing the selected value
             updatedJobPreference = {
@@ -2126,10 +2126,10 @@ const UserForm = () => {
                 };
             }
         }
-    
+   
         setJobPreference(updatedJobPreference);
     };
-    
+   
     // Handle profile picture upload
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
@@ -2324,137 +2324,278 @@ const UserForm = () => {
             <Typography variant="h6"
                 color="#1A237E" fontSize="25px"
                 fontWeight="bold" textTransform="uppercase" align="center" gutterBottom>
-                {UserFormData[language].UserDetail.one}
+                {/* {UserFormData[language].UserDetail.one} */}
+                Register
             </Typography>
-            <select value={language} onChange={handleLanguageChange}>
-                <option value="en">English</option>
-                <option value="tamil">Tamil</option>
+            <select
+                value={language}
+                onChange={handleLanguageChange}
+                style={{
+                    border: '2px solid #a2beda', // Border color
+                    borderRadius: '10px', // Border radius
+                    padding: '8px', // Adjust padding as needed
+                    cursor: 'pointer', // Show pointer cursor on hover
+                    backgroundColor: '#fff', // Background color
+                }}
+            >
+                <option
+                    value="en"
+                    style={{
+                        backgroundColor: '#E8EAF6', // Background color for the option
+                        color: '#1A237E', // Text color for the option
+                        borderRadius: '2px', // Border radius for the option
+                    }}
+                >
+                    English
+                </option>
+                <option
+                    value="tamil"
+                    style={{
+                        backgroundColor: '#E8EAF6', // Background color for the option
+                        color: '#1A237E', // Text color for the option
+                        borderRadius: '2px', // Border radius for the option
+                    }}
+                >
+                    Tamil
+                </option>
             </select>
-
             <form ref={formRef} onSubmit={handleSubmit} >
                 {/* User Details Accordion */}
-                <AccordionWrapper expanded={userDetailsExpanded} onChange={handleUserDetailsExpand} className='user_details'>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography variant="h6"
-                            color="#1A237E" fontSize="25px"
-                            fontWeight="bold" textTransform="uppercase">{UserFormData[language].UserDetail.one}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                {/* First Column */}
-                                <TextField
-                                    label={UserFormData[language].UserDetail.two}
-                                    name="first_name"
-                                    value={userDetails.first_name}
-                                    onChange={handleUserDetailsChange}
-                                    fullWidth
-                                    margin="dense"
-                                    required
-                                    error={Boolean(errors.first_name)}
-                                    helperText={errors.first_name}
-
-                                />
-                                <TextField
-                                    label={UserFormData[language].UserDetail.four}
-                                    name="last_name"
-                                    value={userDetails.last_name}
-                                    onChange={handleUserDetailsChange}
-                                    fullWidth
-                                    margin="dense"
-                                    required
-                                    error={Boolean(errors.last_name)}
-                                    helperText={errors.last_name}
-
-
-                                />
-                                <TextField className='dob'
-                                    // label= {UserFormData[language].UserDetail.six}
-
-                                    name="date_of_birth"
-                                    type='date'
-                                    value={userDetails.date_of_birth}
-                                    onChange={handleUserDetailsChange}
-                                    fullWidth
-                                    margin="dense"
-                                    required
-                                    error={Boolean(errors.date_of_birth)}
-                                    helperText={errors.date_of_birth}
+                <div className='user_details1'>
+                    <AccordionWrapper expanded={userDetailsExpanded} onChange={handleUserDetailsExpand} style={{border:"2px solid #a2beda",borderRadius:"10px",marginTop:"5px"}}>
+                        <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}>
+                            <Typography variant="h4"
+                                color="#1A237E" fontSize="22px"
+                                fontWeight="bold" textTransform="uppercase">{UserFormData[language].UserDetail.one}</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    {/* First Column */}
+                                    <TextField
+                                        // label={UserFormData[language].UserDetail.two}
+                                        label={UserFormData[language].UserDetail.two}
+                                        name="first_name"
+                                        value={userDetails.first_name}
+                                        onChange={handleUserDetailsChange}
+                                        fullWidth
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                borderRadius: '10px', // Set border radius
+                                                '& fieldset': {
+                                                    borderColor: '#a2beda', // Set border color
+                                                    borderWidth: '2px' // Set border width
+                                                },
+                                                '&:hover fieldset': {
+                                                    borderColor: '#1A237E', // Set border color on hover
+                                                    borderWidth: '2px' // Set border width
+                                                },
+                                                '&.Mui-focused fieldset': {
+                                                    borderColor: '#1A237E', // Set border color on focus
+                                                    borderWidth: '2px' // Set border width
+                                                },
+                                            },
+                                            color: "#1A237E" // Text color
+                                        }}
+                                        margin="dense"
+                                        required
+                                        error={Boolean(errors.first_name)}
+                                        helperText={errors.first_name}
+                                        className='input-box'
+                                    />
 
 
-                                />
+                                    <TextField
+                                        // label={UserFormData[language].UserDetail.four}
+                                        label={UserFormData[language].UserDetail.four}
+                                        name="last_name"
+                                        value={userDetails.last_name}
+                                        onChange={handleUserDetailsChange}
+                                        fullWidth
+                                        margin="dense"
+                                        required
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                borderRadius: '10px', // Set border radius
+                                                '& fieldset': {
+                                                    borderColor: '#a2beda', // Set border color
+                                                    borderWidth: '2px' // Set border width
+                                                },
+                                                '&:hover fieldset': {
+                                                    borderColor: '#1A237E', // Set border color on hover
+                                                    borderWidth: '2px' // Set border width
+                                                },
+                                                '&.Mui-focused fieldset': {
+                                                    borderColor: '#1A237E', // Set border color on focus
+                                                    borderWidth: '2px' // Set border width
+                                                },
+                                            },
+                                            color: "#1A237E" // Text color
+                                        }}
+                                        error={Boolean(errors.last_name)}
+                                        helperText={errors.last_name}
+                                        className='input-box'
+                                    />
+                                    <TextField 
+                                        // label= {UserFormData[language].UserDetail.six}
+
+                                        name="date_of_birth"
+                                        type='date'
+                                        value={userDetails.date_of_birth}
+                                        onChange={handleUserDetailsChange}
+                                        fullWidth
+                                        sx={{
+                                            '& .MuiOutlinedInput-root': {
+                                                borderRadius: '10px', // Set border radius
+                                                '& fieldset': {
+                                                    borderColor: '#a2beda', // Set border color
+                                                    borderWidth: '2px' // Set border width
+                                                },
+                                                '&:hover fieldset': {
+                                                    borderColor: '#1A237E', // Set border color on hover
+                                                    borderWidth: '2px' // Set border width
+                                                },
+                                                '&.Mui-focused fieldset': {
+                                                    borderColor: '#1A237E', // Set border color on focus
+                                                    borderWidth: '2px' // Set border width
+                                                },
+                                            },
+                                            color: "#1A237E" // Text color
+                                        }}
+                                        margin="dense"
+                                        required
+                                        error={Boolean(errors.date_of_birth)}
+                                        helperText={errors.date_of_birth}
+                                        className='input-box'
+                                        // style={{border:"2px solid #1A237E"}}
+
+
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    {/* Second Column */}
+                                    {/* <TextField
+                                        label={UserFormData[language].UserDetail.eight}
+                                        name="email"
+                                        value={userDetails.email}
+                                        onChange={handleUserDetailsChange}
+                                        fullWidth
+                                        margin="dense"
+                                        required
+                                        error={Boolean(errors.email)}
+                                        helperText={errors.email}
+
+
+                                    /> */}
+                                     <Select
+                                        name="gender"
+                                        value={userDetails.gender}
+                                        onChange={handleUserDetailsChange}
+                                        fullWidth
+                                        displayEmpty
+                                        margin="dense"
+                                        required
+                                        className='user_details_gender input-box' // Merged className attributes
+                                        sx={{
+                                            marginTop: '8px',
+                                            marginBottom:"5px",
+                                            height:"58px",
+                                            borderRadius: "10px",
+                                            border: "2px solid #a2beda", // Set initial border color
+                                            '&:hover': {
+                                                borderColor: '#1A237E', // Change border color on hover
+                                            },
+                                            '&:active': {
+                                                borderColor: '#1A237E', // Change border color on active
+                                            },
+                                            '& .MuiOutlinedInput-notchedOutline': {
+                                                borderColor: 'transparent !important', // Ensure border color is transparent
+                                            },
+                                            '& .MuiListItem-root': {
+                                                backgroundColor: '#E8EAF6', // Background color for MenuItem
+                                                border: "1px solid #1A237E", // Border color for MenuItem
+                                                '&:hover': {
+                                                    backgroundColor: '#BDBDBD', // Change background color on hover
+                                                },
+                                            },
+                                        }}
+                                    >
+                                        <MenuItem className="menu-item11" style={{border:"2px solid #a2beda",borderRadius:"7px",margin:"5px"}} value="" disabled>{UserFormData[language].UserDetail.twelve}</MenuItem>
+                                        <MenuItem className="menu-item11" style={{border:"2px solid #a2beda",borderRadius:"7px",margin:"5px",backgroundColor:"white"}} value="male">{UserFormData[language].UserDetail.fourteen}</MenuItem>
+                                        <MenuItem className="menu-item11" style={{border:"2px solid #a2beda",borderRadius:"7px",margin:"5px"}} value="female">{UserFormData[language].UserDetail.sixteen}</MenuItem>
+                                        <MenuItem className="menu-item11" style={{border:"2px solid #a2beda",borderRadius:"7px",margin:"5px"}} value="other">{UserFormData[language].UserDetail.eighteen}</MenuItem>
+                                    </Select>
+
+                            <label htmlFor="profile-picture-input" style={{ color: '#1A237E', cursor: 'pointer', marginBottom: '10px', display: 'block' }}>
+                                        {UserFormData[language].UserDetail.twenty}
+                                    </label>
+                                    <div style={{ display: 'flex' }}>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handleProfilePictureChange}
+                                            margin="dense"
+                                            id="profile-picture-input"
+                                            style={{
+                                                display: 'none',
+                                            }}
+                                        />
+                                        <label htmlFor="profile-picture-input">
+                                        <IconButton
+                                        component="span"
+                                        size="small"
+                                        sx={{
+                                            border: '2px solid #a2beda',
+                                            borderRadius: '10px',
+                                            padding: '10px',
+                                            '&:hover': {
+                                                borderColor: '#1A237E', // Change border color on hover
+                                            },
+                                            '& svg': {
+                                                fontSize: '50px', // Increase icon size
+                                                color: '#1A237E' // Change icon color
+                                            }
+                                        }}
+                                    >
+                                        <CloudUploadIcon />
+                                        {profilePicture && profilePicture.name && (
+                                            <span style={{ marginLeft: '5px' }}>{profilePicture.name}</span>
+                                        )}
+                                    </IconButton>
+                                        </label>
+                                        {profilePicture && (
+                                            <div style={{ marginLeft: '10px' }}>
+                                                <Avatar
+                                                    alt="Profile Picture"
+                                                    src={URL.createObjectURL(profilePicture)}
+                                                    sx={{ width: 100, height: 100 }}
+                                                />
+                                                <Button color="secondary" onClick={handleRemoveProfilePicture}>
+                                                    Remove Picture
+                                                </Button>
+                                            </div>
+                                        )}
+                                    </div>
+
+
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                {/* Second Column */}
-                                {/* <TextField
-                                    label={UserFormData[language].UserDetail.eight}
-                                    name="email"
-                                    value={userDetails.email}
-                                    onChange={handleUserDetailsChange}
-                                    fullWidth
-                                    margin="dense"
-                                    required
-                                    error={Boolean(errors.email)}
-                                    helperText={errors.email}
 
-
-                                /> */}
-                                <Select
-                                    label="gender"
-                                    name="gender"
-                                    value={userDetails.gender}
-                                    onChange={handleUserDetailsChange}
-                                    fullWidth
-                                    displayEmpty
-                                    margin="dense"
-                                    required
-                                    className='user_details_gender'
-                                    style={{ marginTop: '9px' }}
-
-                                >
-                                    <MenuItem value="" disabled>{UserFormData[language].UserDetail.twelve}</MenuItem>
-                                    <MenuItem className='male' value="male">{UserFormData[language].UserDetail.fourteen}</MenuItem>
-                                    <MenuItem value="female">{UserFormData[language].UserDetail.sixteen}</MenuItem>
-                                    <MenuItem value="other">{UserFormData[language].UserDetail.eighteen}</MenuItem>
-                                </Select>
-                                <label htmlFor="profile-picture-input">{UserFormData[language].UserDetail.twenty}</label>
-                                <br></br>
-                                <Input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleProfilePictureChange}
-                                    margin="dense"
-                                    id="profile-picture-input"
-                                />
-                            </Grid>
-                        </Grid>
-
-                        {profilePicture && (
-                            <div>
-                                <Avatar
-                                    alt="Profile Picture"
-                                    src={URL.createObjectURL(profilePicture)}
-                                    sx={{ width: 100, height: 100, marginTop: 2 }}
-                                />
-                                <Button color="secondary" onClick={handleRemoveProfilePicture}>
-                                    Remove Picture
-                                </Button>
-                            </div>
-                        )}
-                    </AccordionDetails>
-                </AccordionWrapper>
-
+                           
+                        </AccordionDetails>
+                    </AccordionWrapper>
+                </div>
                 {/* Address Accordion */}
-                <AccordionWrapper className='address_accordion' expanded={addressExpanded} onChange={handleAddressExpand}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <AccordionWrapper className='user_details1' expanded={addressExpanded} onChange={handleAddressExpand} style={{border:"2px solid #a2beda",borderRadius:"10px"}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}>
                         <Typography variant="h6"
                             color="#1A237E" fontSize="25px"
                             fontWeight="bold" textTransform="uppercase">Address</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Typography variant="h6"
+                        {/* <Typography variant="h6"
                             color="#1A237E" fontSize="25px"
-                            fontWeight="bold" textTransform="uppercase"> Permanent and current Address:</Typography>
+                            fontWeight="bold" textTransform="uppercase"> Permanent and current Address:</Typography> */}
 
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6} >
@@ -2469,6 +2610,25 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.permanent && errors.permanent.street)}
                                     helperText={errors.permanent && errors.permanent.street}
+                                    className='input-box'
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label=" Parmanent City"
@@ -2480,6 +2640,25 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.permanent && errors.permanent.city)}
                                     helperText={errors.permanent && errors.permanent.city}
+                                    className='input-box'
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="Parmanent pincode"
@@ -2491,6 +2670,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.permanent && errors.permanent.pincode)}
                                     helperText={errors.permanent && errors.permanent.pincode}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
 
                                 <TextField
@@ -2503,6 +2700,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.permanent && errors.permanent.country)}
                                     helperText={errors.permanent && errors.permanent.country}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="Parmanent State"
@@ -2514,12 +2729,30 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.permanent && errors.permanent.state)}
                                     helperText={errors.permanent && errors.permanent.state}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
 
                             </Grid>
                             <Grid item xs={12} sm={6} >
                                 {/* <Typography variant="h6"
-                                    color="#1A237E" fontSize="25px"
+                                    color="#a2beda" fontSize="25px"
                                     fontWeight="bold" textTransform="uppercase">Current Address</Typography> */}
                                 <TextField
                                     label="Current Street"
@@ -2530,6 +2763,24 @@ const UserForm = () => {
                                     margin="dense"
                                     error={Boolean(errors.current && errors.current.street)}
                                     helperText={errors.current && errors.current.street}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="Current City"
@@ -2540,6 +2791,24 @@ const UserForm = () => {
                                     margin="dense"
                                     error={Boolean(errors.current && errors.current.city)}
                                     helperText={errors.current && errors.current.city}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="Current Pincode"
@@ -2550,6 +2819,24 @@ const UserForm = () => {
                                     margin="dense"
                                     error={Boolean(errors.current && errors.current.pincode)}
                                     helperText={errors.current && errors.current.pincode}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
 
                                 <TextField
@@ -2561,6 +2848,24 @@ const UserForm = () => {
                                     margin="dense"
                                     error={Boolean(errors.current && errors.current.country)}
                                     helperText={errors.current && errors.current.country}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="Current State"
@@ -2571,6 +2876,24 @@ const UserForm = () => {
                                     margin="dense"
                                     error={Boolean(errors.current && errors.current.state)}
                                     helperText={errors.current && errors.current.state}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
 
                             </Grid>
@@ -2580,8 +2903,8 @@ const UserForm = () => {
 
                 {/* Educatiom Accordion */}
 
-                <AccordionWrapper expanded={educationExpanded} onChange={handleEducationExpand} className='education'>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6"
+                <AccordionWrapper expanded={educationExpanded} onChange={handleEducationExpand} className='education' style={{border:"2px solid #a2beda",borderRadius:"10px"}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}> <Typography variant="h6"
                         color="#1A237E" fontSize="25px"
                         fontWeight="bold" textTransform="uppercase">Education details</Typography></AccordionSummary>
                     <AccordionDetails>
@@ -2599,6 +2922,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.sslc_school_name)}
                                     helperText={errors.sslc_school_name}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="SSLC-start-year"
@@ -2609,7 +2950,24 @@ const UserForm = () => {
                                     margin="dense"
                                     required
                                     error={Boolean(errors.sslc_start_year)}
-                                    helperText={errors.sslc_start_year}
+                                    helperText={errors.sslc_start_year}sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="SSLC-end-year"
@@ -2621,6 +2979,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.sslc_end_year)}
                                     helperText={errors.sslc_end_year}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="SSLC-percentage"
@@ -2632,6 +3008,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.sslc_percentage)}
                                     helperText={errors.sslc_percentage}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                             </Grid>
 
@@ -2647,6 +3041,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.hsc_school_name)}
                                     helperText={errors.hsc_school_name}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="HSC-start-year"
@@ -2658,6 +3070,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.hsc_start_year)}
                                     helperText={errors.hsc_start_year}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="HSC-end-year"
@@ -2669,6 +3099,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.hsc_end_year)}
                                     helperText={errors.hsc_end_year}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="HSC-percentage"
@@ -2680,12 +3128,30 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.hsc_percentage)}
                                     helperText={errors.hsc_percentage}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={6}>
                                 <Typography sx={{ width: '100%' }} variant="h6"
-                                    color="#1A237E" fontSize="25px"
+                                    color="#1A237E" fontSize="25px" style={{ marginTop:"15px",backgroundColor: "#a2beda",padding:"15px",borderRadius:"10px" ,margin:"10px 0 10px 17px", marginBottom:"-10px"}}
                                     fontWeight="bold" textTransform="uppercase" >UG Details:</Typography>
+                            <Grid item xs={12} sm={6}>
                                 {/* Third Column */}
                                 <TextField
                                     label="College-name"
@@ -2697,6 +3163,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.college_name)}
                                     helperText={errors.college_name}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="College-start-year"
@@ -2708,6 +3192,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.college_start_year)}
                                     helperText={errors.college_start_year}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
 
                                 />
                                 <TextField
@@ -2720,6 +3222,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.college_end_year)}
                                     helperText={errors.college_end_year}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="College-percentage"
@@ -2731,13 +3251,28 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.college_percentage)}
                                     helperText={errors.college_percentage}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                             </Grid>
 
                             <Grid item xs={12} sm={6} >
-                                <Typography sx={{ color: 'transparent' }} variant="h6"
-                                    color="#1A237E" fontSize="25px"
-                                    fontWeight="bold" textTransform="uppercase"> . </Typography>
                                 {/* Fourth Column */}
                                 <TextField
                                     label="Department"
@@ -2749,6 +3284,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.department)}
                                     helperText={errors.department}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                                 <TextField
                                     label="Degree"
@@ -2760,6 +3313,24 @@ const UserForm = () => {
                                     required
                                     error={Boolean(errors.degree)}
                                     helperText={errors.degree}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '10px', // Set border radius
+                                            '& fieldset': {
+                                                borderColor: '#a2beda', // Set border color
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&:hover fieldset': {
+                                                borderColor: '#1A237E', // Set border color on hover
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                            '&.Mui-focused fieldset': {
+                                                borderColor: '#1A237E', // Set border color on focus
+                                                borderWidth: '2px' // Set border width
+                                            },
+                                        },
+                                        color: "#1A237E" // Text color
+                                    }}
                                 />
                             </Grid>
 
@@ -2775,12 +3346,14 @@ const UserForm = () => {
                                         name="education_type"
                                         value={education.education_type}
                                         onChange={handleEducationChange}
+                                        
                                     >
                                         <FormControlLabel
                                             className='pg_button1'
                                             value="pg"
                                             control={<Radio />}
                                             label="PG"
+                                            
                                         />
                                         <FormControlLabel
                                             className='pg_button2'
@@ -2807,6 +3380,24 @@ const UserForm = () => {
 
                                             error={Boolean(errors.pg_college_name)}
                                             helperText={errors.pg_college_name}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                         <TextField
                                             label="PG-College-start-year"
@@ -2818,6 +3409,24 @@ const UserForm = () => {
 
                                             error={Boolean(errors.pg_college_start_year)}
                                             helperText={errors.pg_college_start_year}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                         <TextField
                                             label="PG-College-end-year"
@@ -2829,6 +3438,24 @@ const UserForm = () => {
 
                                             error={Boolean(errors.pg_college_end_year)}
                                             helperText={errors.pg_college_end_year}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                         <TextField
                                             label="PG-College-percentage"
@@ -2840,6 +3467,24 @@ const UserForm = () => {
 
                                             error={Boolean(errors.pg_college_percentage)}
                                             helperText={errors.pg_college_percentage}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                         {/* Add other PG fields here */}
                                     </Grid>
@@ -2854,6 +3499,24 @@ const UserForm = () => {
 
                                             error={Boolean(errors.pg_college_department)}
                                             helperText={errors.pg_college_department}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                         <TextField
                                             label="PG-College-degree"
@@ -2865,6 +3528,24 @@ const UserForm = () => {
 
                                             error={Boolean(errors.pg_college_degree)}
                                             helperText={errors.pg_college_degree}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                     </Grid>
                                 </>
@@ -2883,6 +3564,24 @@ const UserForm = () => {
                                             margin="dense"
                                             error={Boolean(errors.diploma_college_name)}
                                             helperText={errors.diploma_college_name}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                         <TextField
                                             label="Diploma-college-start-year"
@@ -2893,6 +3592,24 @@ const UserForm = () => {
                                             margin="dense"
                                             error={Boolean(errors.diploma_college_start_year)}
                                             helperText={errors.diploma_college_start_year}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                         <TextField
                                             label="Diploma-college-end-year"
@@ -2903,6 +3620,24 @@ const UserForm = () => {
                                             margin="dense"
                                             error={Boolean(errors.diploma_college_end_year)}
                                             helperText={errors.diploma_college_end_year}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                         <TextField
                                             label="Diploma-college-percentage"
@@ -2913,6 +3648,24 @@ const UserForm = () => {
                                             margin="dense"
                                             error={Boolean(errors.diploma_college_percentage)}
                                             helperText={errors.diploma_college_percentage}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                         {/* Add other Diploma fields here */}
                                     </Grid>
@@ -2926,6 +3679,24 @@ const UserForm = () => {
                                             margin="dense"
                                             error={Boolean(errors.diploma_college_department)}
                                             helperText={errors.diploma_college_department}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                         <TextField
                                             label="Diploma-college-degree"
@@ -2936,6 +3707,24 @@ const UserForm = () => {
                                             margin="dense"
                                             error={Boolean(errors.diploma_college_degree)}
                                             helperText={errors.diploma_college_degree}
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                     </Grid>
                                 </>
@@ -2949,8 +3738,9 @@ const UserForm = () => {
                     expanded={professionalDetailsExpanded}
                     className='professional_details'
                     onChange={() => setProfessionalDetailsExpanded(!professionalDetailsExpanded)}
+                    style={{border:"2px solid #a2beda",borderRadius:"10px"}}
                 >
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}>
                         <Typography variant="h6"
                             color="#1A237E" fontSize="25px"
                             fontWeight="bold" textTransform="uppercase">Professional Details</Typography>
@@ -2959,28 +3749,29 @@ const UserForm = () => {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 {/* Experience/Fresher Radio Buttons */}
-                                <label>
-                                    <input
-                                        type="radio"
-                                        name="experienceOption"
-                                        value="experienced"
-                                        checked={experienceOption === 'experienced'}
-                                        onChange={() => setExperienceOption('experienced')}
-                                        className='exprence'
-                                    />
-                                    {/* non-breaking space  */}
-                                    &nbsp;  Experience
-                                </label> <br></br>
-                                <label>
+                                <label className="fresher-label">
                                     <input
                                         type="radio"
                                         name="experienceOption"
                                         value="fresher"
                                         checked={experienceOption === 'fresher'}
                                         onChange={() => setExperienceOption('fresher')}
+                                        className='fresher'
                                     />
                                     &nbsp; Fresher
+                                </label> <br/>
+                                <label className="experience-label">
+                                    <input
+                                        type="radio"
+                                        name="experienceOption"
+                                        value="experienced"
+                                        checked={experienceOption === 'experienced'}
+                                        onChange={() => setExperienceOption('experienced')}
+                                        className='experienced'
+                                    />
+                                    &nbsp;  Experience
                                 </label>
+
                             </Grid>
                             {experienceOption === 'experienced' && (
                                 <>
@@ -2994,6 +3785,24 @@ const UserForm = () => {
                                             onChange={(e) => handleProfessionalDetailsChange(e)}
                                             fullWidth
                                             margin="dense"
+                                            sx={{
+                                                '& .MuiOutlinedInput-root': {
+                                                    borderRadius: '10px', // Set border radius
+                                                    '& fieldset': {
+                                                        borderColor: '#a2beda', // Set border color
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&:hover fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on hover
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                    '&.Mui-focused fieldset': {
+                                                        borderColor: '#1A237E', // Set border color on focus
+                                                        borderWidth: '2px' // Set border width
+                                                    },
+                                                },
+                                                color: "#1A237E" // Text color
+                                            }}
                                         />
                                     </Grid>
 
@@ -3001,7 +3810,7 @@ const UserForm = () => {
                                     {Array.from({ length: Number(professionalDetails.numberOfCompanies) || 0 }).map(
                                         (_, index) => (
                                             <Grid item xs={12} key={index}>
-                                                <Typography variant="subtitle1">Company {index + 1}</Typography>
+                                                <Typography variant="subtitle1" style={{color:"#1A237E", backgroundColor: "#a2beda",padding:"15px",borderRadius:"10px" , marginBottom:"10px"}}>Company {index + 1}</Typography>
                                                 <TextField
                                                     label="Company Name"
                                                     name="company_name"
@@ -3009,6 +3818,24 @@ const UserForm = () => {
                                                     onChange={(e) => handleProfessionalDetailsChange(e, index)}
                                                     fullWidth
                                                     margin="dense"
+                                                    sx={{
+                                                        '& .MuiOutlinedInput-root': {
+                                                            borderRadius: '10px', // Set border radius
+                                                            '& fieldset': {
+                                                                borderColor: '#a2beda', // Set border color
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                            '&:hover fieldset': {
+                                                                borderColor: '#1A237E', // Set border color on hover
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                            '&.Mui-focused fieldset': {
+                                                                borderColor: '#1A237E', // Set border color on focus
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                        },
+                                                        color: "#1A237E" // Text color
+                                                    }}
                                                 />
                                                 <TextField
                                                     label="Job Role"
@@ -3017,6 +3844,24 @@ const UserForm = () => {
                                                     onChange={(e) => handleProfessionalDetailsChange(e, index)}
                                                     fullWidth
                                                     margin="dense"
+                                                    sx={{
+                                                        '& .MuiOutlinedInput-root': {
+                                                            borderRadius: '10px', // Set border radius
+                                                            '& fieldset': {
+                                                                borderColor: '#a2beda', // Set border color
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                            '&:hover fieldset': {
+                                                                borderColor: '#1A237E', // Set border color on hover
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                            '&.Mui-focused fieldset': {
+                                                                borderColor: '#1A237E', // Set border color on focus
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                        },
+                                                        color: "#1A237E" // Text color
+                                                    }}
                                                 />
                                                 <TextField
                                                     label="Skills"
@@ -3025,6 +3870,24 @@ const UserForm = () => {
                                                     onChange={(e) => handleProfessionalDetailsChange(e, index)}
                                                     fullWidth
                                                     margin="dense"
+                                                    sx={{
+                                                        '& .MuiOutlinedInput-root': {
+                                                            borderRadius: '10px', // Set border radius
+                                                            '& fieldset': {
+                                                                borderColor: '#a2beda', // Set border color
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                            '&:hover fieldset': {
+                                                                borderColor: '#1A237E', // Set border color on hover
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                            '&.Mui-focused fieldset': {
+                                                                borderColor: '#1A237E', // Set border color on focus
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                        },
+                                                        color: "#1A237E" // Text color
+                                                    }}
                                                 />
                                                 <TextField
                                                     label="Years of exprence"
@@ -3033,6 +3896,24 @@ const UserForm = () => {
                                                     onChange={(e) => handleProfessionalDetailsChange(e, index)}
                                                     fullWidth
                                                     margin="dense"
+                                                    sx={{
+                                                        '& .MuiOutlinedInput-root': {
+                                                            borderRadius: '10px', // Set border radius
+                                                            '& fieldset': {
+                                                                borderColor: '#a2beda', // Set border color
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                            '&:hover fieldset': {
+                                                                borderColor: '#1A237E', // Set border color on hover
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                            '&.Mui-focused fieldset': {
+                                                                borderColor: '#1A237E', // Set border color on focus
+                                                                borderWidth: '2px' // Set border width
+                                                            },
+                                                        },
+                                                        color: "#1A237E" // Text color
+                                                    }}
                                                 />
 
                                             </Grid>
@@ -3044,8 +3925,8 @@ const UserForm = () => {
                     </AccordionDetails>
                 </AccordionWrapper>
                 {/* job preference */}
-                <AccordionWrapper expanded={jobPreferenceExpanded} onChange={handlejobPreferenceExpand} className='job_preference'>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}> <Typography variant="h6"
+                <AccordionWrapper expanded={jobPreferenceExpanded} onChange={handlejobPreferenceExpand} className='job_preference' style={{border:"2px solid #a2beda",borderRadius:"10px"}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}> <Typography variant="h6"
                         color="#1A237E" fontSize="25px"
                         fontWeight="bold" textTransform="uppercase">Job Preference</Typography></AccordionSummary>
                     <AccordionDetails>
@@ -3100,7 +3981,7 @@ const UserForm = () => {
 
 
 
-                                    
+                                   
                                 />
                             </Grid>
 
@@ -3119,7 +4000,7 @@ const UserForm = () => {
                     helperText={errors.jobPreference.key_skills}
                 /> */}
 
-<Autocomplete
+              {/* <Autocomplete
                 multiple
                 options={skills}
                 getOptionLabel={(option) => option ? option.skill_set : ''}
@@ -3130,6 +4011,24 @@ const UserForm = () => {
                         margin="dense"
                         error={Boolean(errors.jobPreference.key_skills)}
                         helperText={errors.jobPreference.key_skills}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                borderRadius: '10px', // Set border radius
+                                '& fieldset': {
+                                    borderColor: '#a2beda', // Set border color
+                                    borderWidth: '2px' // Set border width
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: '#1A237E', // Set border color on hover
+                                    borderWidth: '2px' // Set border width
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#1A237E', // Set border color on focus
+                                    borderWidth: '2px' // Set border width
+                                },
+                            },
+                            color: "#1A237E" // Text color
+                        }}
                     />
                 )}
                 value={jobPreference.key_skills.map(skill => ({ skill_set: skill }))} // Convert array of skill names to array of objects
@@ -3145,6 +4044,62 @@ const UserForm = () => {
                     }
                     return filtered;
                 }}
+            /> */}
+            <Autocomplete
+                multiple
+                options={skills}
+                getOptionLabel={(option) => option ? option.skill_set : ''}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label="Key Skills"
+                        margin="dense"
+                        error={Boolean(errors.jobPreference.key_skills)}
+                        helperText={errors.jobPreference.key_skills}
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                borderRadius: '10px', // Set border radius
+                                '& fieldset': {
+                                    borderColor: '#a2beda', // Set border color
+                                    borderWidth: '2px' // Set border width
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: '#1A237E', // Set border color on hover
+                                    borderWidth: '2px' // Set border width
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: '#1A237E', // Set border color on focus
+                                    borderWidth: '2px' // Set border width
+                                },
+                            },
+                            color: "#1A237E" // Text color
+                        }}
+                    />
+                )}
+                value={jobPreference.key_skills.map(skill => ({ skill_set: skill }))} // Convert array of skill names to array of objects
+                onChange={handleJobPreferenceChange('key_skills')}
+                freeSolo // Allow typing new values
+                filterOptions={(options, params) => {
+                    const filtered = options.filter(
+                        (option) =>
+                            option.skill_set.toLowerCase().includes(params.inputValue.toLowerCase())
+                    );
+                    if (params.inputValue !== '' && !filtered.some(option => option.skill_set.toLowerCase() === params.inputValue.toLowerCase())) {
+                        filtered.push({ skill_set: params.inputValue }); // Add typed value if not present in options
+                    }
+                    return filtered;
+                }}
+                PaperComponent={({ children }) => (
+                    <Paper
+                        sx={{
+                            backgroundColor: '#E8EAF6', // Background color
+                            border: '1px solid #1A237E', // Border color
+                            borderRadius: '10px', // Border radius
+                        }}
+                    >
+                        {children}
+                    </Paper>
+                )}
             />
                 <TextField
                     label="Industry"
@@ -3156,6 +4111,24 @@ const UserForm = () => {
                     required
                     error={Boolean(errors.jobPreference.industry)}
                     helperText={errors.jobPreference.industry}
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '10px', // Set border radius
+                            '& fieldset': {
+                                borderColor: '#a2beda', // Set border color
+                                borderWidth: '2px' // Set border width
+                            },
+                            '&:hover fieldset': {
+                                borderColor: '#1A237E', // Set border color on hover
+                                borderWidth: '2px' // Set border width
+                            },
+                            '&.Mui-focused fieldset': {
+                                borderColor: '#1A237E', // Set border color on focus
+                                borderWidth: '2px' // Set border width
+                            },
+                        },
+                        color: "#1A237E" // Text color
+                    }}
                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -3169,38 +4142,88 @@ const UserForm = () => {
                     required
                     error={Boolean(errors.jobPreference.department)}
                     helperText={errors.jobPreference.department}
+                    sx={{
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '10px', // Set border radius
+                            '& fieldset': {
+                                borderColor: '#a2beda', // Set border color
+                                borderWidth: '2px' // Set border width
+                            },
+                            '&:hover fieldset': {
+                                borderColor: '#1A237E', // Set border color on hover
+                                borderWidth: '2px' // Set border width
+                            },
+                            '&.Mui-focused fieldset': {
+                                borderColor: '#1A237E', // Set border color on focus
+                                borderWidth: '2px' // Set border width
+                            },
+                        },
+                        color: "#1A237E" // Text color
+                    }}
                 />
                       <div>
                     {loading ? (
                         <CircularProgress />
                     ) : (
                         <Autocomplete
-                multiple
-                options={locations}
-                getOptionLabel={(option) => option ? option.location : ''}
-                renderInput={(params) => (
-                    <TextField
-                        {...params}
-                        label="Preferred Locations"
-                        margin="dense"
-                        error={Boolean(errors.jobPreference.prefered_locations)}
-                        helperText={errors.jobPreference.prefered_locations}
+                        multiple
+                        options={locations}
+                        getOptionLabel={(option) => option ? option.location : ''}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Preferred Locations"
+                                margin="dense"
+                                error={Boolean(errors.jobPreference.prefered_locations)}
+                                helperText={errors.jobPreference.prefered_locations}
+                                sx={{
+                                    '& .MuiOutlinedInput-root': {
+                                        borderRadius: '10px', // Set border radius
+                                        '& fieldset': {
+                                            borderColor: '#a2beda', // Set border color
+                                            borderWidth: '2px' // Set border width
+                                        },
+                                        '&:hover fieldset': {
+                                            borderColor: '#1A237E', // Set border color on hover
+                                            borderWidth: '2px' // Set border width
+                                        },
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: '#1A237E', // Set border color on focus
+                                            borderWidth: '2px' // Set border width
+                                        },
+                                    },
+                                    color: "#1A237E" // Text color
+                                }}
+                            />
+                        )}
+                        value={jobPreference.prefered_locations.map(location => ({ location }))} // Convert array of location names to array of objects
+                        onChange={handleJobPreferenceChange('prefered_locations')}
+                        freeSolo // Allow typing new values
+                        filterOptions={(options, params) => {
+                            const filtered = options.filter(
+                                (option) =>
+                                    option.location.toLowerCase().includes(params.inputValue.toLowerCase())
+                            );
+                            if (params.inputValue !== '' && !filtered.some(option => option.location.toLowerCase() === params.inputValue.toLowerCase())) {
+                                filtered.push({ location: params.inputValue }); // Add typed value if not present in options
+                            }
+                            return filtered;
+                        }}
+                        PaperComponent={({ children }) => (
+                            <Paper
+                                sx={{
+                                    backgroundColor: '#E8EAF6', // Background color
+                                    border: '1px solid #1A237E', // Border color
+                                    borderRadius: '10px', // Border radius
+                                    // '&:hover': {
+                                    //     backgroundColor: '#BDBDBD', // Mouse-over background color
+                                    // },
+                                }}
+                            >
+                                {children}
+                            </Paper>
+                        )}
                     />
-                )}
-                value={jobPreference.prefered_locations.map(location => ({ location }))} // Convert array of location names to array of objects
-                onChange={handleJobPreferenceChange('prefered_locations')}
-                freeSolo // Allow typing new values
-                filterOptions={(options, params) => {
-                    const filtered = options.filter(
-                        (option) =>
-                            option.location.toLowerCase().includes(params.inputValue.toLowerCase())
-                    );
-                    if (params.inputValue !== '' && !filtered.some(option => option.location.toLowerCase() === params.inputValue.toLowerCase())) {
-                        filtered.push({ location: params.inputValue }); // Add typed value if not present in options
-                    }
-                    return filtered;
-                }}
-            />
                     )}
                 </div>
                             </Grid>
@@ -3210,16 +4233,15 @@ const UserForm = () => {
                 </AccordionWrapper>
 
                 {/* Resume Accordion */}
-                <ResumeAccordionWrapper expanded={resumeExpanded} onChange={handleResumeExpand}>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <ResumeAccordionWrapper expanded={resumeExpanded} onChange={handleResumeExpand} style={{border:"2px solid #a2beda",borderRadius:"10px"}}>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />} style={{ backgroundColor: "#a2beda" }}>
                         <Typography variant="h6"
                             color="#1A237E" fontSize="25px"
                             fontWeight="bold" textTransform="uppercase">Resume</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                {/* First Column */}
+                        {/* <Grid container spacing={2}> */}
+                            {/* <Grid item xs={12} sm={6}>
                                 <label htmlFor="resume-input">Upload Resume:</label>
                                 <Input
                                     type="file"
@@ -3228,10 +4250,10 @@ const UserForm = () => {
                                     margin="dense"
                                     id="resume-input"
                                     required
+                                    
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                {/* Second Column */}
                                 {resume && (
                                     <div>
                                         <Typography variant="subtitle1">Uploaded Resume:</Typography>
@@ -3241,29 +4263,95 @@ const UserForm = () => {
                                         </Button>
                                     </div>
                                 )}
-                            </Grid>
-                        </Grid>
+                            </Grid> */}
+                            <label htmlFor="resume-input" style={{ color: '#1A237E', cursor: 'pointer', display: 'block', marginBottom: "10px" }}>
+                                            Upload Resume:
+                                        </label>
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <input
+                                                type="file"
+                                                accept=".pdf,.doc,.docx"
+                                                onChange={handleResumeChange}
+                                                margin="dense"
+                                                id="resume-input"
+                                                style={{
+                                                    display: 'none',
+                                                }}
+                                            />
+                                            <label htmlFor="resume-input">
+                                                <IconButton
+                                                    component="span"
+                                                    size="small"
+                                                    sx={{
+                                                        border: '2px solid #a2beda',
+                                                        borderRadius: '10px',
+                                                        padding: '10px',
+                                                        '&:hover': {
+                                                            borderColor: '#1A237E', // Change border color on hover
+                                                        },
+                                                        '& svg': {
+                                                            fontSize: '50px', // Increase icon size
+                                                            color: '#1A237E' // Change icon color
+                                                        }
+                                                    }}
+                                                >
+                                                    <FaFileUpload />
+                                                    {resume && resume.name && (
+                                                        <span style={{ marginLeft: '5px' }}>{resume.name}</span>
+                                                    )}
+                                                </IconButton>
+                                            </label>
+                                            {resume && resume.name && (
+                                            <div style={{ marginLeft: '10px' }}>
+                                                <div
+                                                variant="contained"
+                                                onClick={handleRemoveResume}
+                                                className='resumeButton'
+                                                style={{
+                                                    border: '2px solid #a2beda',
+                                                    borderRadius: '10px',
+                                                    padding: '10px',
+                                                    cursor: 'pointer', // Change cursor on hover
+                                                }}
+                                            >
+                                                Remove Resume
+                                            </div>
+                                            </div>
+                                        )}
+                                        </div>
+                        {/* </Grid> */}
                     </AccordionDetails>
                 </ResumeAccordionWrapper>
                 {/* Submit Button */}
-                <Button type="submit" variant="contained" color="primary" fullWidth>
+                {/* <Button type="submit" variant="contained" color="primary" fullWidth>
                     Submit
-                </Button>
+                </Button> */}
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                            width:"180px",
+                            borderRadius: '10px', // Rounded corners
+                            padding: '7px 15px', // Padding
+                            fontSize: '20px', // Font size
+                            fontWeight: 'bold', // Bold font weight
+                            textTransform: 'none', // Disable text transformation
+                            boxShadow: 'none', // Disable box shadow
+                            marginBottom:"20px",
+                            '&:hover': {
+                                backgroundColor: '#1A237E', // Change background color on hover
+                            },
+                        }}
+                    >
+                        Submit
+                    </Button>
+                </div>
             </form>
-
-            {/* <button onClick={() => handleChangeLanguage('en')}>Switch to English</button>
-      <button onClick={() => handleChangeLanguage('es')}>Cambiar a Español</button> */}
-
 
         </FormContainer>
     );
 };
 
 export default UserForm;
-
-
-
-
-
-
-

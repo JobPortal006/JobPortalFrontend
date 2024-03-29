@@ -384,7 +384,7 @@ const Companylist = () => {
       } else {
         navigate('/Filter');
       }
-      setcompanyList(data);
+      // setcompanyList(data);
     } catch (error) {
       console.error('Error:', error);
     } finally {

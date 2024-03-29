@@ -380,9 +380,6 @@ const PostJob = () => {
             <br />
             <br />
 
-            <label>Email*</label>
-            <br />
-
            
 
             <p style={{ marginTop: "1rem" }}>Job Description*</p>
@@ -497,6 +494,7 @@ const PostJob = () => {
                 />
               )}
             />
+             <br />
 
 {/*
             <label>Skills*</label>

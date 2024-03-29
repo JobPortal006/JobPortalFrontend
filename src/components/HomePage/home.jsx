@@ -14,13 +14,15 @@ const Home = () => {
   const token = localStorage.getItem('googleToken');
   const otpToken = localStorage.getItem('otpToken');
   const loginToken = localStorage.getItem('loginToken');
-  // useEffect(() => {
-  //   if ((token === null) && (otpToken === null) && (loginToken === null)) {
-  //     navigate("/login");
+  useEffect(() => {
+    console.log(loginToken,"token--->3");
 
-  //   }
-
-  // });
+    if(loginToken !== undefined){
+      
+    }else{
+      // navigate("/login");
+    }
+  },[]);
   return (
     <>    
       <div>
