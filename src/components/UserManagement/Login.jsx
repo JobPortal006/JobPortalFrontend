@@ -14,7 +14,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 import { Divider } from "@mui/material";
 import glogo from "../Login Image/google-icon.svg";
-import jllogo from "../Login Image/JL logo design.jpg";
+import jllogo from "../Login Image/JL_-_1__1_-removebg-preview.png";
 import "../UserManagement/login.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -238,7 +238,7 @@ const LogIn = () => {
             alignItems: "center",
           }}
         >
-          <Avatar
+          {/* <Avatar
             src={jllogo}
             sx={{
               m: 1,
@@ -249,7 +249,8 @@ const LogIn = () => {
             }}
           >
             <LockOutlinedIcon />
-          </Avatar>
+          </Avatar> */}
+          <img src={jllogo} alt="Login" height="70px" width="140px" style={{marginLeft:"20px"}} />
           <p component="h1" variant="h5" sx={{ mt: -1 }} className="h1-login" >
             {validation.Context.one}
           </p>
