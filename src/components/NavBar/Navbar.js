@@ -414,7 +414,10 @@ import UserContext from '../Sprint 2/contextFilter';
 import BASE_URL from '../CommonAPI';
 import '../NavBar/Navbar.css';
 import { UpdateEmployerregister } from '../EmployeerManagement/UpdateEmployeer';
-import logo1 from '../HomePage/homeimages/logo1.png'
+
+import JL from "../Login Image/JL_-_1__1_-removebg-preview.png"
+
+
 const Navbar = () => {
   const [loading, setLoading] = useState(false);
   const [userType, setUserType] = useState('');
@@ -509,9 +512,7 @@ const Navbar = () => {
   return (
     <div className="Navbar">
       <div className="Navbar__left">
-        {/* <img src="https://backendcompanylogo.s3.eu-north-1.amazonaws.com/company_logo/job_portal_logo.png" alt="Logo" className="Navbar__logo" /> */}
-        <img src={logo1} alt="Logo" className="Navbar__logo" />
-
+        <img src={JL} alt="Logo" className="Navbar__logo" />
       </div>
 
       <div className="Navbar__center">
