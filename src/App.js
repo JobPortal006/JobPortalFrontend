@@ -66,15 +66,15 @@ function App() {
           <Route path="/UserProfile" element={<UserProfile />}/>
           <Route path="/Companydisplay" element={<Companydisplay />}/>
           <Route path="/Filter" element={<Filter/>} />
-          <Route path="/MyJob" element={<MyJob/>} />
-          <Route path="/PostJob" element={<PostJob />} />
-          <Route path="/EditMyJob" element={<EditMyJob />} />
+          <Route path="/MyJob" element={<MyJob/>} />  
+          <Route path="/PostJob" element={<PostJob />} />     
+          <Route path="/EditMyJob" element={<EditMyJob />} />                   
           <Route path="/FilteredResults" element={<FilteredResults />} />
-          <Route path="/JobDetails" element={<JobDetails />} />
+          <Route path="/JobDetails" element={<JobDetails />} />                   
           <Route path="/EmployerRegister" element={<Employerregister />} />
-          <Route path="/EmployerDashboard" element={<SideNavbar />} />
+          <Route path="/EmployerDashboard" element={<SideNavbar />} />  
           <Route path="/UserDashBoard" element={<UserDash />} />
-          <Route path="/newpost" element={<Newpost />} />
+          <Route path="/newpost" element={<Newpost />} />     
           <Route path="/applyJob" element={<ApplyJob />} />
           <Route path="/UserJobList" element={<UserJobList />} />
           <Route path="/Listprofile" element={<ListProfile />} />
