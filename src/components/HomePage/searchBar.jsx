@@ -1,4 +1,4 @@
-// // using use context
+
 
 // import React, { useState, useEffect, useContext } from 'react';
 // import { makeStyles, TextField, Button, Chip, Collapse, Popover } from '@material-ui/core';
@@ -692,7 +692,7 @@ const SearchBar = ({ isJobSearchPage }) => {
 
   // using user context
   const { oneData, setData } = useContext(UserContext);
-  const { searchJob, setsearchJob,setCompanyList } = useContext(UserContext);
+  const { searchJob, setsearchJob,setcompanyList } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   console.log(searchJob, '=======>user context true');
   const handleSearch = async () => {
@@ -757,7 +757,7 @@ const SearchBar = ({ isJobSearchPage }) => {
 
         if (searchJob !== null) {
           setsearchJob(searchResponse)
-          setCompanyList(false)
+          setcompanyList(false)
 
         } else {
 
@@ -790,9 +790,7 @@ const SearchBar = ({ isJobSearchPage }) => {
     <>
 
       <div className={isJobSearchPage ? classes.jobSearchRoot : classes.root}>
-        {/* <p className='lineFour'>Discover 50 lakh+ career opportunities</p> */}
-        <p className='lineFour'>Discover Your Dream Job Here...</p>
-
+        <p className='lineFour'>Discover 50 lakh+ career opportunities</p>
         <div className={isJobSearchPage ? classes.jobSearchContainer : classes.searchContainer}>
 
           <Autocomplete

@@ -380,7 +380,7 @@ const Companylist = () => {
       }
 
       if (data.status !== true) {
-        alert('Job not Post yet');
+        alert('Failed to send data to the server');
       } else {
         navigate('/Filter');
       }
@@ -478,3 +478,4 @@ const Companylist = () => {
 };
 
 export default Companylist;
+
