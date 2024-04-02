@@ -57,6 +57,7 @@ export default function FixedContainer() {
     confirm_password: '',
     agreeTerms: '',
   });
+  
 
   // Additional state variables (showPassword and showconfirm_password) are used to manage the visibility of password fields.
 

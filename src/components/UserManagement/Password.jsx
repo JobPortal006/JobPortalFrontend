@@ -16,13 +16,13 @@ import BASE_URL from '../CommonAPI';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
-    background: 'linear-gradient(45deg, #8b51ff, #7a37ff)',
+    background: '#80CBC4',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
   form: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#FFF8E1',
     width: 400,
     padding: '50px 40px',
     borderRadius: 8,
@@ -160,12 +160,15 @@ const Password = () => {
       console.log('Server error:', error);
     }
   };
+  <style>
+
+  </style>
   
 
   return (
     <div className={classes.root}>
       <form className={classes.form} onSubmit={handleSubmit}>
-        <h2>{cnfmPass.context.two}</h2>
+        <h2 style={{color : "#3F51B5"}}>{cnfmPass.context.two}</h2>
 
         <label className={classes.label} htmlFor="password">{cnfmPass.context.three}</label>
         <div className={classes.passwordContainer}>
@@ -210,7 +213,7 @@ const Password = () => {
         </div>
 
         {message && <p className={classes.error}>{message}</p>}
-        <Button type="submit" className={classes.submitButton} style={{ backgroundColor: '#ccb4fb' }} onClick={handlePassword}>
+        <Button type="submit" variant='contained' style={{backgroundColor:"#3F51B5"}} className={classes.submitButton}  onClick={handlePassword}>
           {cnfmPass.btn.two}
         </Button>
 
