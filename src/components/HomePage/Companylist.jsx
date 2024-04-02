@@ -357,7 +357,7 @@ const Companylist = () => {
         setLoading(false);
       });
   }, []); // Empty dependency array ensures useEffect runs only once on component mount
-
+ const token = localStorage.getItem('loginToken');
   const handleCardClick = async companyName => {
     try {
       setLoadingCard(companyName); // Set loading state for the clicked card
@@ -368,7 +368,7 @@ const Companylist = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          company_name: companyName
+          company_name: companyName,token
         })
       });
       const data = await response.json();

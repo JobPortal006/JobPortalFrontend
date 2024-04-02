@@ -478,7 +478,8 @@ const Navbar = () => {
 
       if (response.data.status === true) {
         navigate('/UserProfile');
-      } else {
+      } 
+      else {
         alert("User details not found. Please create an account.");
         navigate('/CreateAccount');
       }

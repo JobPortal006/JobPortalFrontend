@@ -839,10 +839,7 @@ export const ApplyJob = ({ onClose }) => {
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={() => {
-                        console.log('Submit button clicked');
-                        showExtraFields ?   handleSubmit() : handleApply();
-                    }}
+                    onClick={showExtraFields ? handleApply : handleSubmit}
                 >
                     {showExtraFields ? 'Apply' : 'Submit'}
                 </Button>

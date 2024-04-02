@@ -30,6 +30,8 @@ const override = css`
   margin: 0 auto;
 `;
 
+
+
 const UserProfile = () => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -43,6 +45,7 @@ const UserProfile = () => {
     const [resumeFile, setResumeFile] = useState(null);
     const navigate = useNavigate();
 
+  
     /// for validation
     const [error1, setError1] = useState({
         data: {
@@ -213,7 +216,7 @@ const UserProfile = () => {
 
 
     const [name, setName] = useState('');
-
+const [values , setValues] = useState();
     const [formData, setFormData] = useState({
         data: {
             Signup: {
@@ -284,7 +287,7 @@ const UserProfile = () => {
                 diploma_college_start_year: '',
                 diploma_college_education_type: ''
             },
-            professionalDetails: {
+            professionalDetails: { 
                 companies: [
                     {
                         company_name: '',
@@ -313,6 +316,7 @@ const UserProfile = () => {
 
         }
     });
+ 
 
 
     // Handle resume upload
@@ -342,30 +346,38 @@ const UserProfile = () => {
             }
         }));
     };
-
     useEffect(() => {
+console.log(formData,'ckekckckckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk') 
+        
         // Fetch data from the API
         fetch(`${BASE_URL}/get_user_details_view/`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch data');
                 }
+
                 return response.json();
             })
+           
             .then(data => {
+                console.log(data,'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg'); 
+                console.log(data.Signup.email,'gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg'); 
                 setUserData(data);
                 setLoading1(false); // Set loading to false when data fetching is complete
 
                 // Set resume data
                 // setResume(data.resume);
+                console.log(data.userDetails.first_name,"today123");
+                setValues(data);
                 setFormData({
+                    ...formData,
                     data: {
                         Signup: {
                             email: data.Signup.email,
                             mobile_number: data.Signup.mobile_number
                         },
                         userDetails: {
-                            first_name: data.userDetails.first_name,
+                            first_name: data?.userDetails?.first_name,
                             last_name: data.userDetails.last_name,
                             gender: data.userDetails.gender,
                             date_of_birth: data.userDetails.date_of_birth,
@@ -452,6 +464,7 @@ const UserProfile = () => {
             });
     }, []);
 
+    console.log(formData,"today123456");
     const handleChange = (event) => {
 
         // const { name, value } = event.target;
@@ -925,8 +938,9 @@ const UserProfile = () => {
 
         // Set isSubmitting to true when form is submitted
         setIsSubmitting(true);
-
         const formDataToSend = new FormData();
+console.log(formDataToSend,'date to payload')
+
 
         // Append profile picture and resume if available
         // (Assuming profilePicture and resumeFile are defined somewhere in your component)
@@ -958,6 +972,10 @@ const UserProfile = () => {
         } else if (Array.isArray(jobPreference.prefered_locations)) {
             preferedLocationsArray = jobPreference.prefered_locations;
         }
+
+        console.log(formData?.data?.userDetails,"updating123");
+       
+
 
         // Update jobPreference object with arrays
         formData.data.jobPreference.key_skills = keySkillsArray;
@@ -1033,7 +1051,9 @@ const UserProfile = () => {
 
     // for geting images
 
-
+    console.log(values?.userDetails?.first_name,"today12345");
+  
+    
     return (
         <div className='profilebackground-div'>
             {loading1 ? (
@@ -1067,11 +1087,13 @@ const UserProfile = () => {
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
                                         {/* First Column */}
+                                        {console.log(formData?.data?.userDetails,"today1234")}
                                         <TextField className='textfield'
                                             label='First Name'
                                             name="first_name"
                                             onChange={handleChange}
-                                            value={formData.data.userDetails.first_name}
+                                            value={formData.data.userDetails.first_name || values?.userDetails?.first_name} 
+                                            // defaultValue={values?.userDetails?.first_name}
                                             fullWidth
                                             margin="dense"
                                             // error={Boolean(formData.data.userDetails.first_name_error)}
@@ -1081,10 +1103,10 @@ const UserProfile = () => {
                                             required
 
                                         />
-                                        <TextField className='textfield'
+                                        <TextField className='textfield' 
                                             label='Last Name'
                                             name="last_name"
-                                            value={formData.data.userDetails.last_name}
+                                            value={formData.data.userDetails.last_name || values?.userDetails?.last_name}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1100,7 +1122,7 @@ const UserProfile = () => {
                                             name="date_of_birth"
                                             type='date'
 
-                                            value={formData.data.userDetails.date_of_birth}
+                                            value={formData.data.userDetails.date_of_birth || values?.userDetails?.date_of_birth}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1112,10 +1134,11 @@ const UserProfile = () => {
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         {/* Second Column */}
+                                        {console.log(values,'rarararaar')}
                                         <TextField className='textfield'
                                             label='Mobile Number'
                                             name="mobile_number"
-                                            value={formData.data.Signup.mobile_number}
+                                            value={formData.data.Signup.mobile_number || values?.Signup?.mobile_number}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1127,7 +1150,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="gender"
                                             name="gender"
-                                            value={formData.data.userDetails.gender}
+                                            value={formData.data.userDetails.gender || values?.userDetails?.gender}
                                             onChange={handleChange}
                                             fullWidth
                                             displayEmpty
@@ -1166,11 +1189,11 @@ const UserProfile = () => {
                                 )}
 
                                 {/* Display profile picture from the backend if available */}
-                                {!profilePicture && formData?.data?.userDetails?.profile_picture_path && (
+                                {((!profilePicture && formData?.data?.userDetails?.profile_picture_path)  || values?.userDetails?.profile_picture_path) && (
                                     <div>
                                         <Avatar
                                             alt="Profile Picture"
-                                            src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.userDetails.profile_picture_path}`}
+                                            src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.userDetails.profile_picture_path}` || `https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.userDetails.profile_picture_path}`}
                                             sx={{ width: 100, height: 100, marginTop: 2 }}
                                         />
                                         <Button color="secondary" onClick={handleRemoveProfilePicture}>
@@ -1198,7 +1221,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="permanent Street"
                                             name="street"
-                                            value={formData.data.address.permanent.street}
+                                            value={formData.data.address.permanent.street || values?.address?.permanent?.street}
                                             onChange={handlePermanentAddressChange}
                                             fullWidth
                                             margin="dense"
@@ -1207,7 +1230,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label=" permanent City"
                                             name="city"
-                                            value={formData.data.address.permanent.city}
+                                            value={formData.data.address.permanent.city || values?.address?.permanent?.city}
                                             required
                                             onChange={handlePermanentAddressChange}
                                             fullWidth
@@ -1218,7 +1241,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="permanent pincode"
                                             name="pincode"
-                                            value={formData.data.address.permanent.pincode}
+                                            value={formData.data.address.permanent.pincode || values?.address?.permanent?.pincode}
                                             required
                                             onChange={handlePermanentAddressChange}
                                             fullWidth
@@ -1230,7 +1253,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="permanent Country"
                                             name="country"
-                                            value={formData.data.address.permanent.country}
+                                            value={formData.data.address.permanent.country || values?.address?.permanent?.country}
                                             required
                                             onChange={handlePermanentAddressChange}
                                             fullWidth
@@ -1243,7 +1266,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="permanent State"
                                             name="state"
-                                            value={formData.data.address.permanent.state}
+                                            value={formData.data.address.permanent.state || values?.address?.permanent?.state}
                                             required
                                             onChange={handlePermanentAddressChange}
                                             fullWidth
@@ -1261,7 +1284,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="Current Street"
                                             name="street"
-                                            value={formData.data.address.current.street}
+                                            value={formData.data.address.current.street || values?.address?.current?.street}
                                             onChange={handleCurrentAddressChange}
                                             fullWidth
                                             margin="dense"
@@ -1270,7 +1293,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="Current City"
                                             name="city"
-                                            value={formData.data.address.current.city}
+                                            value={formData.data.address.current.city || values?.address?.current?.city}
 
                                             onChange={handleCurrentAddressChange}
                                             fullWidth
@@ -1282,7 +1305,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="Current Pincode"
                                             name="pincode"
-                                            value={formData.data.address.current.pincode}
+                                            value={formData.data.address.current.pincode || values?.address?.current?.pincode}
 
                                             onChange={handleCurrentAddressChange}
                                             fullWidth
@@ -1293,7 +1316,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="Current Country"
                                             name="country"
-                                            value={formData.data.address.current.country}
+                                            value={formData.data.address.current.country || values?.address?.current?.country}
 
                                             onChange={handleCurrentAddressChange}
                                             fullWidth
@@ -1305,7 +1328,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="Current State"
                                             name="state"
-                                            value={formData.data.address.current.state}
+                                            value={formData.data.address.current.state || values?.address?.current?.state}
 
                                             onChange={handleCurrentAddressChange}
                                             fullWidth
@@ -1335,7 +1358,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="SSLC-school-name"
                                             name="sslc_school_name"
-                                            value={formData.data.education_details.sslc_school_name}
+                                            value={formData.data.education_details.sslc_school_name || values?.education_details?.sslc_school_name}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1348,7 +1371,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="SSLC-start-year"
                                             name="sslc_start_year"
-                                            value={formData.data.education_details.sslc_start_year}
+                                            value={formData.data.education_details.sslc_start_year || values?.education_details?.sslc_start_year}
                                             required
 
                                             onChange={handleChange}
@@ -1361,7 +1384,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="SSLC-end-year"
                                             name="sslc_end_year"
-                                            value={formData.data.education_details.sslc_end_year}
+                                            value={formData.data.education_details.sslc_end_year || values?.education_details?.sslc_end_year}
                                             required
 
                                             onChange={handleChange}
@@ -1375,7 +1398,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="SSLC-percentage"
                                             name="sslc_percentage"
-                                            value={formData.data.education_details.sslc_percentage}
+                                            value={formData.data.education_details.sslc_percentage || values?.education_details?.sslc_percentage}
                                             required
 
                                             onChange={handleChange}
@@ -1394,7 +1417,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="HSC-school-name"
                                             name="hsc_school_name"
-                                            value={formData.data.education_details.hsc_school_name}
+                                            value={formData.data.education_details.hsc_school_name || values?.education_details?.hsc_school_name}
                                             required
 
                                             onChange={handleChange}
@@ -1408,7 +1431,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="HSC-start-year"
                                             name="hsc_start_year"
-                                            value={formData.data.education_details.hsc_start_year}
+                                            value={formData.data.education_details.hsc_start_year || values?.education_details?.hsc_start_year}
                                             required
 
                                             onChange={handleChange}
@@ -1421,7 +1444,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="HSC-end-year"
                                             name="hsc_end_year"
-                                            value={formData.data.education_details.hsc_end_year}
+                                            value={formData.data.education_details.hsc_end_year || values?.education_details?.hsc_end_year} 
                                             required
 
                                             onChange={handleChange}
@@ -1434,7 +1457,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="HSC-percentage"
                                             name="hsc_percentage"
-                                            value={formData.data.education_details.hsc_percentage}
+                                            value={formData.data.education_details.hsc_percentage || values?.education_details?.hsc_percentage}
                                             required
 
                                             onChange={handleChange}
@@ -1453,7 +1476,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="College-name"
                                             name="college_name"
-                                            value={formData.data.college_details.college_name}
+                                            value={formData.data.college_details.college_name || values?.college_details?.college_name}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1465,7 +1488,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="College-start-year"
                                             name="college_start_year"
-                                            value={formData.data.college_details.college_start_year}
+                                            value={formData.data.college_details.college_start_year || values?.college_details?.college_start_year}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1479,7 +1502,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="College-end-year"
                                             name="college_end_year"
-                                            value={formData.data.college_details.college_end_year}
+                                            value={formData.data.college_details.college_end_year || values?.college_details?.college_end_year}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1492,7 +1515,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="College-percentage"
                                             name="college_percentage"
-                                            value={formData.data.college_details.college_percentage}
+                                            value={formData.data.college_details.college_percentage || values?.college_details?.college_percentage}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1511,7 +1534,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="Department"
                                             name="department"
-                                            value={formData.data.college_details.department}
+                                            value={formData.data.college_details.department || values?.college_details?.department}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1523,7 +1546,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="Degree"
                                             name="degree"
-                                            value={formData.data.college_details.degree}
+                                            value={formData.data.college_details.degree || values?.college_details?.degree}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1577,7 +1600,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="PG-College-name"
                                                 name="pg_college_name"
-                                                value={formData.data.PG_college_details.pg_college_name}
+                                                value={formData.data.PG_college_details.pg_college_name || values?.PG_college_details?.pg_college_name}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1588,7 +1611,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="PG-College-start-year"
                                                 name="pg_college_start_year"
-                                                value={formData.data.PG_college_details.pg_college_start_year}
+                                                value={formData.data.PG_college_details.pg_college_start_year || values?.PG_college_details?.pg_college_start_year}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1599,7 +1622,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="PG-College-end-year"
                                                 name="pg_college_end_year"
-                                                value={formData.data.PG_college_details.pg_college_end_year}
+                                                value={formData.data.PG_college_details.pg_college_end_year || values?.PG_college_details?.pg_college_end_year}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1611,7 +1634,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="PG-College-percentage"
                                                 name="pg_college_percentage"
-                                                value={formData.data.PG_college_details.pg_college_percentage}
+                                                value={formData.data.PG_college_details.pg_college_percentage || values?.PG_college_details?.pg_college_percentage}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1626,7 +1649,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="PG-College-department"
                                                 name="pg_college_department"
-                                                value={formData.data.PG_college_details.pg_college_department}
+                                                value={formData.data.PG_college_details.pg_college_department || values?.PG_college_details?.pg_college_department}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1638,7 +1661,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="PG-College-degree"
                                                 name="pg_college_degree"
-                                                value={formData.data.PG_college_details.pg_college_degree}
+                                                value={formData.data.PG_college_details.pg_college_degree || values?.PG_college_details?.pg_college_degree}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1659,7 +1682,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="Diploma-college-name"
                                                 name="diploma_college_name"
-                                                value={formData.data.Diploma_college_details.diploma_college_name}
+                                                value={formData.data.Diploma_college_details.diploma_college_name || values?.Diploma_college_details?.diploma_college_name}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1670,7 +1693,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="Diploma-college-start-year"
                                                 name="diploma_college_start_year"
-                                                value={formData.data.Diploma_college_details.diploma_college_start_year}
+                                                value={formData.data.Diploma_college_details.diploma_college_start_year || values?.Diploma_college_details?.diploma_college_start_year}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1681,7 +1704,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="Diploma-college-end-year"
                                                 name="diploma_college_end_year"
-                                                value={formData.data.Diploma_college_details.diploma_college_end_year}
+                                                value={formData.data.Diploma_college_details.diploma_college_end_year || values?.Diploma_college_details?.diploma_college_end_year}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1692,7 +1715,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="Diploma-college-percentage"
                                                 name="diploma_college_percentage"
-                                                value={formData.data.Diploma_college_details.diploma_college_percentage}
+                                                value={formData.data.Diploma_college_details.diploma_college_percentage || values?.Diploma_college_details?.diploma_college_percentage}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1706,7 +1729,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="Diploma-college-department"
                                                 name="diploma_college_department"
-                                                value={formData.data.Diploma_college_details.diploma_college_department}
+                                                value={formData.data.Diploma_college_details.diploma_college_department || values?.Diploma_college_details?.diploma_college_department}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1717,7 +1740,7 @@ const UserProfile = () => {
                                             <TextField className='textfield'
                                                 label="Diploma-college-degree"
                                                 name="diploma_college_degree"
-                                                value={formData.data.Diploma_college_details.diploma_college_degree}
+                                                value={formData.data.Diploma_college_details.diploma_college_degree || values?.Diploma_college_details?.diploma_college_degree}
                                                 onChange={handleChange}
                                                 fullWidth
                                                 margin="dense"
@@ -1776,7 +1799,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="Industry"
                                             name="industry"
-                                            value={formData.data.jobPreference.industry}
+                                            value={formData.data.jobPreference.industry || values?.jobPreference?.industry}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1790,7 +1813,7 @@ const UserProfile = () => {
                                         <TextField className='textfield'
                                             label="Department"
                                             name="department"
-                                            value={formData.data.jobPreference.department}
+                                            value={formData.data.jobPreference.department || values?.jobPreference?.department}
                                             onChange={handleChange}
                                             fullWidth
                                             margin="dense"
@@ -1826,8 +1849,17 @@ const UserProfile = () => {
                                                     style={{backgroundColor:'white'}}
                                                 />
                                             )}
-                                            value={Array.isArray(formData.data.jobPreference.prefered_locations) ? formData.data.jobPreference.prefered_locations : []}
-                                            onChange={(event, newValues) => handleAutoCompleteChange(event, newValues, 'prefered_locations')}
+                                            value={Array.isArray((formData.data.jobPreference.prefered_locations) || (values?.jobPreference?.prefered_locations)) ? formData.data.jobPreference.prefered_locations : [] }
+                                      
+                                            
+                                            // onChange={(event, newValues) => handleAutoCompleteChange(event, newValues, 'prefered_locations')}
+                                            onChange={(event, newValues) => {
+                                                handleAutoCompleteChange(event, newValues, 'prefered_locations');
+                                                console.log(newValues ,'hhhhh'); 
+
+                                            }}
+                                           
+                                            
                                         />
 
                                     </Grid>
@@ -1844,7 +1876,7 @@ const UserProfile = () => {
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Grid container spacing={2}>
-                                    {formData.data.professionalDetails.companies.map((company, index) => (
+                                    {formData.data.professionalDetails.companies.map ((company, index) => (
                                         <Grid item xs={12} sm={6} key={index}>
                                             <TextField
                                                 className='textfield'
