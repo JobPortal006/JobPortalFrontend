@@ -204,6 +204,9 @@ const LogIn = () => {
       }
     } catch (error) {
       console.log(error);
+      if(error.code === "ERR_NETWORK"){
+        toast.error("Server Not Responding")
+      }
     }
   };
 
