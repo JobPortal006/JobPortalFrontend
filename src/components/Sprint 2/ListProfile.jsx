@@ -5,7 +5,8 @@ import "./ListProfile.css";
 
 export const ListProfile = () => {
     const location = useLocation();
-    const jobmail = location.state.userId;
+    const jobmail = location.state.encryptUserId;
+    console.log(jobmail,"jobmail");
     const [profileData, setProfileData] = useState(null);
 
     useEffect(() => {

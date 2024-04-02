@@ -3,9 +3,11 @@ import { Button, Grid } from "@mui/material";
 import "./userJobList.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import BASE_URL from "../CommonAPI";
+import CryptoJS from "crypto-js";
 
 const UsersJobList = () => {
  
+  
 
   const [listUser, setListUser] = useState("");
   console.log(listUser, "<><ListUseR><>");

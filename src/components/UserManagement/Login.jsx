@@ -578,8 +578,7 @@ const LogIn = () => {
       setOutputData(outPut);
       console.log(outPut, "post data response===>");
       console.log(dataOne);
-      console.log(response.data);
-
+      console.log(response.data,"error backend");
 
 
       if (storedToken !== null && outPut === true) {
@@ -594,6 +593,8 @@ const LogIn = () => {
       }
     } catch (error) {
       console.log(error);
+      if(error.code === "ERR_NETWORK")
+      toast.error("Server not Responding")
     }
   };
 

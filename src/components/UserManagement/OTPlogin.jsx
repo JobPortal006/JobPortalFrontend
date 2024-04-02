@@ -35,7 +35,9 @@ const OTPlogin = () => {
 
       const response = await axios.post(`${BASE_URL}/loginWithOTP/`, { mobile_number }, { headers: headers });
       const otpverify = response.data.status;
-
+      const registeredBy = response.data.message.registered_by
+      localStorage.setItem('registered_by' , registeredBy ) ;
+      console.log(registeredBy,"otp");
       console.log(response, "OTP_Response====>");
       console.log(otpverify, "otpverify======>");
 
@@ -72,6 +74,7 @@ const OTPlogin = () => {
         );
         toast.success(otpnum.validation.four);
         navigate("/home");
+        window.location.reload();
       } else {
         console.log("Failed to verify OTP");
       }

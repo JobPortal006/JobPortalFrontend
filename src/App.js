@@ -48,7 +48,9 @@ function App() {
   const [responseData, setResponseData] = useState(null);
   const [detailData,setDetailData ]  = useState(null);
 
-  console.log(process.env.REACT_APP_API, "env");
+ const SECRET_KEY = process.env.REACT_APP_SECRET_KEY
+
+  console.log(SECRET_KEY, "env");
   return (
     <UserContext.Provider value={{oneData, setData,employerDetails, 
     setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData  }}>
