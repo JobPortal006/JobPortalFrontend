@@ -1,9 +1,90 @@
-
-.otp-contained{
+.otp-login {
+    position: absolute;
+    /* background-color: #F4FF81; */
+    height: 100%;
+    width: 100%;
+  }
+  .country {
+    background-color: #e6ee9c;
+  }
+  
+  .country-list {
+    border: #333 1px solid;
+  }
+  
+  .otp-contained {
+    position: relative;
     margin-top: 10%;
     margin-left: 35%;
     padding: 30px 20px 30px 50px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     border-radius: 5%;
     width: 30%;
-}
+    background-color: #B2DFDB;
+  }
+  
+  .react-tel-input .form-control {
+    width: 125%;
+    box-shadow: none;
+    border-color: gray;
+    background-color: #B2DFDB;
+  }
+  
+  
+  
+  
+  
+  /* Media query for max-width: 600px */
+  @media (max-width: 550px) {
+    .otp-contained {
+      width: 65%;
+      margin-left: 4rem;
+    }
+    .react-tel-input .form-control {
+      width: 80%;
+    }
+  }
+  
+  /* Media query for min-width: 600px */
+  @media (min-width: 550px) and (max-width: 768px) {
+    .otp-contained {
+      width: 60%;
+      margin-left: 10rem;
+    }
+  }
+  
+  /* Phone Box */
+  
+  .react-tel-input .form-control {
+    color: black;
+  }
+  
+  .react-tel-input .form-control:hover {
+    color: green;
+    box-shadow: none;
+    border-color: #2196f3;
+  }
+  
+  .flag-dropdown .selected-flag:hover {
+    border-color: 1rem solid #2196f3;
+  }
+  
+  /* OTP Box */
+  
+  /* OTP input label */
+  
+  .otp-input label.Mui-focused {
+    color: #2e7d32;
+  }
+  
+  /* OTP input outline  */
+  .otp-input .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: #2e7d32;
+    box-shadow: 0 0 0 0.1rem rgba(166, 213, 252, 0.25);
+  }
+  
+  /* OTP input outline on hover styling */
+  .otp-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color:  #2e7d32;
+  }
+  

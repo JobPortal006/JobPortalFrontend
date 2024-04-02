@@ -125,7 +125,7 @@ const ForgetPassword = () => {
             />
           </Box>
           <br />
-          <Button variant="contained" color={forget.function.two} onClick={handleSubmit}>
+          <Button variant="contained" style={{backgroundColor:"#3F51B5"}} onClick={handleSubmit}>
             {forget.btn.three}
           </Button>
 
@@ -148,3 +148,4 @@ const ForgetPassword = () => {
 };
 
 export default ForgetPassword;
+

@@ -25,8 +25,10 @@ export const JobCard = () => {
 
   const handleViewAllClick = async (employeeType) => {
     try {
+      const token = localStorage.getItem('loginToken');
       const response = await axios.post(`${BASE_URL}/job_details_by_employeeType/`, {
-        employee_type: employeeType
+        employee_type: employeeType,
+        token
       }, {
         headers: {
           'Content-Type': 'application/json',

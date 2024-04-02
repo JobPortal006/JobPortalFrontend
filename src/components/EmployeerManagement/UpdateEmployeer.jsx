@@ -251,7 +251,7 @@ export const UpdateEmployerregister = () => {
         axios.post(`${BASE_URL}/update_employeer_details/`, formData)
             .then(response => {
                 console.log('Updated Details:', response.data);
-                const successMessage = response.data.success;
+                const successMessage = response.data.message;
                 // Display alert with success message
                 alert(successMessage);
             })
