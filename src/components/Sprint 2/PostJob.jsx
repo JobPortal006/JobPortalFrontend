@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Autocomplete } from "@mui/material";
+import "./PostJob.css"
 import axios from "axios";
 import { Radio, RadioGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { FormControl, FormGroup } from "@mui/material";
@@ -13,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import BASE_URL from '../CommonAPI';
+import Popper from '@mui/material/Popper';
+import { FaRegHandPointRight  } from "react-icons/fa";
 
 
 const PostJob = () => {
@@ -334,15 +337,15 @@ const PostJob = () => {
 
 
   return (
-    <div >
+    <div>
       <Container
         component="main"
-        style={{ width: "80%", marginBottom: "10rem" }}
+        className="post_container"
+        style={{ width: "80%", marginBottom: "4rem",borderRadius:"10px",marginTop:"5rem" ,backgroundColor:"#E8EAF6"}}
       >
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 15,
             display: "flex",
             flexDirection: "column",
           }}
@@ -352,43 +355,94 @@ const PostJob = () => {
             noValidate="false"
             style={{ marginTop: "1rem" }}
           >
-            <h3>Post a Job</h3>
-            <br />
-
-
-            <br />
-            <br />
-
-            <label>Job Title*</label>
+            <h3 className="PostTitle">Post a Job</h3>
+            <label style={{fontWeight:'bold',fontSize:"16px"}}>Job Title</label>
             <br />
 
             <TextField
               margin="normal"
+              
               fullWidth
               id="job-title"
-              label="Job Title"
+              label="Enter the Job Title"
               name="job_title"
               value={jobPost.job_title}
               onChange={(e) => handleChange(e, e.target.value, "job_title")}
               onBlur={(e)=>handleBlur("job_title", e.target.value)}
               error={errors.job_title}
               helperText={errors.job_title ? "Job Title is required" : ""}
+              InputLabelProps={{
+                style: { color: "#1A237E" } // Change label color
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                    borderRadius: '10px', // Set border radius
+                    '& fieldset': {
+                        borderColor: '#1A237E', // Set border color
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&:hover fieldset': {
+                        borderColor: '#a2beda', // Set border color on hover
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: '#1A237E', // Set border color on focus
+                        borderWidth: '2px' // Set border width
+                    },
+                },
+                color: "#1A237E" // Text color
+            }}
+            style={{backgroundColor:"white",borderRadius:"10px"}}
+            FormHelperTextProps={{
+              sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+          }}
             />
+            {/* <TextField
+    margin="normal"
+    fullWidth
+    id="job-title"
+    label="Enter the Job Title"
+    name="job_title"
+    value={jobPost.job_title}
+    onChange={(e) => handleChange(e, e.target.value, "job_title")}
+    onBlur={(e)=>handleBlur("job_title", e.target.value)}
+    error={errors.job_title}
+    helperText={errors.job_title ? "Job Title is required" : ""}
+    InputLabelProps={{
+        style: { color: "#1A237E" } // Change label color
+    }}
+    sx={{
+        '& .MuiOutlinedInput-root': {
+            borderRadius: '10px', // Set border radius
+            '& fieldset': {
+                borderColor: '#1A237E', // Set border color
+                borderWidth: '2px' // Set border width
+            },
+            '&:hover fieldset': {
+                borderColor: '#a2beda', // Set border color on hover
+                borderWidth: '2px' // Set border width
+            },
+            '&.Mui-focused fieldset': {
+                borderColor: '#1A237E', // Set border color on focus
+                borderWidth: '2px' // Set border width
+            },
+        },
+        color: "#1A237E", // Text color
+        backgroundColor: errors.job_title ? '#E8EAF6' : 'white', // Background color based on error
+        borderRadius: "10px", // Border radius
+    }}
+    FormHelperTextProps={{
+        sx: { backgroundColor: '#E8EAF6' } // Set background color for error message
+    }}
+/> */}
 
-            <br />
-            <br />
 
-            <label>Email*</label>
-            <br />
-
-           
-
-            <p style={{ marginTop: "1rem" }}>Job Description*</p>
+            <p style={{fontWeight:'bold',fontSize:"16px",marginTop:"10px",marginBottom:"-5px"}}>Job Description</p>
             <TextField
               margin="normal"
               fullWidth
               name="job_description"
-              label="Job Description"
+              label="Enter the Job Description"
               type="text"
               id="job-description"
               multiline
@@ -400,34 +454,98 @@ const PostJob = () => {
               helperText={
                 errors.job_description ? "Job Description is required" : ""
               }
+              InputLabelProps={{
+                style: { color: "#1A237E" } // Change label color
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                    borderRadius: '10px', // Set border radius
+                    '& fieldset': {
+                        borderColor: '#1A237E', // Set border color
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&:hover fieldset': {
+                        borderColor: '#a2beda', // Set border color on hover
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: '#1A237E', // Set border color on focus
+                        borderWidth: '2px' // Set border width
+                    },
+                },
+                color: "#1A237E", // Text color
+                // backgroundColor: errors.job_title ? '#E8EAF6' : 'white', // Background color based on error
+                // borderRadius: "10px", // Border radius
+            }}
+            style={{backgroundColor:"white",borderRadius:"10px"}}
+            FormHelperTextProps={{
+              sx: { backgroundColor: '#E8EAF6' } // Set background color for error message
+          }}
             />
 
-            <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid container spacing={2} sx={{ mt: 0 }}>
               <Grid item xs={12} sm={6} md={6} xl={6} xxl={6}>
-                <label>Employment Type*</label>
+                <label style={{fontWeight:'bold',fontSize:"16px"}}>Employment Type</label>
 
                 <Autocomplete
                   sx={{ mt: 2 }}
                   options={employmentType}
                   value={employment}
                   onChange={(event, newValue) => {
-                    setEmployment(newValue);
-                    setErrors({ ...errors, employment: newValue === null }); 
-
+                      setEmployment(newValue);
+                      setErrors({ ...errors, employment: newValue === null }); 
                   }}
-                 
                   renderInput={(text) => (
-                    <TextField {...text} label="Employment Type"
-                    error={errors.employment}
-                    helperText={errors.employment ? "Employment is required" : ""}
-                    onBlur={(e)=>handleBlur("employment", e.target.value )}
-                     />
-                    
+                      <TextField 
+                          {...text} 
+                          label="Select the Employment Type"
+                          error={errors.employment}
+                          helperText={errors.employment ? "Employment is required" : ""}
+                          onBlur={(e)=>handleBlur("employment", e.target.value )}
+                          InputLabelProps={{
+                              style: { color: "#1A237E" } // Change label color
+                          }}
+                          sx={{
+                              '& .MuiOutlinedInput-root': {
+                                  borderRadius: '10px', // Set border radius
+                                  '& fieldset': {
+                                      borderColor: '#1A237E', // Set border color
+                                      borderWidth: '2px' // Set border width
+                                  },
+                                  '&:hover fieldset': {
+                                      borderColor: '#a2beda', // Set border color on hover
+                                      borderWidth: '2px' // Set border width
+                                  },
+                                  '&.Mui-focused fieldset': {
+                                      borderColor: '#1A237E', // Set border color on focus
+                                      borderWidth: '2px' // Set border width
+                                  },
+                              },
+                              color: "#1A237E", // Text color
+                              backgroundColor: "white", // Background color
+                              borderRadius: "10px", // Border radius
+                          }}
+                          FormHelperTextProps={{
+                              sx: { 
+                                  backgroundColor: '#E8EAF6', // Set background color for error message
+                                  marginTop:"-2px",
+                                  marginLeft:"-5px",
+                                  marginRight:"-5px",
+                                  padding:"5px",
+                                  paddingLeft:"20px"
+                              }
+                          }}
+                      />
                   )}
-                />
+                  PopperComponent={(props) => (
+                      <Popper {...props} style={{backgroundColor: "white", borderRadius: "7px", border: "2px solid #1A237E",width:"500px"}}>
+                          {props.children}
+                      </Popper>
+                  )}
+              />
               </Grid>
               <Grid item xs={12} sm={6} md={6} xl={6} xxl={6}>
-                <label>Role*</label>
+                <label style={{fontWeight:'bold',fontSize:"16px"}}>Role</label>
                 <Autocomplete
                   sx={{ mt: 2 }}
                   options={Role}
@@ -437,18 +555,49 @@ const PostJob = () => {
                     setErrors({ ...errors, jobRole: newValue === null }); 
                   }}
                   renderInput={(job) => (
-                    <TextField {...job} label="Role"
+                    <TextField {...job} label="Select the Role"
                     error={errors.jobRole}
                     
                     onBlur={(e)=>handleBlur("jobRole", e.target.value)}
                     helperText={errors.jobRole ? "Role is Required" : null || ""} 
+                    InputLabelProps={{
+                      style: { color: "#1A237E" } // Change label color
+                    }}
+                    sx={{
+                      '& .MuiOutlinedInput-root': {
+                          borderRadius: '10px', // Set border radius
+                          '& fieldset': {
+                              borderColor: '#1A237E', // Set border color
+                              borderWidth: '2px' // Set border width
+                          },
+                          '&:hover fieldset': {
+                              borderColor: '#a2beda', // Set border color on hover
+                              borderWidth: '2px' // Set border width
+                          },
+                          '&.Mui-focused fieldset': {
+                              borderColor: '#1A237E', // Set border color on focus
+                              borderWidth: '2px' // Set border width
+                          },
+                      },
+                      color: "#1A237E", // Text color
+                      // backgroundColor: errors.job_title ? '#E8EAF6' : 'white', // Background color based on error
+                      // borderRadius: "10px", // Border radius
+                  }}
+                  style={{backgroundColor:"white",borderRadius:"10px"}}
+                  FormHelperTextProps={{
+                    sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px",paddingLeft:"20px"} // Set background color for error message
+                  }}
                    />
                     
                   )}
+                  PopperComponent={(props) => (
+                    <Popper {...props} style={{backgroundColor: "white", borderRadius: "7px", border: "2px solid #1A237E",width:"500px"}}>
+                        {props.children}
+                    </Popper>
+                )}
                 />
               </Grid>
             </Grid>
-            <br />
           {/*   <label>Location*</label>
             <br />
 
@@ -469,10 +618,9 @@ const PostJob = () => {
             <br />
             */}
 
-
-            <label>Location*</label>
-            <br />
-            <br />
+<           Grid container spacing={2} sx={{ mt: 0 }}>
+              <Grid item xs={12} sm={6} md={6} xl={6} xxl={6}>
+            <label style={{fontWeight:'bold',fontSize:"16px",marginBottom:"10px"}}>Locations</label>
             <Autocomplete
               options={Newlocation}
               multiple
@@ -487,37 +635,47 @@ const PostJob = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Location"
+                  label="Select the Locations"
                   name="location"
                   error={errors.selectedLocation }
                   helperText={errors.selectedLocation ? "Location is required" : ""}
                   onBlur={(e)=>handleBlur("location", e.target.value)}
+                  InputLabelProps={{
+                    style: { color: "#1A237E" } // Change label color
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '10px', // Set border radius
+                        '& fieldset': {
+                            borderColor: '#1A237E', // Set border color
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#a2beda', // Set border color on hover
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#1A237E', // Set border color on focus
+                            borderWidth: '2px' // Set border width
+                        },
+                    },
+                    color: "#1A237E" // Text color
+                }}
+                style={{backgroundColor:"white",borderRadius:"10px"}}
+                  FormHelperTextProps={{
+                    sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px",paddingLeft:"20px"} // Set background color for error message
+                  }}
                 />
               )}
+              PopperComponent={(props) => (
+                <Popper {...props} style={{backgroundColor: "white", borderRadius: "7px", border: "2px solid #1A237E",width:"500px"}}>
+                    {props.children}
+                </Popper>
+            )}
             />
-
-{/*
-            <label>Skills*</label>
-            <br />
-            <br />
-            <Autocomplete
-              multiple
-              options={Newlocation}
-              value={selectedLocation}
-              onChange={(event, newEvent) => { setSelectedLocation(newEvent);
-                setErrors({ ...errors, skills: newEvent.length === 0 });  }}
-              renderInput={(para) => <TextField {...para} label="Skills"
-              error={errors.selectedLocation}
-              helperText={errors.selectedLocation ? "Skills is Required" :"" } 
-            //   onBlur={(e)=>handleBlur("skills" , e.target.value )}
-              />}
-            />
-            <br/>
-
- */}
-            <label>Skills*</label>
-            <br />
-            <br />
+            </Grid>
+              <Grid item xs={12} sm={6} md={6} xl={6} xxl={6}>
+            <label style={{fontWeight:'bold',fontSize:"16px",marginBottom:"10px"}}>Skills</label>
             <Autocomplete
               multiple
               options={jobSkills}
@@ -527,12 +685,44 @@ const PostJob = () => {
               renderInput={(para) => <TextField {...para} label="Skills"
               error={errors.skills}
               helperText={errors.skills ? "Skills is Required" :"" } 
+              InputLabelProps={{
+                style: { color: "#1A237E" } // Change label color
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                    borderRadius: '10px', // Set border radius
+                    '& fieldset': {
+                        borderColor: '#1A237E', // Set border color
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&:hover fieldset': {
+                        borderColor: '#a2beda', // Set border color on hover
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: '#1A237E', // Set border color on focus
+                        borderWidth: '2px' // Set border width
+                    },
+                },
+                color: "#1A237E" // Text color
+            }}
+            style={{backgroundColor:"white",borderRadius:"10px"}}
+                  FormHelperTextProps={{
+                    sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px",paddingLeft:"20px"} // Set background color for error message
+                  }}
             //   onBlur={(e)=>handleBlur("skills" , e.target.value )}
               />}
+              PopperComponent={(props) => (
+                <Popper {...props} style={{backgroundColor: "white", borderRadius: "7px", border: "2px solid #1A237E",width:"500px"}}>
+                    {props.children}
+                </Popper>
+            )}
             />
-            <br/>
+            </Grid>
+            </Grid>
+            {/* <br/> */}
         
-            <label>QualiFication*</label>
+            <label style={{fontWeight:'bold',fontSize:"16px",margin:"15px 0", marginBottom:"-10px"}}>Qualifications</label>
             <Autocomplete
             multiple
             id="job-qualifications"
@@ -546,8 +736,34 @@ const PostJob = () => {
                 {...params}
                 margin="normal"
                 fullWidth
-                label="Qualifications"
+                label="Enter the Qualifications"
                 variant="outlined"
+                placeholder="Type & Enter"
+                InputLabelProps={{
+                  style: { color: "#1A237E" } // Change label color
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                      borderRadius: '10px', // Set border radius
+                      '& fieldset': {
+                          borderColor: '#1A237E', // Set border color
+                          borderWidth: '2px' // Set border width
+                      },
+                      '&:hover fieldset': {
+                          borderColor: '#a2beda', // Set border color on hover
+                          borderWidth: '2px' // Set border width
+                      },
+                      '&.Mui-focused fieldset': {
+                          borderColor: '#1A237E', // Set border color on focus
+                          borderWidth: '2px' // Set border width
+                      },
+                  },
+                  color: "#1A237E" // Text color
+              }}
+              style={{backgroundColor:"white",borderRadius:"10px"}}
+                  FormHelperTextProps={{
+                    sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px",paddingLeft:"20px"} // Set background color for error message
+                  }}
               />
             )}
           />
@@ -573,10 +789,9 @@ const PostJob = () => {
             />
               */}
           
-
-            <Grid container spacing={2} sx={{ mt: 1 }}>
+            <Grid container spacing={2} sx={{ mt: 0 }}>
               <Grid item xs={12} sm={12} md={4} xl={4} xxl={4}>
-              <label>Experience*</label>
+              <label style={{fontWeight:'bold',fontSize:"16px"}}>Experience</label>
               <Autocomplete
               sx={{mt:2}}
               fullWidth
@@ -587,20 +802,52 @@ const PostJob = () => {
                 setErrors({ ...errors, experience: newValue === null }); 
               }}
               renderInput={(exp) => (
-                <TextField {...exp} label="Experience" 
+                <TextField {...exp} label="Selet the Experience" 
                 error={errors.experience}
                 helperText={errors.experience ? "Experience is Required" : ""} 
-                onBlur={(e)=>handleBlur("experience", e.target.value)}/>)}
+                onBlur={(e)=>handleBlur("experience", e.target.value)}
+                InputLabelProps={{
+                  style: { color: "#1A237E" } // Change label color
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                      borderRadius: '10px', // Set border radius
+                      '& fieldset': {
+                          borderColor: '#1A237E', // Set border color
+                          borderWidth: '2px' // Set border width
+                      },
+                      '&:hover fieldset': {
+                          borderColor: '#a2beda', // Set border color on hover
+                          borderWidth: '2px' // Set border width
+                      },
+                      '&.Mui-focused fieldset': {
+                          borderColor: '#1A237E', // Set border color on focus
+                          borderWidth: '2px' // Set border width
+                      },
+                  },
+                  color: "#1A237E" // Text color
+              }}
+              style={{backgroundColor:"white",borderRadius:"10px"}}
+                  FormHelperTextProps={{
+                    sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px",paddingLeft:"20px"} // Set background color for error message
+                  }}
+                />)}
+                PopperComponent={(props) => (
+                  <Popper {...props} style={{backgroundColor: "white", borderRadius: "7px", border: "2px solid #1A237E",width:"330px"}}>
+                      {props.children}
+                  </Popper>
+              )}
+                
             />
             
               </Grid>
               <Grid item xs={6} sm={6} md={4} xl={4} xxl={4}>
-                <label>No.of.Vacancies*</label>
+                <label style={{fontWeight:'bold',fontSize:"16px"}}>No.of.Vacancies</label>
                 <TextField
                   fullWidth
                   margin="normal"
                   id="job-vacancy"
-                  label="Vacancy"
+                  label="Enter the Number of Vacancy"
                   name="no_of_vacancies"
                   type="number"
                   value={jobPost.no_of_vacancies}
@@ -613,10 +860,35 @@ const PostJob = () => {
                   helperText={
                     errors.no_of_vacancies ? "Vacancy is required" : ""
                   }
+                  InputLabelProps={{
+                    style: { color: "#1A237E" } // Change label color
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '10px', // Set border radius
+                        '& fieldset': {
+                            borderColor: '#1A237E', // Set border color
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#a2beda', // Set border color on hover
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#1A237E', // Set border color on focus
+                            borderWidth: '2px' // Set border width
+                        },
+                    },
+                    color: "#1A237E" // Text color
+                }}
+                style={{backgroundColor:"white",borderRadius:"10px"}}
+                  FormHelperTextProps={{
+                    sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px",paddingLeft:"20px"} // Set background color for error message
+                  }}
                 />
               </Grid>
               <Grid item xs={6} sm={6} md={4} xl={4} xxl={4}>
-              <label>Salary</label>
+              <label style={{fontWeight:'bold',fontSize:"16px"}}>Salary</label>
               <Autocomplete 
               sx={{mt:2}}
               fullWidth
@@ -627,20 +899,49 @@ const PostJob = () => {
                 setErrors({ ...errors, salary_range: newValue === null }); 
               }}
               renderInput={(range) => (
-                <TextField {...range} label="Salary Range" 
+                <TextField {...range} label="Select the Salary Range" 
                 error={errors.salary}
                 helperText={errors.salary ? "Salary is Required" : ""} 
-                onBlur={(e)=>handleBlur("Salary Range", e.target.value)}/>)}
-              
-              
-              
+                onBlur={(e)=>handleBlur("Salary Range", e.target.value)}
+                InputLabelProps={{
+                  style: { color: "#1A237E" } // Change label color
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                      borderRadius: '10px', // Set border radius
+                      '& fieldset': {
+                          borderColor: '#1A237E', // Set border color
+                          borderWidth: '2px' // Set border width
+                      },
+                      '&:hover fieldset': {
+                          borderColor: '#a2beda', // Set border color on hover
+                          borderWidth: '2px' // Set border width
+                      },
+                      '&.Mui-focused fieldset': {
+                          borderColor: '#1A237E', // Set border color on focus
+                          borderWidth: '2px' // Set border width
+                      },
+                  },
+                  color: "#1A237E" // Text color
+              }}
+              style={{backgroundColor:"white",borderRadius:"10px"}}
+                  FormHelperTextProps={{
+                    sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px",paddingLeft:"20px"} // Set background color for error message
+                  }}
+                />)}
+                PopperComponent={(props) => (
+                  <Popper {...props} style={{backgroundColor: "#E8EAF6", borderRadius: "7px", border: "2px solid #1A237E",width:"330px"}}>
+                      {props.children}
+                  </Popper>
+              )}
+                
               />
               </Grid>
             </Grid>
            
-            <br />
-            <div>
-                <p>
+            {/* <br /> */}
+            <div style={{marginTop:"10px"}}>
+                <p style={{fontWeight:'bold',fontSize:"16px"}}>
                 Need to ask additional queries to the user ? 
 
                 </p>
@@ -649,22 +950,24 @@ const PostJob = () => {
                 value={additionalQueries}
                 onChange={handleRadioChange}
               >
-              <p>
+              <p style={{marginTop:"-5px"}}>
                 <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
                 <FormControlLabel value="No" control={<Radio />} label="No" />
                 </p>
               </RadioGroup>
               {additionalQueries === 'Yes' && (
-                <div>
-                  {questions.map((question, index) => (
-                    <p key={index}>{question}</p>
-                  ))}
-                </div>
+                <div style={{ fontSize: "16px" }}>
+                {questions.map((question, index) => (
+                    <div key={index} style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+                        <FaRegHandPointRight  style={{ marginRight: "8px", color: "#1A237E", fontSize: "24px",marginTop:"-15px" }} /> {/* Icon component */}
+                        <p>{question}</p>
+                    </div>
+                ))}
+            </div>
               )}
 
             </div>
-            <br />  
-            <div>
+            {/* <div>
               <Button
                 variant="contained"
                 color="secondary"
@@ -672,7 +975,32 @@ const PostJob = () => {
               >
                 Submit
               </Button>
-            </div>
+            </div> */}
+           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+            <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+                sx={{
+                    width:"180px",
+                    borderRadius: '10px', // Rounded corners
+                    padding: '7px 15px', // Padding
+                    fontSize: '16px', // Font size
+                    fontWeight: 'bold', // Bold font weight
+                    textTransform: 'none', // Disable text transformation
+                    boxShadow: 'none', // Disable box shadow
+                    marginBottom:"20px",
+                    color: 'white', // Set text color
+                    backgroundColor: '#1A237E', // Set background color
+                    '&:hover': {
+                        backgroundColor: '#a2beda', // Change background color on hover
+                        color: '#1A237E'
+                    },
+                }}
+            > Submit
+            </Button>
+          </div>
           </Box>
         </Box>
       </Container>

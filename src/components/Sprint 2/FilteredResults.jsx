@@ -221,11 +221,6 @@ function FilteredResults() {
     // Determine which data to use for rendering
     const dataToUse = searchJob ? searchJob : oneData || companyList?.data || jobData?.data;
 
-
-   
-
-   
-
     console.log(dataToUse,"<====DATATOUSE");
   
     const indexOfLastJob = currentPage * jobsPerPage;
@@ -279,6 +274,8 @@ function FilteredResults() {
         >Error: Server Not Responding
         </p>; 
       }
+
+      
 
       // 
       const token = localStorage.getItem("loginToken");
