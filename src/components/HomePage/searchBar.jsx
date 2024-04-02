@@ -695,6 +695,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   const { searchJob, setsearchJob,setcompanyList } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   console.log(searchJob, '=======>user context true');
+  const token = localStorage.getItem('loginToken');
   const handleSearch = async () => {
     let isError = false;
 
@@ -712,6 +713,7 @@ const SearchBar = ({ isJobSearchPage }) => {
         skill: skillValues,
         location: searchValue,
         experience: experienceValue,
+        token:token,
       };
 
 
