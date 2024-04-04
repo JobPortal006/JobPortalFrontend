@@ -28,6 +28,8 @@ export const UpdateEmployerregister = () => {
         company_address: employerDetails.company_address || []
     });
 
+    const [isEditing, setIsEditing] = useState(false);
+
     const [companyDetailsErrors, setCompanyDetailsErrors] = useState({
         company_logo_pathError: '',
         company_nameError: '',
@@ -44,12 +46,6 @@ export const UpdateEmployerregister = () => {
         mobile_numberError: ''
     });
 
-    
-
-    
-    
-
-    
     // Constructing the complete URL for the company logo
     const companylogo_link =  updatedDetails.company_details.company_logo_path;
     
@@ -81,22 +77,6 @@ export const UpdateEmployerregister = () => {
         }));
     };
 
-      // Function to handle changes in input fields
-    // const handleChange = (event, section) => {
-    //     const { name, value } = event.target;
-    //     setUpdatedDetails(prevState => ({
-    //         ...prevState,
-    //         [section]: {
-    //             ...prevState[section],
-    //             [name]: value
-    //         }
-    //     }));
-    //      // Clear previous error message when user starts typing again
-    //      setErrors(prevErrors => ({
-    //         ...prevErrors,
-    //         [`${name}Error`]: ''
-    //     }));
-    // };
     const handleChange = (event, section) => {
         const { name, value } = event.target;
         let errorMessage = '';
@@ -162,6 +142,11 @@ export const UpdateEmployerregister = () => {
         }));
     };
 
+    // Function to toggle edit mode
+    const toggleEditMode = () => {
+        setIsEditing(prevMode => !prevMode);
+    };
+
     
     const handleAddressChange = (event, index, section) => {
         const { name, value } = event.target;
@@ -222,19 +207,6 @@ export const UpdateEmployerregister = () => {
         formData.append('no_of_employees', updatedDetails.company_details.no_of_employees);
         formData.append('company_website_link', updatedDetails.company_details.company_website_link);
         formData.append('company_logo_path', updatedDetails.company_details.company_logo_path);
-
-        // updatedDetails.company_address.forEach((address, index) => {
-        //     Object.keys(address).forEach(key => {
-        //         formData.append(`${key}_${index}`, address[key]);
-        //     });
-        // });
-    
-        // updatedDetails.company_address.forEach((address, index) => {
-        //     Object.entries(address).forEach(([key, value]) => {
-        //         formData.append(`address${index + 1}_${key}`, value);
-        //     });
-        // });
-
         formData.append('company_address', JSON.stringify(updatedDetails.company_address));
 
         const token = localStorage.getItem('loginToken');
@@ -242,10 +214,6 @@ export const UpdateEmployerregister = () => {
 
         formData.append('token', token);
 
-    //     const file = updatedDetails.company_details.company_logo_path;
-    // if (file instanceof File) {
-    //     formData.append('company_logo_path', file);
-    // }
             
         // Send FormData with Axios
         axios.post(`${BASE_URL}/update_employeer_details/`, formData)
@@ -285,7 +253,7 @@ export const UpdateEmployerregister = () => {
                                     
                                     <Grid item xs={12}>
                                             <label htmlFor="upload-company-logo">
-                                                <Button component="span" variant="contained" color="primary">Upload Logo</Button>
+                                                <Button component="span" variant="contained" color="primary" disabled={!isEditing}>Upload Logo</Button>
                                             </label>
                                             <input type="file" id="upload-company-logo" name="company_logo_path" accept="image/*" style={{ display: 'none' }}  onChange={handleLogoChange} />
                                             <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px', marginLeft: '90px' }}>
@@ -309,6 +277,7 @@ export const UpdateEmployerregister = () => {
                                             onChange={(event) => handleChange(event, 'company_details')}
                                             error={Boolean(companyDetailsErrors.company_nameError)}
                                             helperText={companyDetailsErrors.company_nameError}
+                                            disabled={!isEditing}
                                         />
                                     </Grid>
                                     
@@ -322,6 +291,7 @@ export const UpdateEmployerregister = () => {
                                             onChange={(event) => handleChange(event, 'company_details')}
                                             error={Boolean(companyDetailsErrors.company_industryError)}
                                             helperText={companyDetailsErrors.company_industryError}
+                                            disabled={!isEditing}
                                         >
                                             <MenuItem value="">Select Industry Type</MenuItem>
                                             <MenuItem value="Information Technology">Information Technology</MenuItem>
@@ -342,6 +312,7 @@ export const UpdateEmployerregister = () => {
                                             onChange={(event) => handleChange(event, 'company_details')}
                                             error={Boolean(companyDetailsErrors.company_descriptionError)}
                                             helperText={companyDetailsErrors.company_descriptionError}
+                                            disabled={!isEditing}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -354,6 +325,7 @@ export const UpdateEmployerregister = () => {
                                             onChange={(event) => handleChange(event, 'company_details')}
                                             error={Boolean(companyDetailsErrors.no_of_employeesError)}
                                             helperText={companyDetailsErrors.no_of_employeesError}
+                                            disabled={!isEditing}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -366,6 +338,7 @@ export const UpdateEmployerregister = () => {
                                             onChange={(event) => handleChange(event, 'company_details')}
                                             error={Boolean(companyDetailsErrors.company_website_linkError)}
                                             helperText={companyDetailsErrors.company_website_linkError}
+                                            disabled={!isEditing}
                                         />
                                     </Grid>
                                     </Grid>
@@ -388,6 +361,7 @@ export const UpdateEmployerregister = () => {
                                             onChange={(event) => handleChange(event, 'contact_information')}
                                             error={Boolean(contactInformationErrors.contact_person_nameError)}
                                             helperText={contactInformationErrors.contact_person_nameError}
+                                            disabled={!isEditing}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -399,6 +373,7 @@ export const UpdateEmployerregister = () => {
                                             onChange={(event) => handleChange(event, 'contact_information')}
                                             error={Boolean(contactInformationErrors.contact_person_positionError)}
                                             helperText={contactInformationErrors.contact_person_positionError}
+                                            disabled={!isEditing}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -410,6 +385,7 @@ export const UpdateEmployerregister = () => {
                                             onChange={(event) => handleChange(event, 'contact_information')} // Updated section parameter
                                             error={Boolean(contactInformationErrors.emailError)}
                                             helperText={contactInformationErrors.emailError}
+                                            disabled={!isEditing}
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -421,85 +397,11 @@ export const UpdateEmployerregister = () => {
                                             onChange={(event) => handleChange(event, 'contact_information')} // Updated section parameter
                                             error={Boolean(contactInformationErrors.mobile_numberError)}
                                             helperText={contactInformationErrors.mobile_numberError}
+                                            disabled={!isEditing}
                                         />
                                     </Grid>
-                                    </Grid>
-                                    {/* </Box> */}
-                                    
-                                    {/* <Box sx={{ background: 'rgb(245, 245, 245)', padding: '20px', marginBottom: '20px', width: '100%',marginLeft:'40px',borderRadius:'20px'  }}> */}
-                                    {/* <Grid container spacing={2}>
-                                    <Grid item xs={12} >
-                                    <Divider sx={{ marginY: 3, bgcolor: '#3F51B5',borderWidth: '1px' }} />
-                                        <Typography variant="h6"
-                                        color="#1A237E" fontSize="25px"
-                                        fontWeight="bold" textTransform="uppercase" textAlign="center" marginTop="20px">Company Address</Typography>
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            fullWidth
-                                            label={errorMessages.mainFileStrings.streetLabel}
-                                            name="street"
-                                            value={updatedDetails.company_address.street}
-                                            onChange={(event) => handleChange(event, 'company_address')}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            fullWidth
-                                            label={errorMessages.mainFileStrings.cityLabel}
-                                            name="city"
-                                            value={updatedDetails.company_address.city}
-                                            onChange={(event) => handleChange(event, 'company_address')}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            fullWidth
-                                            label={errorMessages.mainFileStrings.stateLabel}
-                                            name="state"
-                                            value={updatedDetails.company_address.state}
-                                            onChange={(event) => handleChange(event, 'company_address')}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            fullWidth
-                                            label={errorMessages.mainFileStrings.countryLabel}
-                                            name="country"
-                                            value={updatedDetails.company_address.country}
-                                            onChange={(event) => handleChange(event, 'company_address')}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            fullWidth
-                                            label={errorMessages.mainFileStrings.pincodeLabel}
-                                            name="pincode"
-                                            value={updatedDetails.company_address.pincode}
-                                            onChange={(event) => handleChange(event, 'company_address')}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <TextField
-                                            select
-                                            fullWidth
-                                            label={errorMessages.mainFileStrings.addressTypeLabel}
-                                            name="address_type"
-                                            value={updatedDetails.company_address.address_type}
-                                            onChange={(event) => handleChange(event, 'company_address')}
-                                        >
-                                            <MenuItem value="Permanent">Permanent</MenuItem>
-                                            <MenuItem value="Current">Current</MenuItem>
-                                        </TextField>
                                     </Grid>
                                     
-                                    <Grid item xs={12} sm={6}>
-                                        <Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
-                                    </Grid>
-                                    </Grid> */}
-                                    {/* <Grid item xs={12} >
-                                    <Divider sx={{ marginY: 3, bgcolor: '#3F51B5',borderWidth: '1px' }} />
-                                    </Grid> */}
                                     {updatedDetails.company_address && updatedDetails.company_address.map((address, index) => (
                                         <Grid container spacing={2} key={index}>
                                             <Grid item xs={12} >
@@ -515,6 +417,7 @@ export const UpdateEmployerregister = () => {
                                                     name="street"
                                                     value={address.street || ''}
                                                     onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                    disabled={!isEditing}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
@@ -524,6 +427,7 @@ export const UpdateEmployerregister = () => {
                                                     name="city"
                                                     value={address.city || ''}
                                                     onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                    disabled={!isEditing}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
@@ -533,6 +437,7 @@ export const UpdateEmployerregister = () => {
                                                     name="state"
                                                     value={address.state || ''}
                                                     onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                    disabled={!isEditing}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
@@ -542,6 +447,7 @@ export const UpdateEmployerregister = () => {
                                                     name="country"
                                                     value={address.country || ''}
                                                     onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                    disabled={!isEditing}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
@@ -551,6 +457,7 @@ export const UpdateEmployerregister = () => {
                                                     name="pincode"
                                                     value={address.pincode || ''}
                                                     onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                    disabled={!isEditing}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
@@ -561,6 +468,7 @@ export const UpdateEmployerregister = () => {
                                                     name="address_type"
                                                     value={address.address_type || ''}
                                                     onChange={(event) => handleAddressChange(event, index, 'company_address')}
+                                                    disabled={!isEditing}
                                                 >
                                                     <MenuItem value="Permanent">Permanent</MenuItem>
                                                     <MenuItem value="Current">Current</MenuItem>
@@ -568,20 +476,31 @@ export const UpdateEmployerregister = () => {
                                             </Grid>
                                             {index > 0 && (
                                                 <Grid item xs={12} sm={6}>
-                                                    <Button variant="contained" color="secondary" onClick={() => removeAddress(index)}>Remove Address</Button>
+                                                    <Button variant="contained" color="secondary" disabled={!isEditing} onClick={() => removeAddress(index)}>Remove Address</Button>
                                                 </Grid>
                                             )}
                                         </Grid>
                                     ))}
 
                                     <Grid item xs={12} sm={6}>
-                                        <Button variant="contained" color="primary" onClick={addAddress}>Add Address</Button>
+                                        <Button variant="contained" color="primary" disabled={!isEditing} onClick={addAddress}>Add Address</Button>
+                                    </Grid>
+
+                                    <Grid item xs={12} sm={6}>
+                                        <Button variant="contained" color="primary" onClick={toggleEditMode}>
+                                            {isEditing ? 'Cancel' : 'Edit'}
+                                        </Button>
                                     </Grid>
                                     
                                     {/* Update button */}
-                                    <Grid item xs={12} sm={6}>
+                                    {/* <Grid item xs={12} sm={6}>
                                         <Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
-                                    </Grid>
+                                    </Grid> */}
+                                    {isEditing && (
+                                            <Grid item xs={12} sm={6}>
+                                                <Button variant="contained" color="primary" onClick={handleUpdate}>Update</Button>
+                                            </Grid>
+                                        )}
                                     </Box>
                                 </Grid>
                             </form>
