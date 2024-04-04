@@ -74,8 +74,8 @@ const EditMyJob = () => {
     "More than  30 LPA",
   ]
   
+  const [editMode, setEditMode] = useState(false); // State to control edit mode
  
-
   const [jobPost, setJobPost] = useState({
     company_name: "",
     job_title: "",
@@ -200,6 +200,8 @@ const EditMyJob = () => {
           >
             <h3>Edit My Job</h3>
             <br />
+            <Button variant="contained" color="primary" onClick={() => setEditMode(true)}>Edit</Button>
+            <br />
             <label>Company Name*</label>
             <br />
             <TextField
@@ -211,6 +213,32 @@ const EditMyJob = () => {
               required
               value={jobPost.company_name}
               onChange={(e) => setJobPost({ ...jobPost, company_name: e.target.value })}
+              disabled={!editMode}
+              InputLabelProps={{
+                style: { color: "#1A237E" } // Change label color
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                    borderRadius: '10px', // Set border radius
+                    '& fieldset': {
+                        borderColor: '#1A237E', // Set border color
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&:hover fieldset': {
+                        borderColor: '#a2beda', // Set border color on hover
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: '#1A237E', // Set border color on focus
+                        borderWidth: '2px' // Set border width
+                    },
+                },
+                color: "#1A237E" // Text color
+            }}
+            style={{backgroundColor:"white",borderRadius:"10px"}}
+            FormHelperTextProps={{
+              sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+          }}
             />
             <br />
             <br />
@@ -225,6 +253,32 @@ const EditMyJob = () => {
               name="job_title"
               value={jobPost.job_title}
               onChange={(e) => setJobPost({ ...jobPost, job_title: e.target.value })}
+              disabled={!editMode}
+              InputLabelProps={{
+                style: { color: "#1A237E" } // Change label color
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                    borderRadius: '10px', // Set border radius
+                    '& fieldset': {
+                        borderColor: '#1A237E', // Set border color
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&:hover fieldset': {
+                        borderColor: '#a2beda', // Set border color on hover
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: '#1A237E', // Set border color on focus
+                        borderWidth: '2px' // Set border width
+                    },
+                },
+                color: "#1A237E" // Text color
+            }}
+            style={{backgroundColor:"white",borderRadius:"10px"}}
+            FormHelperTextProps={{
+              sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+          }}
             />
 
             <p style={{ marginTop: "1rem" }}>Job Description*</p>
@@ -239,27 +293,106 @@ const EditMyJob = () => {
               rows={4}
               value={jobPost.job_description}
               onChange={(e) => setJobPost({ ...jobPost, job_description: e.target.value })}
+              disabled={!editMode}
+              InputLabelProps={{
+                style: { color: "#1A237E" } // Change label color
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                    borderRadius: '10px', // Set border radius
+                    '& fieldset': {
+                        borderColor: '#1A237E', // Set border color
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&:hover fieldset': {
+                        borderColor: '#a2beda', // Set border color on hover
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: '#1A237E', // Set border color on focus
+                        borderWidth: '2px' // Set border width
+                    },
+                },
+                color: "#1A237E" // Text color
+            }}
+            style={{backgroundColor:"white",borderRadius:"10px"}}
+            FormHelperTextProps={{
+              sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+          }}
             />
 
             <Grid container spacing={2} sx={{ mt: 1 }}>
               <Grid item xs={12} sm={6} md={6} xl={6} xxl={6}>
                 <label>Employment Type*</label>
                 <Autocomplete
-                  sx={{ mt: 2 }}
+                  // sx={{ mt: 2 }}
                   options={employmentType}
                   value={jobPost.employee_type}
                   onChange={(event, newEvent) => setJobPost({...jobPost, employee_type : newEvent})}
+                  disabled={!editMode}
                   renderInput={(text) => <TextField {...text} label="Employment Type" />}
+                  InputLabelProps={{
+                    style: { color: "#1A237E" } // Change label color
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '10px', // Set border radius
+                        '& fieldset': {
+                            borderColor: '#1A237E', // Set border color
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#a2beda', // Set border color on hover
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#1A237E', // Set border color on focus
+                            borderWidth: '2px' // Set border width
+                        },
+                    },
+                    color: "#1A237E" // Text color
+                }}
+                style={{backgroundColor:"white",borderRadius:"10px"}}
+                FormHelperTextProps={{
+                  sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+              }}
+                  
                 />
               </Grid>
               <Grid item xs={12} sm={6} md={6} xl={6} xxl={6}>
                 <label>Role*</label>
                 <Autocomplete   
-                  sx={{ mt: 2 }}
+                  // sx={{ mt: 2 }}
                   options={Role}
                   value={jobPost.job_role}
                   onChange={(event, newEvent) => setJobPost({...jobPost, job_role : newEvent})}
                   renderInput={(job) => <TextField {...job} label="Role" />}
+                  disabled={!editMode}
+                  InputLabelProps={{
+                    style: { color: "#1A237E" } // Change label color
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '10px', // Set border radius
+                        '& fieldset': {
+                            borderColor: '#1A237E', // Set border color
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#a2beda', // Set border color on hover
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#1A237E', // Set border color on focus
+                            borderWidth: '2px' // Set border width
+                        },
+                    },
+                    color: "#1A237E" // Text color
+                }}
+                style={{backgroundColor:"white",borderRadius:"10px"}}
+                FormHelperTextProps={{
+                  sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+              }}
                 />
               </Grid>
             </Grid>
@@ -272,6 +405,32 @@ const EditMyJob = () => {
             value={jobPost.location}
             onChange={(event, newEvent) => setJobPost({...jobPost, location : newEvent })}
             renderInput={(para) => <TextField {...para} label="Location" />}
+            disabled={!editMode}
+            InputLabelProps={{
+              style: { color: "#1A237E" } // Change label color
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                  borderRadius: '10px', // Set border radius
+                  '& fieldset': {
+                      borderColor: '#1A237E', // Set border color
+                      borderWidth: '2px' // Set border width
+                  },
+                  '&:hover fieldset': {
+                      borderColor: '#a2beda', // Set border color on hover
+                      borderWidth: '2px' // Set border width
+                  },
+                  '&.Mui-focused fieldset': {
+                      borderColor: '#1A237E', // Set border color on focus
+                      borderWidth: '2px' // Set border width
+                  },
+              },
+              color: "#1A237E" // Text color
+          }}
+          style={{backgroundColor:"white",borderRadius:"10px"}}
+          FormHelperTextProps={{
+            sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+        }}
           />
           <br />
             <br />
@@ -285,6 +444,32 @@ const EditMyJob = () => {
               value={jobPost.skills}
               onChange={(event, newEvent) => setJobPost({...jobPost, skills : newEvent })}
               renderInput={(para) => <TextField {...para} label="Skills" />}
+              disabled={!editMode}
+              InputLabelProps={{
+                style: { color: "#1A237E" } // Change label color
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                    borderRadius: '10px', // Set border radius
+                    '& fieldset': {
+                        borderColor: '#1A237E', // Set border color
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&:hover fieldset': {
+                        borderColor: '#a2beda', // Set border color on hover
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: '#1A237E', // Set border color on focus
+                        borderWidth: '2px' // Set border width
+                    },
+                },
+                color: "#1A237E" // Text color
+            }}
+            style={{backgroundColor:"white",borderRadius:"10px"}}
+            FormHelperTextProps={{
+              sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+          }}
             />
             <br />
             <label>Qualification*</label>
@@ -294,6 +479,32 @@ const EditMyJob = () => {
             value={jobPost.qualification}
             onChange={(event, newEvent) => setJobPost({...jobPost, qualification : newEvent })}
             renderInput={(para) => <TextField {...para} label="Qualification" />}
+            disabled={!editMode}
+            InputLabelProps={{
+              style: { color: "#1A237E" } // Change label color
+            }}
+            sx={{
+              '& .MuiOutlinedInput-root': {
+                  borderRadius: '10px', // Set border radius
+                  '& fieldset': {
+                      borderColor: '#1A237E', // Set border color
+                      borderWidth: '2px' // Set border width
+                  },
+                  '&:hover fieldset': {
+                      borderColor: '#a2beda', // Set border color on hover
+                      borderWidth: '2px' // Set border width
+                  },
+                  '&.Mui-focused fieldset': {
+                      borderColor: '#1A237E', // Set border color on focus
+                      borderWidth: '2px' // Set border width
+                  },
+              },
+              color: "#1A237E" // Text color
+          }}
+          style={{backgroundColor:"white",borderRadius:"10px"}}
+          FormHelperTextProps={{
+            sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+        }}
           />
           <br />
 
@@ -312,12 +523,38 @@ const EditMyJob = () => {
               <Grid item xs={12} sm={12} md={4} xl={4} xxl={4}>
                 <label>Experience*</label>
                 <Autocomplete
-                  sx={{ mt: 2 }}
+                  // sx={{ mt: 2 }}
                   fullWidth
                   options={experienceOptions}
                   value={jobPost.experience}
                   onChange={(event, newEvent) => setJobPost({...jobPost, experience :newEvent})}
                   renderInput={(exp) => <TextField {...exp} label="Experience" />}
+                  disabled={!editMode}
+                  InputLabelProps={{
+                    style: { color: "#1A237E" } // Change label color
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '10px', // Set border radius
+                        '& fieldset': {
+                            borderColor: '#1A237E', // Set border color
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#a2beda', // Set border color on hover
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#1A237E', // Set border color on focus
+                            borderWidth: '2px' // Set border width
+                        },
+                    },
+                    color: "#1A237E" // Text color
+                }}
+                style={{backgroundColor:"white",borderRadius:"10px"}}
+                FormHelperTextProps={{
+                  sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+              }}
                 />
               </Grid>
               <Grid item xs={6} sm={6} md={4} xl={4} xxl={4}>
@@ -332,26 +569,88 @@ const EditMyJob = () => {
                   value={jobPost.no_of_vacancies}
                   inputProps={{ min: 1 }}
                   onChange={(e) => setJobPost({ ...jobPost, no_of_vacancies: e.target.value })}
+                  disabled={!editMode}
+                  InputLabelProps={{
+                    style: { color: "#1A237E" } // Change label color
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '10px', // Set border radius
+                        '& fieldset': {
+                            borderColor: '#1A237E', // Set border color
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#a2beda', // Set border color on hover
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#1A237E', // Set border color on focus
+                            borderWidth: '2px' // Set border width
+                        },
+                    },
+                    color: "#1A237E" // Text color
+                }}
+                style={{backgroundColor:"white",borderRadius:"10px"}}
+                FormHelperTextProps={{
+                  sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+              }}
                 />
               </Grid>
               <Grid item xs={6} sm={6} md={4} xl={4} xxl={4}>
                 <label>Salary*</label>
                 <Autocomplete 
-                sx={{mt:2}}
+                // sx={{mt:2}}
                   fullWidth
                   options={salaryType}
                   value={jobPost.salary_range}
                   onChange={(event, newEvent) => setJobPost({ ...jobPost, salary_range:newEvent})}
                   renderInput={(range) => <TextField {...range} label="Salary Range" />}
+                  disabled={!editMode}
+                  InputLabelProps={{
+                    style: { color: "#1A237E" } // Change label color
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '10px', // Set border radius
+                        '& fieldset': {
+                            borderColor: '#1A237E', // Set border color
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#a2beda', // Set border color on hover
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#1A237E', // Set border color on focus
+                            borderWidth: '2px' // Set border width
+                        },
+                    },
+                    color: "#1A237E" // Text color
+                }}
+                style={{backgroundColor:"white",borderRadius:"10px"}}
+                FormHelperTextProps={{
+                  sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
+              }}
                 />
               </Grid>
             </Grid>
             <br />
+            {/* <div>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={HandleUpdate}
+              >
+                Update
+              </Button>
+            </div> */}
             <div>
               <Button
                 variant="contained"
                 color="secondary"
                 onClick={HandleUpdate}
+                disabled={!editMode} // Disable the button when not in edit mode
               >
                 Update
               </Button>
@@ -364,409 +663,3 @@ const EditMyJob = () => {
 };
 
 export default EditMyJob;
-
-
-
-// import React, { useState, useEffect } from "react";
-// import Button from "@mui/material/Button";
-// import CssBaseline from "@mui/material/CssBaseline";
-// import TextField from "@mui/material/TextField";
-// import Grid from "@mui/material/Grid";
-// import Box from "@mui/material/Box";
-// import Container from "@mui/material/Container";
-// import { Autocomplete } from "@mui/material";
-// import Skeleton from "@mui/material/Skeleton";
-// import { useLocation } from "react-router-dom";
-// import BASE_URL from "../CommonAPI";
-
-// const EditMyJob = () => {
-//   const employmentType = [
-//     "Full Time",
-//     "Part Time",
-//     "Hybrid",
-//     "Temporary",
-//     "InternShip",
-//   ];
-
-//   const Role = [
-//     "Engineering",
-//     "Marketing",
-//     "Sales",
-//     "Finance",
-//     "Operations",
-//   ];
-
-//   const jobSkills = [
-//     "JavaScript",
-//     "React",
-//     "Node.js",
-//     "HTML",
-//     "CSS",
-//     "Python",
-//     "Java",
-//     "SQL",
-//   ];
-
-//   const experienceOptions = [
-//     "0-1 year",
-//     "1-2 years",
-//     "2-3 years",
-//     "3-4 years",
-//     "4-5 years",
-//     "5-6 years",
-//     "6-7 years",
-//     "7-8 years",
-//     "8-9 years",
-//     "9-10 years",
-//     "11-13 years",
-//     "14-16 years",
-//     "17-19 years",
-//     "20-22 years",
-//     "23-25 years",
-//     "26-28 years",
-//     "29-30 years",
-//     "30+ years",
-//   ];
-
-//   const salaryType = [
-//     "Less than 2 LPA",
-//     "2 - 4 LPA",
-//     "4 - 6 LPA",
-//     "6 - 8 LPA",
-//     "8 - 10 LPA",
-//     "10 - 14 LPA",
-//     "15 - 18 LPA",
-//     "19 - 22 LPA",
-//     "23 - 26 LPA",
-//     "27 - 30 LPA",
-//     "More than  30 LPA",
-//   ];
-
-//   const [jobPost, setJobPost] = useState({
-//     company_name: "",
-//     job_title: "",
-//     job_description: "",
-//     employee_type: "",
-//     job_role: "",
-//     location: [],
-//     skills: [],
-//     qualification: [],
-//     experience: "",
-//     salary_range: "",
-//     no_of_vacancies: "",
-//   });
-
-//   const [loading, setLoading] = useState(true);
-
-//   const HandleUpdate = async (event) => {
-//     event.preventDefault();
-
-//     const jobPostData = {
-//       ...jobPost,
-//     };
-
-//     console.log(jobPostData);
-
-//     try {
-//       const response = await fetch(`${BASE_URL}/update_job/`, {
-//         method: "PUT",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(jobPostData),
-//       });
-
-//       if (!response.ok) {
-//         throw new Error("Failed to post id data to API");
-//       }
-
-//       const dataUpdate = await response.json();
-//       console.log(dataUpdate, "Update====================Data");
-
-//       console.log("ID data posted successfully:");
-//     } catch (error) {
-//       console.error("Error posting id data to API:", error);
-//     }
-//   };
-
-//   const location = useLocation();
-//   const viewJobId = location.state.job_id;
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await fetch(
-//           `${BASE_URL}/get_job_details_by_id/`,
-//           {
-//             method: "POST",
-//             headers: {
-//               "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify({ job_id: viewJobId }),
-//           }
-//         );
-
-//         if (!response.ok) {
-//           throw new Error("Failed to fetch data from API");
-//         }
-
-//         const data = await response.json();
-//         setJobPost(data[0]);
-//         setLoading(false);
-//       } catch (error) {
-//         console.error("Error fetching data from API:", error);
-//       }
-//     };
-
-//     fetchData();
-//   }, [viewJobId]);
-
-//   return (
-//     <div>
-//       <Container
-//         component="main"
-//         style={{ width: "80%", marginBottom: "10rem" }}
-//       >
-//         <CssBaseline />
-//         <Box
-//           sx={{
-//             marginTop: 10,
-//             display: "flex",
-//             flexDirection: "column",
-//           }}
-//         >
-//           <Box
-//             component="form"
-//             noValidate="false"
-//             style={{ marginTop: "1rem" }}
-//           >
-//             <>
-//               <h3>Edit My Job</h3>
-//               <br />
-//               <label>Company Name*</label>
-//               {loading ? (
-//                 <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//               ) : (
-//                 <TextField
-//                   margin="normal"
-//                   fullWidth
-//                   id="company-name"
-//                   label={"Company Name"}
-//                   name="company_name"
-//                   required
-//                   value={jobPost.company_name}
-//                   onChange={(e) =>
-//                     setJobPost({ ...jobPost, company_name: e.target.value })
-//                   }
-//                 />
-//               )}
-//               <br />
-//               <br />
-
-//               <label>Job Title*</label>
-//               <br />
-//               {loading ? (
-//                 <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//               ) : (
-//                 <TextField
-//                   margin="normal"
-//                   fullWidth
-//                   id="job-title"
-//                   label="Job Title"
-//                   name="job_title"
-//                   value={jobPost.job_title}
-//                   onChange={(e) =>
-//                     setJobPost({ ...jobPost, job_title: e.target.value })
-//                   }
-//                 />
-//               )}
-
-//               <p style={{ marginTop: "1rem" }}>Job Description*</p>
-//               {loading ? (
-//                 <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//               ) : (
-//                 <TextField
-//                   margin="normal"
-//                   fullWidth
-//                   name="job_description"
-//                   label="Job Description"
-//                   type="text"
-//                   id="job-description"
-//                   multiline
-//                   rows={4}
-//                   value={jobPost.job_description}
-//                   onChange={(e) =>
-//                     setJobPost({ ...jobPost, job_description: e.target.value })
-//                   }
-//                 />
-//               )}
-
-//               <Grid container spacing={2} sx={{ mt: 1 }}>
-//                 <Grid item xs={12} sm={6} md={6} xl={6} xxl={6}>
-//                   <label>Employment Type*</label>
-//                   {loading ? (
-//                     <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//                   ) : (
-//                     <Autocomplete
-//                       sx={{ mt: 2 }}
-//                       options={employmentType}
-//                       value={jobPost.employee_type}
-//                       onChange={(event, newEvent) =>
-//                         setJobPost({ ...jobPost, employee_type: newEvent })
-//                       }
-//                       renderInput={(text) => (
-//                         <TextField {...text} label="Employment Type" />
-//                       )}
-//                     />
-//                   )}
-//                 </Grid>
-//                 <Grid item xs={12} sm={6} md={6} xl={6} xxl={6}>
-//                   <label>Role*</label>
-//                   {loading ? (
-//                     <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//                   ) : (
-//                     <Autocomplete
-//                       sx={{ mt: 2 }}
-//                       options={Role}
-//                       value={jobPost.job_role}
-//                       onChange={(event, newEvent) =>
-//                         setJobPost({ ...jobPost, job_role: newEvent })
-//                       }
-//                       renderInput={(job) => (
-//                         <TextField {...job} label="Role" />
-//                       )}
-//                     />
-//                   )}
-//                 </Grid>
-//               </Grid>
-//               <br />
-//               <label>Location*</label>
-//               <br />
-//               {loading ? (
-//                 <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//               ) : (
-//                 <Autocomplete
-//                   multiple
-//                   options={jobPost.location}
-//                   value={jobPost.location}
-//                   onChange={(event, newEvent) =>
-//                     setJobPost({ ...jobPost, location: newEvent })
-//                   }
-//                   renderInput={(para) => (
-//                     <TextField {...para} label="Location" />
-//                   )}
-//                 />
-//               )}
-//               <br />
-//               <br />
-//               <br />
-//               <label>Skills*</label>
-//               <br />
-//               <br />
-//               {loading ? (
-//                 <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//               ) : (
-//                 <Autocomplete
-//                   multiple
-//                   options={jobSkills}
-//                   value={jobPost.skills}
-//                   onChange={(event, newEvent) =>
-//                     setJobPost({ ...jobPost, skills: newEvent })
-//                   }
-//                   renderInput={(para) => <TextField {...para} label="Skills" />}
-//                 />
-//               )}
-//               <br />
-//               <label>Qualification*</label>
-//               {loading ? (
-//                 <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//               ) : (
-//                 <Autocomplete
-//                   multiple
-//                   options={jobPost.qualification}
-//                   value={jobPost.qualification}
-//                   onChange={(event, newEvent) =>
-//                     setJobPost({ ...jobPost, qualification: newEvent })
-//                   }
-//                   renderInput={(para) => (
-//                     <TextField {...para} label="Qualification" />
-//                   )}
-//                 />
-//               )}
-//               <br />
-//               <Grid container spacing={2} sx={{ mt: 1 }}>
-//                 <Grid item xs={12} sm={12} md={4} xl={4} xxl={4}>
-//                   <label>Experience*</label>
-//                   {loading ? (
-//                     <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//                   ) : (
-//                     <Autocomplete
-//                       sx={{ mt: 2 }}
-//                       fullWidth
-//                       options={experienceOptions}
-//                       value={jobPost.experience}
-//                       onChange={(event, newEvent) =>
-//                         setJobPost({ ...jobPost, experience: newEvent })
-//                       }
-//                       renderInput={(exp) => <TextField {...exp} label="Experience" />}
-//                     />
-//                   )}
-//                 </Grid>
-//                 <Grid item xs={6} sm={6} md={4} xl={4} xxl={4}>
-//                   <label>No.of.Vacancies*</label>
-//                   {loading ? (
-//                     <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//                   ) : (
-//                     <TextField
-//                       fullWidth
-//                       margin="normal"
-//                       id="job-vacancy"
-//                       label="Vacancy"
-//                       name="no_of_vacancies"
-//                       type="number"
-//                       value={jobPost.no_of_vacancies}
-//                       inputProps={{ min: 1 }}
-//                       onChange={(e) =>
-//                         setJobPost({ ...jobPost, no_of_vacancies: e.target.value })
-//                       }
-//                     />
-//                   )}
-//                 </Grid>
-//                 <Grid item xs={6} sm={6} md={4} xl={4} xxl={4}>
-//                   <label>Salary*</label>
-//                   {loading ? (
-//                     <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-//                   ) : (
-//                     <Autocomplete
-//                       sx={{ mt: 2 }}
-//                       fullWidth
-//                       options={salaryType}
-//                       value={jobPost.salary_range}
-//                       onChange={(event, newEvent) =>
-//                         setJobPost({ ...jobPost, salary_range: newEvent })
-//                       }
-//                       renderInput={(range) => <TextField {...range} label="Salary Range" />}
-//                     />
-//                   )}
-//                 </Grid>
-//               </Grid>
-//               <br />
-//               <div>
-//                 <Button
-//                   variant="contained"
-//                   color="secondary"
-//                   onClick={HandleUpdate}
-//                 >
-//                   Update
-//                 </Button>
-//               </div>
-//             </>
-//           </Box>
-//         </Box>
-//       </Container>
-//     </div>
-//   );
-// };
-
-// export default EditMyJob;
-

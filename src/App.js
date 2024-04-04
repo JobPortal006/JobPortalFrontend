@@ -36,6 +36,7 @@ import { Newpost } from "./components/HomePage/Newpost.js";
 import { ApplyJob } from "./components/JobPostSample/ApplyJob.jsx";
 import UserJobList from "../src/components/Sprint 2/UserJobList";
 import { ListProfile } from "./components/Sprint 2/ListProfile";
+import UserAccount from "./components/UserManagement/UserAccount.jsx";
 
 
 function App() {
@@ -63,7 +64,8 @@ function App() {
           <Route path="/Password" element={<Password />} />   
           <Route path="/JobSearch" element={<JobPostSample />} />
           <Route path="/JobDetails" element={<JobDetails />} />
-          <Route path="/UserProfile" element={<UserProfile />}/>
+          {/* <Route path="/UserProfile" element={<UserProfile />}/> */}
+          <Route path="/UserProfile" element={<UserAccount />} />
           <Route path="/Companydisplay" element={<Companydisplay />}/>
           <Route path="/Filter" element={<Filter/>} />
           <Route path="/MyJob" element={<MyJob/>} />  

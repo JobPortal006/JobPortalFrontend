@@ -992,6 +992,7 @@ console.log(formDataToSend,'date to payload')
         formDataToSend.append('jobPreference', JSON.stringify(formData.data.jobPreference));
         formDataToSend.append('professionalDetails', JSON.stringify(formData.data.professionalDetails));
         formDataToSend.append('token', Token);
+        
 
         // Logging formDataToSend for debugging
         for (let pair of formDataToSend.entries()) {
@@ -1134,7 +1135,6 @@ console.log(formDataToSend,'date to payload')
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
                                         {/* Second Column */}
-                                        {console.log(values,'rarararaar')}
                                         <TextField className='textfield'
                                             label='Mobile Number'
                                             name="mobile_number"
@@ -1143,7 +1143,7 @@ console.log(formDataToSend,'date to payload')
                                             fullWidth
                                             margin="dense"
                                             required
-
+                                           
 
 
                                         />
