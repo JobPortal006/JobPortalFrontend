@@ -296,7 +296,6 @@ function UserAccount() {
     };
 
     const [profilePicture, setProfilePicture] = useState(null);
-
     useEffect(() => {
       
         axios.get(`${BASE_URL}/get_user_details_view/`)
@@ -722,9 +721,18 @@ console.log(formDataToSend,'date to payload')
         const file = event.target.files[0];
         setProfilePicture(file);
     };
-
     const handleRemoveProfilePicture = () => {
         setProfilePicture(null);
+        setFormData(prevData => ({
+            ...prevData,
+            data: {
+                ...prevData.data,
+                userDetails: {
+                    ...prevData.data.userDetails,
+                    profile_picture_path: ''
+                }
+            }
+        }));
     };
 
     // return (
@@ -798,9 +806,9 @@ console.log(formDataToSend,'date to payload')
       },
       color: '#1A237E' // Text color
   };
-  const FormHelperTextProps={
-    backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"
-  }
+//   const FormHelperTextProps={
+//     backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"
+//   }
     return (
       <div className='profilebackground-div'>
           {loading1 ? (
@@ -856,16 +864,13 @@ console.log(formDataToSend,'date to payload')
                                           }}
                                           sx={{...textFieldStyles}}
                                         style={{backgroundColor:"white",borderRadius:"10px"}}
-                                      //   FormHelperTextProps={{
-                                      //     sx: {FormHelperTextProps} // Set background color for error message
-                                      // }}
                                       FormHelperTextProps={{
                                         sx: { backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
                                     }}
 
                                       />
                                       <TextField className='textfield' 
-                                          label='Last Name'
+                                          label= "Last Name"
                                           name="last_name"
                                           value={formData.data?.userDetails?.last_name}
                                           onChange={handleChange}
@@ -876,7 +881,9 @@ console.log(formDataToSend,'date to payload')
                                           required
                                           disabled={!editMode}
                                           InputLabelProps={{
-                                            style: { color: "#1A237E" } // Change label color
+                                            style: {
+                                                color: "#1A237E"
+                                            }
                                           }}
                                           sx={{...textFieldStyles}}
                                         style={{backgroundColor:"white",borderRadius:"10px"}}
@@ -884,25 +891,28 @@ console.log(formDataToSend,'date to payload')
                                           sx: {backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
                                       }}
                                       />
-                                      <TextField className='textfield'
-                                          label='Date-of-birth (month/date/year)'
-                                          name="date_of_birth"
-                                          type='date'
+                                     <TextField
+                                        className='textfield'
+                                        label= 'Date-of-birth (month/date/year)'
+                                        name="date_of_birth"
+                                        type='date'
+                                        value={formData.data?.userDetails?.date_of_birth}
+                                        onChange={handleChange}
+                                        fullWidth
+                                        margin="dense"
+                                        disabled={!editMode}
+                                        InputLabelProps={{
+                                            style: {
+                                                color: "#1A237E"// Change label color
+                                            }
+                                        }}
+                                        sx={{ ...textFieldStyles }}
+                                        style={{ backgroundColor: "white", borderRadius: "10px" }}
+                                        FormHelperTextProps={{
+                                            sx: { backgroundColor: '#E8EAF6', marginTop: "-2px", marginLeft: "-5px", marginRight: "-5px", padding: "5px" } // Set background color for error message
+                                        }}
+                                    />
 
-                                          value={formData.data?.userDetails?.date_of_birth}
-                                          onChange={handleChange}
-                                          fullWidth
-                                          margin="dense"
-                                          disabled={!editMode}
-                                          InputLabelProps={{
-                                            style: { color: "#1A237E" } // Change label color
-                                          }}
-                                          sx={{...textFieldStyles}}
-                                        style={{backgroundColor:"white",borderRadius:"10px"}}
-                                        FormHelperTextProps={{
-                                          sx: {backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
-                                      }}
-                                      />
                                   </Grid>
                                   <Grid item xs={12} sm={6}>
                                       {/* Second Column */}
@@ -946,42 +956,16 @@ console.log(formDataToSend,'date to payload')
                                           
                                       >
 
-                                          {/* <MenuItem value="" disabled>Select Gender</MenuItem>
+                                          <MenuItem value="" disabled>Select Gender</MenuItem>
                                          <MenuItem className='male' value="male">Male</MenuItem>
                                          <MenuItem value="female">Female</MenuItem>
-                                         <MenuItem value="other">Other</MenuItem> */}
+                                         <MenuItem value="other">Other</MenuItem>
                                       </TextField>
                                       <label htmlFor="profile-picture-input">Upload Profile Picture:</label>
                                       <div style={{ display: 'flex' }}>
-                                      {/* <Input
-                                          type="file"
-                                          accept="image/*"
-                                          onChange={handleProfilePictureChange}
-                                          margin="dense"
-                                          id="profile-picture-input"
-                                          disabled={!editMode}
-                                          InputLabelProps={{
-                                            style: { color: "#1A237E" } // Change label color
-                                          }}
-                                          sx={{...textFieldStyles}}
-                                        style={{backgroundColor:"white",borderRadius:"10px"}}
-                                        FormHelperTextProps={{
-                                          sx: {backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
-                                      }}
-                                      />
-                                          {profilePicture && (
-                                  <div>
-                                      <Avatar
-                                          alt="Profile Picture"
-                                          src={URL.createObjectURL(profilePicture)}
-                                          sx={{ width: 100, height: 100, marginTop: 2 }}
-                                      />
-                                      <Button color="secondary" onClick={handleRemoveProfilePicture}>
-                                          Remove Picture
-                                      </Button>
-                                  </div>
-                              )} */}
-                                      <input
+                                    <br />
+                                    <Input
+                                        disabled={!editMode}
                                             type="file"
                                             accept="image/*"
                                             onChange={handleProfilePictureChange}
@@ -990,18 +974,18 @@ console.log(formDataToSend,'date to payload')
                                             style={{
                                                 display: 'none',
                                             }}
-                                            
-                                        />
+                                    />
+                                     {!profilePicture && !formData?.data?.userDetails?.profile_picture_path && (
                                         <label htmlFor="profile-picture-input">
                                             <IconButton
-                                             disabled={!editMode}
                                                 component="span"
                                                 size="small"
                                                 sx={{
+                                                    marginTop: 1,
                                                     border: '2px solid #1A237E',
-                                                    backgroundColor:'#fff',
                                                     borderRadius: '10px',
                                                     padding: '10px',
+                                                    backgroundColor:'#fff',
                                                     '&:hover': {
                                                         borderColor: '#a2beda', // Change border color on hover
                                                         backgroundColor:'#fff'
@@ -1012,39 +996,48 @@ console.log(formDataToSend,'date to payload')
                                                     }
                                                 }}
                                             >
-                                               
-                                                {((formData.data?.userDetails?.profile_picture_path)) && (
-                                  <div>
-                                      <Avatar
-                                          alt="Profile Picture"
-                                          src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data?.userDetails?.profile_picture_path}` || URL.createObjectURL(profilePicture)}
-                                          sx={{ width: 100, height: 100 }}
-                                      />
-                                  </div>
-                              )} 
-                              {(!profilePicture&&  !formData.data?.userDetails?.profile_picture_path)&&(<CloudUploadIcon/>)}
+                                                <CloudUploadIcon />
+                                                {/* {profilePicture && profilePicture.name && (
+                                                    <span style={{ marginLeft: '5px' }}>{profilePicture.name}</span>
+                                                )} */}
                                             </IconButton>
+                                            </label>
+                                    )}
+
+                                    {profilePicture && (
+                                        <div>
+                                            <Avatar
+                                                alt="Profile Picture"
+                                                src={URL.createObjectURL(profilePicture)}
+                                                sx={{ width: 100, height: 100, marginTop: 2 }}
+                                            />
                                             <Button color="secondary" onClick={handleRemoveProfilePicture}>
-                                          Remove Picture
-                                      </Button>
-                                        </label>
-                              {/* {((!profilePicture && formData.data?.userDetails?.profile_picture_path)) && (
-                                  <div style={{ marginLeft: '10px' }}>
-                                      <Avatar
-                                          alt="Profile Picture"
-                                          src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data?.userDetails?.profile_picture_path}` || `https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.userDetails?.profile_picture_path}`}
-                                          sx={{ width: 100, height: 100, marginTop: 2 }}
-                                      />
-                                      <Button color="secondary" onClick={handleRemoveProfilePicture}>
-                                          Remove Picture
-                                      </Button>
-                                  </div>
-                              )}  */}
+                                                Remove Picture
+                                            </Button>
+                                        </div>
+                                    )}
+
+                                    {/* Display profile picture from the backend if available */}
+                                    {formData?.data?.userDetails?.profile_picture_path && (
+                                        <div>
+                                            <Avatar
+                                                alt="Profile Picture"
+                                                src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData?.data?.userDetails?.profile_picture_path}`}
+                                                sx={{ width: 100, height: 100, marginTop: 1 }}
+                                            />
+                                            <Button disabled={!editMode} color="secondary" onClick={handleRemoveProfilePicture}>
+                                                Remove Picture
+                                            </Button>
+                                        </div>
+                                    )}
+
+                                    {/* Display CloudUploadIcon if no profile picture */}
+                                   
+
+                                
                               </div>
-
-                                  </Grid>
                               </Grid>
-
+                                </Grid>
                               
                               <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
                           </AccordionDetails>
@@ -1930,14 +1923,13 @@ console.log(formDataToSend,'date to payload')
                                           multiple
                                           options={skills.map(skill => skill.skill_set)}
                                           freeSolo
+                                          disabled={!editMode}
                                           renderInput={(params) => (
                                               <TextField
                                                   {...params}
                                                   label="Key-skills"
                                                   fullWidth
                                                   margin="dense"
-                                                  // style={{backgroundColor:'white'}}
-                                                  disabled={!editMode}
                                                   InputLabelProps={{
                                                     style: { color: "#1A237E" } // Change label color
                                                   }}
@@ -2012,14 +2004,13 @@ console.log(formDataToSend,'date to payload')
                                           multiple
                                           options={locations.filter(location => typeof location.location === 'string').map(location => location.location)}
                                           freeSolo
+                                          disabled={!editMode}
                                           renderInput={(params) => (
                                               <TextField
                                                   {...params}
                                                   label="Preferred Locations"
                                                   fullWidth
                                                   margin="dense"
-                                                  // style={{backgroundColor:'white'}}
-                                                  disabled={!editMode}
                                                   InputLabelProps={{
                                                     style: { color: "#1A237E" } // Change label color
                                                   }}
@@ -2031,16 +2022,11 @@ console.log(formDataToSend,'date to payload')
                                               />
                                           )}
                                           value={Array.isArray((formData.data?.jobPreference?.prefered_locations)) ? formData.data?.jobPreference?.prefered_locations : [] }
-                                    
-                                          
                                           // onChange={(event, newValues) => handleAutoCompleteChange(event, newValues, 'prefered_locations')}
                                           onChange={(event, newValues) => {
                                               handleAutoCompleteChange(event, newValues, 'prefered_locations');
                                               console.log(newValues ,'hhhhh'); 
-
                                           }}
-                                         
-                                          
                                       />
 
                                   </Grid>
@@ -2159,7 +2145,7 @@ console.log(formDataToSend,'date to payload')
                                     fontWeight="bold" textTransform="uppercase">Resume</Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <label htmlFor="resume-input">Upload Resume:</label>
+                            <label htmlFor="resume-input">Upload Resume:</label>
                                 <br />
                                 <Input
                                     type="file"
@@ -2167,26 +2153,69 @@ console.log(formDataToSend,'date to payload')
                                     onChange={handleResumeChange}
                                     margin="dense"
                                     id="resume-input"
+                                    style={{ display: "none" }}
+                                    disabled={!editMode}
                                 />
 
-                                {formData?.data?.resume?.resume_path && (
+                                {/* Display existing resume if available */}
+                                {!resumeFile && formData?.data?.resume?.resume_path && (
                                     <div>
-                                        {/* <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p> */}
                                         <iframe
-                                            src={`https://docs.google.com/viewer?url=${encodeURIComponent(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`)}&embedded=true&rm=minimal`}
+                                            src={`https://docs.google.com/viewer?url=${encodeURIComponent(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData?.data?.resume?.resume_path}`)}&embedded=true&rm=minimal`}
                                             width="250" height="150" style={{ border: 'none' }}
                                             title="Resume"
+                                            disabled={!editMode}
                                         />
-                                         <div>
-                                           {resumeFile && (
-                                         <p>Resume File: {resumeFile.name}</p>
-                                         )}
-                                        <Button color="secondary" onClick={handleRemoveResume}>
+                                        <div>
+                                            <p>Resume File: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData?.data?.resume?.resume_path}`} download>{formData?.data?.resume?.resume_path}</a></p>
+                                            <Button disabled={!editMode} color="secondary" onClick={handleRemoveResume}>
+                                                Remove Resume
+                                            </Button>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Display uploaded resume file immediately after upload */}
+                                {resumeFile && (
+                                    <div>
+                                        <p>Resume File: <a href={URL.createObjectURL(resumeFile)} download>{resumeFile.name}</a></p>
+                                        <Button disabled={!editMode} color="secondary" onClick={handleRemoveResume}>
                                             Remove Resume
                                         </Button>
                                     </div>
+                                )}
+
+                                {/* Display upload button if no resume is uploaded */}
+                                {!resumeFile && !formData?.data?.resume?.resume_path && (
+                                    <div>
+                                        <label htmlFor="resume-input">
+                                            <IconButton
+                                                component="span"
+                                                size="small"
+                                                disabled={!editMode}
+                                                sx={{
+                                                    marginTop: 1,
+                                                    border: '2px solid #1A237E',
+                                                    borderRadius: '10px',
+                                                    padding: '10px',
+                                                    backgroundColor: '#fff',
+                                                    '&:hover': {
+                                                        borderColor: '#a2beda', // Change border color on hover
+                                                        backgroundColor: '#fff'
+                                                    },
+                                                    '& svg': {
+                                                        fontSize: '50px', // Increase icon size
+                                                        color: '#1A237E' // Change icon color
+                                                    }
+                                                }}
+                                            >
+                                                <FaFileUpload />
+                                            </IconButton>
+                                        </label>
                                     </div>
-                                )} 
+                                )}
+
+ 
                             </AccordionDetails>
                           {/* <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button> */}
                           {/* <Button type="submit" variant="contained" color="primary" fullWidth disabled={isSubmitting}>
