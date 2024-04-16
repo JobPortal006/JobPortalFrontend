@@ -16,7 +16,7 @@ function MyJob() {
   const [jobView, setJobView] = useState([]);
   const [employee_id, setEmployeeId] = useState("");
   const [loading, setLoading] = useState(true); // State to track loading status
-
+  const [result, setResult] = useState(false); 
   console.log(employee_id,"employee_id===id");
   console.log(jobView, "jobView");
   
@@ -54,15 +54,20 @@ function MyJob() {
          
 
           // fetching data
-
-          if (data && Array.isArray(data.data) && Array.isArray(data.data[0])) {
-            setJobView(data.data[0]);
-            setLoading(false); // Set loading to false once data is fetched
-            console.log(data[0].job_post_id);
-          } else {
-            console.error("Invalid data format received from API");
+          if (data.status){
+            if (data && Array.isArray(data.data) && Array.isArray(data.data[0])) {
+              setJobView(data.data[0]);
+              setLoading(false); // Set loading to false once data is fetched
+              console.log(data[0].job_post_id);
+            } else {
+              console.error("Invalid data format received from API");
+            }
+            console.log("ID data posted successfully:");
           }
-          console.log("ID data posted successfully:");
+          else{
+            setLoading(false);
+            setResult(true)
+          }
         } catch (error) {
           console.error("Error posting id data to API:", error);
           // window.location.reload();
@@ -116,6 +121,7 @@ function MyJob() {
 
   
   return (
+    <div>
     <div className="job-main-div">
       {loading ? (
         // Display loading indicator while data is being fetched
@@ -130,7 +136,7 @@ function MyJob() {
           </ul>
 
         </div>
-      ) : (
+      ) : ( 
         <div className="info-container">
 
           <Grid
@@ -205,6 +211,10 @@ function MyJob() {
             </Grid>
           ))}
         </div>
+      )}
+    </div>
+      {result && (
+        <h1 style={{textAlign:"center"}}>No Job Post Yet</h1>
       )}
     </div>
   );
