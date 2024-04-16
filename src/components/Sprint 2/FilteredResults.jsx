@@ -353,7 +353,7 @@ function FilteredResults() {
                   ) : (
                   <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.company_logo_path}`} alt="Company Logo" />
                   )}
-                </div>
+                </div>    
                 <div className="job-heading">
                   <div>{job.job_title}</div>
                   <div className="company-name1">{job.company_name}</div>
@@ -399,7 +399,7 @@ function FilteredResults() {
                   </div>
                   <div className="created-at">
                       <span className="brief-label1"><FaClockRotateLeft icon={faBuilding} /><span className="text"> {job.created_at} ago </span></span> 
-                      <span className="save-icon" style={{cursor:"pointer"}} onClick={() => handleBookmark(job.id)} > 
+                      <span className="save-icon" style={{cursor:"pointer", display:"none"}} onClick={() => handleBookmark(job.id)} > 
                       {bookmarkedJobs.includes(job.id) ? <BsFillBookmarkCheckFill /> : <BsFillBookmarksFill />}
                       {bookmarkedJobs.includes(job.id) ? 'Saved' : 'Save'}
                       </span>

@@ -35,6 +35,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import UserContext from "../Sprint 2/contextFilter.jsx";
 import BASE_URL from '../CommonAPI';
 import { FaWindows } from "react-icons/fa";
+import { height } from "@mui/system";
 
 
 
@@ -107,6 +108,7 @@ const LogIn = () => {
         navigate("/home");
         
       } else {
+        toast.error("Register your Email")
         localStorage.clear();
       }
         // if (data._tokenResponse.oauthAccessToken !== undefined) {
@@ -385,6 +387,7 @@ const LogIn = () => {
             alignItems: "center",
             justifyContent: "center",
             gap: "20px",
+            // display:'none'
           }}
         >
           <img src={glogo} alt={validation.last.one} className={validation.last.two} />
