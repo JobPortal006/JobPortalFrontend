@@ -94,6 +94,8 @@ const LogIn = () => {
   
       localStorage.setItem("email", data.user.email);
       localStorage.setItem("googleToken", data._tokenResponse.oauthAccessToken);
+      localStorage.setItem("registered_by",googleData?.message?.registered_by);
+      // localStorage.setItem()
   
       const googleToken = localStorage.getItem("googleToken");
       // const googlemail = localStorage.getItem("email");
@@ -106,6 +108,7 @@ const LogIn = () => {
       if (googleData.status !== false && data._tokenResponse.oauthAccessToken !== undefined) {
         
         navigate("/home");
+        window.location.reload()
         
       } else {
         toast.error("Register your Email")
