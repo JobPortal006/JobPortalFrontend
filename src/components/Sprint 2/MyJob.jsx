@@ -123,19 +123,26 @@ function MyJob() {
   return (
     <div>
     <div className="job-main-div">
-      {loading ? (
+    {loading ? (
         // Display loading indicator while data is being fetched
         <div className="loading">
         <ul>         
          <li style={{color:"red"}}>
 
-          <HashLoader color="#AB47BC" />
+          <HashLoader  height={100}
+              width={100}
+              color="#1A237E"
+              ariaLabel="grid-loading"
+              radius="12.5"
+              wrapperStyle={{}}
+              wrapperClass="grid-wrapper" />
           </li>
-          <li>Loading...!</li>
+          {/* <li>Loading...!</li> */}
          
           </ul>
 
         </div>
+
       ) : ( 
         <div className="info-container">
 

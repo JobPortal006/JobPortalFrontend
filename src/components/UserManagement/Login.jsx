@@ -1,5 +1,5 @@
 
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext,useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -36,10 +36,11 @@ import UserContext from "../Sprint 2/contextFilter.jsx";
 import BASE_URL from '../CommonAPI';
 import { FaWindows } from "react-icons/fa";
 import { height } from "@mui/system";
-
-
+import { useDispatch } from 'react-redux';
+import { setUserResultRegister, setEmployeerResultRegister } from '../actions.js';
 
 const LogIn = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // Navigate to SighUp page
@@ -108,7 +109,7 @@ const LogIn = () => {
       if (googleData.status !== false && data._tokenResponse.oauthAccessToken !== undefined) {
         
         navigate("/home");
-        window.location.reload()
+        // window.location.reload()
         
       } else {
         toast.error("Register your Email")
@@ -147,9 +148,101 @@ const LogIn = () => {
   //     });
   // };
   
-  // Navigate to forget password
+// Navigate to forget password
+const register_by = localStorage.getItem("registered_by");
+const [user_result_register, setUserResult_register] = useState(false);
+const [employeer_result_register, setEmployeerResult_register] = useState(false);
+const [demo_result_register, setDemoResult_register] = useState(true);
+const [user_register, setUser_register] = useState("");
+const [employeer_register, setEmployeer_register] = useState("");
 
-  
+const [user_account_creation, setUserAccountCreation] = useState(false);
+const [employeer_account_creation, setEmployeerAccountCreation] = useState(false);
+
+useEffect(() => {
+  // Define the data to be sent in the request body
+ 
+  const token = localStorage.getItem("loginToken")
+  // Define the options for the fetch request
+  const requestOptions = {
+    method: 'POST', // Set the request method to POST
+    headers: {
+      'Content-Type': 'application/json', // Set the content type of the request
+      // Add any additional headers here if needed
+    },
+    body: JSON.stringify({token:token}), // Convert requestData to JSON format and set it as the request body
+  };
+
+  // Fetch data from the API using the POST method
+  fetch(`${BASE_URL}/user_account_creation_check/`, requestOptions)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data, 'user_account_creation_check-------');
+      // Handle the response data here
+       if (data.status){
+        setUserAccountCreation(true)
+        setEmployeerAccountCreation(true)
+       }
+       else{
+        setUserAccountCreation(false)
+        setEmployeerAccountCreation(false)
+       }
+    })
+    .catch(error => {
+      // Handle errors here
+      console.error('Error:', error);
+    });
+}, []);
+
+console.log(register_by, 'register_by--------- login -------->');
+useEffect(() => {
+  setUser_register(register_by);
+  setEmployeer_register(register_by);
+}, []); 
+
+console.log(user_register, 'user_register--------->');
+console.log(employeer_register, 'employeer_register------------->');
+
+  // if (user_register === "User") {
+  //   setUserResult_register(true);
+  //   setDemoResult_register(false);
+  // } else if (employeer_register === "Recruiter") {
+  //   setEmployeerResult_register(true);
+  //   setDemoResult_register(false);
+  // } else {
+  //   setUserResult_register(false);
+  //   setEmployeerResult_register(false);
+  //   setDemoResult_register(true);
+  // }
+
+
+  // Your component code
+
+  const navbarCondition = () => {
+    if (user_register === 'User') {
+      console.log("user------------->");
+      dispatch(setUserResultRegister(true));
+      dispatch(setEmployeerResultRegister(false));
+      // dispatch(setDemoResultRegister(false));
+    } else if (employeer_register === 'Recruiter') {
+      console.log("Employeer------------->");
+      dispatch(setEmployeerResultRegister(true));
+      dispatch(setUserResultRegister(false));
+      // dispatch(setDemoResultRegister(false));
+    } else {
+      console.log("Demo------------->");
+      dispatch(setUserResultRegister(false));
+      dispatch(setEmployeerResultRegister(false));
+      // dispatch(setDemoResultRegister(true));
+    }
+  };
+
+
   const handleForget = () => {
     navigate("/ForgetPassword");
   };
@@ -195,11 +288,14 @@ const LogIn = () => {
       console.log(dataOne);
       console.log(response.data);
 
-
+      // 
+      if(outPut === false){
+        localStorage.clear();
+      }
 
       if (storedToken !== null && outPut === true) {
         navigate("/home");
-        window.location.reload();
+        // window.location.reload();
         console.log("====================================");
         console.log(outPut, "navigation=====>");
         console.log("====================================");
@@ -231,8 +327,7 @@ const LogIn = () => {
   };
 
   return (
-    <div className="login-container">
-    <div>h</div>
+    <div className="login-background">
     <ThemeProvider theme={defaultTheme}>
     <Toaster toastOptions={{ duration: 4000 }} /> 
       <Container component="main" maxWidth="xs" className="main-login">
@@ -243,9 +338,9 @@ const LogIn = () => {
             marginTop: 8,
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            alignItems: "center",    
           }}
-        >
+        >  
           {/* <Avatar
             src={jllogo}
             sx={{
@@ -258,8 +353,8 @@ const LogIn = () => {
           >
             <LockOutlinedIcon />
           </Avatar> */}
-          <img src={jllogo} alt="Login" height="70px" width="140px" style={{marginLeft:"20px"}} />
-          <p component="h1" variant="h5" sx={{ mt: -1 }} className="h1-login" >
+          {/* <img src={jllogo} alt="Login" height="70px" width="140px" style={{marginLeft:"20px"}} /> */}
+          <p component="h1" variant="h5" className="h1-login" >
             {validation.Context.one}
           </p>
           <Box
@@ -283,6 +378,33 @@ const LogIn = () => {
               onBlur={() => emailBlur(email, setEmailError, setPasswordError)}
               error={!!emailError}
               helperText={emailError}
+              InputLabelProps={{
+                style: { color: "#1A237E" } // Change label color
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                    borderRadius: '10px', // Set border radius
+                    '& fieldset': {
+                        borderColor: '#1A237E', // Set border color
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&:hover fieldset': {
+                        borderColor: '#a2beda', // Set border color on hover
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: '#1A237E', // Set border color on focus
+                        borderWidth: '2px' // Set border width
+                    },
+                },
+                color: "#1A237E", // Text color
+                // backgroundColor: errors.job_title ? '#E8EAF6' : 'white', // Background color based on error
+                // borderRadius: "10px", // Border radius
+            }}
+            style={{backgroundColor:"white",borderRadius:"10px"}}
+            FormHelperTextProps={{
+              sx: { backgroundColor: '#E8EAF6' ,marginLeft:'0px',paddingLeft:'5px',marginTop:'-3px',paddingTop:'4px',marginRight:'-10px'} // Set background color for error message
+          }}
             />
             {/*
             <TextField
@@ -333,6 +455,33 @@ const LogIn = () => {
                   </InputAdornment>
                 )
               }}
+              InputLabelProps={{
+                style: { color: "#1A237E" } // Change label color
+              }}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                    borderRadius: '10px', // Set border radius
+                    '& fieldset': {
+                        borderColor: '#1A237E', // Set border color
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&:hover fieldset': {
+                        borderColor: '#a2beda', // Set border color on hover
+                        borderWidth: '2px' // Set border width
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: '#1A237E', // Set border color on focus
+                        borderWidth: '2px' // Set border width
+                    },
+                },
+                color: "#1A237E", // Text color
+                // backgroundColor: errors.job_title ? '#E8EAF6' : 'white', // Background color based on error
+                // borderRadius: "10px", // Border radius
+            }}
+            style={{backgroundColor:"white",borderRadius:"10px"}}
+            FormHelperTextProps={{
+              sx: { backgroundColor: '#E8EAF6',marginLeft:'0px',paddingLeft:'5px',marginTop:'-3px',paddingTop:'4px',marginRight:'-10px' } // Set background color for error message
+          }}
             />
 
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -344,17 +493,20 @@ const LogIn = () => {
                     value="remember"
                     color={validation.grid.two}
                     id={validation.grid.elevn}
+                    sx={{color:'#1A237E'}}
                   />
                 }
                 label={validation.Context.eight}
+                sx={{color:'#1A237E'}}
               />
 
               <Link
                 variant="body2"
-                style={{ marginLeft: "100px", cursor: "pointer" }}
+                style={{ marginLeft: "100px", cursor: "pointer",color:'#1A237E' }}
                 onClick={handleForget}
               >
                 {validation.Context.two}
+                
               </Link>
             </Grid>
 
@@ -362,18 +514,49 @@ const LogIn = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 1, mb: 2 }}
+              onClick={navbarCondition}
+              sx={{
+                mt: 1, mb: 2,
+                borderRadius: '10px', // Rounded corners
+                padding: '7px 15px', // Padding
+                fontSize: '16px', // Font size
+                fontWeight: 'bold', // Bold font weight
+                textTransform: 'none', // Disable text transformation
+                boxShadow: 'none', // Disable box shadow
+                marginBottom:"20px",
+                color: 'white', // Set text color
+                backgroundColor: '#1A237E', // Set background color
+                '&:hover': {
+                    backgroundColor: '#7986CB', // Change background color on hover
+                    color: '#1A237E'
+                },
+            }}
             >
               {validation.Context.one}
             </Button>
-            <Divider style={{ textAlign: "center" }}>
+            <Divider style={{ textAlign: "center", color: "#1A237E", borderColor: "#1A237E !important" }}>
               {validation.Context.five}
             </Divider>
             <Button
               fullWidth
               id={validation.grid.twelve}
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{
+                mt: 2, mb: 2,
+                borderRadius: '10px', // Rounded corners
+                padding: '7px 15px', // Padding
+                fontSize: '16px', // Font size
+                fontWeight: 'bold', // Bold font weight
+                textTransform: 'none', // Disable text transformation
+                boxShadow: 'none', // Disable box shadow
+                marginBottom:"20px",
+                color: 'white', // Set text color
+                backgroundColor: '#1A237E', // Set background color
+                '&:hover': {
+                    backgroundColor: '#7986CB', // Change background color on hover
+                    color: '#1A237E'
+                },
+            }}
               onClick={handleOTP}
             >
               {validation.Context.three}
@@ -385,18 +568,27 @@ const LogIn = () => {
           color={validation.grid.two}
           onClick={googleClick}
           sx={{
+            backgroundColor:'white',
+            borderRadius: '10px',
             display: "flex",
             width: "100%",
             alignItems: "center",
             justifyContent: "center",
             gap: "20px",
-            // display:'none'
+            color: '#1A237E',
+            borderColor: '#1A237E',
+            '&:hover': {
+              backgroundColor: '#C5CAE9', // Change background color on hover
+              borderColor: '#1A237E',
+              color: '#1A237E'
+            },
           }}
+          
         >
           <img src={glogo} alt={validation.last.one} className={validation.last.two} />
           {validation.Context.four}
         </Button>
-        <Grid container className={validation.last.three}>
+        {/* <Grid container className={validation.last.three}>
           <Grid item>
             <p href="#" variant="body2" style={{ marginLeft: "-2.5rem" }}>
               {validation.Context.six}{" "}
@@ -405,7 +597,7 @@ const LogIn = () => {
               </span>
             </p>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Container>
     </ThemeProvider>
     </div>

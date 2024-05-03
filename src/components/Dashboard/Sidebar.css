@@ -1,0 +1,31 @@
+.employeerAccount-background{
+  background-color: #E8EAF6;
+  /* width: 100%; */
+  margin-bottom: -50px;
+  border-radius: 20px !important;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.75);
+  margin-left: 0px;
+  margin-top: -20px;
+}
+.employeerAccount-background:hover{
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.75);
+transform: scale(1.01);
+}
+.EmployeerNotRegister{
+  height: 450px;
+  width: 600px;
+  padding: 20px 30px 10px 30px;
+  
+}
+.employeererrorText{
+  color: #1A237E;
+  background-color: #a2beda;
+  padding: 10px;
+  width: 100%;
+  border-radius: 0px 0px 20px 20px;
+  margin-top: 20px;
+  margin-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

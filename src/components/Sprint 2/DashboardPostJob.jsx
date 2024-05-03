@@ -16,9 +16,9 @@ import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import BASE_URL from '../CommonAPI';
 import Popper from '@mui/material/Popper';
 import { FaRegHandPointRight  } from "react-icons/fa";
+import InputAdornment from '@mui/material/InputAdornment';
 
-
-const PostJob = () => {
+const DashboardPostJob = () => {
   const employmentType = [
     "Full Time",
     "Part Time",
@@ -342,12 +342,12 @@ const PostJob = () => {
     component="main"
     className="post_container"
     style={{ 
-        marginBottom: "4rem",
         borderRadius: "10px",
         backgroundColor: "#E8EAF6",
         // boxShadow: "none" ,
-        width:'80%',
-        marginTop:'4rem'
+        width:"100%",
+        marginLeft:"100px",
+        marginTop:"-50px"
     }}
 >
         <CssBaseline />
@@ -530,7 +530,7 @@ const PostJob = () => {
                     '& .MuiSvgIcon-root': {
                         color:'#1A237E',
                         marginRight:'5px',
-                      
+                        marginTop: '-3px', 
                         marginBottom: '0' 
                     }
                 }
@@ -607,7 +607,7 @@ const PostJob = () => {
                             '& .MuiSvgIcon-root': {
                                 color:'#1A237E',
                                 marginRight:'5px',
-                              
+                                marginTop: '-3px', 
                                 marginBottom: '0' 
                             }
                         }
@@ -703,7 +703,7 @@ const PostJob = () => {
                         '& .MuiSvgIcon-root': {
                             color:'#1A237E',
                             marginRight:'5px',
-                          
+                            marginTop: '-3px', 
                             marginBottom: '0' 
                         }
                     }
@@ -764,7 +764,7 @@ const PostJob = () => {
                     '& .MuiSvgIcon-root': {
                         color:'#1A237E',
                         marginRight:'5px',
-                      
+                        marginTop: '-3px', 
                         marginBottom: '0' 
                     }
                 }
@@ -834,7 +834,7 @@ const PostJob = () => {
                       '& .MuiSvgIcon-root': {
                           color:'#1A237E',
                           marginRight:'5px',
-                        
+                          marginTop: '-3px', 
                           marginBottom: '0' 
                       }
                   }
@@ -917,7 +917,7 @@ const PostJob = () => {
                       '& .MuiSvgIcon-root': {
                           color:'#1A237E',
                           marginRight:'5px',
-                        
+                          marginTop: '-3px', 
                           marginBottom: '0' 
                       }
                   }
@@ -1030,7 +1030,7 @@ const PostJob = () => {
                       '& .MuiSvgIcon-root': {
                           color:'#1A237E',
                           marginRight:'5px',
-                        
+                          marginTop: '-3px', 
                           marginBottom: '0' 
                       }
                   }
@@ -1137,4 +1137,4 @@ const PostJob = () => {
   );
 };
 
-export default PostJob;
+export default DashboardPostJob;

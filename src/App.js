@@ -28,7 +28,7 @@ import FilteredResults from "./components/Sprint 2/FilteredResults.jsx";
 import UserContext from "./components/Sprint 2/contextFilter.jsx";
 
 
-import {useState} from  'react';
+import React, { useEffect, useState } from 'react';
 import { Employerregister } from "./components/EmployeerManagement/Employerregister.jsx";
 import SideNavbar from "./components/Dashboard/Sidebar.js";
 import UserDash from "./components/Dashboard/UserDash.js";
@@ -37,6 +37,12 @@ import { ApplyJob } from "./components/JobPostSample/ApplyJob.jsx";
 import UserJobList from "../src/components/Sprint 2/UserJobList";
 import { ListProfile } from "./components/Sprint 2/ListProfile";
 import UserAccount from "./components/UserManagement/UserAccount.jsx";
+import { UserNavbar } from "./components/NavBar/userNavbar.js";
+import { EmployerNavbar } from "./components/NavBar/employerNavbar.js";
+import { DemoNavbar } from "./components/NavBar/demoNavbar.js";
+import { UpdateEmployerregister } from "./components/EmployeerManagement/UpdateEmployeer.jsx";
+import { SavedJobs } from "./components/HomePage/SavedJobs.jsx";
+import { Notifications } from "./components/UserManagement/Notifications.jsx";
 
 
 function App() {
@@ -47,13 +53,45 @@ function App() {
   const [jobData,setJobData ]  = useState(null);
   const [responseData, setResponseData] = useState(null);
   const [detailData,setDetailData ]  = useState(null);
+
+
+  const register_by = localStorage.getItem("registered_by");
+  const [user_result_register, setUserResult_register] = useState(false);
+  const [employeer_result_register, setEmployeerResult_register] = useState(false);
+  const [demo_result_register, setDemoResult_register] = useState(true);
+  const [user_register, setUser_register] = useState("");
+  const [employeer_register, setEmployeer_register] = useState("");
+
+  // useEffect(() => {
+  //   setUser_register(register_by);
+  //   setEmployeer_register(register_by);
+  // }, []); // Empty dependency array ensures this effect runs only once on component mount
+  // console.log(user_register,'user_register--------->');
+  // console.log((employeer_register,'employeer_register------------->'));
+  // useEffect(() => {
+  //   if (user_register === "User") {
+  //     setUserResult_register(true);
+  //     setDemoResult_register(false)
+  //   }else if (employeer_register === "Recruiter"){
+  //     setEmployeerResult_register(true);
+  //     setDemoResult_register(false)
+  //   }else {
+  //     setUserResult_register(false)
+  //     setEmployeerResult_register(false);
+  //     setDemoResult_register(true)
+  //   }
+  // }, [user_register, employeer_register]); // This effect depends on user_register and employeer_register
+
   return (
     <UserContext.Provider value={{oneData, setData,employerDetails, 
     setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData  }}>
     <div>
       <BrowserRouter>
-        <Navbar />
-        <Routes>
+         <Navbar /> 
+         {/* {user_result_register && <UserNavbar />}
+      {employeer_result_register && <EmployerNavbar />}
+      {demo_result_register && <DemoNavbar /> } */}
+         <Routes>
           <Route index path="/" element={<Home />} />
           <Route index path="/home" element={<Home />} />
           <Route path="/login" element={<LogIn />} />
@@ -64,8 +102,7 @@ function App() {
           <Route path="/Password" element={<Password />} />   
           <Route path="/JobSearch" element={<JobPostSample />} />
           <Route path="/JobDetails" element={<JobDetails />} />
-          {/* <Route path="/UserProfile" element={<UserProfile />}/> */}
-          <Route path="/UserProfile" element={<UserAccount />} />
+          <Route path="/UserProfile" element={<UserAccount/>} />
           <Route path="/Companydisplay" element={<Companydisplay />}/>
           <Route path="/Filter" element={<Filter/>} />
           <Route path="/MyJob" element={<MyJob/>} />  
@@ -80,11 +117,13 @@ function App() {
           <Route path="/applyJob" element={<ApplyJob />} />
           <Route path="/UserJobList" element={<UserJobList />} />
           <Route path="/Listprofile" element={<ListProfile />} />
-
-        </Routes>
-      </BrowserRouter>
+          <Route path="/UpdateEmployerregister" element={<UpdateEmployerregister />} />
+          <Route path="/Savedjob" element={<SavedJobs />} />
+          <Route path="/Notifications" element={<Notifications />} />
+        </Routes> 
+       </BrowserRouter>
     </div>
-    </UserContext.Provider>
+    </UserContext.Provider> 
   );
 }
 export default App;

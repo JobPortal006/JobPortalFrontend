@@ -8,3 +8,38 @@
     width: 100%;
     height: 100vh; 
 }
+.loginexpiredimge{
+    background-color: #E8EAF6;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 70px;
+    /* border: 2px solid #1A237E !important; */
+}
+.loginexpiredbackground{
+    background: rgb(197,202,233);
+    background: linear-gradient(0deg, rgba(197,202,233,1) 0%, rgba(26,35,126,1) 100%);
+}
+.loginerrorText{
+    color: #1A237E;
+    margin-top: 10px;
+    margin-top: -20px;
+}
+.loginexpiredbutton{
+   background-color: #1A237E;
+   color: #ffffff;
+   border: none;
+   padding: 5px;
+   font-weight: 700;
+   border-radius: 8px;
+   width: 50%;
+   margin-bottom: -15px;
+}
+.loginexpiredbutton:hover{
+    background-color:  #C5CAE9;
+    color: #1A237E;
+    border: none;
+    padding: 5px;
+    border-radius: 8px;
+    width: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+ }

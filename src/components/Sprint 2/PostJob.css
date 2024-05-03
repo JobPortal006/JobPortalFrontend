@@ -1,5 +1,6 @@
 .post_container{
     border:2px solid #1A237E;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.75);
   }
   .PostTitle{
     color: #1A237E;
@@ -23,4 +24,154 @@
   .post_container label{
     color: #1A237E;
     font-size: 14px;
+  }
+
+  .dashboardjob-box {
+    background-color: #E8EAF6;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* padding: 20px; */
+    margin-bottom: 20px;
+    margin-left: 50px;
+    transition: transform 0.3s ease-in-out;
+  }
+  .Dashboardjob-heading {
+    background-color: #a2beda;
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    padding: 20px;
+    border-radius: 15px 15px 0px 0px;
+  }
+  .dashboard-body{
+    padding: 20px 20px 10px 20px;
+  }
+
+  .skill-set {
+    margin-bottom: 8px;
+    margin-left: 10px;
+    margin-top: 15px;
+  }
+  
+  .skill {
+    display: inline-block;
+    margin-right: 10px;
+    position: relative;
+    color: #333;
+  }
+  
+  .skill::after {
+    content: "•";
+    margin-left: 8px; /* Adjust the spacing as needed */
+  }
+  
+  .skill:last-child::after {
+    content: none; /* This ensures no bullet is added after the last skill */
+  }
+  
+  .skill-text {
+    display: inline-block;
+    background-color: #a2beda; 
+    padding: 5px 10px; /* Add padding to make the background visible */
+    border-radius: 10px;
+  }
+  
+
+  .Dashboardjob-heading {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    justify-content: space-between; /* Spread items horizontally */
+  }
+  
+  .job-title {
+    flex-grow: 1; /* Allow job title to take remaining space */
+  }
+  
+  .dropdown {
+    position: relative;
+  }
+  
+  .ellipsis {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #E8EAF6;
+    border-radius: 10px;
+    font-size: 16px;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content button {
+    width: 100%;
+    padding: 10px;
+    padding-left: 20px;
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  
+  .dropdown-content button:hover {
+    background-color: #a2beda;
+    border-radius: 5px;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .job-details {
+    display: flex;
+    justify-content: space-between;
+  }
+  .created-at{
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+  }
+  .created-icon{
+    margin-right: 5px;
+  }
+
+.dashboardemployeerAccount{
+  display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+  .dashboardemployeerAccount-background{
+    background-color: #E8EAF6;
+    width: fit-content;
+    margin-bottom: -50px;
+    border-radius: 20px !important;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.75);
+  }
+  .dashboardemployeerAccount-background:hover{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.75);
+  transform: scale(1.01);
+  }
+  .dashboardemployeerNotRegister{
+    height: 450px;
+    width: 600px;
+    padding: 30px 30px 0px 30px;
+    
+  }
+  .dashboardemployeererrorText{
+    color: #1A237E;
+    background-color: #a2beda;
+    padding: 10px;
+    width: 100%;
+    border-radius: 0px 0px 20px 20px;
+    margin-top: 20px;
+    margin-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }

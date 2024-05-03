@@ -137,9 +137,10 @@ export default function FixedContainer() {
                   value={formData.signup_by}
                   onChange={handleInputChangeWrapper}
                   error={Boolean(errors.signup_by)}
+                  sx={{color:'#1A237E'}}
                 >
-                  <FormControlLabel value="User" control={<Radio />} label={formLabels.formLabels.usersignup_by} />
-                  <FormControlLabel value="Recruiter" control={<Radio />} label={formLabels.formLabels.recruitersignup_by} />
+                  <FormControlLabel value="User" control={<Radio sx={{ color: '#1A237E' }}/>} label={formLabels.formLabels.usersignup_by} />
+                  <FormControlLabel value="Recruiter" control={<Radio sx={{ color: '#1A237E' }}/>} label={formLabels.formLabels.recruitersignup_by} />
                 </RadioGroup>
                 {errors.signup_by && (
                   <Typography variant="body2" color="error">
@@ -156,6 +157,33 @@ export default function FixedContainer() {
                   onChange={handleInputChangeWrapper}
                   error={Boolean(errors.email)}
                   helperText={errors.email}
+                  InputLabelProps={{
+                    style: { color: "#1A237E" } // Change label color
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '10px', // Set border radius
+                        '& fieldset': {
+                            borderColor: '#1A237E', // Set border color
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#a2beda', // Set border color on hover
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#1A237E', // Set border color on focus
+                            borderWidth: '2px' // Set border width
+                        },
+                    },
+                    color: "#1A237E", // Text color
+                    // backgroundColor: errors.job_title ? '#E8EAF6' : 'white', // Background color based on error
+                    // borderRadius: "10px", // Border radius
+                }}
+                style={{backgroundColor:"white",borderRadius:"10px"}}
+                FormHelperTextProps={{
+                  sx: { backgroundColor: '#E8EAF6' ,marginLeft:'0px',paddingLeft:'5px',marginTop:'-3px',paddingTop:'4px',marginRight:'-10px'} // Set background color for error message
+              }}
                 />
                 <TextField
                   label={formLabels.formLabels.mobile_number}
@@ -175,6 +203,33 @@ export default function FixedContainer() {
                       </InputAdornment>
                     ),
                   }}
+                  InputLabelProps={{
+                    style: { color: "#1A237E" } // Change label color
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                        borderRadius: '10px', // Set border radius
+                        '& fieldset': {
+                            borderColor: '#1A237E', // Set border color
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&:hover fieldset': {
+                            borderColor: '#a2beda', // Set border color on hover
+                            borderWidth: '2px' // Set border width
+                        },
+                        '&.Mui-focused fieldset': {
+                            borderColor: '#1A237E', // Set border color on focus
+                            borderWidth: '2px' // Set border width
+                        },
+                    },
+                    color: "#1A237E", // Text color
+                    // backgroundColor: errors.job_title ? '#E8EAF6' : 'white', // Background color based on error
+                    // borderRadius: "10px", // Border radius
+                }}
+                style={{backgroundColor:"white",borderRadius:"10px"}}
+                FormHelperTextProps={{
+                  sx: { backgroundColor: '#E8EAF6' ,marginLeft:'0px',paddingLeft:'5px',marginTop:'-3px',paddingTop:'4px',marginRight:'-10px'} // Set background color for error message
+              }}
                 />
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6} style={{ marginTop: '15px' }}>
@@ -188,6 +243,33 @@ export default function FixedContainer() {
                       onChange={handleInputChangeWrapper}
                       error={Boolean(errors.password)}
                       helperText={errors.password}
+                      InputLabelProps={{
+                        style: { color: "#1A237E" } // Change label color
+                      }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '10px', // Set border radius
+                            '& fieldset': {
+                                borderColor: '#1A237E', // Set border color
+                                borderWidth: '2px' // Set border width
+                            },
+                            '&:hover fieldset': {
+                                borderColor: '#a2beda', // Set border color on hover
+                                borderWidth: '2px' // Set border width
+                            },
+                            '&.Mui-focused fieldset': {
+                                borderColor: '#1A237E', // Set border color on focus
+                                borderWidth: '2px' // Set border width
+                            },
+                        },
+                        color: "#1A237E", // Text color
+                        // backgroundColor: errors.job_title ? '#E8EAF6' : 'white', // Background color based on error
+                        // borderRadius: "10px", // Border radius
+                    }}
+                    style={{backgroundColor:"white",borderRadius:"10px"}}
+                    FormHelperTextProps={{
+                      sx: { backgroundColor: '#E8EAF6' ,marginLeft:'0px',paddingLeft:'5px',marginTop:'-3px',paddingTop:'4px',marginRight:'-10px'} // Set background color for error message
+                  }}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -210,6 +292,33 @@ export default function FixedContainer() {
                       onChange={handleInputChangeWrapper}
                       error={Boolean(errors.confirm_password)}
                       helperText={errors.confirm_password}
+                      InputLabelProps={{
+                        style: { color: "#1A237E" } // Change label color
+                      }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                            borderRadius: '10px', // Set border radius
+                            '& fieldset': {
+                                borderColor: '#1A237E', // Set border color
+                                borderWidth: '2px' // Set border width
+                            },
+                            '&:hover fieldset': {
+                                borderColor: '#a2beda', // Set border color on hover
+                                borderWidth: '2px' // Set border width
+                            },
+                            '&.Mui-focused fieldset': {
+                                borderColor: '#1A237E', // Set border color on focus
+                                borderWidth: '2px' // Set border width
+                            },
+                        },
+                        color: "#1A237E", // Text color
+                        // backgroundColor: errors.job_title ? '#E8EAF6' : 'white', // Background color based on error
+                        // borderRadius: "10px", // Border radius
+                    }}
+                    style={{backgroundColor:"white",borderRadius:"10px"}}
+                    FormHelperTextProps={{
+                      sx: { backgroundColor: '#E8EAF6' ,marginLeft:'0px',paddingLeft:'5px',marginTop:'-3px',paddingTop:'4px',marginRight:'-10px'} // Set background color for error message
+                  }}
                       InputProps={{
                         endAdornment: (
                           <InputAdornment position="end">
@@ -229,17 +338,36 @@ export default function FixedContainer() {
                       onChange={handleInputChangeWrapper}
                       name="agreeTerms"
                       color="primary"
+                      sx={{color:'#1A237E'}}
                     />
                   }
                   label={formLabels.formLabels.termsLabel}
-                  style={{ marginTop: '10px' }}
+                  style={{ marginTop: '10px',color: '#1A237E' }}
                 />
                 {errors.agreeTerms && (
                   <Typography variant="body2" color="error">
                     {errors.agreeTerms}
                   </Typography>
                 )}
-                <Button type="submit" variant="contained" color="primary" fullWidth style={{ marginTop: '2%' }}>
+                <Button type="submit" variant="contained" color="primary" fullWidth
+                 style={{ marginTop: '2%' }}
+                 sx={{
+                  mt: 1, mb: 2,
+                  borderRadius: '10px', // Rounded corners
+                  padding: '7px 15px', // Padding
+                  fontSize: '16px', // Font size
+                  fontWeight: 'bold', // Bold font weight
+                  textTransform: 'none', // Disable text transformation
+                  boxShadow: 'none', // Disable box shadow
+                  marginBottom:"20px",
+                  color: 'white', // Set text color
+                  backgroundColor: '#1A237E', // Set background color
+                  '&:hover': {
+                      backgroundColor: '#7986CB', // Change background color on hover
+                      color: '#1A237E'
+                  },
+              }}
+                 >
                   {formLabels.formLabels.submitButton}
                 </Button>
                 {/* <Divider variant="middle" sx={{ my: 3 }}>
@@ -255,9 +383,9 @@ export default function FixedContainer() {
                   <img src={GoogleLogo} alt="Google Logo" style={{ width: '5%', marginRight: '2%' }} />
                   {formLabels.formLabels.googleButton}
                 </Button> */}
-                <Typography variant="body2" align="center" sx={{ marginTop: '10px' }}>
+                {/* <Typography variant="body2" align="center" sx={{ marginTop: '10px' }}>
                   {formLabels.formLabels.haveAccountText} <Link to="/login">{formLabels.formLabels.signInLink}</Link>
-                </Typography>
+                </Typography> */}
               </form>
             </Box>
           </Grid>

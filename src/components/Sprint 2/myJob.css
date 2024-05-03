@@ -53,19 +53,27 @@
   
   
   .title-job {
-    font-size: 24px;
+    font-size: 20px;
     margin: 0;
+    margin-left: 20px;
   
   }
-  
+  .location {
+    font-size: 20px;
+    
+    margin: 0;
+  }
+  .date {
+    font-size: 20px;
+    margin: 0;
+  }
   .location-job {
-    font-size: 24px;
-  
+    font-size: 20px;
     margin: 0;
   }
   
   .date-job {
-    font-size: 24px;
+    font-size: 20px;
     margin: 0;
   }
   .edit-btn:hover{

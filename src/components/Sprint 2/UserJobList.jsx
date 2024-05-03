@@ -3,13 +3,17 @@ import { Button, Grid } from "@mui/material";
 import "./userJobList.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import BASE_URL from "../CommonAPI";
+import { HashLoader } from 'react-spinners';
+import { FaBuilding  } from "react-icons/fa";
+import { IoBookmarks } from "react-icons/io5";
+import { BsPersonWorkspace  } from "react-icons/bs";
 
 const UsersJobList = () => {
  
 
   const [listUser, setListUser] = useState("");
   console.log(listUser, "<><ListUseR><>");
-
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
   const jobId = location.state.userJobId;
@@ -39,6 +43,7 @@ const UsersJobList = () => {
         const data = await response.json();
         console.log(data, "userJobId----data---><");
         setListUser(data.data);
+        setLoading(false)
       } catch (error) {
         console.log(error);
       }
@@ -51,45 +56,108 @@ const UsersJobList = () => {
 
     console.log(userId,"';';email';';");
   }
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+  return ( 
+     <div >
+    {loading ? (
+// Display loading indicator while data is being fetched
+<div className="loading" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh',marginTop:'0px' ,marginLeft:'-50px'}}>
+<ul>         
+<li style={{color:"red"}}>
 
-  return (
-    <div className="user-job-list" style={{margin:"5%"}} >
+ <HashLoader  height={100}
+     width={100}
+     color="#1A237E"
+     ariaLabel="grid-loading"
+     radius="12.5"
+     wrapperStyle={{}}
+     wrapperClass="grid-wrapper" />
+ </li>
+ {/* <li>Loading...!</li> */}
+
+ </ul>
+
+</div>
+) : (
+    <div className="user-job-list">
       {listUser && listUser.map((job, index) => (
-            <Grid
-              key={index}
-              container
-              alignItems="center"
-              // justifyContent="space-between"
-              className="job-view"
-              style={{width:"75%", marginLeft:"10%"}}
-            >
-              <Grid container className="list-all" >
-              <Grid item xs={3}>
-              <div className="list-img">
-                 <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.userDetails.profile_picture_path}`} />
-                </div>
-              </Grid>
-              <Grid item xs={7}>
-               <div className="list-name">
-                   <h3>{job.userDetails.first_name}</h3>
-                 </div>
-             
-             <div>
-              <h4>{job.resume.employment_status}</h4>
-             </div>
-                <div>
-                  <h4 className="lise-college">{job.college_details.college_name}</h4>
-                </div>
-              </Grid>
+                      <div className="job-view"> 
+            <div className="job-top">
+                <div className="list-img">
+                  {job.userDetails.profile_picture_path && job.userDetails.profile_picture_path.includes('data:image') ? (
+                    <img src={job.userDetails.profile_picture_path} alt="Company Logo" />
+                  ) : (
+                  <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.userDetails.profile_picture_path}`} alt="Profile Logo" />
+                  )}
+                </div>    
+                <div className="job-heading">
+            <div>{capitalize(job.userDetails.first_name)} {capitalize(job.userDetails.last_name)}</div>
+            {/* <div className="company-name1">{job.company_name}</div> */}
+          </div>
 
-             <Grid item xs={2} style={{marginTop:"4%"}} >
-              <Button variant="contained" style={{backgroundColor:"#5c6bc1"}} onClick={()=> viewProfile(job.Signup.email)} >view profile</Button>
-             </Grid>
-             </Grid>
-            </Grid>
+              </div>
+              <div className="user-list-experience">
+              <div className="userlist-employment_status"><span className="brief-label"><BsPersonWorkspace />  Experience Level : </span>{job.resume.employment_status}</div>
+             </div>
+             <div className="brief-container">
+                <div className="job-brief">
+                  <span className="brief-label"><IoBookmarks />  Department : </span> {job.jobPreference.department}
+                </div>
+                <div className="job-brief">
+                  <span className="brief-label"><FaBuilding /> Preferred Industry : </span> {job.jobPreference.industry}
+                </div>
+              </div>
+                   <div className="skill-and-button">
+                <div className="skill-set">
+                  {job.jobPreference.key_skills && job.jobPreference.key_skills.map((skill, index) => (
+                    <span key={index} className="skill">
+                      <span className="skill-text">{skill}</span>
+                    </span>
+                  ))}
+                </div>
+                <Button variant="contained" className="view-more-button" style={{backgroundColor:"#5c6bc1"}} onClick={()=> viewProfile(job.Signup.email)}>view more</Button>
+              </div>        
+              </div>
           ))}
     </div>
+     )}
+     </div>
   );
 };
 
 export default UsersJobList;
+
+
+  // <Grid
+            //   key={index}
+            //   container
+            //   alignItems="center"
+            //   // justifyContent="space-between"
+            //   className="job-view"
+            //   style={{width:"75%", marginLeft:"10%"}}
+            // >
+            //   <Grid container className="list-all" >
+            //   <Grid item xs={3}>
+            //   <div className="list-img">
+            //      <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.userDetails.profile_picture_path}`} />
+            //     </div>
+            //   </Grid>
+            //   <Grid item xs={7}>
+            //    <div className="list-name">
+            //        <h3>{job.userDetails.first_name}</h3>
+            //      </div>
+             
+            //  <div>
+            //   <h4>{job.resume.employment_status}</h4>
+            //  </div>
+            //     <div>
+            //       <h4 className="lise-college">{job.college_details.college_name}</h4>
+            //     </div>
+            //   </Grid>
+              //  {/* <Grid item xs={2} style={{marginTop:"4%"}} >
+            //   <Button variant="contained" style={{backgroundColor:"#5c6bc1"}} onClick={()=> viewProfile(job.Signup.email)} >view profile</Button>
+            //  </Grid>
+            //  </Grid>
+            // </Grid> */}

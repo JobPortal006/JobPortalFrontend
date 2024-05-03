@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {HashLoader} from "react-spinners";
 import { CircularProgress, Typography, Grid, TextField, Container, Button, Input, Avatar, InputLabel, InputAdornment, IconButton, Divider, Autocomplete } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
@@ -31,8 +32,7 @@ const override = css`
 `;
 
 
-
-const UserProfile = () => {
+const UserProfile = (props) => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -44,8 +44,6 @@ const UserProfile = () => {
     console.log(postData, '=====postdata=====')
     const [resumeFile, setResumeFile] = useState(null);
     const navigate = useNavigate();
-
-  
     /// for validation
     const [error1, setError1] = useState({
         data: {
@@ -181,7 +179,25 @@ const UserProfile = () => {
     //             setLoading1(false); // Set loading to false in case of error
     //         });
     // }, []);
-
+    // useEffect(() => {
+        console.log(props.message,'props.data---');
+        if (props.message) {
+          const token = localStorage.getItem('loginToken');
+          const requestData = {
+            token: token,
+          };
+    
+          axios.post(`${BASE_URL}/get_user_details/`, requestData)
+            .then(response => {
+              console.log(response.data); // Log response data
+              // Do something with the response data, such as updating state
+            })
+            .catch(error => {
+              console.error('Error fetching user details:', error);
+              // Handle errors
+            });
+        }
+    //   }, [props.data]);
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
         setProfilePicture(file);
@@ -348,6 +364,8 @@ const [values , setValues] = useState();
     };
     useEffect(() => {
 console.log(formData,'ckekckckckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk') 
+
+
         
         // Fetch data from the API
         fetch(`${BASE_URL}/get_user_details_view/`)
@@ -827,7 +845,7 @@ console.log(formData,'ckekckckckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
-                setLoading(false);
+                // setLoading(false);
             }
         };
 
@@ -1058,10 +1076,28 @@ console.log(formDataToSend,'date to payload')
     return (
         <div className='profilebackground-div'>
             {loading1 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-                    <BeatLoader color="#36D7B7" css={override} />
-                    <p>Loading profile information...</p>
+                // <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                //     <BeatLoader color="#36D7B7" css={override} />
+                //     <p>Loading profile information...</p>
+                // </div>
+                <div className="loading" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <ul>         
+                 <li style={{color:"red"}}>
+        
+                  <HashLoader  height={100}
+                      width={100}
+                      color="#1A237E"
+                      ariaLabel="grid-loading"
+                      radius="12.5"
+                      wrapperStyle={{}}
+                      wrapperClass="grid-wrapper" />
+                  </li>
+                  {/* <li>Loading...!</li> */}
+                 
+                  </ul>
+        
                 </div>
+        
 
             ) : (
 

@@ -414,15 +414,128 @@ import UserContext from '../Sprint 2/contextFilter';
 import BASE_URL from '../CommonAPI';
 import '../NavBar/Navbar.css';
 import { UpdateEmployerregister } from '../EmployeerManagement/UpdateEmployeer';
-
+import LoginExpired from "../Login Image/Login Expired.jpg"
 import JL from "../Login Image/JL_-_1__1_-removebg-preview.png"
-
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserResultRegister, setEmployeerResultRegister, setDemoResultRegister } from '../actions';
 
 const Navbar = () => {
   const [loading, setLoading] = useState(false);
   const [userType, setUserType] = useState('');
   const { setData, setsearchJob, setcompanyList, setJobData } = useContext(UserContext);
   const navigate = useNavigate();
+
+
+  const register_by = localStorage.getItem("registered_by");
+  // const userResultRegister = useSelector(state => state.userResultRegister);
+  // const employeerResultRegister = useSelector(state => state.employeerResultRegister);
+  // const demoResultRegister = useSelector(state => state.demoResultRegister);
+  // const [user_result_register, setUserResult_register] = useState(false);
+  // const [employeer_result_register, setEmployeerResult_register] = useState(false);
+  // const [demo_result_register, setDemoResult_register] = useState(true);
+  // const [user_register, setUser_register] = useState("");
+  // const [employeer_register, setEmployeer_register] = useState("");
+  const [user_account_creation, setUserAccountCreation] = useState(false);
+  const [login_expired, setLoginExpired] = useState(false);
+  const [employeer_account_creation, setEmployeerAccountCreation] = useState(false);
+  console.log(register_by, 'register_by--------- navbar -------->');
+// console.log(userResultRegister,'userResultRegister----------->');
+// console.log(employeerResultRegister,'employeerResultRegister-------------->');
+// console.log(demoResultRegister,'demoResultRegister----------->');
+// console.log(user_result_register,'userResultRegister----------->');
+// console.log(employeer_result_register,'employeerResultRegister-------------->');
+// console.log(demo_result_register,'demoResultRegister----------->');
+
+// useEffect(() => {
+//   setUser_register(register_by);
+//   setEmployeer_register(register_by);
+// }, []); 
+
+// console.log(user_register, 'user_register--------->');
+// console.log(employeer_register, 'employeer_register------------->');
+
+  // if (user_register === "User") {
+  //   setUserResult_register(true);
+  //   setDemoResult_register(false);
+  // } else if (employeer_register === "Recruiter") {
+  //   setEmployeerResult_register(true);
+  //   setDemoResult_register(false);
+  // } else {
+  //   setUserResult_register(false);
+  //   setEmployeerResult_register(false);
+  //   setDemoResult_register(true);
+  // }
+
+  // useEffect(() => {
+    const token = localStorage.getItem("loginToken");
+    const googleToken = localStorage.getItem("googleSecondToken")
+    console.log(token,'token----------->');
+    console.log(googleToken,'googleToken----------->');
+    var result_token = ''
+    if (token){
+      result_token = token
+    } else{
+      result_token = googleToken
+    }
+    // Check if the token exists before making the API call
+    if (result_token) {
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ result_token }),
+      };
+      if (register_by === 'User'){
+      fetch(`${BASE_URL}/user_account_creation_check/`, requestOptions)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch data');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data, 'user_account_creation_check-------');
+          if (data.statusCode === 400){
+            setLoginExpired(true)
+          }
+          else{
+          if (data.status) {
+            setUserAccountCreation(true);
+          } else {
+            setUserAccountCreation(false);
+          }
+        }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+       if (register_by === 'Recruiter'){
+        fetch(`${BASE_URL}/employeer_account_creation_check/`, requestOptions)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to fetch data');
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data, 'employeer_account_creation_check-------');
+          if (data.status) {
+            setEmployeerAccountCreation(true);
+          } else {
+            setEmployeerAccountCreation(false);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      }
+    } else {
+      // Handle the case where the token is missing
+      console.error('No token found in local storage');
+    }
+  // }, []);
 
   useEffect(() => {
     // Retrieve the userType from local storage
@@ -452,7 +565,7 @@ const Navbar = () => {
   const logout = () => {
     localStorage.clear();
     navigate('/login');
-    window.location.reload();
+    // window.location.reload();
   };
 
   const CreateAccount = () => {
@@ -490,6 +603,62 @@ const Navbar = () => {
     }
   };
 
+  const notification = async () => {
+    setLoading(true);
+
+    const token = localStorage.getItem('loginToken');
+
+    const requestData = {
+      token: token,
+    };
+
+   
+
+    try {
+      // const response = await axios.post(`${BASE_URL}/get_job_notifications/`, requestData);
+
+      // if (response.data.status === true) {
+        navigate('/Notifications');
+      // } 
+      // else {
+      //   alert("User details not found. Please create an account.");
+      //   navigate('/CreateAccount');
+      // }
+    } catch (error) {
+      console.error('Error sending token and data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const employeerprofile = async () => {
+    setLoading(true);
+
+    const token = localStorage.getItem('loginToken');
+
+    const requestData = {
+      token: token,
+    };
+
+    try {
+      const response = await axios.post(`${BASE_URL}/get_employeer_details/`, requestData);
+  console.log(response,'get_employeer_details---------');
+      if (response.data.status === true || response.status === 200 ) {
+        console.log("if-----------");
+        navigate('/UpdateEmployerregister');
+        // <UpdateEmployerregister />
+      } 
+      else {
+        alert("User details not found. Please create an account.");
+        navigate('/EmployerRegister');
+      }
+    } catch (error) {
+      console.error('Error sending token and data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const Employerdetails = () => {
     navigate('/EmployerRegister')
   }
@@ -517,7 +686,7 @@ const Navbar = () => {
       </div>
 
       <div className="Navbar__center">
-        {userType === 'User' && (isLoggedIn || otpToken || storedToken) && (
+        {register_by === 'User' && (isLoggedIn || otpToken || storedToken) && (
           <ul>
             <li className="Navbar__dropdown" onClick={home}>
               Home
@@ -535,7 +704,7 @@ const Navbar = () => {
           </ul>
         )}
 
-        {userType === 'Recruiter' && (isLoggedIn || storedToken || otpToken) && (
+        {register_by === 'Recruiter' && (isLoggedIn || storedToken || otpToken) && (
           <ul>
             <li className="Navbar__dropdown" onClick={home}>
               Home
@@ -545,8 +714,8 @@ const Navbar = () => {
             Employer
               <div className="Navbar__dropdown-content">
                 <ul>
-                  <li onClick={Employerdetails}>Employer details</li>
-                  <li onClick={PostJob}>Add job posting</li>
+                  {/* <li onClick={Employerdetails}>Employer details</li> */}
+                  <li onClick={PostJob}>Post a Job</li>
                 </ul>
               </div>
             </li>
@@ -561,7 +730,7 @@ const Navbar = () => {
           </ul>
         )}
 
-        {(!userType || (!isLoggedIn && !otpToken && !storedToken)) && (
+        {(!register_by || (!isLoggedIn && !otpToken && !storedToken)) && (
           <ul>
              <li className="Navbar__dropdown" onClick={home}>
               Home
@@ -572,7 +741,7 @@ const Navbar = () => {
       </div>
 
       <div className="Navbar__right">
-      {(!userType || (!isLoggedIn && !otpToken && !storedToken)) && (
+      {(!register_by || (!isLoggedIn && !otpToken && !storedToken)) && (
           <>
           <button className="Navbar__button" id='Nav_log_btn' onClick={handleLoginClick} disabled={isLoggedIn}>
           Login
@@ -583,34 +752,41 @@ const Navbar = () => {
         </>
         )}
      
-     {userType === 'Recruiter' && (isLoggedIn || storedToken || otpToken) && (
+     {register_by === 'Recruiter' && (isLoggedIn || storedToken || otpToken) && (
            <>
            <button className="Navbar__button" id='Nav_btn' onClick={logout}>
            Logout
            </button>
+           { employeer_account_creation &&
            <button className="Navbar__button" type='submit' onClick={CreateAccountRecruiter}>
            Create an account
-           </button>
-           {/* <FaUserCircle className="Navbar__user-icon" style={{ fontSize: '20px' }} onClick={profile} /> */}
+           </button> }
+           <FaUserCircle className="Navbar__user-icon" style={{ fontSize: '20px' }} onClick={employeerprofile} />
            <FaBell className="Navbar__notification-icon" />
          </>
         )}
-         {userType === 'User' && (isLoggedIn || storedToken || otpToken) && (
+         {register_by === 'User' && (isLoggedIn || storedToken || otpToken) && (
            <>
            <button className="Navbar__button" id='Nav_btn' onClick={logout}>
            Logout
            </button>
+           { user_account_creation &&
            <button className="Navbar__button" type='submit' onClick={CreateAccount}>
            Create an account
-           </button>
+           </button> }
            <FaUserCircle className="Navbar__user-icon" style={{ fontSize: '20px' }} onClick={profile} />
-           <FaBell className="Navbar__notification-icon" />
+           <FaBell className="Navbar__notification-icon" onClick={notification}/>
          </>
         )}
       </div>
 
       {loading && <BeatLoader color='#1A237E' style={{ height: '20px' }} />}
+    
     </div>
+  
+  //   <>
+  //   Navbar
+  //  </>
   );
 };
 

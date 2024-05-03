@@ -187,13 +187,13 @@
 
 
 import React, { useState,useEffect, useContext} from "react";
-import { faMapMarkerAlt, faMoneyBillAlt, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import "../Sprint 2/FIlteredResults.css";
 import { useNavigate } from 'react-router-dom';
 import { Grid, Button } from "@mui/material";
 import UserContext from "./contextFilter";
 import BASE_URL from '../CommonAPI';
 import { FaIndianRupeeSign,FaLocationDot,FaClockRotateLeft   } from "react-icons/fa6";
+import { faMapMarkerAlt, faMoneyBillAlt, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { BsPersonSquare ,BsFileEarmarkTextFill,BsFillBagCheckFill,BsFillFileCheckFill,BsPersonFillCheck } from "react-icons/bs";
 import { BsFillBookmarksFill, BsFillBookmarkCheckFill  } from "react-icons/bs";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
@@ -208,12 +208,10 @@ function FilteredResults() {
     const [currentPage, setCurrentPage] = useState(1);
     const [jobsPerPage] = useState(5);
 
-    const [bookmarkedJobs, setBookmarkedJobs] = useState([]);
 
     const { searchJob, oneData ,companyList, jobData} = useContext(UserContext);
     console.log(searchJob,'=====raghul data1')
     console.log(oneData,'=====raghul data2')
-    
 
 
     useEffect(()=>{},[searchJob,oneData,companyList])
@@ -228,7 +226,77 @@ function FilteredResults() {
     const currentJobs = dataToUse?.slice(indexOfFirstJob, indexOfLastJob);
 
  
-    console.log(currentJobs,"<===CurrentJobs");
+    const [bookmarkedJobs, setBookmarkedJobs] = useState([]);
+   
+  useEffect(() => {
+    if (currentJobs) {
+        const savedjob = currentJobs.map(job => job.saved);
+        const savedjobId = currentJobs.filter(job => job.saved === "Saved").map(job => job.id);
+        console.log(savedjob, "savedjob-----?");
+        console.log(savedjobId, "savedjobId--->");
+        if (savedjob.includes("Saved")) {
+            setBookmarkedJobs(prevBookmarkedJobs => [...prevBookmarkedJobs, ...savedjobId]);
+        }
+    }
+}, []);
+
+
+console.log(bookmarkedJobs,'bookmarkedJobs---------');
+   // 
+   const token = localStorage.getItem("loginToken");
+
+   const handleBookmark = async (jobId) => {
+       const bookmarkData = {
+           token,
+           job_id: jobId,
+       };
+   
+       try {
+           
+           let response;
+   
+           // Check if the job is already bookmarked
+           if (bookmarkedJobs.includes(jobId)) {
+               // If already bookmarked, send data to update the bookmark
+               response = await fetch(`${BASE_URL}/delete_saved_job/`, {
+                   method: 'DELETE',
+                   headers: {
+                       'Content-Type': 'application/json',
+                   },
+                   body: JSON.stringify(bookmarkData),
+               });
+           } else {
+               // If not bookmarked, send data to save the job as a new bookmark
+               response = await fetch(`${BASE_URL}/saved_job/`, {
+                   method: 'POST',
+                   headers: {
+                       'Content-Type': 'application/json',
+                   },
+                   body: JSON.stringify(bookmarkData),
+               });
+           }
+   
+           if (!response.ok) {
+               throw new Error('Failed to update bookmark status for the job');
+           } else {
+               // If successful, update the bookmark status locally
+               if (bookmarkedJobs.includes(jobId)) {
+                   // If job is already bookmarked, remove it
+                   setBookmarkedJobs(bookmarkedJobs.filter(id => id !== jobId));
+               } else {
+                   // If job is not bookmarked, add it
+                   setBookmarkedJobs([...bookmarkedJobs, jobId]);
+               }
+           }
+           console.log('Bookmark status updated successfully for job ID:', jobId);
+       } catch (error) {
+           setErrorTwo(error);
+           console.error('Error updating bookmark status for job ID:', jobId, error);
+       } finally {
+           
+       }
+   };
+
     const [noResult, setNoResult] = useState(false)
 
     if(dataToUse === null){
@@ -237,7 +305,6 @@ function FilteredResults() {
         
     }
     const paginate = pageNumber => setCurrentPage(pageNumber);
-
     const handleJobSelect = async (selectedJob) => {
         const Token= localStorage.getItem('loginToken')
         const Token1={
@@ -277,60 +344,6 @@ function FilteredResults() {
 
       
 
-      // 
-      const token = localStorage.getItem("loginToken");
-
-      const handleBookmark = async (jobId) => {
-          const bookmarkData = {
-              token,
-              job_id: jobId,
-          };
-      
-          try {
-              
-              let response;
-      
-              // Check if the job is already bookmarked
-              if (bookmarkedJobs.includes(jobId)) {
-                  // If already bookmarked, send data to update the bookmark
-                  response = await fetch(`${BASE_URL}/delete_saved_job/`, {
-                      method: 'DELETE',
-                      headers: {
-                          'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify(bookmarkData),
-                  });
-              } else {
-                  // If not bookmarked, send data to save the job as a new bookmark
-                  response = await fetch(`${BASE_URL}/saved_job/`, {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify(bookmarkData),
-                  });
-              }
-      
-              if (!response.ok) {
-                  throw new Error('Failed to update bookmark status for the job');
-              } else {
-                  // If successful, update the bookmark status locally
-                  if (bookmarkedJobs.includes(jobId)) {
-                      // If job is already bookmarked, remove it
-                      setBookmarkedJobs(bookmarkedJobs.filter(id => id !== jobId));
-                  } else {
-                      // If job is not bookmarked, add it
-                      setBookmarkedJobs([...bookmarkedJobs, jobId]);
-                  }
-              }
-              console.log('Bookmark status updated successfully for job ID:', jobId);
-          } catch (error) {
-              setErrorTwo(error);
-              console.error('Error updating bookmark status for job ID:', jobId, error);
-          } finally {
-              
-          }
-      };
    
     
 
@@ -342,7 +355,7 @@ function FilteredResults() {
     {loading ? (
       <div className="loading-popup">Loading...</div> 
     ) : (
-      <div className="job-result" style={{ marginTop: '300px', marginLeft: "20px", width: '800px' }}>
+      <div className="job-result" style={{ marginTop: '250px', width: '100%' }}>
         {currentJobs.map((job, index) => (
           <div key={index} className="job-box" >
             <div onClick={() => handleJobSelect(job)} >
@@ -358,7 +371,9 @@ function FilteredResults() {
                   <div>{job.job_title}</div>
                   <div className="company-name1">{job.company_name}</div>
                 </div>
-                </div>
+              </div>
+
+
                 <div className="brief" style={{ marginBottom: '8px', maxWidth: '600px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   <span className="brief-label"><BsFileEarmarkTextFill/> Job Description : </span> {job.job_description}
                 </div>
@@ -392,17 +407,24 @@ function FilteredResults() {
 
                   {/* Bottom of the job */}
                   <div style={{ backgroundColor: '#a2beda',padding:"10px", margin: "0 -20px -20px -20px",borderRadius:"10px", cursor:"default" }}>
-                  <div className="skill-set">
+                  <div className="filter-skill-set">
                     {job.skills && job.skills.map((skills, index) => (
-                      <span key={index} className="brief11" style={{ marginRight: '5px' }}>{skills}</span>
+                      // <span key={index} className="brief11" style={{ marginRight: '5px' }}>{skills}</span>
+                      <span key={index} className="skill">
+                      <span className="filter-skill-text">{skills}</span>
+                    </span>
                     ))}
                   </div>
                   <div className="created-at">
                       <span className="brief-label1"><FaClockRotateLeft icon={faBuilding} /><span className="text"> {job.created_at} ago </span></span> 
-                      <span className="save-icon" style={{cursor:"pointer", display:"none"}} onClick={() => handleBookmark(job.id)} > 
+
+
+                      <span className="save-icon" style={{cursor:"pointer"}} onClick={() => handleBookmark(job.id)} > 
                       {bookmarkedJobs.includes(job.id) ? <BsFillBookmarkCheckFill /> : <BsFillBookmarksFill />}
                       {bookmarkedJobs.includes(job.id) ? 'Saved' : 'Save'}
                       </span>
+
+
                     </div>           
                   </div>          
           </div>

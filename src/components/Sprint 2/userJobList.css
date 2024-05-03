@@ -1,31 +1,32 @@
-/* .user-job-list{
-    position: absolute;
-    margin-top: 1%;
-    height: 100%;
+.user-job-list{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    background-color: antiquewhite;
-    margin-right: 20%;
-    
-} */
+    background: rgb(26,35,126);
+    background: linear-gradient(90deg, rgba(26,35,126,1) 0%, rgba(232,234,246,1) 100%);
+   padding-top: 60px ;   
+   min-height: 100vh;
+}
 
 .job-view{
-   
-    margin-top: 3%;
-    height: 150px;
+width: 70%;
+    height: auto;
     background-color: #e8eaf6; 
     border-radius: 15px;
     box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in;
-
+    padding: 30px;
+    margin: 15px;
+    align-items: flex-start;
 }
-
 .job-view:hover{
-    transform: scale(1.05);
+    transform: scale(1.03);
     cursor: pointer;
 
 }
 
-.list-all{
+.list-all{  
     margin-left: 5%;
     padding: 10px;
 }
@@ -41,7 +42,34 @@
 
 .list-img img{
     margin-top: 8px;
-    height: 100px;
-    width: 100px;
+    height: 70px;
+    width: 70px;
     border-radius: 50%;
+}
+
+.user-list-experience{
+    margin-left: -10px;
+}
+.brief-container {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    margin-left: -10px;
+  }
+  
+  
+.skill-and-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%; 
+  margin-left: -10px;
+}
+
+.skill-set {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.job-view .view-more-button {
+  background-color: #5c6bc1;
 }

@@ -83,6 +83,16 @@
 .brief11:last-child::after {
   content: none; /* This ensures no bullet is added after the last skill */
 }
+.filter-skill-set{
+  margin-bottom: -10px;
+}
+.filter-skill-text {
+  display: inline-block;
+  background-color: #E8EAF6; 
+  padding: 5px 10px; /* Add padding to make the background visible */
+  border-radius: 10px;
+}
+
 .created-at {
   /* background-color: #E8EAF6; */
   bottom: 10px;

@@ -8,8 +8,19 @@ import BASE_URL from '../CommonAPI';
 export const UpdateEmployerregister = () => {
     // Extracting employerDetails from the UserContext
     const { employerDetails } = useContext(UserContext);
+    const [employerDetailsData, setemployerDetails] = useState(false);
+    const [notemployerDetails, setnotemployerDetails] = useState(false);
+    console.log(employerDetails,'employerDetails------->');
+    // if (employerDetails.status)
+    // {
+    //     setemployerDetails(true)
+    //     setnotemployerDetails(false)
+    // }  else{
+    //     setnotemployerDetails(true)
+    //     setemployerDetails(false)
+    // }
 
-    // Initializing state for holding updated employer details
+// Initializing state for holding updated employer details
     const [updatedDetails, setUpdatedDetails] = useState({
         company_details: {
             company_logo_path: employerDetails.company_details.company_logo_path || '',
@@ -232,7 +243,6 @@ export const UpdateEmployerregister = () => {
 
     return (
         <>
-            
             <Grid container spacing={5}  backgroundColor= '#5C6BC0'>
                 <Grid container spacing={3} justifyContent="center">
                     <Grid item xs={12} sm={6}>
@@ -509,6 +519,7 @@ export const UpdateEmployerregister = () => {
                     {/* Remaining grid item */}
                 </Grid>
                 </Grid>
+
         </>
     );
 };

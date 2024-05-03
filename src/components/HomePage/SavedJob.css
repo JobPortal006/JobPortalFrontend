@@ -1,0 +1,37 @@
+.saved-job-box {
+  background-color: #E8EAF6;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* padding: 20px; */
+  margin-bottom: 20px;
+  width: 100% !important;
+  max-width: 700px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.saved-job-box:hover {
+  transform: translateY(-5px);
+  cursor: pointer;
+} 
+
+.saved-job-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  background-color: #a2beda;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.saved-job-content{
+  padding: 5px 20px 20px 20px;
+}
+
+
+.saved-skill-text {
+  display: inline-block;
+  background-color: #a2beda; 
+  padding: 5px 10px; /* Add padding to make the background visible */
+  border-radius: 10px;
+  margin-left: 10px;
+}

@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import BASE_URL from '../CommonAPI';
 import "./ListProfile.css";
+import { HashLoader } from 'react-spinners';
+import SearchJobImage from './Sprint 2 Images/bad request.jpg';
 
 export const ListProfile = () => {
     const location = useLocation();
     const jobmail = location.state.userId;
     const [profileData, setProfileData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [errorstyle, setErrorstyle] = useState(false);
 
     useEffect(() => {
         const getData = async () => {
@@ -21,6 +25,10 @@ export const ListProfile = () => {
 
                 const data = await response.json();
                 setProfileData(data.data);
+                setLoading(false)
+                if(data.status === false){
+                    setErrorstyle(true)
+                }
             } catch (error) {
                 console.log(error);
             }
@@ -31,10 +39,47 @@ export const ListProfile = () => {
     const openResume = () => {
         window.open(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${profileData.resume.resume_path}`, '_blank');
     };
-
+console.log(errorstyle,"errorstyle----");
     return (
+        <div>
+             {loading ? (
+        // Display loading indicator while data is being fetched
+        <div className="loading" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh',marginTop:'0px' ,marginLeft:'-50px'}}>
+        <ul>         
+         <li style={{color:"red"}}>
+
+          <HashLoader  height={100}
+              width={100}
+              color="#1A237E"
+              ariaLabel="grid-loading"
+              radius="12.5"
+              wrapperStyle={{}}
+              wrapperClass="grid-wrapper" />
+          </li>
+          {/* <li>Loading...!</li> */}
+         
+          </ul>
+
+        </div>
+       ) : (
         <div className="profile-container">
-            {profileData && (
+           {errorstyle && (
+                <div className="error-style">
+                    <div className="dashboardemployeerAccount">
+       <div className='dashboardemployeerAccount-background'>
+         <img 
+           src={SearchJobImage} 
+           alt='404' 
+           className='dashboardemployeerNotRegister' 
+           style={{ borderRadius: "10px" }} 
+         />
+         <br />
+         <h5 className='dashboardemployeererrorText'>404 Bad Request..!</h5>
+       </div>
+     </div>
+                </div>
+                )}
+                {profileData && (
                 <div className="profile-wrapper">
                     <h3><b>User Profile</b></h3>
                     <div className="profile-details">
@@ -78,20 +123,22 @@ export const ListProfile = () => {
                     </div>
                     <div className="address-details">
                         <h3><b>Address</b></h3>
+                        {profileData?.address && (
                         <div className="address-row">
                             <div className="address-column">
                                 <h4><b>Current Address</b></h4>
-                                <p><strong>City:</strong> {profileData.address.current.city}</p>
-                                <p><strong>Country:</strong> {profileData.address.current.country}</p>
-                                <p><strong>Pincode:</strong> {profileData.address.current.pincode}</p>
+                                <p><strong>City:</strong> {profileData?.address?.current?.city}</p>
+                                <p><strong>Country:</strong> {profileData?.address?.current?.country}</p>
+                                <p><strong>Pincode:</strong> {profileData?.address?.current?.pincode}</p>
                             </div>
                             <div className="address-column">
                                 <h4><b>Permanent Address</b></h4>
-                                <p><strong>City:</strong> {profileData.address.permanent.city}</p>
-                                <p><strong>Country:</strong> {profileData.address.permanent.country}</p>
-                                <p><strong>Pincode:</strong> {profileData.address.permanent.pincode}</p>
+                                <p><strong>City:</strong> {profileData?.address?.permanent?.city}</p>
+                                <p><strong>Country:</strong> {profileData?.address?.permanent?.country}</p>
+                                <p><strong>Pincode:</strong> {profileData?.address?.permanent?.pincode}</p>
                             </div>
                         </div>
+                        )}
                     </div>
                     {profileData.resume && profileData.resume.resume_path && (
                         <div className="resume-details">
@@ -105,6 +152,8 @@ export const ListProfile = () => {
                     )}
                 </div>
             )}
+        </div>
+        )}
         </div>
     );
 };

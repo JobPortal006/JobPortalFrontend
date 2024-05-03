@@ -28,4 +28,22 @@
   }
   
 
-  
+  .userAccount-background{
+    background-color: #E8EAF6;
+    /* width: 100%; */
+    margin-bottom: -50px;
+    border-radius: 20px !important;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.75);
+    margin-left: -170px;
+    margin-top: 10px;
+  }
+  .userAccount-background:hover{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.75);
+  transform: scale(1.01);
+  }
+  .NotRegister{
+    height: 450px;
+    width: 600px;
+    padding: 20px 30px 10px 30px;
+    
+  }
