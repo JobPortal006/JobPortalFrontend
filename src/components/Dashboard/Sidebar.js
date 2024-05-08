@@ -15,7 +15,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
 import Divider from '@material-ui/core/Divider';
-import Logo from '../Dashboard/Images/download.png';
+import Logo from '../Dashboard/Images/Logo.jpg';
 
 import { Employerregister } from '../EmployeerManagement/Employerregister';
 import PostJob from '../Sprint 2/PostJob';
@@ -30,6 +30,7 @@ import DashboardPostJob from '../Sprint 2/DashboardPostJob';
 import DashboardMyJob from '../Sprint 2/DashboardMyjobs';
 import NotRegister from "../HomePage/homeimages/Not Register.jpg"
 import '../Dashboard/Sidebar.css'
+import { DashBoardEmployeerProfile } from '../EmployeerManagement/DashboardEmployeerProfile';
 
 const drawerWidth = 210;
 
@@ -45,10 +46,12 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: theme.mixins.toolbar,
   logo: {
-    height: 50,
-    margin: '30px auto',
+    height: 70,
+    width:70,
+    margin: '20px auto',
     display: 'block',
     borderRadius:'50%'
+    // backgroundColor:'white'
   },
   menuButton: {
     [theme.breakpoints.up('sm')]: {
@@ -112,8 +115,6 @@ const SideNavbar = () => {
       const token = localStorage.getItem('loginToken');
       console.log(token,"=========token");
       setLoading(true);
-      // axios.post('http://192.168.1.44:8000/get_employeer_details/', {
-      //   employee_id: 2
       axios.post(`${BASE_URL}/get_employeer_details/`, {
         token
       })
@@ -312,8 +313,6 @@ const SideNavbar = () => {
               wrapperStyle={{}}
               wrapperClass="grid-wrapper" />
           </li>
-          {/* <li>Loading...!</li> */}
-         
           </ul>
 
         </div>
@@ -321,8 +320,9 @@ const SideNavbar = () => {
           <>
             {selectedItem === 'My Profile' && employerDetailsData && (
               <div>
-              <h1>Hello</h1>
-              <UpdateEmployerregister style={{ width: '100%' }} />
+              {/* <h1>Hello</h1> */}
+              {/* <UpdateEmployerregister style={{ width: '100%' }} /> */}
+              <DashBoardEmployeerProfile/>
               </div>
             )}
              {selectedItem === 'My Profile' && notemployerDetails && (

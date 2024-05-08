@@ -307,6 +307,9 @@ function DashboardMyJob() {
         </div>
       )}
     </div>
+
+
+    
       {result && (
        <div className="dashboardemployeerAccount">
        <div className='dashboardemployeerAccount-background'>
@@ -320,6 +323,9 @@ function DashboardMyJob() {
          <h5 className='dashboardemployeererrorText'>No Jobs Posted yet..!</h5>
        </div>
      </div>
+
+
+
       )}
     </div>
   );

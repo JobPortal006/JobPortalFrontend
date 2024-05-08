@@ -374,7 +374,7 @@ export const Employerregister = () => {
         // background: 'radial-gradient(circle, rgba(9,91,255,1) 0%, rgba(255,174,103,1) 100%)',
         minHeight: '100vh',
         padding: '30px',
-        backgroundColor: '#7986CB', // Add indigo color background
+        backgroundColor: '#7986CB'
       }}>
         <ToastContainer />
       <Grid item xs={12}>

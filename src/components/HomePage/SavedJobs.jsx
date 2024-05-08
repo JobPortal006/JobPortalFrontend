@@ -13,6 +13,7 @@ import { faMapMarkerAlt, faMoneyBillAlt, faBuilding } from '@fortawesome/free-so
 import { BsPersonSquare ,BsFileEarmarkTextFill,BsFillBagCheckFill,BsFillFileCheckFill,BsPersonFillCheck } from "react-icons/bs";
 import { BsFillBookmarksFill, BsFillBookmarkCheckFill  } from "react-icons/bs";
 import "../HomePage/SavedJob.css"
+import SearchJobImage from '../HomePage/homeimages/Saved Job Error.jpg';
 
 
 export const SavedJobs = () => {
@@ -217,6 +218,7 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
   return ( 
     
     <div>
+      <div>
    {loading ? (
 <div className="loading" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh',marginTop:'50px' ,marginLeft:'-50px'}}>
 <ul>         
@@ -236,7 +238,7 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
 ) : (
    <div>
      {displayedJobs && displayedJobs.map((job, index) => (
-           <div key={index} className="saved-job-box" >
+           <div key={index} className="saved-job-box" onClick={() => handleCardClick(job)}>
            <div className="saved-job-top">
                 <div className="job-heading">
                   <div>{job.job_title}</div>
@@ -254,7 +256,7 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
                 </div>
               </div>
            <div className='saved-job-content'>
-               <div className="brief" style={{ marginBottom: '8px', maxWidth: '600px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+               <div className="brief" style={{ marginBottom: '8px', maxWidth: '800px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                  <span className="brief-label"><BsFileEarmarkTextFill/> Job Description : </span> {job.job_description}
                </div>
            
@@ -308,8 +310,29 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
          </div>
          ))}
    </div>
-    )}
-    </div>
- );
-};
+     )}
+     </div>
+ 
+ 
+     
+       {userDashboardError && (
+        <div className="dashboardemployeerAccount">
+        <div className='dashboardemployeerAccount-background'>
+          <img 
+            src={SearchJobImage} 
+            alt='404' 
+            className='dashboardemployeerNotRegister' 
+            style={{ borderRadius: "10px" }} 
+          />
+          <br />
+          <h5 className='dashboardemployeererrorText'>No Saved Jobs yet..!</h5>
+        </div>
+      </div>
+ 
+ 
+ 
+       )}
+     </div>
+   );
+ }
 

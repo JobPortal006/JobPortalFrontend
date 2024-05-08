@@ -469,6 +469,7 @@ const Navbar = () => {
   // useEffect(() => {
     const token = localStorage.getItem("loginToken");
     const googleToken = localStorage.getItem("googleSecondToken")
+    const { employerDetails, setEmployerDetails } = useContext(UserContext);
     console.log(token,'token----------->');
     console.log(googleToken,'googleToken----------->');
     var result_token = ''
@@ -645,6 +646,7 @@ const Navbar = () => {
   console.log(response,'get_employeer_details---------');
       if (response.data.status === true || response.status === 200 ) {
         console.log("if-----------");
+        setEmployerDetails(response.data);
         navigate('/UpdateEmployerregister');
         // <UpdateEmployerregister />
       } 

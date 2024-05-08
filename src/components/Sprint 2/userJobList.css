@@ -1,12 +1,16 @@
+.user-job-background{
+  background: rgb(26,35,126);
+  background: linear-gradient(90deg, rgba(26,35,126,1) 0%, rgba(232,234,246,1) 100%);    
+  width: 100%;
+  padding-top: 60px ;   
+  min-height: 100vh;
+}
+
 .user-job-list{
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    background: rgb(26,35,126);
-    background: linear-gradient(90deg, rgba(26,35,126,1) 0%, rgba(232,234,246,1) 100%);
-   padding-top: 60px ;   
-   min-height: 100vh;
+
 }
 
 .job-view{

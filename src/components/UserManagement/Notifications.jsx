@@ -139,11 +139,23 @@ export const Notifications = () => {
   return (
     <div>
       {
-        userDashboardError &&  
-        <div className='userDashboard-background1'>
-          <img src={Error} alt='404' className='userDashboard-image'/><br></br>
-          <h5 className='errorText'>You haven't applied to any jobs yet..!</h5>
-          </div>
+        userDashboardError &&   
+        // <div className='userDashboard-background1'>
+        //   <img src={Error} alt='404' className='userDashboard-image'/><br></br>
+        //   <h5 className='errorText'>You haven't applied to any jobs yet..!</h5>
+        //   </div>
+        <div className="dashboardemployeerAccount" style={{marginTop:'75px',marginBottom:"-30px"}}>
+        <div className='dashboardemployeerAccount-background'>
+          <img 
+            src={Error} 
+            alt='404' 
+            className='dashboardemployeerNotRegister' 
+            style={{ borderRadius: "10px" }} 
+          />
+          <br />
+          <h5 className='dashboardemployeererrorText'>No Notifications So far..!</h5>
+        </div>
+        </div>
       }
       <div className="dashboard-container" style={{marginTop:"90px"}}>
         {displayedJobs.map((job, index) => (
@@ -160,7 +172,7 @@ export const Notifications = () => {
           //     </Typography>
           //   </CardContent>
           // </Card>
-          <div key={index} className="dashboard-job-box" >
+          <div key={index} className="dashboard-job-box" onClick={() => handleCardClick(job)}>
           <div className="saved-job-top">
                <div className="job-heading">
                  <div>{job.job_title}</div>

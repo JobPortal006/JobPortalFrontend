@@ -85,10 +85,10 @@ const profile = async () => {
     if (response.data.status === true) {
       // navigate('/UserProfile');
     } 
-    else {
-      alert("User details not found. Please create an account.");
-      // navigate('/CreateAccount');
-    }
+    // else {
+    //   alert("User details not found. Please create an account.");
+    //   navigate('/CreateAccount');
+    // }
   } catch (error) {
     console.error('Error sending token and data:', error);
   }
@@ -210,7 +210,7 @@ const UserDash = () => {
         {selectedItem === 'Applied Jobs' && (
           <UserDashboard />
        
-
+          
         )}
       </div>
     </div>

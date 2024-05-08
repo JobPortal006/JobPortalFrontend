@@ -1,3 +1,5 @@
+
+
 .job-result {
   display: flex;
   flex-direction: column;
@@ -153,7 +155,7 @@
 }
 
 .company-img img:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 /* .job-description {

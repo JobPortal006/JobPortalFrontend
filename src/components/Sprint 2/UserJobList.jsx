@@ -7,6 +7,8 @@ import { HashLoader } from 'react-spinners';
 import { FaBuilding  } from "react-icons/fa";
 import { IoBookmarks } from "react-icons/io5";
 import { BsPersonWorkspace  } from "react-icons/bs";
+import { faBullseye } from "@fortawesome/free-solid-svg-icons";
+import Error from './Sprint 2 Images/No User Found.png'
 
 const UsersJobList = () => {
  
@@ -14,6 +16,7 @@ const UsersJobList = () => {
   const [listUser, setListUser] = useState("");
   console.log(listUser, "<><ListUseR><>");
   const [loading, setLoading] = useState(true);
+  const [userJobList, setUserJobList] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const jobId = location.state.userJobId;
@@ -41,9 +44,16 @@ const UsersJobList = () => {
         });
 
         const data = await response.json();
-        console.log(data, "userJobId----data---><");
-        setListUser(data.data);
-        setLoading(false)
+        console.log(data, "userJobId----");
+        if(data.status){
+          setListUser(data.data);
+          setLoading(false)
+          setUserJobList(false)
+        }
+        else{
+          setLoading(false)
+          setUserJobList(true)
+        }
       } catch (error) {
         console.log(error);
       }
@@ -59,49 +69,48 @@ const UsersJobList = () => {
   function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
-  return ( 
-     <div >
+  console.log(userJobList,'userJobList----');
+ return ( 
+  <div>
     {loading ? (
-// Display loading indicator while data is being fetched
-<div className="loading" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh',marginTop:'0px' ,marginLeft:'-50px'}}>
-<ul>         
-<li style={{color:"red"}}>
-
- <HashLoader  height={100}
-     width={100}
-     color="#1A237E"
-     ariaLabel="grid-loading"
-     radius="12.5"
-     wrapperStyle={{}}
-     wrapperClass="grid-wrapper" />
- </li>
- {/* <li>Loading...!</li> */}
-
- </ul>
-
-</div>
-) : (
-    <div className="user-job-list">
-      {listUser && listUser.map((job, index) => (
-                      <div className="job-view"> 
-            <div className="job-top">
+      <div className="loading" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', marginTop: '0px', marginLeft: '-50px' }}>
+        <ul>         
+          <li style={{ color: "red" }}>
+            <HashLoader  
+              height={100}
+              width={100}
+              color="#1A237E"
+              ariaLabel="grid-loading"
+              radius="12.5"
+              wrapperStyle={{}}
+              wrapperClass="grid-wrapper" 
+            />
+          </li>
+        </ul>
+      </div>
+    ) : (
+      <div className="user-job-background">
+        <div className="user-job-list">
+          {listUser && listUser.map((job, index) => (
+            <div className="job-view" key={index}> 
+              <div className="job-top">
                 <div className="list-img">
                   {job.userDetails.profile_picture_path && job.userDetails.profile_picture_path.includes('data:image') ? (
                     <img src={job.userDetails.profile_picture_path} alt="Company Logo" />
                   ) : (
-                  <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.userDetails.profile_picture_path}`} alt="Profile Logo" />
+                    <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.userDetails.profile_picture_path}`} alt="Profile Logo" />
                   )}
                 </div>    
                 <div className="job-heading">
-            <div>{capitalize(job.userDetails.first_name)} {capitalize(job.userDetails.last_name)}</div>
-            {/* <div className="company-name1">{job.company_name}</div> */}
-          </div>
-
+                  <div>{capitalize(job.userDetails.first_name)} {capitalize(job.userDetails.last_name)}</div>
+                </div>
               </div>
               <div className="user-list-experience">
-              <div className="userlist-employment_status"><span className="brief-label"><BsPersonWorkspace />  Experience Level : </span>{job.resume.employment_status}</div>
-             </div>
-             <div className="brief-container">
+                <div className="userlist-employment_status">
+                  <span className="brief-label"><BsPersonWorkspace />  Experience Level : </span>{job.resume.employment_status}
+                </div>
+              </div>
+              <div className="brief-container">
                 <div className="job-brief">
                   <span className="brief-label"><IoBookmarks />  Department : </span> {job.jobPreference.department}
                 </div>
@@ -109,7 +118,7 @@ const UsersJobList = () => {
                   <span className="brief-label"><FaBuilding /> Preferred Industry : </span> {job.jobPreference.industry}
                 </div>
               </div>
-                   <div className="skill-and-button">
+              <div className="skill-and-button">
                 <div className="skill-set">
                   {job.jobPreference.key_skills && job.jobPreference.key_skills.map((skill, index) => (
                     <span key={index} className="skill">
@@ -117,20 +126,37 @@ const UsersJobList = () => {
                     </span>
                   ))}
                 </div>
-                <Button variant="contained" className="view-more-button" style={{backgroundColor:"#5c6bc1"}} onClick={()=> viewProfile(job.Signup.email)}>view more</Button>
+                <Button variant="contained" className="view-more-button" style={{ backgroundColor: "#5c6bc1" }} onClick={() => viewProfile(job.Signup.email)}>view more</Button>
               </div>        
-              </div>
+            </div>
           ))}
-    </div>
-     )}
-     </div>
-  );
-};
+        </div>
+        <div>
+          {userJobList &&  
+            <div className="dashboardemployeerAccount" style={{marginTop:'20px'}}>
+              <div className='dashboardemployeerAccount-background'>
+                <img 
+                  src={Error} 
+                  alt='404' 
+                  className='dashboardemployeerNotRegister' 
+                  style={{ borderRadius: "10px" }} 
+                />
+                <br />
+                <h5 className='dashboardemployeererrorText'>No Users Apply for this Job..!</h5>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    )}
+  </div>
+);
+}
 
 export default UsersJobList;
 
 
-  // <Grid
+  //<Grid
             //   key={index}
             //   container
             //   alignItems="center"

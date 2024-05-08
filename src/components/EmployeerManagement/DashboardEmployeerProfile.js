@@ -5,7 +5,7 @@ import UserContext from '../Sprint 2/contextFilter';
 import axios from 'axios'; // Importing Axios for making HTTP requests
 import BASE_URL from '../CommonAPI';
 
-export const UpdateEmployerregister = () => {
+export const DashBoardEmployeerProfile = () => {
     // Extracting employerDetails from the UserContext
     const { employerDetails } = useContext(UserContext);
     console.log(employerDetails, 'employerDetails------->');
@@ -34,23 +34,30 @@ export const UpdateEmployerregister = () => {
         })
         .then(data => {
           console.log(data, 'get_employeer_details-------');
-          if (data !== null){
-            console.log("if-----");
-            setEmployeerDetailsResult(data)
-            console.log(employerDetailsResult,'employerDetailsResult1------');
-          }
+          setEmployeerDetailsResult(data)
         })
         .catch(error => {
           console.error('Error:', error);
         });
+        // Make HTTP POST request to fetch employer details
+        // axios.post(`${BASE_URL}/get_employeer_details/`, {
+        //     token
+        // })
+        // .then(response => {
+        //     // Set fetched employer details to state
+        //     setEmployeerDetailsResult(response.data);
+        //     console.log(response.data, 'response.data------->'); // Debugging statement to check response data
+        // })
+        // .catch(error => {
+        //     console.error('Error fetching employer details:', error); // Log error if request fails
+        // });
     }, []);
-    console.log(employerDetailsResult,'employerDetailsResult------');
 
       
   const [updatedDetails, setUpdatedDetails] = useState({
     company_details: {
       company_logo_path: employerDetails?.company_details?.company_logo_path || '',
-      company_name: employerDetails?.company_details?.company_name ,
+      company_name: employerDetails?.company_details?.company_name,
       company_description: employerDetails?.company_details?.company_description || '',
       company_industry: employerDetails?.company_details?.company_industry || '',
       company_website_link: employerDetails?.company_details?.company_website_link || '',
@@ -64,6 +71,7 @@ export const UpdateEmployerregister = () => {
     },
     company_address: employerDetails?.company_address || []
   });
+//   console.log(employerDetailsResult,'employerDetailsResult------');
 //   console.log(employerDetailsResult?.company_details.company_name,'employerDetailsResult?.company_details?.company_name');
 //   console.log(updatedDetails?.company_details.company_name,'updatedDetails?.company_details?.company_name');
   
@@ -271,7 +279,7 @@ export const UpdateEmployerregister = () => {
 
     return (
         <div>
-            <div style={{margin:'100px'}}>
+            <div style={{margin:"0px 50px 50px 250px"}}>
             <Grid spacing={5}  backgroundColor= '#5C6BC0'>
                 <Grid  spacing={3} justifyContent="center">
                     <Grid item xs={12} sm={6}>
@@ -292,14 +300,30 @@ export const UpdateEmployerregister = () => {
                                     
                                     <Grid item xs={12}>
                                             <label htmlFor="upload-company-logo">
-                                                <Button component="span" variant="contained" color="primary" disabled={!isEditing}>Upload Logo</Button>
+                                                <Button component="span" variant="contained" color="primary"
+                                                sx={{
+                                                  width:"150px",
+                                                  borderRadius: '10px', // Rounded corners
+                                                  padding: '7px 15px', // Padding
+                                                  fontSize: '16px', // Font size
+                                                  fontWeight: 'bold', // Bold font weight
+                                                  textTransform: 'none', // Disable text transformation
+                                                  boxShadow: 'none', // Disable box shadow
+                                                  color: 'white', // Set text color
+                                                  backgroundColor: '#303F9F', // Set background color
+                                                  '&:hover': {
+                                                      backgroundColor: '#1A237E', // Change background color on hover
+                                                      color: 'white '
+                                                  }
+                                              }}
+                                                disabled={!isEditing}>Upload Logo</Button>
                                             </label>
                                             <input type="file" id="upload-company-logo" name="company_logo_path" accept="image/*" style={{ display: 'none' }}  onChange={handleLogoChange} />
-                                            <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px', marginLeft: '90px' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', margin: '10px 30px'}}>
                                             <img src={logoUrl} alt="Company Logo" style={{ width: '100px', height: '100px', borderRadius: '50%', border: '1px solid #ccc', marginRight: '20px' }} />
                                             </div>
                                             {companyDetailsErrors.company_logo_pathError && (
-                                                <Typography variant="body2" color="error" style={{ marginLeft: '90px', marginTop: '10px' }}>{companyDetailsErrors.company_logo_pathError}</Typography>
+                                                <Typography variant="body2" color="error" style={{ marginLeft: '30px', marginTop: '10px' }}>{companyDetailsErrors.company_logo_pathError}</Typography>
                                             )}
                                             <div>
                                                 <Button variant="outlined" color="secondary" onClick={handleClearLogo}>Clear</Button>
@@ -515,18 +539,66 @@ export const UpdateEmployerregister = () => {
                                             </Grid>
                                             {index > 0 && (
                                                 <Grid item xs={12} sm={6}>
-                                                    <Button variant="contained" color="secondary" disabled={!isEditing} onClick={() => removeAddress(index)}>Remove Address</Button>
+                                                    <Button variant="contained" color="secondary" disabled={!isEditing}
+                                                    sx={{
+                                                      width:"200px",
+                                                      borderRadius: '10px', // Rounded corners
+                                                      padding: '7px 15px', // Padding
+                                                      fontSize: '16px', // Font size
+                                                      fontWeight: 'bold', // Bold font weight
+                                                      textTransform: 'none', // Disable text transformation
+                                                      boxShadow: 'none', // Disable box shadow
+                                                      color: 'white', // Set text color
+                                                      backgroundColor: '#303F9F', // Set background color
+                                                      '&:hover': {
+                                                          backgroundColor: '#1A237E', // Change background color on hover
+                                                          color: 'white '
+                                                      }
+                                                  }}
+                                                    onClick={() => removeAddress(index)}>Remove Address</Button>
                                                 </Grid>
                                             )}
                                         </Grid>
                                     ))}
 
                                     <Grid item xs={12} sm={6}>
-                                        <Button variant="contained" color="primary" disabled={!isEditing} onClick={addAddress}>Add Address</Button>
+                                        <Button variant="contained" color="primary" disabled={!isEditing} 
+                                        sx={{
+                                          width:"200px",
+                                          borderRadius: '10px', // Rounded corners
+                                          padding: '7px 15px', // Padding
+                                          fontSize: '16px', // Font size
+                                          fontWeight: 'bold', // Bold font weight
+                                          textTransform: 'none', // Disable text transformation
+                                          boxShadow: 'none', // Disable box shadow
+                                          color: 'white', // Set text color
+                                          backgroundColor: '#303F9F', // Set background color
+                                          '&:hover': {
+                                              backgroundColor: '#1A237E', // Change background color on hover
+                                              color: 'white '
+                                          }
+                                      }}
+                                        onClick={addAddress}>Add Address</Button>
                                     </Grid>
 
                                     <Grid item xs={12} sm={6}>
-                                        <Button variant="contained" color="primary" onClick={toggleEditMode}>
+                                        <Button variant="contained" color="primary"
+                                        sx={{
+                                          width:"100px",
+                                          borderRadius: '10px', // Rounded corners
+                                          padding: '7px 15px', // Padding
+                                          fontSize: '16px', // Font size
+                                          fontWeight: 'bold', // Bold font weight
+                                          textTransform: 'none', // Disable text transformation
+                                          boxShadow: 'none', // Disable box shadow
+                                          color: 'white', // Set text color
+                                          backgroundColor: '#303F9F', // Set background color
+                                          '&:hover': {
+                                              backgroundColor: '#1A237E', // Change background color on hover
+                                              color: 'white '
+                                          }
+                                      }}
+                                        onClick={toggleEditMode}>
                                             {isEditing ? 'Cancel' : 'Edit'}
                                         </Button>
                                     </Grid>

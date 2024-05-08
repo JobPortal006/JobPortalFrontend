@@ -333,9 +333,9 @@ const UserDashboard = () => {
           //     </Typography>
           //   </CardContent>
           // </Card>
-          <div key={index} className="dashboard-job-box" >
+          <div key={index} className="dashboard-job-box" onClick={() => handleCardClick(job)}>
 
-<div className="job-heading">
+<div className="userdashboard-job-title">
                  <div>{job.job_title}</div>
                  {/* <div className="company-name1" style={{ marginTop: '8px' }}>{job.company_name}</div> */}
                </div>        
@@ -377,26 +377,26 @@ const UserDashboard = () => {
                    </span>
                    ))}
                  </div>
-                <div className="created-at" style={{marginLeft:'10px'}}>
+                {/* <div className="created-at" style={{marginLeft:'10px'}}>
                     <span className="brief-label1"><FaClockRotateLeft icon={faBuilding} /><span className="text"> {job.date} ago </span></span> 
 
 
-                    {/* <span className="save-icon" style={{cursor:"pointer"}} onClick={() => handleBookmark(job.job_post_id)} > 
+                    <span className="save-icon" style={{cursor:"pointer"}} onClick={() => handleBookmark(job.job_post_id)} > 
                     {bookmarkedJobs.includes(job.job_post_id) ? <BsFillBookmarkCheckFill /> : <BsFillBookmarksFill />}
                     {bookmarkedJobs.includes(job.job_post_id) ? 'Saved' : 'Save'}
-                    </span> */}
+                    </span>
 
 
-                  </div>           
+                  </div>            */}
                 </div>   
                      
           </div> 
-          <div className="saved-job-top">
-               <div className="job-heading">
+          <div className="userdashboard-job-top">
+               <div className="userdashboard-job-heading">
                  {/* <div>{job.job_title}</div> */}
-                 <div className="company-name1" style={{ marginTop: '8px' }}>{job.company_name}</div>
+                 <div className="userdashboard-company-name1">{job.company_name}</div>
                </div>
-               <div className="company-img">
+               <div className="userdashboard-company-img">
                  {job.company_logo_path && job.company_logo_path.includes('data:image') ? (
                    <img src={job.company_logo_path} alt="Company Logo" />
                  ) : (
