@@ -80,9 +80,11 @@ function FilteredResults() {
             setBookmarkedJobs(prevBookmarkedJobs => [...prevBookmarkedJobs, ...savedjobId]);
         }
     }
+    if(dataToUse !== null){
      if(dataToUse.length>=5){
       setPageButton(true)
     }
+  }
 }, []);
 
 
@@ -197,8 +199,8 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
         <Grid>
     {loading ? (
       // <div className="loading-popup">Loading...</div> 
-      <div className="loading" style={{ display: 'flex !important', flexDirection: 'column !important', justifyContent: 'center !important', width:'130%',
-      alignItems: 'center !important',height: '100vh !important',marginTop:'150px !important',marginLeft:'300px !important',overflow: 'hidden' }}>
+      <div style={{ display: 'flex !important', flexDirection: 'column !important', justifyContent: 'center !important', width:'130%',
+      alignItems: 'center !important',height: '100vh !important',marginTop:'150px !important',overflow: 'hidden',backgroundColor:'red !important' }}>
       <ul>         
        <li>
 
@@ -214,7 +216,7 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
 
       </div>
     ) : (
-      <div className="job-result" style={{ marginTop: '230px', width: '125%' }}>
+      <div className="job-result" style={{ marginTop: '230px' }}>
         {currentJobs.map((job, index) => (
           <div key={index} className="job-box" >
             <div onClick={() => handleJobSelect(job)} >
@@ -232,7 +234,7 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
                 </div>
               </div>
 
-                <div className="brief" style={{ marginBottom: '8px', maxWidth: '650px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <div className="brief" style={{ marginBottom: '8px', whiteSpace: 'nowrap', overflow: 'hidden',maxWidth:'650px', textOverflow: 'ellipsis' }}>
                   <span className="brief-label"><BsFileEarmarkTextFill/> Job Description : </span> {job.job_description}
                 </div>
             
