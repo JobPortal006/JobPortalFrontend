@@ -728,6 +728,21 @@ const SearchBar = ({ isJobSearchPage }) => {
         })
         const data = await response.json();
         const searchResponse = data.data;
+
+        localStorage.setItem("Search_result", JSON.stringify(searchResponse));
+        const storedDataToUse = JSON.parse(localStorage.getItem("Search_result"));
+        console.log(storedDataToUse, 'storedDataToUse------->');
+        // Check if storedDataToUse is equal to dataToUse
+        if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(searchResponse)) {
+          // If equal, set resultdataToUse to storedDataToUse
+          localStorage.setItem("Search_result", JSON.stringify(searchResponse));
+        } else {
+          // If not equal, remove the previous dataToUse from localStorage
+          localStorage.removeItem("Search_result");
+          // Update localStorage with the new dataToUse
+          localStorage.setItem("Search_result", JSON.stringify(searchResponse));
+        }
+
         console.log(searchResponse, "=========Searchresponse");
         console.log(data.status, "SearchJob-Status===>");
         if (data.status !== true) {

@@ -25,6 +25,7 @@ const PostJob = () => {
     "Hybrid",
     "Temporary",
     "InternShip",
+    "Work From Home"
   ];
 
   const Role = [

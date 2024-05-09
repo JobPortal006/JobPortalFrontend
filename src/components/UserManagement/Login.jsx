@@ -90,9 +90,6 @@ const LogIn = () => {
 
       localStorage.setItem("googleSecondToken", googleData.message.token)
       console.log(googleData.message.token,"<====GoogleSecondToken");
-     
-      
-  
       localStorage.setItem("email", data.user.email);
       localStorage.setItem("googleToken", data._tokenResponse.oauthAccessToken);
       localStorage.setItem("registered_by",googleData?.message?.registered_by);

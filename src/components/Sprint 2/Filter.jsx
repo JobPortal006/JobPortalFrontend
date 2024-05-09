@@ -508,6 +508,7 @@ console.log(companyList, "=====raghul data company list");
   const render = Show ? salaryType : salaryType.slice(0, 5);
 
   const [selectedExperience, setSelectedExperience] = useState([]);
+  const [noResult, setNoResult] = useState(false)
 
   // Function to handle changes in selected experience levels
   // const handleExperienceChange = (event) => {
@@ -587,6 +588,11 @@ console.log(companyList, "=====raghul data company list");
     };
 
     fetchJobRoles();
+    if(!component && !searchJob && !companyList && !jobData){
+      setNoResult(true)
+    }else{
+      setNoResult(false)
+    }
   }, []);
 
   useEffect(() => {
@@ -663,14 +669,19 @@ console.log(applyFilter,"apply=filter");
         if(FilterData.status === false ){
           setsearchJob(false)
           setData(false)
-          
+          // setNoResult(true)
           return 
           
         }
+        // else{
+        //   setNoResult(false)
+        // }
 
       if(FilterResponse !== null){
         setData(FilterResponse)
         localStorage.setItem("filter_result", JSON.stringify(FilterResponse));
+
+
         const storedDataToUse = JSON.parse(localStorage.getItem("filter_result"));
       console.log(storedDataToUse, 'storedDataToUse------->');
     
@@ -687,13 +698,10 @@ console.log(applyFilter,"apply=filter");
       }
       console.log(FilterData.status,"status===>");
       if (FilterData.status === false) {
-        
+       
         console.log("Filter false====>");
         return  
-      } else {
-        
-        setComponent(true)
-      }
+      } 
       console.log("Data successfully posted to backend");
     } catch (error) {
       setErrorOne(error)
@@ -713,6 +721,7 @@ console.log(applyFilter,"apply=filter");
   }
   
 
+ 
   return (
     <Grid container className="containerTop">
 
@@ -863,7 +872,7 @@ console.log(applyFilter,"apply=filter");
        {searchJob && <FilteredResults  />}
        {companyList && <FilteredResults  />}
        {jobData && <FilteredResults  /> }
-
+        {noResult && <h1>No Result Found </h1>}
       </Grid>
     </Grid>
   );

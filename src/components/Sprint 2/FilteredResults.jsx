@@ -37,29 +37,28 @@ function FilteredResults() {
     const dataToUse = searchJob ? searchJob : oneData || companyList?.data || jobData?.data;
 
     console.log(dataToUse,"<====DATATOUSE");
-    console.log(dataToUse.length,'DATATOUSE,length');
 
 
     const [resultdataToUse, setResultdataToUse] = useState("");
 
-    useEffect(() => {
-      // Retrieve stored data from localStorage
-      const storedDataToUse = JSON.parse(localStorage.getItem("dataToUse"));
-      console.log(storedDataToUse, 'storedDataToUse------->');
+    // useEffect(() => {
+    //   // Retrieve stored data from localStorage
+    //   const storedDataToUse = JSON.parse(localStorage.getItem("dataToUse"));
+    //   console.log(storedDataToUse, 'storedDataToUse------->');
     
-      // Check if storedDataToUse is equal to dataToUse
-      if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(dataToUse)) {
-        // If equal, set resultdataToUse to storedDataToUse
-        setResultdataToUse(storedDataToUse);
-      } else {
-        // If not equal, remove the previous dataToUse from localStorage
-        localStorage.removeItem("dataToUse");
-        // Set resultdataToUse to the current dataToUse
-        setResultdataToUse(dataToUse);
-        // Update localStorage with the new dataToUse
-        localStorage.setItem("dataToUse", JSON.stringify(dataToUse));
-      }
-    }, []); // Empty dependency array ensures the effect runs only once on component mount
+    //   // Check if storedDataToUse is equal to dataToUse
+    //   if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(dataToUse)) {
+    //     // If equal, set resultdataToUse to storedDataToUse
+    //     setResultdataToUse(storedDataToUse);
+    //   } else {
+    //     // If not equal, remove the previous dataToUse from localStorage
+    //     localStorage.removeItem("dataToUse");
+    //     // Set resultdataToUse to the current dataToUse
+    //     setResultdataToUse(dataToUse);
+    //     // Update localStorage with the new dataToUse
+    //     localStorage.setItem("dataToUse", JSON.stringify(dataToUse));
+    //   }
+    // }, []); // Empty dependency array ensures the effect runs only once on component mount
     
     console.log(resultdataToUse, 'resultdataToUse------->');
     
@@ -82,6 +81,7 @@ function FilteredResults() {
     }
     if(dataToUse !== null){
      if(dataToUse.length>=5){
+      console.log(dataToUse.length,'DATATOUSE,length');
       setPageButton(true)
     }
   }
@@ -147,9 +147,9 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
 
     const [noResult, setNoResult] = useState(false)
 
-    if(dataToUse === null){
+    if(dataToUse === null || dataToUse === undefined){
         setNoResult(true)
-        alert("Hello Everyone")
+        // alert("Hello Everyone")
         
     }
     const paginate = pageNumber => setCurrentPage(pageNumber);

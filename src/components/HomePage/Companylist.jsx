@@ -330,6 +330,10 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import BASE_URL from '../CommonAPI';
 import { useDispatch } from 'react-redux';
 import { setCompanyResponse } from '../actions';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 const Companylist = () => {
   const [companies, setCompanies] = useState([]);
@@ -376,8 +380,24 @@ const Companylist = () => {
       });
       const data = await response.json();
       console.log(data.data, 'data---------->123');
+      const company_response_result = data.data
+      localStorage.setItem("Company_result", JSON.stringify(company_response_result));
+      const storedDataToUse = JSON.parse(localStorage.getItem("Company_result"));
+      console.log(storedDataToUse, 'storedDataToUse------->');
+      // Check if storedDataToUse is equal to dataToUse
+      if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(company_response_result)) {
+        // If equal, set resultdataToUse to storedDataToUse
+        localStorage.setItem("Company_result", JSON.stringify(company_response_result));
+      } else {
+        // If not equal, remove the previous dataToUse from localStorage
+        localStorage.removeItem("Company_result");
+        // Update localStorage with the new dataToUse
+        localStorage.setItem("Company_result", JSON.stringify(company_response_result));
+      }
+
       if (companyList !== null) {
         setcompanyList(data);
+        
         setsearchJob(false);
         setData(false);
         dispatch(setCompanyResponse(data.data));
@@ -397,20 +417,20 @@ const Companylist = () => {
   };
 
   const handleNext = () => {
-    if (startIndex + 3 < companies.length) {
-      setStartIndex(startIndex + 3);
+    if (startIndex + 1 < companies.length) {
+      setStartIndex(startIndex + 1);
     }
   };
 
   const handlePrevious = () => {
-    if (startIndex - 3 >= 0) {
-      setStartIndex(startIndex - 3);
+    if (startIndex - 1 >= 0) {
+      setStartIndex(startIndex - 1);
     }
   };
 
   return (
     <>
-      <div className="container">
+      <div className="containerr" style={{display:'flex', flexDirection:'column',alignItems:'center'}}>
         <Typography
           variant="h6"
           style={{ padding: '10px' }}
@@ -423,7 +443,10 @@ const Companylist = () => {
         >
           Job Openings in Top Companies
         </Typography>
-        <div className="company-list">
+        <div className="company-list" >
+        <Button style={{background:'none'}}  disabled={startIndex === 0} onClick={handlePrevious}>
+            <ArrowCircleLeftIcon /> 
+          </Button>
           {loading ? (
             <Card className="company-item">
               <CardContent>
@@ -441,40 +464,46 @@ const Companylist = () => {
               </CardContent>
             </Card>
           ) : (
-            companies.slice(startIndex, startIndex + 3).map((company, index) => (
-              <Card
+            companies.slice(startIndex, startIndex + 4).map((company, index) => (
+              
+              <Card 
                 id="card1"
                 key={index}
                 className="company-item"
-                onClick={() => handleCardClick(company.company_name)}
+                onClick={() => handleCardClick(company.company_name)} style={{width:'260px'}}
               >
                 <CardContent>
-                  <div className="icon-container">
-                    <BusinessIcon style={{ color: '#1A237E' }} className="business-icon" />{' '}
-                    {/* React office icon */}
-                    <h4 variant="h5" component="h2" fontSize="25px">
+                  <div className="icon-container" style={{display:'flex',alignItems:'center',flexDirection:'column'}}>
+                    {/* <BusinessIcon style={{ color: '#1A237E' }} className="business-icon" />{' '} */}
+                    <img width='50px' height='50px' style={{borderRadius:'25px'}} src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${company.company_logo_path}`}  alt="Company Logo" className="company-logo" />
+                    <h4 variant="h5" component="h2" fontSize="25px" style={{fontWeight:'bolder',padding:'15px',color:'#1A237E'}}>
                       {company.company_name}
                     </h4>
-                    {loadingCard === company.company_name ? ( // Display loading message only on the selected card
+                    <div style={{boxShadow:'4px 4px 20px 2px #A0A0A040', borderRadius:'10px' ,padding:'10px',backgroundColor:'#fff',marginBottom:'10px',width:'100%'}}>
+                    <h6 variant="h6" component="h2" fontSize="25px" style={{marginBottom:'20px',fontWeight:'bolder'}}>
+                      {company.company_industry}
+                    </h6>
+                    <p  fontSize="15px" style={{whiteSpace: 'nowrap', overflow: 'hidden',maxWidth:'650px', textOverflow: 'ellipsis'}} >
+                      <DescriptionIcon width='25px' height='25px' /> {company.company_description}
+                    </p>
+                    </div>
+                    {loadingCard === company.company_name ? ( 
                       <Typography>Loading...</Typography>
                     ) : (
-                      <KeyboardArrowRightIcon className="arrow-icon" />
+                      <DoubleArrowIcon style={{color:'#1A237E'}} fontSize="small" className="arrow-icon" />
                     )}
                     {/* Arrow icon */}
                   </div>
                 </CardContent>
               </Card>
+              
             ))
           )}
-        </div>
-        <div className="pagination-buttons">
-          <Button variant="outlined" disabled={startIndex === 0} onClick={handlePrevious}>
-            <ArrowBackIcon /> Previous
-          </Button>
-          <Button variant="outlined" disabled={startIndex + 3 >= companies.length} onClick={handleNext}>
-            Next <ArrowForwardIcon />
+          <Button  disabled={startIndex + 3 >= companies.length} onClick={handleNext}>
+             <ArrowCircleRightIcon   />
           </Button>
         </div>
+        
       </div>
       {/* <JobCard /> */}
     </>

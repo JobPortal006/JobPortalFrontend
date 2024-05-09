@@ -5,6 +5,7 @@ import { signInWithPopup } from 'firebase/auth';
 import axios from 'axios';
 import BASE_URL from '../CommonAPI';
 
+
 export const handleInputChange = (formData, setFormData, errors, setErrors, e) => {
   // Function to handle input changes in the form
   const { name, value, type, checked } = e.target;
@@ -193,11 +194,12 @@ export const handleSubmit = async (formData, setErrors, setShowPassword, setShow
         navigate('/login');
       } else {
         // If API response is false, show the error message
-       alert('Account already exists');
+        alert(response.data.message);
         // You may want to display this error message to the user.
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error:', error.message);
+      alert('Server is not responding. Please try again later.');
     }
   }
 };
