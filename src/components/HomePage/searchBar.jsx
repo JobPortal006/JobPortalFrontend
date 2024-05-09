@@ -490,11 +490,10 @@ import { BeatLoader, PacmanLoader, ScaleLoader } from 'react-spinners';
 import { css } from '@emotion/react';
 import './HomeDesign.css'
 import BASE_URL from '../CommonAPI';
+import { useDispatch } from 'react-redux';
+import { setSearchResponse } from '../actions';
 
-const override = css`
-  display: block;
-  margin: 0 auto;
-`;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -615,7 +614,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   const [experienceError, setExperienceError] = useState(false);
   const [expandedAnchorEl, setExpandedAnchorEl] = useState(null);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchLocationSuggestions(input) {
@@ -739,7 +738,7 @@ const SearchBar = ({ isJobSearchPage }) => {
 
         }
 
-        console.log(data, '=============prathap');
+        console.log(data, '=============da');
 
 
         const checking = {
@@ -756,14 +755,16 @@ const SearchBar = ({ isJobSearchPage }) => {
         setSearchValue('');
         setSkillValues([]);
         setExperienceValue('');
+        dispatch(setSearchResponse(searchResponse));
 
         if (searchJob !== null) {
           setsearchJob(searchResponse)
           setcompanyList(false)
+          localStorage.setItem("search_result", JSON.stringify(searchResponse));
 
         } else {
-
           setData(searchResponse)
+          
         }
 
 

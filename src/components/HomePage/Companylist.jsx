@@ -328,6 +328,8 @@ import UserContext from '../Sprint 2/contextFilter';
 import { Divider } from '@material-ui/core';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import BASE_URL from '../CommonAPI';
+import { useDispatch } from 'react-redux';
+import { setCompanyResponse } from '../actions';
 
 const Companylist = () => {
   const [companies, setCompanies] = useState([]);
@@ -337,6 +339,7 @@ const Companylist = () => {
   const [startIndex, setStartIndex] = useState(0); // State to track the index of the first item to display
   const navigate = useNavigate();
   const { companyList, setcompanyList, setsearchJob, setData } = useContext(UserContext);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
@@ -372,16 +375,17 @@ const Companylist = () => {
         })
       });
       const data = await response.json();
-      console.log(data, 'data---------->123');
+      console.log(data.data, 'data---------->123');
       if (companyList !== null) {
         setcompanyList(data);
         setsearchJob(false);
         setData(false);
+        dispatch(setCompanyResponse(data.data));
       }
 
       if (data.status !== true) {
         alert('Failed to send data to the server');
-      } else {
+      } else {  
         navigate('/Filter');
       }
       // setcompanyList(data);

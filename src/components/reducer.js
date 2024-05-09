@@ -1,42 +1,25 @@
-// reducers.js
-import { combineReducers } from 'redux';
-import {
-  SET_USER_RESULT_REGISTER,
-  SET_EMPLOYEER_RESULT_REGISTER,
-  // SET_DEMO_RESULT_REGISTER,
-} from './actions';
+import { SET_SEARCH_RESPONSE, SET_COMPANY_RESPONSE } from './actions';
 
-const userResultRegisterReducer = (state = false, action) => {
+const initialState = {
+  searchResponse: null,
+  companyResponse: null,
+};
+
+const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_USER_RESULT_REGISTER:
-      return action.payload;
+    case SET_SEARCH_RESPONSE:
+      return {
+        ...state,
+        searchResponse: action.payload,
+      };
+    case SET_COMPANY_RESPONSE:
+      return {
+        ...state,
+        companyResponse: action.payload,
+      };
     default:
       return state;
   }
 };
-
-const employeerResultRegisterReducer = (state = false, action) => {
-  switch (action.type) {
-    case SET_EMPLOYEER_RESULT_REGISTER:
-      return action.payload;
-    default:
-      return state;
-  }
-};
-
-// const demoResultRegisterReducer = (state = true, action) => {
-//   switch (action.type) {
-//     case SET_DEMO_RESULT_REGISTER:
-//       return action.payload;
-//     default:
-//       return state;
-//   }
-// };
-
-const rootReducer = combineReducers({
-  userResultRegister: userResultRegisterReducer,
-  employeerResultRegister: employeerResultRegisterReducer,
-  // demoResultRegister: demoResultRegisterReducer,
-});
 
 export default rootReducer;

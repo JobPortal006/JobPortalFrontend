@@ -36,34 +36,56 @@ export const UpdateEmployerregister = () => {
           console.log(data, 'get_employeer_details-------');
           if (data !== null){
             console.log("if-----");
-            setEmployeerDetailsResult(data)
-            console.log(employerDetailsResult,'employerDetailsResult1------');
+            setEmployeerDetailsResult(data);
+    
+            // Set updatedDetails here
+            setUpdatedDetails({
+                company_details: {
+                    company_logo_path: data?.company_details?.company_logo_path || '',
+                    company_name: data?.company_details?.company_name || '',
+                    company_description: data?.company_details?.company_description || '',
+                    company_industry: data?.company_details?.company_industry || '',
+                    company_website_link: data?.company_details?.company_website_link || '',
+                    no_of_employees: data?.company_details?.no_of_employees || ''
+                },
+                contact_information: {
+                    contact_person_name: data?.company_details?.contact_person_name || '',
+                    contact_person_position: data?.company_details?.contact_person_position || '',
+                    email: data?.Signup?.email || '',
+                    mobile_number: data?.Signup?.mobile_number || ''
+                },
+                company_address: data?.company_address || []
+            });
+    
+            console.log(updatedDetails); // Log updatedDetails after setting it
           }
         })
         .catch(error => {
           console.error('Error:', error);
         });
     }, []);
+    
     console.log(employerDetailsResult,'employerDetailsResult------');
 
       
-  const [updatedDetails, setUpdatedDetails] = useState({
-    company_details: {
-      company_logo_path: employerDetails?.company_details?.company_logo_path || '',
-      company_name: employerDetails?.company_details?.company_name ,
-      company_description: employerDetails?.company_details?.company_description || '',
-      company_industry: employerDetails?.company_details?.company_industry || '',
-      company_website_link: employerDetails?.company_details?.company_website_link || '',
-      no_of_employees: employerDetails?.company_details?.no_of_employees || ''
-    },
-    contact_information: {
-      contact_person_name: employerDetails?.company_details?.contact_person_name || '',
-      contact_person_position: employerDetails?.company_details?.contact_person_position || '',
-      email: employerDetails?.Signup?.email || '',
-      mobile_number: employerDetails?.Signup?.mobile_number || ''
-    },
-    company_address: employerDetails?.company_address || []
-  });
+    const [updatedDetails, setUpdatedDetails] = useState({
+        company_details: {
+          company_logo_path: employerDetailsResult?.company_details?.company_logo_path || '',
+          company_name: employerDetailsResult?.company_details?.company_name ,
+          company_description: employerDetailsResult?.company_details?.company_description || '',
+          company_industry: employerDetailsResult?.company_details?.company_industry || '',
+          company_website_link: employerDetailsResult?.company_details?.company_website_link || '',
+          no_of_employees: employerDetailsResult?.company_details?.no_of_employees || ''
+        },
+        contact_information: {
+          contact_person_name: employerDetailsResult?.company_details?.contact_person_name || '',
+          contact_person_position: employerDetailsResult?.company_details?.contact_person_position || '',
+          email: employerDetailsResult?.Signup?.email || '',
+          mobile_number: employerDetailsResult?.Signup?.mobile_number || ''
+        },
+        company_address: employerDetailsResult?.company_address || []
+      });
+      console.log(updatedDetails,'uuohjd----')
 //   console.log(employerDetailsResult?.company_details.company_name,'employerDetailsResult?.company_details?.company_name');
 //   console.log(updatedDetails?.company_details.company_name,'updatedDetails?.company_details?.company_name');
   

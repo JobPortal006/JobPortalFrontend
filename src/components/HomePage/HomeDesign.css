@@ -1,6 +1,7 @@
 .cater3-movingBG {
     height: 100%;
     background-image: url(./homeimages/design1.jpg);
+    /* background-image: url(./homeimages/prathap1.JPG); */
     background-size: 125%;
     background-repeat: repeat-x;
     animation: animatedBackground 15s linear alternate infinite;

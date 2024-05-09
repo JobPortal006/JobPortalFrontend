@@ -17,3 +17,16 @@ export const setEmployeerResultRegister = (value) => ({
 //   type: SET_DEMO_RESULT_REGISTER,
 //   payload: value,
 // });
+export const SET_SEARCH_RESPONSE = 'SET_SEARCH_RESPONSE';
+
+export const setSearchResponse = (data) => ({
+  type: SET_SEARCH_RESPONSE,
+  payload: data,
+});
+
+export const SET_COMPANY_RESPONSE = 'SET_COMPANY_RESPONSE';
+
+export const setCompanyResponse = (data) => ({
+  type: SET_COMPANY_RESPONSE,
+  payload: data,
+});

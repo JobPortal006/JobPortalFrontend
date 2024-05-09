@@ -11,6 +11,7 @@ import { BsFillBookmarksFill, BsFillBookmarkCheckFill  } from "react-icons/bs";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import {HashLoader} from "react-spinners";
+import { useSelector } from 'react-redux';
 
 function FilteredResults() {
   
@@ -25,7 +26,10 @@ function FilteredResults() {
     const { searchJob, oneData ,companyList, jobData} = useContext(UserContext);
     console.log(searchJob,'=====raghul data1')
     console.log(oneData,'=====raghul data2')
-
+    const searchResponse = useSelector(state => state.searchResponse);
+    console.log(searchResponse, '=====Redux search response');
+    const companyResponse = useSelector(state => state.companyResponse);
+    console.log(companyResponse, '=====Redux search companyResponse');
 
     useEffect(()=>{},[searchJob,oneData,companyList])
 
@@ -34,11 +38,36 @@ function FilteredResults() {
 
     console.log(dataToUse,"<====DATATOUSE");
     console.log(dataToUse.length,'DATATOUSE,length');
-   
+
+
+    const [resultdataToUse, setResultdataToUse] = useState("");
+
+    useEffect(() => {
+      // Retrieve stored data from localStorage
+      const storedDataToUse = JSON.parse(localStorage.getItem("dataToUse"));
+      console.log(storedDataToUse, 'storedDataToUse------->');
+    
+      // Check if storedDataToUse is equal to dataToUse
+      if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(dataToUse)) {
+        // If equal, set resultdataToUse to storedDataToUse
+        setResultdataToUse(storedDataToUse);
+      } else {
+        // If not equal, remove the previous dataToUse from localStorage
+        localStorage.removeItem("dataToUse");
+        // Set resultdataToUse to the current dataToUse
+        setResultdataToUse(dataToUse);
+        // Update localStorage with the new dataToUse
+        localStorage.setItem("dataToUse", JSON.stringify(dataToUse));
+      }
+    }, []); // Empty dependency array ensures the effect runs only once on component mount
+    
+    console.log(resultdataToUse, 'resultdataToUse------->');
+    
+    
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
     const currentJobs = dataToUse?.slice(indexOfFirstJob, indexOfLastJob);
- 
+    console.log(currentJobs,'currentJobs-------');
     const [bookmarkedJobs, setBookmarkedJobs] = useState([]);
    
   useEffect(() => {
@@ -168,7 +197,8 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
         <Grid>
     {loading ? (
       // <div className="loading-popup">Loading...</div> 
-      <div className="loading" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh',marginTop:'150px',marginLeft:'300px',overflow: 'hidden' }}>
+      <div className="loading" style={{ display: 'flex !important', flexDirection: 'column !important', justifyContent: 'center !important', width:'130%',
+      alignItems: 'center !important',height: '100vh !important',marginTop:'150px !important',marginLeft:'300px !important',overflow: 'hidden' }}>
       <ul>         
        <li>
 

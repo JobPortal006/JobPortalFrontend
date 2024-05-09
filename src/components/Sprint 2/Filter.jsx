@@ -608,7 +608,6 @@ console.log(companyList, "=====raghul data company list");
     setSelectedSalaryType(event.target.value);
     console.log("Selected salary type:", event.target.value);
   };
-
   // 
   const handleReset = () => {
     setSelectedExperience([]);
@@ -671,8 +670,18 @@ console.log(applyFilter,"apply=filter");
 
       if(FilterResponse !== null){
         setData(FilterResponse)
-        
-      }else{
+        localStorage.setItem("filter_result", JSON.stringify(FilterResponse));
+        const storedDataToUse = JSON.parse(localStorage.getItem("filter_result"));
+      console.log(storedDataToUse, 'storedDataToUse------->');
+    
+      if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(FilterResponse)) {
+        localStorage.setItem("filter_result", JSON.stringify(FilterResponse));
+      } else {
+        localStorage.removeItem("filter_result");
+        localStorage.setItem("filter_result", JSON.stringify(FilterResponse));
+      }
+      }
+      else{
         setsearchJob(FilterResponse)
         
       }

@@ -19,7 +19,7 @@ import BASE_URL from '../CommonAPI';
 import axios from 'axios';
 import UserDashboard from '../HomePage/UserDashboard';
 import Companylist from '../HomePage/Companylist';
-import './check.css'
+// import './check.css'
 import UserAccount from '../UserManagement/UserAccount';
 import { SavedJobs } from '../HomePage/SavedJobs';
 const drawerWidth = 205;

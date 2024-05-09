@@ -44,7 +44,9 @@ import { UpdateEmployerregister } from "./components/EmployeerManagement/UpdateE
 import { SavedJobs } from "./components/HomePage/SavedJobs.jsx";
 import { Notifications } from "./components/UserManagement/Notifications.jsx";
 import { DashBoardEmployeerProfile } from "./components/EmployeerManagement/DashboardEmployeerProfile.js";
-
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from '../src/components/store.js';
 
 function App() {
   const [oneData, setData] = useState("");
@@ -56,12 +58,12 @@ function App() {
   const [detailData,setDetailData ]  = useState(null);
 
 
-  const register_by = localStorage.getItem("registered_by");
-  const [user_result_register, setUserResult_register] = useState(false);
-  const [employeer_result_register, setEmployeerResult_register] = useState(false);
-  const [demo_result_register, setDemoResult_register] = useState(true);
-  const [user_register, setUser_register] = useState("");
-  const [employeer_register, setEmployeer_register] = useState("");
+  // const register_by = localStorage.getItem("registered_by");
+  // const [user_result_register, setUserResult_register] = useState(false);
+  // const [employeer_result_register, setEmployeerResult_register] = useState(false);
+  // const [demo_result_register, setDemoResult_register] = useState(true);
+  // const [user_register, setUser_register] = useState("");
+  // const [employeer_register, setEmployeer_register] = useState("");
 
   // useEffect(() => {
   //   setUser_register(register_by);
