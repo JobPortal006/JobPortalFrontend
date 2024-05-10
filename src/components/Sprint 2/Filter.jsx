@@ -872,7 +872,7 @@ console.log(applyFilter,"apply=filter");
        {searchJob && <FilteredResults  />}
        {companyList && <FilteredResults  />}
        {jobData && <FilteredResults  /> }
-        {noResult && <h1>No Result Found </h1>}
+        {/* {noResult && <h1>No Result Found </h1>} */}
       </Grid>
     </Grid>
   );

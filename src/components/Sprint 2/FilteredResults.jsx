@@ -25,7 +25,7 @@ function FilteredResults() {
 
     const { searchJob, oneData ,companyList, jobData} = useContext(UserContext);
     console.log(searchJob,'=====raghul data1')
-    console.log(oneData,'=====raghul data2')
+    // console.log(oneData,'=====raghul data2')
     const searchResponse = useSelector(state => state.searchResponse);
     console.log(searchResponse, '=====Redux search response');
     const companyResponse = useSelector(state => state.companyResponse);
@@ -36,11 +36,18 @@ function FilteredResults() {
     // Determine which data to use for rendering
     const dataToUse = searchJob ? searchJob : oneData || companyList?.data || jobData?.data;
 
-    console.log(dataToUse,"<====DATATOUSE");
+    // console.log(dataToUse,"<====DATATOUSE");
 
 
-    const [resultdataToUse, setResultdataToUse] = useState("");
+    // const [resultdataToUse, setResultdataToUse] = useState("");
 
+
+    // const Employee_type_result = JSON.parse(localStorage.getItem("Employee_type_result"));
+    // const Company_result = JSON.parse(localStorage.getItem("Company_result"));
+    // const Search_result = JSON.parse(localStorage.getItem("Search_result"));
+    // const filter_result = JSON.parse(localStorage.getItem("filter_result"));
+    // console.log(Company_result,'Company_result----------');
+    // const dataToUse = Search_result ? Search_result : filter_result || Company_result || Employee_type_result;
     // useEffect(() => {
     //   // Retrieve stored data from localStorage
     //   const storedDataToUse = JSON.parse(localStorage.getItem("dataToUse"));
@@ -60,7 +67,7 @@ function FilteredResults() {
     //   }
     // }, []); // Empty dependency array ensures the effect runs only once on component mount
     
-    console.log(resultdataToUse, 'resultdataToUse------->');
+    // console.log(resultdataToUse, 'resultdataToUse------->');
     
     
     const indexOfLastJob = currentPage * jobsPerPage;
@@ -199,8 +206,8 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
         <Grid>
     {loading ? (
       // <div className="loading-popup">Loading...</div> 
-      <div style={{ display: 'flex !important', flexDirection: 'column !important', justifyContent: 'center !important', width:'130%',
-      alignItems: 'center !important',height: '100vh !important',marginTop:'150px !important',overflow: 'hidden',backgroundColor:'red !important' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width:'130%',
+      alignItems: 'center',height: '100vh',marginTop:'150px',overflow: 'hidden',backgroundColor:'red' }}>
       <ul>         
        <li>
 

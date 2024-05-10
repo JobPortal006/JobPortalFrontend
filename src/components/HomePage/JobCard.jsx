@@ -53,18 +53,18 @@ export const JobCard = () => {
       setJobData(response.data);
 
       const employee_type_response_result = response.data
-      localStorage.setItem("Employee_tyle_result", JSON.stringify(employee_type_response_result));
-      const storedDataToUse = JSON.parse(localStorage.getItem("Employee_tyle_result"));
+      localStorage.setItem("Employee_type_result", JSON.stringify(employee_type_response_result));
+      const storedDataToUse = JSON.parse(localStorage.getItem("Employee_type_result"));
       console.log(storedDataToUse, 'storedDataToUse------->');
       // Check if storedDataToUse is equal to dataToUse
       if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(employee_type_response_result)) {
         // If equal, set resultdataToUse to storedDataToUse
-        localStorage.setItem("Employee_tyle_result", JSON.stringify(employee_type_response_result));
+        localStorage.setItem("Employee_type_result", JSON.stringify(employee_type_response_result));
       } else {
         // If not equal, remove the previous dataToUse from localStorage
-        localStorage.removeItem("Employee_tyle_result");
+        localStorage.removeItem("Employee_type_result");
         // Update localStorage with the new dataToUse
-        localStorage.setItem("Employee_tyle_result", JSON.stringify(employee_type_response_result));
+        localStorage.setItem("Employee_type_result", JSON.stringify(employee_type_response_result));
       }
 
       if (jobData !== null) {

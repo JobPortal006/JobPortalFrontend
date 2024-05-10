@@ -1601,8 +1601,6 @@
 
 
 
-// ================================================================================================================================================================================================
-
 import React, { useState, useRef, useEffect } from 'react';
 import {
     Button,
@@ -2176,15 +2174,176 @@ const UserForm = () => {
     // api submission
     const [isLoading, setIsLoading] = useState(false);
 
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     // Set loading state to true when form is submitted
+    //     setIsLoading(true);
+
+    //     try {
+    //         // Your form submission logic here
+
+    //         // Address type determination
+    //         let addressType;
+    //         if (address.permanent.street && address.current.street) {
+    //             addressType = 'Both';
+    //         } else if (address.permanent.street) {
+    //             addressType = 'Permanent';
+    //         } else if (address.current.street) {
+    //             addressType = 'Current';
+    //         } else {
+    //             console.log('Please fill at least one address type');
+    //             return;
+    //         }
+
+    //         // for sending token
+    //         const Token = localStorage.getItem('loginToken');
+
+    //         // Create a FormData object to send to the backend
+    //         const dataToSend = new FormData();
+    //         dataToSend.append('userDetails', JSON.stringify({
+    //             ...userDetails,
+    //             profile_picture: profilePicture ? 'Uploaded' : 'Not uploaded',
+    //         }));
+    //         dataToSend.append('address', JSON.stringify({
+    //             type: addressType,
+    //             permanent: {
+    //                 ...address.permanent,
+    //                 address_type: 'Permanent',
+    //             },
+    //             current: {
+    //                 ...address.current,
+    //                 address_type: 'Current',
+    //             },
+    //         }));
+    //         dataToSend.append('education', JSON.stringify(education));
+    //         dataToSend.append('professionalDetails', JSON.stringify(experienceOption === 'experienced' ? professionalDetails : 'Fresher'));
+    //         dataToSend.append('resume', resume); // Assuming resume is a File object
+    //         dataToSend.append('profilePicture', profilePicture); // Assuming profilePicture is a File object
+    //         dataToSend.append('jobPreference', JSON.stringify(jobPreference));
+    //         dataToSend.append('token', Token);
+
+    //         // Log the FormData object
+    //         for (const pair of dataToSend.entries()) {
+    //             console.log(pair[0], pair[1]);
+    //         }
+
+    //         // Make API call
+    //         const response = await axios.post(`${BASE_URL}/userRegister/`, dataToSend, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data',
+    //             },
+    //         });
+
+    //         // Handle the response as needed
+    //         console.log('API Response:', response.data);
+
+    //         // Resetting states
+    //         // setUserDetails({
+    //         //     first_name: '',
+    //         //     last_name: '',
+    //         //     date_of_birth: '',
+    //         //     email: '',
+    //         //     gender: '',
+    //         // });
+    //         // setAddress({
+    //         //     current: {
+    //         //         street: '',
+    //         //         city: '',
+    //         //         pincode: '',
+    //         //         state: '',
+    //         //         country: '',
+    //         //     },
+    //         //     permanent: {
+    //         //         street: '',
+    //         //         city: '',
+    //         //         pincode: '',
+    //         //         state: '',
+    //         //         country: '',
+    //         //     },
+    //         // });
+    //         // setEducation({
+    //         //     sslc_school_name: '',
+    //         //     sslc_start_year: '',
+    //         //     sslc_end_year: '',
+    //         //     sslc_percentage: '',
+    //         //     hsc_school_name: '',
+    //         //     hsc_start_year: '',
+    //         //     hsc_end_year: '',
+    //         //     hsc_percentage: '',
+    //         //     college_name: '',
+    //         //     college_start_year: '',
+    //         //     college_end_year: '',
+    //         //     college_percentage: '',
+    //         //     department: '',
+    //         //     degree: '',
+    //         // });
+    //         // setProfessionalDetails({
+    //         //     isExperienced: true,
+    //         //     numberOfCompanies: '',
+    //         //     companies: [{ company_name: '', position: '', startDate: '', endDate: '' }],
+    //         // });
+    //         // setExperienceOption('');
+    //         // setResume(null);
+    //         // setJobPreference({
+    //         //     key_skills: '',
+    //         //     industry: '',
+    //         //     department: '',
+    //         //     prefered_locations: '',
+    //         // });
+    //         // setProfilePicture(null);
+
+    //         // Collapse accordion sections
+    //         setUserDetailsExpanded(true);
+    //         setAddressExpanded(true);
+    //         setEducationExpanded(true);
+    //         setProfessionalDetailsExpanded(true);
+    //         setResumeExpanded(true);
+    //         setjobPreferenceExpanded(true);
+
+    //         // Show success message
+    //         alert('Account created successfully!');
+
+    //     } catch (error) {
+    //         console.error('API Error:', error);
+    //         // Handle error as needed
+    //         alert('Failed to create account. Please try again.');
+    //     } finally {
+    //         // Reset loading state to false after API call is complete
+    //         setIsLoading(false);
+    //     }
+    // };
+
+
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+   
+        // Check if any required field is empty
+        const missingField = findFirstMissingField();
+        if (missingField) {
+            alert(`Please fill the ${missingField} field.`);
+            return;
+        }
+   
+        // Check if profile picture is uploaded
+        if (!profilePicture) {
+            alert('Please upload a profile picture.');
+            return;
+        }
+   
+        // Check if resume is uploaded
+        if (!resume) {
+            alert('Please upload a resume.');
+            return;
+        }
+   
         // Set loading state to true when form is submitted
         setIsLoading(true);
-
+   
         try {
             // Your form submission logic here
-
+   
             // Address type determination
             let addressType;
             if (address.permanent.street && address.current.street) {
@@ -2197,15 +2356,15 @@ const UserForm = () => {
                 console.log('Please fill at least one address type');
                 return;
             }
-
+   
             // for sending token
             const Token = localStorage.getItem('loginToken');
-
+   
             // Create a FormData object to send to the backend
             const dataToSend = new FormData();
             dataToSend.append('userDetails', JSON.stringify({
                 ...userDetails,
-                profile_picture: profilePicture ? 'Uploaded' : 'Not uploaded',
+                profile_picture: 'Uploaded',
             }));
             dataToSend.append('address', JSON.stringify({
                 type: addressType,
@@ -2224,88 +2383,33 @@ const UserForm = () => {
             dataToSend.append('profilePicture', profilePicture); // Assuming profilePicture is a File object
             dataToSend.append('jobPreference', JSON.stringify(jobPreference));
             dataToSend.append('token', Token);
-
+   
             // Log the FormData object
             for (const pair of dataToSend.entries()) {
                 console.log(pair[0], pair[1]);
             }
-
+   
             // Make API call
             const response = await axios.post(`${BASE_URL}/userRegister/`, dataToSend, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-
+   
             // Handle the response as needed
             console.log('API Response:', response.data);
-
+   
             // Resetting states
-            // setUserDetails({
-            //     first_name: '',
-            //     last_name: '',
-            //     date_of_birth: '',
-            //     email: '',
-            //     gender: '',
-            // });
-            // setAddress({
-            //     current: {
-            //         street: '',
-            //         city: '',
-            //         pincode: '',
-            //         state: '',
-            //         country: '',
-            //     },
-            //     permanent: {
-            //         street: '',
-            //         city: '',
-            //         pincode: '',
-            //         state: '',
-            //         country: '',
-            //     },
-            // });
-            // setEducation({
-            //     sslc_school_name: '',
-            //     sslc_start_year: '',
-            //     sslc_end_year: '',
-            //     sslc_percentage: '',
-            //     hsc_school_name: '',
-            //     hsc_start_year: '',
-            //     hsc_end_year: '',
-            //     hsc_percentage: '',
-            //     college_name: '',
-            //     college_start_year: '',
-            //     college_end_year: '',
-            //     college_percentage: '',
-            //     department: '',
-            //     degree: '',
-            // });
-            // setProfessionalDetails({
-            //     isExperienced: true,
-            //     numberOfCompanies: '',
-            //     companies: [{ company_name: '', position: '', startDate: '', endDate: '' }],
-            // });
-            // setExperienceOption('');
-            // setResume(null);
-            // setJobPreference({
-            //     key_skills: '',
-            //     industry: '',
-            //     department: '',
-            //     prefered_locations: '',
-            // });
-            // setProfilePicture(null);
-
-            // Collapse accordion sections
             setUserDetailsExpanded(true);
             setAddressExpanded(true);
             setEducationExpanded(true);
             setProfessionalDetailsExpanded(true);
             setResumeExpanded(true);
             setjobPreferenceExpanded(true);
-
+   
             // Show success message
             alert('Account created successfully!');
-
+            navigate('/home');
         } catch (error) {
             console.error('API Error:', error);
             // Handle error as needed
@@ -2315,8 +2419,52 @@ const UserForm = () => {
             setIsLoading(false);
         }
     };
-
-
+   
+    const findFirstMissingField = () => {
+        // Loop through each field and check if it's empty
+        // Return the first missing field found
+        console.log("jobPreference:", jobPreference); // Add this line for debugging
+        if (!userDetails.first_name) return 'First Name';
+        if (!userDetails.last_name) return 'Last Name';
+        if (!userDetails.date_of_birth) return 'Date of Birth';
+        if (!userDetails.gender) return 'Gender';
+        if (!address.permanent.street) return 'Permanent Street';
+        if (!address.permanent.city) return 'Permanent City';
+        if (!address.permanent.pincode) return 'Permanent Pincode';
+        if (!address.permanent.state) return 'Permanent State';
+        if (!address.permanent.country) return 'Permanent Country';
+        if (!education.sslc_school_name) return 'SSLC School Name';
+        if (!education.sslc_start_year) return 'SSLC Start Year';
+        if (!education.sslc_end_year) return 'SSLC End Year';
+        if (!education.sslc_percentage) return 'SSLC Percentage';
+        if (!education.hsc_school_name) return 'HSC School Name';
+        if (!education.hsc_start_year) return 'HSC Start Year';
+        if (!education.hsc_end_year) return 'HSC End Year';
+        if (!education.hsc_percentage) return 'HSC Percentage';
+        if (!education.college_name) return 'College Name';
+        if (!education.college_start_year) return 'College Start Year';
+        if (!education.college_end_year) return 'College End Year';
+        if (!education.college_percentage) return 'College Percentage';
+        if (!education.department) return 'Department';
+        if (!education.degree) return 'Degree';
+        if (!((experienceOption === 'experienced' && professionalDetails.numberOfCompanies) || experienceOption === 'fresher')) return 'select fresher or experience';
+        if (!jobPreference.key_skills) {
+            console.log("Key skills missing");
+            return 'Key Skills';
+        }
+        if (!jobPreference.prefered_locations) {
+            console.log("Preferred locations missing");
+            return 'Preferred Locations';
+        }
+        if (!jobPreference.industry) return 'Industry';
+        if (!jobPreference.department) return 'Job Department';
+       
+        // If all fields are filled, return null
+        return null;
+    };
+   
+   
+   
     // for multi languages
     const [language, setLanguage] = useState('en'); // Default language is English
 
@@ -2408,7 +2556,7 @@ const UserForm = () => {
                                             color: "#1A237E" // Text color
                                         }}
                                         margin="dense"
-                                        required
+                                        // required
                                         error={Boolean(errors.first_name)}
                                         helperText={errors.first_name}
                                         className='input-box'
@@ -2423,7 +2571,7 @@ const UserForm = () => {
                                         onChange={handleUserDetailsChange}
                                         fullWidth
                                         margin="dense"
-                                        required
+                                        // required
                                         sx={{
                                             '& .MuiOutlinedInput-root': {
                                                 borderRadius: '10px', // Set border radius
@@ -2473,7 +2621,7 @@ const UserForm = () => {
                                             color: "#1A237E" // Text color
                                         }}
                                         margin="dense"
-                                        required
+                                        // required
                                         error={Boolean(errors.date_of_birth)}
                                         helperText={errors.date_of_birth}
                                         className='input-box'
@@ -2491,7 +2639,7 @@ const UserForm = () => {
                                         onChange={handleUserDetailsChange}
                                         fullWidth
                                         margin="dense"
-                                        required
+                                        // required
                                         error={Boolean(errors.email)}
                                         helperText={errors.email}
 
@@ -2504,7 +2652,7 @@ const UserForm = () => {
                                         fullWidth
                                         displayEmpty
                                         margin="dense"
-                                        required
+                                        // required
                                         className='user_details_gender input-box' // Merged className attributes
                                         sx={{
                                             marginTop: '8px',
@@ -2617,7 +2765,7 @@ const UserForm = () => {
                                     onChange={(e) => handleAddressChange('permanent', e)}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.permanent && errors.permanent.street)}
                                     helperText={errors.permanent && errors.permanent.street}
                                     className='input-box'
@@ -2647,7 +2795,7 @@ const UserForm = () => {
                                     onChange={(e) => handleAddressChange('permanent', e)}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.permanent && errors.permanent.city)}
                                     helperText={errors.permanent && errors.permanent.city}
                                     className='input-box'
@@ -2677,7 +2825,7 @@ const UserForm = () => {
                                     onChange={(e) => handleAddressChange('permanent', e)}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.permanent && errors.permanent.pincode)}
                                     helperText={errors.permanent && errors.permanent.pincode}
                                     sx={{
@@ -2707,7 +2855,7 @@ const UserForm = () => {
                                     onChange={(e) => handleAddressChange('permanent', e)}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.permanent && errors.permanent.country)}
                                     helperText={errors.permanent && errors.permanent.country}
                                     sx={{
@@ -2736,7 +2884,7 @@ const UserForm = () => {
                                     onChange={(e) => handleAddressChange('permanent', e)}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.permanent && errors.permanent.state)}
                                     helperText={errors.permanent && errors.permanent.state}
                                     sx={{
@@ -2929,7 +3077,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.sslc_school_name)}
                                     helperText={errors.sslc_school_name}
                                     sx={{
@@ -2958,7 +3106,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.sslc_start_year)}
                                     helperText={errors.sslc_start_year} sx={{
                                         '& .MuiOutlinedInput-root': {
@@ -2986,7 +3134,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.sslc_end_year)}
                                     helperText={errors.sslc_end_year}
                                     sx={{
@@ -3015,7 +3163,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.sslc_percentage)}
                                     helperText={errors.sslc_percentage}
                                     sx={{
@@ -3048,7 +3196,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.hsc_school_name)}
                                     helperText={errors.hsc_school_name}
                                     sx={{
@@ -3077,7 +3225,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.hsc_start_year)}
                                     helperText={errors.hsc_start_year}
                                     sx={{
@@ -3106,7 +3254,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.hsc_end_year)}
                                     helperText={errors.hsc_end_year}
                                     sx={{
@@ -3135,7 +3283,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.hsc_percentage)}
                                     helperText={errors.hsc_percentage}
                                     sx={{
@@ -3170,7 +3318,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.college_name)}
                                     helperText={errors.college_name}
                                     sx={{
@@ -3199,7 +3347,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.college_start_year)}
                                     helperText={errors.college_start_year}
                                     sx={{
@@ -3229,7 +3377,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.college_end_year)}
                                     helperText={errors.college_end_year}
                                     sx={{
@@ -3258,7 +3406,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.college_percentage)}
                                     helperText={errors.college_percentage}
                                     sx={{
@@ -3291,7 +3439,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.department)}
                                     helperText={errors.department}
                                     sx={{
@@ -3320,7 +3468,7 @@ const UserForm = () => {
                                     onChange={handleEducationChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.degree)}
                                     helperText={errors.degree}
                                     sx={{
@@ -3950,7 +4098,7 @@ const UserForm = () => {
                                     onChange={handlejobPreferenceChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.jobPreference.key_skills)}
                                     helperText={errors.jobPreference.key_skills}
                                 />
@@ -3961,7 +4109,7 @@ const UserForm = () => {
                                     onChange={handlejobPreferenceChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.jobPreference.industry)}
                                     helperText={errors.jobPreference.industry}
                                 />
@@ -3974,7 +4122,7 @@ const UserForm = () => {
                                     onChange={handlejobPreferenceChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.jobPreference.department)}
                                     helperText={errors.jobPreference.department}
                                 />
@@ -3985,7 +4133,7 @@ const UserForm = () => {
                                     onChange={handlejobPreferenceChange}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.jobPreference.prefered_locations)}
                                     helperText={errors.jobPreference.prefered_locations}
 
@@ -4005,7 +4153,7 @@ const UserForm = () => {
                     onChange={(event) => setJobPreference({...jobPreference, key_skills: event.target.value})}
                     fullWidth
                     margin="dense"
-                    required
+                    // required
                     error={Boolean(errors.jobPreference.key_skills)}
                     helperText={errors.jobPreference.key_skills}
                 /> */}
@@ -4118,7 +4266,7 @@ const UserForm = () => {
                                     onChange={(event) => setJobPreference({ ...jobPreference, industry: event.target.value })}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.jobPreference.industry)}
                                     helperText={errors.jobPreference.industry}
                                     sx={{
@@ -4149,7 +4297,7 @@ const UserForm = () => {
                                     onChange={(event) => setJobPreference({ ...jobPreference, department: event.target.value })}
                                     fullWidth
                                     margin="dense"
-                                    required
+                                    // required
                                     error={Boolean(errors.jobPreference.department)}
                                     helperText={errors.jobPreference.department}
                                     sx={{
@@ -4259,8 +4407,8 @@ const UserForm = () => {
                                     onChange={handleResumeChange}
                                     margin="dense"
                                     id="resume-input"
-                                    required
-                                    
+                                    // required
+                                   
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>

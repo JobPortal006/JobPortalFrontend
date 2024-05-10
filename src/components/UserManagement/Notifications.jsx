@@ -7,7 +7,7 @@ import BASE_URL from '../CommonAPI';
 import { BeatLoader } from 'react-spinners';
 import { css } from '@emotion/react';
 import {HashLoader} from "react-spinners";
-import Error from "../HomePage/homeimages/404_Error.png"
+import Error from "../HomePage/homeimages/No_Data.jpg"
 import { FaIndianRupeeSign,FaLocationDot,FaClockRotateLeft   } from "react-icons/fa6";
 import { faMapMarkerAlt, faMoneyBillAlt, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { BsPersonSquare ,BsFileEarmarkTextFill,BsFillBagCheckFill,BsFillFileCheckFill,BsPersonFillCheck } from "react-icons/bs";
@@ -117,7 +117,7 @@ export const Notifications = () => {
   if (loading || loading1) { // Show loading indicator while loading or loading1 is true
     // document.body.style.overflow = 'hidden';
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh',marginTop:'-100px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh',marginTop:'0px' }}>
          {/* <BeatLoader color="#1A237E" css={override} />  */}
          <HashLoader  height={100}
             width={100}
@@ -157,7 +157,7 @@ export const Notifications = () => {
         </div>
         </div>
       }
-      <div className="dashboard-container" style={{marginTop:"90px"}}>
+      <div className="dashboard-container" style={{marginTop:"90px",marginLeft:'20px'}}>
         {displayedJobs.map((job, index) => (
           // <Card key={index} className="applied-job" onClick={() => handleCardClick(job)}>
           //   <CardContent className='cardcontent'>

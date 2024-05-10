@@ -222,7 +222,7 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
    {loading ? (
 <div className="loading" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh',marginTop:'50px' ,marginLeft:'-50px'}}>
 <ul>         
-<li style={{color:"red"}}>
+<li >
 
 <HashLoader  height={100}
     width={100}
@@ -238,7 +238,7 @@ console.log(bookmarkedJobs,'bookmarkedJobs---------');
 ) : (
    <div>
      {displayedJobs && displayedJobs.map((job, index) => (
-           <div key={index} className="saved-job-box" onClick={() => handleCardClick(job)}>
+           <div key={index} className="saved-job-box" style={{marginLeft:'-80px',marginTop:'30px'}} onClick={() => handleCardClick(job)}>
            <div className="saved-job-top">
                 <div className="job-heading">
                   <div>{job.job_title}</div>

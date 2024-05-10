@@ -167,7 +167,7 @@ import BASE_URL from '../CommonAPI';
 import { BeatLoader } from 'react-spinners';
 import { css } from '@emotion/react';
 import {HashLoader} from "react-spinners";
-import Error from "../HomePage/homeimages/404_Error.png"
+import Error from "../HomePage/homeimages/No_Data.jpg"
 import { FaIndianRupeeSign,FaLocationDot,FaClockRotateLeft   } from "react-icons/fa6";
 import { faMapMarkerAlt, faMoneyBillAlt, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { BsPersonSquare ,BsFileEarmarkTextFill,BsFillBagCheckFill,BsFillFileCheckFill,BsPersonFillCheck } from "react-icons/bs";
@@ -187,7 +187,7 @@ const UserDashboard = () => {
   const [page, setPage] = useState(1);
   const [userDashboardError, setUserDashboardError] = useState(false);
   const [loading1, setLoading1] = useState(false); // Initialize loading1 as false
-  const jobsPerPage = 9;
+  const jobsPerPage = 6;
 
   useEffect(() => {
     const token = localStorage.getItem('loginToken');
@@ -295,7 +295,7 @@ const UserDashboard = () => {
     );
   }
   // else {
-  //   // Re-enable scrolling if loading is false
+  //   // Re-enable scrolling if loading is false 
   //   document.body.style.overflow = 'auto';
   // }
 
@@ -310,8 +310,9 @@ const UserDashboard = () => {
   const displayedJobs = flattenedJobs.slice(startIndex, endIndex);
 
   return (
+    <div style={{margin:"0 20px"}}>
     <div>
-      {
+       {
         userDashboardError &&  
         <div className='userDashboard-background1'>
           <img src={Error} alt='404' className='userDashboard-image'/><br></br>
@@ -319,111 +320,80 @@ const UserDashboard = () => {
           </div>
       }
       <div className="dashboard-container">
-        {displayedJobs.map((job, index) => (
-          // <Card key={index} className="applied-job" onClick={() => handleCardClick(job)}>
-          //   <CardContent className='cardcontent'>
-          //     <Typography variant="h5" component="h2" style={{ color: '#1A237E', fontWeight: 'bold' }}>
-          //       {job.job_title}
-          //     </Typography>
-          //     <Typography color="textSecondary">
-          //       Company: {job.company_name}
-          //     </Typography>
-          //     <Typography variant="body2" component="p">
-          //       Role: {job.job_role}
-          //     </Typography>
-          //   </CardContent>
-          // </Card>
-          <div key={index} className="dashboard-job-box" onClick={() => handleCardClick(job)}>
-
-<div className="userdashboard-job-title">
-                 <div>{job.job_title}</div>
-                 {/* <div className="company-name1" style={{ marginTop: '8px' }}>{job.company_name}</div> */}
-               </div>        
-          <div className='saved-job-content'>
-              <div className="brief" style={{ marginBottom: '8px', maxWidth: '600px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                <span className="brief-label"><BsFileEarmarkTextFill/> Job Description : </span> {job.job_description}
-              </div>
-          
-             <div style={{ display: 'inline-block', gap: '10px' }}>
-                <div className="job-brief">
-                  <span className="brief-label"><FaLocationDot  icon={faMapMarkerAlt} /></span>
-                    {job.location && job.location.map((location, index) => (
-                    <span key={index} className="brief11" style={{ marginRight: '5px' }}>{location}</span>
-                    ))}
-                </div>
-                <div className="job-brief">
-                  <span className="brief-label"><FaIndianRupeeSign icon={faMoneyBillAlt} /></span> {job.salary_range}
-                 </div>
-                <div className="job-brief">
-                    <span className="brief-label"><BsFillBagCheckFill /></span> {job.experience}
-                 </div>
-                </div>
-                <div style={{ display: 'flex',marginTop:"5px" }}> 
-                   <div className="job-brief">
-                      <span className="brief-label"><BsFillFileCheckFill/> Job Role : </span>{job.job_role}
-                </div>  
-                {/* <div className="job-brief">
-                  <span className="brief-label"><BsPersonFillCheck icon={faBuilding} /> Openings : </span>{job.no_of_vacancies}
-                  </div> */}
-                  </div>
-                <div className="brief2" style={{marginBottom:"10px" }}>
-                  <span className="brief-label"><BsPersonSquare  icon={faBuilding} /> Employee Type : </span>{job.employee_type}
-                </div>    
-                <div >
-                <div className="filter-skill-set">
-                   {job.skills && job.skills.map((skills, index) => (
-                     <span key={index} className="skill">
-                     <span className="saved-skill-text">{skills}</span>
-                   </span>
-                   ))}
-                 </div>
-                {/* <div className="created-at" style={{marginLeft:'10px'}}>
-                    <span className="brief-label1"><FaClockRotateLeft icon={faBuilding} /><span className="text"> {job.date} ago </span></span> 
-
-
-                    <span className="save-icon" style={{cursor:"pointer"}} onClick={() => handleBookmark(job.job_post_id)} > 
-                    {bookmarkedJobs.includes(job.job_post_id) ? <BsFillBookmarkCheckFill /> : <BsFillBookmarksFill />}
-                    {bookmarkedJobs.includes(job.job_post_id) ? 'Saved' : 'Save'}
-                    </span>
-
-
-                  </div>            */}
-                </div>   
-                     
-          </div> 
-          <div className="userdashboard-job-top">
-               <div className="userdashboard-job-heading">
-                 {/* <div>{job.job_title}</div> */}
-                 <div className="userdashboard-company-name1">{job.company_name}</div>
-               </div>
-               <div className="userdashboard-company-img">
-                 {job.company_logo_path && job.company_logo_path.includes('data:image') ? (
-                   <img src={job.company_logo_path} alt="Company Logo" />
-                 ) : (
-                   <img
-                     src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.company_logo_path}`}
-                     alt="Company Logo"
-                   />
-                 )}
-               </div>
-             </div>      
+  {displayedJobs.map((job, index) => (
+    <div key={index} className="dashboard-job-box" style={{maxWidth:'500px'}} onClick={() => handleCardClick(job)}>
+      <div className="userdashboard-job-title">
+        <div>{job.job_title}</div>
+      </div>        
+      <div className='saved-job-content'>
+        <div className="brief" style={{ marginBottom: '8px', maxWidth: '400px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <span className="brief-label"><BsFileEarmarkTextFill/> Job Description : </span> {job.job_description}
         </div>
-        ))}
-      </div>
+        <div style={{ display: 'inline-block', gap: '10px' }}>
+          <div className="job-brief">
+            <span className="brief-label"><FaLocationDot  icon={faMapMarkerAlt} /></span>
+            {job.location && job.location.map((location, index) => (
+              <span key={index} className="brief11" style={{ marginRight: '5px' }}>{location}</span>
+            ))}
+          </div>
+          <div className="job-brief">
+            <span className="brief-label"><FaIndianRupeeSign icon={faMoneyBillAlt} /></span> {job.salary_range}
+          </div>
+          <div className="job-brief">
+            <span className="brief-label"><BsFillBagCheckFill /></span> {job.experience}
+          </div>
+        </div>
+        <div style={{ display: 'flex', marginTop: "5px" }}> 
+          <div className="job-brief">
+            <span className="brief-label"><BsFillFileCheckFill/> Job Role : </span>{job.job_role}
+          </div>  
+        </div>
+        <div className="brief2" style={{ marginBottom: "10px" }}>
+          <span className="brief-label"><BsPersonSquare  icon={faBuilding} /> Employee Type : </span>{job.employee_type}
+        </div>    
+        <div className="filter-skill-set">
+          {job.skills && job.skills.map((skills, index) => (
+            <span key={index} className="skill">
+              <span className="saved-skill-text">{skills}</span>
+            </span>
+          ))}
+        </div>
+      </div> 
+      <div className="userdashboard-job-top">
+        <div className="userdashboard-job-heading">
+          <div className="userdashboard-company-name1">{job.company_name}</div>
+        </div>
+        <div className="userdashboard-company-img">
+          {job.company_logo_path && job.company_logo_path.includes('data:image') ? (
+            <img src={job.company_logo_path} alt="Company Logo" />
+          ) : (
+            <img
+              src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.company_logo_path}`}
+              alt="Company Logo"
+            />
+          )}
+        </div>
+      </div>      
+    </div>
+  ))}
+</div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         {page > 1 && (
-          <Button variant="contained" className="pagination-button" style={{ marginLeft: "100px", marginBottom: "20px" }} onClick={handlePrevPage}>
+          <Button variant="contained" className="pagination-button" style={{ marginLeft: "-750px", marginBottom: "20px" }} onClick={handlePrevPage}>
             Previous
           </Button>
         )}
         {flattenedJobs.length > endIndex && (
-          <Button variant="contained" className="pagination-button" style={{ marginLeft: "100px", marginBottom: "20px" }} onClick={handleNextPage}>
+          <Button variant="contained" className="pagination-button" style={{ marginRight:'-750px', marginBottom: "20px" }} onClick={handleNextPage}>
             Next
           </Button>
         )}
       </div>
     </div>
+    </div>
+
   );
 };
 

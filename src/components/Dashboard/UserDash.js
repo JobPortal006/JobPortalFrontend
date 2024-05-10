@@ -56,8 +56,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   oppositeContainer: {
-    width: '70%',
-    maxWidth: '85%',
+    width: '100%',
+    
+    maxWidth: '100%',
     margin: 'auto',
     flexGrow: 2,
     display: 'flex',
@@ -198,7 +199,7 @@ const UserDash = () => {
             style={{backgroundColor:"aqua"}}
           >
             {drawer}
-          </Drawer>
+          </Drawer> 
         </Hidden>
       </nav>
       <div className={classes.oppositeContainer}>

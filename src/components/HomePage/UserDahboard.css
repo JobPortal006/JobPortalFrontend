@@ -13,6 +13,9 @@
 .userDashboard-image{
   width: 600px;
   height: 400px;
+  margin: 0px 20px;
+  margin-top: -10px;
+  border-radius: 15px 15px 0px 0px;
 }
 
 .userdashboard-job-top {
@@ -81,9 +84,9 @@
   margin-top: -30px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px !important;
-  /* margin-left: 9rem !important; */
-  margin-left: 150px !important;
+  gap: 0px 20px !important;
+  /* margin-right: -200px; */
+  
 }
 
 .applied-job {
@@ -94,6 +97,8 @@
   
   
 }
+
+
 .cardcontent{
   background-color: #E8EAF6;
 
@@ -123,8 +128,8 @@
   /* padding: 20px; */
   margin-bottom: 20px;
   width: 100% !important;
-  max-width: 500px !important;
-  transition: transform 0.3s ease-in-out;
+  max-width: 600px !important;
+  transition: transform 0.3s ease-in-out; 
 }
 
 .dashboard-job-box:hover {

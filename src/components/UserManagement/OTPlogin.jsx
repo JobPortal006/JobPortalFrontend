@@ -21,8 +21,17 @@ const OTPlogin = () => {
   const isSmallScreen = useMediaQuery("(max-width:600px)");
   const inputWidth = isSmallScreen ? "100%" : "63%";
 
+
+  const [editMode, setEditMode] = useState(false); // State to control edit mode
+
+
+
   // Sending the OTP
   const sendOtp = async () => {
+    if(!mobile_number){
+      toast.error("Enter the Mobile Number")
+      return
+    }
     try {
       const recaptcha = new RecaptchaVerifier(auth, "recaptcha", {});
 
@@ -50,7 +59,9 @@ const OTPlogin = () => {
           recaptcha
         );
         setConfirmation(confirmationResult);
+        setEditMode(true);
         toast.success(otpnum.validation.one);
+        
       } else {
         toast.error(otpnum.validation.two);
       }
@@ -62,6 +73,10 @@ const OTPlogin = () => {
 
   // Verifying the Otp
   const verifyOtp = async () => {
+    if(!otp){
+      toast.error("Enter the OTP")
+      return;
+    }
     try {
       const confirmationResult = await confirmation.confirm(otp);
       localStorage.setItem("token", confirmationResult?.user?.accessToken);
@@ -79,7 +94,7 @@ const OTPlogin = () => {
         console.log("Failed to verify OTP");
       }
     } catch (err) {
-      toast.error(otpnum.validation.five);
+      toast.error("Invalid OTP");
       console.error(err);
     }
   };
@@ -107,7 +122,7 @@ const OTPlogin = () => {
         <div style={{ marginTop: "1rem" }} id={otpnum.phone.nine}></div>
 
         <Button
-          onClick={sendOtp}
+          onClick={sendOtp}          
           sx={{ mt: 1}}
           className="send-otp"
           variant="contained"
@@ -117,6 +132,7 @@ const OTPlogin = () => {
 
         <br />
         <TextField
+          disabled={!editMode}
           onChange={(e) => setOtp(e.target.value)}
           variant="outlined"
           size="small"
@@ -126,6 +142,7 @@ const OTPlogin = () => {
         ></TextField>
         <br />
         <Button
+          disabled={!editMode}
           onClick={verifyOtp}
           className="verify-otp"
           variant="contained"
@@ -140,4 +157,3 @@ const OTPlogin = () => {
 };
 
 export default OTPlogin;
-

@@ -15,9 +15,9 @@
     },
 
     "Context":{
-      "one": "LogIn",
+      "one": "Login",
       "two": "Forget password?",
-      "three": "LogIn via OTP",
+      "three": "Login via OTP",
       "four": "Continue with Google",
       "five": "OR",
       "six":"Don't have an account?",

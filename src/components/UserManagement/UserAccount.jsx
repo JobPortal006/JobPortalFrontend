@@ -193,7 +193,7 @@ function UserAccount(props) {
             },
             PG_college_details: {}, // Default to empty object
             Diploma_college_details: {}, // Default to empty object
-            professionalDetails: { 
+            professionalDetails: {
                 companies: [],
                 numberOfCompanies: ''
             },
@@ -218,7 +218,7 @@ function UserAccount(props) {
     //   axios.post(`${BASE_URL}/get_user_details/`, requestData)
     //     .then(response => {
     //       console.log(response.data,'get_user_details----------'); // Log response data
-    //       // Do something with the response data, such as updating 
+    //       // Do something with the response data, such as updating
     //       if (response.data.status){
     //         console.log("if-get----------");
     //         setUseAccountError(false)
@@ -232,7 +232,7 @@ function UserAccount(props) {
     //       // Handle errors
     //     });
     // }
-    
+   
     // const jsonResponse = JSON.stringify(response);
     // console.log(jsonResponse);
     const handleCompanyChange = (event, index, field) => {
@@ -326,9 +326,9 @@ function UserAccount(props) {
 
     const [profilePicture, setProfilePicture] = useState(null);
     useEffect(() => {
-      
+     
         axios.get(`${BASE_URL}/get_user_details_view/`)
-        
+       
             .then(response => {
                 // setLoading1(false);
                 console.log(response,'get_user_details_view----------');
@@ -369,7 +369,7 @@ function UserAccount(props) {
                 if (response.data.status){
                     console.log("if-view----------");
                     setUseAccountError(false)
-                  } 
+                  }
                   else if(response.data!== null){
                     console.log("esle-if-view----------");
                     setUseAccountError(false)
@@ -632,7 +632,7 @@ console.log(formDataToSend,'date to payload')
     //     return <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh' }}>
     //     {/* //  <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
     //     //     <BeatLoader color="#36D7B7" css={override} />
-    //     //     <p>Loading profile information...</p> 
+    //     //     <p>Loading profile information...</p>
     //     // </div>;  */}
     //     {/* <BeatLoader color="#1A237E" css={override} />  */}
     //     <HashLoader  height={100}
@@ -776,7 +776,7 @@ console.log(formDataToSend,'date to payload')
     //         }
     //     }));
     // };
-  
+ 
     const handleProfilePictureChange = event => {
         const file = event.target.files[0];
         setProfilePicture(file);
@@ -912,7 +912,7 @@ console.log(formDataToSend,'date to payload')
                 <h5 className='errorText'>You haven't registered an account with us yet..!</h5>
               </div>
             ) : (
-              <div className="profilebackground-div">               
+              <div className="profilebackground-div">              
                <Container style={{ marginTop: '60px' }} >
                 <Typography variant="h6"
                     color="#1A237E" fontSize="25px"
@@ -940,7 +940,7 @@ console.log(formDataToSend,'date to payload')
                                     label='First Name'
                                     name="first_name"
                                     onChange={handleChange}
-                                    // value={formData.data.userDetails.first_name || values?.userDetails?.first_name} 
+                                    // value={formData.data.userDetails.first_name || values?.userDetails?.first_name}
                                     value ={formData.data?.userDetails?.first_name}
                                     // defaultValue={values?.userDetails?.first_name}
                                     fullWidth
@@ -961,7 +961,7 @@ console.log(formDataToSend,'date to payload')
                                 }}
 
                                 />
-                                <TextField className='textfield' 
+                                <TextField className='textfield'
                                     label= "Last Name"
                                     name="last_name"
                                     value={formData.data?.userDetails?.last_name}
@@ -1045,7 +1045,7 @@ console.log(formDataToSend,'date to payload')
                                     FormHelperTextProps={{
                                     sx: {backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
                                 }}
-                                    
+                                   
                                 >
 
                                     <MenuItem value="" disabled>Select Gender</MenuItem>
@@ -1072,7 +1072,7 @@ console.log(formDataToSend,'date to payload')
                                         <IconButton
                                             component="span"
                                             size="small"
-                                            sx={{   
+                                            sx={{  
                                                 marginTop: 1,
                                                 border: '2px solid #1A237E',
                                                 borderRadius: '10px',
@@ -1124,13 +1124,13 @@ console.log(formDataToSend,'date to payload')
                                 )}
 
                                 {/* Display CloudUploadIcon if no profile picture */}
-                            
+                           
 
-                            
+                           
                         </div>
                         </Grid>
                             </Grid>
-                        
+                       
                         <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
                     </AccordionDetails>
 
@@ -1142,7 +1142,7 @@ console.log(formDataToSend,'date to payload')
                             fontWeight="bold" textTransform="uppercase">Address</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        
+                       
 
 
                         <Grid container spacing={2}>
@@ -1509,7 +1509,7 @@ console.log(formDataToSend,'date to payload')
                                 <TextField className='textfield'
                                     label="HSC-end-year"
                                     name="hsc_end_year"
-                                    value={formData.data?.education_details?.hsc_end_year} 
+                                    value={formData.data?.education_details?.hsc_end_year}
                                     required
                                     disabled={!editMode}
                                     InputLabelProps={{
@@ -2118,7 +2118,7 @@ console.log(formDataToSend,'date to payload')
                                     // onChange={(event, newValues) => handleAutoCompleteChange(event, newValues, 'prefered_locations')}
                                     onChange={(event, newValues) => {
                                         handleAutoCompleteChange(event, newValues, 'prefered_locations');
-                                        console.log(newValues ,'hhhhh'); 
+                                        console.log(newValues ,'hhhhh');
                                     }}
                                 />
 
@@ -2206,9 +2206,9 @@ console.log(formDataToSend,'date to payload')
                                         sx: {backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
                                     }}
                                     />
-                                    
+                                   
                                 </Grid>
-                                
+                               
                             ))}
                         </Grid>
                         {/* <TextField
@@ -2228,7 +2228,7 @@ console.log(formDataToSend,'date to payload')
                 backgroundColor: "white",
                 borderRadius: "10px",
                 width: "50%", // Set width to half of the container
-                marginLeft: "25%", 
+                marginLeft: "25%",
                 }}
                 FormHelperTextProps={{
                 sx: {
@@ -2255,28 +2255,7 @@ console.log(formDataToSend,'date to payload')
                                 style: { color: "#1A237E" ,width:"300px"} // Change label color
                             }}
                             //   sx={{...textFieldStyles}}
-                            sx={{
-                                backgroundColor: "white",
-                                borderRadius: "10px",
-                                width: "50%", // Set width to half of the container
-                                marginLeft: "25%", 
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '10px', // Set border radius
-                                    '& fieldset': {
-                                        borderColor: '#1A237E', // Set border color
-                                        borderWidth: '2px' // Set border width
-                                    },
-                                    '&:hover fieldset': {
-                                        borderColor: '#a2beda', // Set border color on hover
-                                        borderWidth: '2px' // Set border width
-                                    },
-                                    '&.Mui-focused fieldset': {
-                                        borderColor: '#1A237E', // Set border color on focus
-                                        borderWidth: '2px' // Set border width
-                                    },
-                                },
-                                color: '#1A237E'
-                            }}
+                       
                             style={{backgroundColor:"white",borderRadius:"10px",width:"550px"}}
                             FormHelperTextProps={{
                             sx: {backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"} // Set background color for error message
@@ -2286,7 +2265,7 @@ console.log(formDataToSend,'date to payload')
 
                     </AccordionDetails>
                     {/* resume */}
-                    <AccordionSummary >
+                    {/* <AccordionSummary >
                             <Typography variant="h6"
                                 color="#1A237E" fontSize="25px"
                                 fontWeight="bold" textTransform="uppercase">Resume</Typography>
@@ -2304,7 +2283,7 @@ console.log(formDataToSend,'date to payload')
                                 disabled={!editMode}
                             />
 
-                            {/* Display existing resume if available */}
+                       
                             {!resumeFile && formData?.data?.resume?.resume_path && (
                                 <div>
                                     <iframe
@@ -2322,7 +2301,7 @@ console.log(formDataToSend,'date to payload')
                                 </div>
                             )}
 
-                            {/* Display uploaded resume file immediately after upload */}
+                       
                             {resumeFile && (
                                 <div>
                                     <p>Resume File: <a href={URL.createObjectURL(resumeFile)} download>{resumeFile.name}</a></p>
@@ -2332,7 +2311,6 @@ console.log(formDataToSend,'date to payload')
                                 </div>
                             )}
 
-                            {/* Display upload button if no resume is uploaded */}
                             {!resumeFile && !formData?.data?.resume?.resume_path && (
                                 <div>
                                     <label htmlFor="resume-input">
@@ -2347,12 +2325,12 @@ console.log(formDataToSend,'date to payload')
                                                 padding: '10px',
                                                 backgroundColor: '#fff',
                                                 '&:hover': {
-                                                    borderColor: '#a2beda', // Change border color on hover
+                                                    borderColor: '#a2beda',
                                                     backgroundColor: '#fff'
                                                 },
                                                 '& svg': {
-                                                    fontSize: '50px', // Increase icon size
-                                                    color: '#1A237E' // Change icon color
+                                                    fontSize: '50px',
+                                                    color: '#1A237E'
                                                 }
                                             }}
                                         >
@@ -2363,18 +2341,70 @@ console.log(formDataToSend,'date to payload')
                             )}
 
 
-                        </AccordionDetails>
+                        </AccordionDetails> */}
+
+<AccordionSummary >
+                                <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Resume</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <label htmlFor="resume-input">Upload Resume:</label>
+                                <br />
+                                <Input
+                                disabled={!editMode}
+                                    type="file"
+                                    accept=".pdf, .doc, .docx"
+                                    onChange={handleResumeChange}
+                                    margin="dense"
+                                    id="resume-input"
+                                />
+                                {resumeFile && (
+                                    <div>
+                                        <p>Resume File: {resumeFile.name}</p>
+                                        <Button color="secondary" onClick={handleRemoveResume}>
+                                            Remove Resume
+                                        </Button>
+                                    </div>
+                                )}
+
+                                {formData?.data?.resume?.resume_path && (
+                                    <div>
+                                        <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p>
+                                        {/* <iframe
+                                            src={`https://docs.google.com/viewer?url=${encodeURIComponent(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`)}&embedded=true&rm=minimal`}
+                                            width="250" height="150" style={{ border: 'none' }}
+                                            title="Resume"
+                                        /> */}
+                                    </div>
+                                )}
+                            </AccordionDetails>
                     {/* <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button> */}
                     {/* <Button type="submit" variant="contained" color="primary" fullWidth disabled={isSubmitting}>
                         {isSubmitting ? 'Updating... Please wait': 'Update'}
                     </Button> */}
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+
                     <Button
                         type="submit"
                         variant="contained"
                         color="primary"
                         fullWidth
-                        disabled={isSubmitting}
+                        disabled={!editMode}
                         style={{ position: 'relative' }} // Add this style to enable absolute positioning for the loader
+                        sx={{
+                            width: "180px",
+                            borderRadius: '10px', // Rounded corners
+                            padding: '7px 15px', // Padding
+                            fontSize: '20px', // Font size
+                            fontWeight: 'bold', // Bold font weight
+                            textTransform: 'none', // Disable text transformation
+                            boxShadow: 'none', // Disable box shadow
+                            marginBottom: "50px",
+                            '&:hover': {
+                                backgroundColor: '#1A237E', // Change background color on hover
+                            },
+                        }}
                     >
                         {isSubmitting ? (
                             <>
@@ -2389,6 +2419,7 @@ console.log(formDataToSend,'date to payload')
                             'Update'
                         )}
                     </Button>
+                    </div>
 
 
                 </form>
@@ -2399,10 +2430,10 @@ console.log(formDataToSend,'date to payload')
                 </div>
                   )
               }
-                
+               
                   <ToastContainer />
                   </div>
-        //      )} 
+        //      )}
 
         // </div>
     );
