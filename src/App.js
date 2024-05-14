@@ -47,6 +47,7 @@ import { DashBoardEmployeerProfile } from "./components/EmployeerManagement/Dash
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from '../src/components/store.js';
+import Filter1 from "./components/Sprint 2/Filter1.jsx";
 
 function App() {
   const [oneData, setData] = useState("");
@@ -56,7 +57,7 @@ function App() {
   const [jobData,setJobData ]  = useState(null);
   const [responseData, setResponseData] = useState(null);
   const [detailData,setDetailData ]  = useState(null);
-
+  const [useEmail,setUseEmail] = useState("");
 
   // const register_by = localStorage.getItem("registered_by");
   // const [user_result_register, setUserResult_register] = useState(false);
@@ -87,7 +88,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{oneData, setData,employerDetails, 
-    setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData  }}>
+    setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData,useEmail,setUseEmail  }}>
     <div>
       <BrowserRouter>
          <Navbar /> 
@@ -107,7 +108,8 @@ function App() {
           <Route path="/JobDetails" element={<JobDetails />} />
           <Route path="/UserProfile" element={<UserAccount/>} />
           <Route path="/Companydisplay" element={<Companydisplay />}/>
-          <Route path="/Filter" element={<Filter/>} />
+          {/* <Route path="/Filter" element={<Filter/>} /> */}
+          <Route path="/Filter" element={<Filter1/>} />
           <Route path="/MyJob" element={<MyJob/>} />  
           <Route path="/PostJob" element={<PostJob />} />     
           <Route path="/EditMyJob" element={<EditMyJob />} />                   

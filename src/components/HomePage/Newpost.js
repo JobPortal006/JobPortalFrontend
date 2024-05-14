@@ -67,7 +67,7 @@ export const Newpost = () => {
                 <div className="loading-popup">Loading...</div> // Render loading popup
             ) : (
                 <div className="job-container">
-                    <SearchBar isJobSearchPage={true} />
+                    <SearchBar />
                     {jobs.map((job, index) => (
                         <div key={index} className="job-card" onClick={() => handleJobSelect(job)}>
                             <div className="job-header">

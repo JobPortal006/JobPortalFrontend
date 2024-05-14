@@ -74,7 +74,7 @@ const PostJob = () => {
     "4 - 6 LPA",
     "6 - 8 LPA",
     "8 - 10 LPA",
-    "10 - 14 LPA",
+    "11 - 14 LPA",
     "15 - 18 LPA",
     "19 - 22 LPA",
     "23 - 26 LPA",

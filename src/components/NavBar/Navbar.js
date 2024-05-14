@@ -469,7 +469,7 @@ const Navbar = () => {
   // useEffect(() => {
     const token = localStorage.getItem("loginToken");
     const googleToken = localStorage.getItem("googleSecondToken")
-    const { employerDetails, setEmployerDetails } = useContext(UserContext);
+    const { employerDetails, setEmployerDetails,useEmail } = useContext(UserContext);
     console.log(token,'token----------->');
     console.log(googleToken,'googleToken----------->');
     var result_token = ''
@@ -556,12 +556,18 @@ const Navbar = () => {
   };
 
   const home = () => {
+    if(useEmail !== null && useEmail !== "" ){
+      alert("Remove the  Email in Textfield")
+      navigate('/login')
+      return;
+    }
     setData(false);
     setsearchJob(false);
     setcompanyList(false);
     setJobData(false);
     navigate('/home');
   };
+
 
   const logout = () => {
     localStorage.clear();

@@ -669,8 +669,8 @@ const LogIn = () => {
   const [rememberMe, setRememberMe] = React.useState(false);
   const [outputData, setOutputData] = React.useState("");
 
-
-
+  const { useEmail,setUseEmail} = useContext(UserContext);
+  console.log(useEmail,"useEmail");
 
   const [value, setValue] = React.useState("");
   console.log(value,"<=====valueGoogle");
@@ -724,9 +724,7 @@ const LogIn = () => {
       console.error(validation.Console.one, error.message);
     }
   };
-  
-
-  
+    
 // Navigate to forget password
 const register_by = localStorage.getItem("registered_by");
 const [user_result_register, setUserResult_register] = useState(false);
@@ -737,6 +735,7 @@ const [employeer_register, setEmployeer_register] = useState("");
 
 const [user_account_creation, setUserAccountCreation] = useState(false);
 const [employeer_account_creation, setEmployeerAccountCreation] = useState(false);
+
 
 useEffect(() => {
   // Define the data to be sent in the request body
@@ -956,6 +955,7 @@ console.log(employeer_register, 'employeer_register------------->');
               autoComplete={validation.style.elevn}
               value={email}
               onChange={(e) => {
+                setUseEmail(e.target.value)
                 setEmail(e.target.value.trim());
                 setEmailError(""); 
               }}
@@ -1098,7 +1098,7 @@ console.log(employeer_register, 'employeer_register------------->');
                 },
             }}
             >
-              Login
+              LogIn
             </Button>
             <Divider style={{ textAlign: "center", color: "#1A237E", borderColor: "#1A237E !important" }}>
               {validation.Context.five}

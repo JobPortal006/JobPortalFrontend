@@ -615,7 +615,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   const [expandedAnchorEl, setExpandedAnchorEl] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+console.log(isJobSearchPage,'isJobSearchPage-------');
   useEffect(() => {
     async function fetchLocationSuggestions(input) {
       try {
@@ -726,8 +726,8 @@ const SearchBar = ({ isJobSearchPage }) => {
           body: JSON.stringify(searchObject),
 
         })
-        const data = await response.json();
-        const searchResponse = data.data;
+        const sarchdata = await response.json();
+        const searchResponse = sarchdata.data;
 
         localStorage.setItem("Search_result", JSON.stringify(searchResponse));
         const storedDataToUse = JSON.parse(localStorage.getItem("Search_result"));
@@ -736,24 +736,36 @@ const SearchBar = ({ isJobSearchPage }) => {
         if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(searchResponse)) {
           // If equal, set resultdataToUse to storedDataToUse
           localStorage.setItem("Search_result", JSON.stringify(searchResponse));
+          localStorage.removeItem("Company_result");
+          localStorage.removeItem("Filter_result");
+          localStorage.removeItem("Employee_type_result");
         } else {
           // If not equal, remove the previous dataToUse from localStorage
-          localStorage.removeItem("Search_result");
+          localStorage.removeItem("Employee_type_result");
+          localStorage.removeItem("Filter_result");
+          localStorage.removeItem("Company_result");
           // Update localStorage with the new dataToUse
+          localStorage.removeItem("Search_result");
           localStorage.setItem("Search_result", JSON.stringify(searchResponse));
         }
 
         console.log(searchResponse, "=========Searchresponse");
-        console.log(data.status, "SearchJob-Status===>");
-        if (data.status !== true) {
-          alert("Job not Found")
-          window.location.reload();
-        } else {
+        console.log(sarchdata.status, "SearchJob-Status===>");
+        if (sarchdata.status === true) {
+          // alert("Job not Found")
+          // window.location.reload();
           navigate('/Filter');
-
+          localStorage.setItem("Filter_response", JSON.stringify(searchResponse));
+          const storedResultResponse = JSON.parse(localStorage.getItem("Filter_response"));
+          console.log(storedResultResponse,'storedResultResponse--------');
+        } else {
+          alert("Job not Found")
+          // window.location.reload();
+          // const storedResultResponse =localStorage.setItem("Filter_response", JSON.stringify(searchResponse));
+          // console.log(storedResultResponse,'storedResultResponse--------');
         }
 
-        console.log(data, '=============da');
+        console.log(sarchdata, '=============da');
 
 
         const checking = {
@@ -775,7 +787,7 @@ const SearchBar = ({ isJobSearchPage }) => {
         if (searchJob !== null) {
           setsearchJob(searchResponse)
           setcompanyList(false)
-          localStorage.setItem("search_result", JSON.stringify(searchResponse));
+          // localStorage.setItem("Search_result", JSON.stringify(searchResponse));
 
         } else {
           setData(searchResponse)

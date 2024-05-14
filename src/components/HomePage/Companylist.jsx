@@ -367,8 +367,7 @@ const Companylist = () => {
  const token = localStorage.getItem('loginToken');
   const handleCardClick = async companyName => {
     try {
-      setLoadingCard(companyName); // Set loading state for the clicked card
-      // Send request to the backend API
+      setLoadingCard(companyName); 
       const response = await fetch(`${BASE_URL}/job_details_by_companyName/`, {
         method: 'POST',
         headers: {
@@ -378,36 +377,50 @@ const Companylist = () => {
           company_name: companyName,token
         })
       });
-      const data = await response.json();
-      console.log(data.data, 'data---------->123');
-      const company_response_result = data.data
-      localStorage.setItem("Company_result", JSON.stringify(company_response_result));
+      console.log(response,"response-company-data");
+      const companydata = await response.json();
+      console.log(companydata, 'companydata---------->123');
+      console.log(companydata.status,"company name ");
+      const company_response_result = companydata.data;
+     
+      if (companydata.status === false) {
+        console.log(companydata.status,"company name else");
+          // alert('Failed to send data to the server');
+          localStorage.setItem("No_result", JSON.stringify(true));
+          navigate('/Filter');  // Move navigate here
+          localStorage.removeItem("Company_result");
+          localStorage.removeItem("Search_result");
+          localStorage.removeItem("Filter_result");
+          localStorage.removeItem("Employee_type_result");
+      } else { 
+        localStorage.setItem("Company_result", JSON.stringify(company_response_result));
       const storedDataToUse = JSON.parse(localStorage.getItem("Company_result"));
       console.log(storedDataToUse, 'storedDataToUse------->');
-      // Check if storedDataToUse is equal to dataToUse
-      if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(company_response_result)) {
-        // If equal, set resultdataToUse to storedDataToUse
-        localStorage.setItem("Company_result", JSON.stringify(company_response_result));
-      } else {
-        // If not equal, remove the previous dataToUse from localStorage
-        localStorage.removeItem("Company_result");
-        // Update localStorage with the new dataToUse
-        localStorage.setItem("Company_result", JSON.stringify(company_response_result));
+          if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(company_response_result)) {
+              // If equal, set resultdataToUse to storedDataToUse
+              localStorage.setItem("Company_result", JSON.stringify(company_response_result));
+              localStorage.removeItem("Search_result");
+              localStorage.removeItem("Filter_result");
+              localStorage.removeItem("Employee_type_result");
+          } else {
+              // If not equal, remove the previous dataToUse from localStorage
+              localStorage.removeItem("Company_result");
+              localStorage.removeItem("Search_result");
+              localStorage.removeItem("Filter_result");
+              localStorage.removeItem("Employee_type_result");
+              // Update localStorage with the new dataToUse
+              localStorage.setItem("Company_result", JSON.stringify(company_response_result));
+          }
+          localStorage.setItem("No_result", JSON.stringify(false));
+          navigate('/Filter');  // And here
       }
-
+            
       if (companyList !== null) {
-        setcompanyList(data);
-        
+        setcompanyList(companydata);
         setsearchJob(false);
         setData(false);
-        dispatch(setCompanyResponse(data.data));
-      }
-
-      if (data.status !== true) {
-        alert('Failed to send data to the server');
-      } else {  
-        navigate('/Filter');
-      }
+        dispatch(setCompanyResponse(companydata.data));
+    } 
       // setcompanyList(data);
     } catch (error) {
       console.error('Error:', error);

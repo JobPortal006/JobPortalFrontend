@@ -60,9 +60,15 @@ export const JobCard = () => {
       if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(employee_type_response_result)) {
         // If equal, set resultdataToUse to storedDataToUse
         localStorage.setItem("Employee_type_result", JSON.stringify(employee_type_response_result));
+        localStorage.removeItem("Search_result");
+          localStorage.removeItem("Filter_result");
+          localStorage.removeItem("Company_result");
       } else {
         // If not equal, remove the previous dataToUse from localStorage
         localStorage.removeItem("Employee_type_result");
+        localStorage.removeItem("Search_result");
+          localStorage.removeItem("Filter_result");
+          localStorage.removeItem("Company_result");
         // Update localStorage with the new dataToUse
         localStorage.setItem("Employee_type_result", JSON.stringify(employee_type_response_result));
       }
