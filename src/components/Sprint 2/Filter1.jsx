@@ -17,12 +17,13 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useNavigate } from 'react-router-dom';
 import Error from "../HomePage/homeimages/No_Result.png"
-
+import {HashLoader,FadeLoader } from "react-spinners";
 import { makeStyles, TextField, Chip, Collapse, Popover } from '@material-ui/core';
 import { MdSearch, MdExpandMore } from 'react-icons/md';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ToastContainer, toast } from 'react-toastify';
 import { BeatLoader, PacmanLoader, ScaleLoader } from 'react-spinners';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -165,6 +166,7 @@ const Filter1 = ({ isJobSearchPage }) => {
     }
   }, [searchValue]);
 
+
   useEffect(() => {
     async function fetchSkillSuggestions(input) {
       try {
@@ -234,7 +236,7 @@ console.log(companyList, "=====raghul data company list");
 
 
   const experienceOptions = [
-    "0-1 year",
+    "0-1 years",
     "1-2 years",
     "2-3 years",
     "3-4 years",
@@ -282,10 +284,12 @@ console.log(companyList, "=====raghul data company list");
 
   const navigate = useNavigate();
   const [errorTwo, setErrorTwo] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [searchloading, setSearchLoading] = useState(false);
+  const [jobDetailsloading, setJobDetailsLoading] = useState(false);
+  const [filterloading, setFilterLoading] = useState(false);
   const [scrollbar, setScrollbar] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [jobsPerPage] = useState(5);
+  const [jobsPerPage] = useState(4);
   // const [PageButton, setPageButton] = useState(false);
 
   const [FilteResultData, setFilterDataUse] = useState([]);
@@ -339,26 +343,34 @@ console.log(companyList, "=====raghul data company list");
 
   // Location Fetch
   const [locations, setLocations] = useState([]);
+  const [locationLoading, setLocationLoading] = useState(true);
 
   useEffect(() => {
+    setLocationLoading(true)
     const fetchData = async () => {
       try {
         const response = await fetch(`${BASE_URL}/job_apply_locations/`);
-        if (!response) {
-          console.error("Failed to fetch locations");
+        if (!response.ok) {
+          throw new Error('Failed to fetch locations');
         }
         const data = await response.json();
         console.log(data, "<====Location====>");
-        setLocations(
-          data.map((location) => ({ ...location, selected: false }))
-        );
+        setLocations(data.map((location) => ({ ...location, selected: false })));
+        setLocationLoading(false); // Set loading to false after data is fetched
       } catch (error) {
         console.error("Error fetching locations:", error.message);
+        setLocationLoading(false); // Set loading to false even if there is an error
       }
     };
 
     fetchData();
   }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (scrollbar) {
+      window.scrollTo(0, 0);
+    }
+  }, [scrollbar]);
 
   useEffect(() => {
     console.log(
@@ -377,14 +389,15 @@ console.log(companyList, "=====raghul data company list");
 
   const [selectedEmploymentType, setSelectedEmploymentType] = useState("");
 
-  const handleEmploymentTypeChange = (event) => {
-    setSelectedEmploymentType(event.target.value);
-    console.log("Selected employment type:", event.target.value);
+  const handleEmploymentTypeChange = (value) => {
+    setSelectedEmploymentType((prevValue) => (prevValue === value ? '' : value));
+    console.log("Selected employment type:", value === selectedEmploymentType ? '' : value);
   };
 
   const [jobRoles, setJobRoles] = useState([]);
-
+  const [jobrolesLoading, setJobRolesLoading] = useState(true);
   useEffect(() => {
+    setJobRolesLoading(true)
     const fetchJobRoles = async () => {
       try {
         const response = await fetch(`${BASE_URL}/job_role/`);
@@ -395,7 +408,9 @@ console.log(companyList, "=====raghul data company list");
         const data = await response.json();
         console.log(data, "<====Roles====>");
         setJobRoles(data.map((role) => ({ ...role, selected: false })));
+        setJobRolesLoading(false)
       } catch (error) {
+        setJobRolesLoading(false)
         console.error("Error fetching job roles:", error.message);
       }
     };
@@ -419,9 +434,11 @@ console.log(companyList, "=====raghul data company list");
 
   const [selectedSalaryType, setSelectedSalaryType] = useState("");
 
-  const handleSalaryTypeChange = (event) => {
-    setSelectedSalaryType(event.target.value);
-    console.log("Selected salary type:", event.target.value);
+  const handleSalaryTypeChange = (value) => {
+    // const value = event.target.value;
+    setSelectedSalaryType((prevValue) => (prevValue === value ? '' : value));
+    console.log("Selected salary type:", value === selectedSalaryType ? '' : value);
+ 
   };
   // 
   const handleReset = () => {
@@ -439,7 +456,7 @@ console.log(companyList, "=====raghul data company list");
 
   
   const ApplyFilters = async () => {
-   
+    setFilterLoading(true)
     console.log(noDataFound,'noDataFound----filter');
     const filtered = {  
       location: locations.filter((location) => location.selected).map((location) => location.location),
@@ -469,6 +486,7 @@ console.log(companyList, "=====raghul data company list");
       const FilterData = await response.json();
       console.log(FilterData,'FilterData');
       if (FilterData.status === true){
+        setFilterLoading(false)
         const FilterResponse = FilterData.data
         // setApplyFilter(FilterResponse)
         console.log(FilterResponse,"<====filter-Response");
@@ -488,6 +506,7 @@ console.log(companyList, "=====raghul data company list");
           localStorage.removeItem("Employee_type_result");
           localStorage.removeItem("Company_result");
       } else {
+        setFilterLoading(false)
         // If not equal, remove the previous dataToUse from localStorage
         localStorage.removeItem("Employee_type_result");
         localStorage.removeItem("Search_result");
@@ -572,7 +591,7 @@ const handleSearch = async () => {
 
 
     try {
-      setLoading(true);
+      setSearchLoading(true);
       const response = await fetch(`${BASE_URL}/search_jobs/`, {
         method: 'POST',
         headers: {
@@ -582,33 +601,33 @@ const handleSearch = async () => {
 
       })
       const sarchdata = await response.json();
-      const searchResponse = sarchdata.data;
+        const searchResponse = sarchdata.data;
 
-      localStorage.setItem("Search_result", JSON.stringify(searchResponse));
-      const storedDataToUse = JSON.parse(localStorage.getItem("Search_result"));
-      console.log(storedDataToUse, 'storedDataToUse------->');
-      // Check if storedDataToUse is equal to dataToUse
-      if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(searchResponse)) {
-        // If equal, set resultdataToUse to storedDataToUse
-        localStorage.setItem("Search_result", JSON.stringify(searchResponse));
-        localStorage.removeItem("Company_result");
-        localStorage.removeItem("Filter_result");
-        localStorage.removeItem("Employee_type_result");
-      } else {
-        // If not equal, remove the previous dataToUse from localStorage
-        localStorage.removeItem("Employee_type_result");
-        localStorage.removeItem("Filter_result");
-        localStorage.removeItem("Company_result");
-        // Update localStorage with the new dataToUse
-        localStorage.removeItem("Search_result");
-        localStorage.setItem("Search_result", JSON.stringify(searchResponse));
-      }
-
-      console.log(searchResponse, "=========Searchresponse");
-      console.log(sarchdata.status, "SearchJob-Status===>");
+        console.log(searchResponse, "=========Searchresponse");
+        console.log(sarchdata.status, "SearchJob-Status===>");
       if (sarchdata.status === true) {
         // alert("Job not Found")
         // window.location.reload();
+        localStorage.setItem("Search_result", JSON.stringify(searchResponse));
+        const storedDataToUse = JSON.parse(localStorage.getItem("Search_result"));
+        console.log(storedDataToUse, 'storedDataToUse------->');
+        // Check if storedDataToUse is equal to dataToUse
+        if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(searchResponse)) {
+          // If equal, set resultdataToUse to storedDataToUse
+          localStorage.setItem("Search_result", JSON.stringify(searchResponse));
+          localStorage.removeItem("Company_result");
+          localStorage.removeItem("Filter_result");
+          localStorage.removeItem("Employee_type_result");
+        } else {
+          // If not equal, remove the previous dataToUse from localStorage
+          localStorage.removeItem("Employee_type_result");
+          localStorage.removeItem("Filter_result");
+          localStorage.removeItem("Company_result");
+          // Update localStorage with the new dataToUse
+          localStorage.removeItem("Search_result");
+        }
+  
+        setSearchLoading(false)
         setFilterDataUse(searchResponse);
         localStorage.setItem("No_result", JSON.stringify(false));
         handleReset()
@@ -619,6 +638,11 @@ const handleSearch = async () => {
         setNoResult(true)
         setNoDataFound(true)
         setPageButton(false)
+        localStorage.removeItem("Employee_type_result");
+        localStorage.removeItem("Filter_result");
+        localStorage.removeItem("Company_result");
+        // Update localStorage with the new dataToUse
+        localStorage.removeItem("Search_result");
         localStorage.setItem("No_result", JSON.stringify(true));
         // window.location.reload();
         // const storedResultResponse =localStorage.setItem("Filter_response", JSON.stringify(searchResponse));
@@ -665,7 +689,7 @@ const handleSearch = async () => {
       // Handle error gracefully, show error message to the user, etc.
     }
     finally {
-      setLoading(false); // Set loading state to false after receiving response or error
+      setSearchLoading(false); // Set loading state to false after receiving response or error
     }
   }
 
@@ -761,8 +785,9 @@ const handleExpand = (event) => {
     const Token1 = { selectedJob, token: Token };
 
     try {
+      window.scrollTo(0, 0);
         setScrollbar(true);
-        setLoading(true);
+        setJobDetailsLoading(true);
         const response = await fetch(`${BASE_URL}/job_details/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -771,6 +796,7 @@ const handleExpand = (event) => {
         if (!response.ok) {
             throw new Error('Failed to send selected job data to the backend');
         } else {
+          setJobDetailsLoading(false);
             navigate('/JobDetails');
         }
         console.log('Selected job data sent successfully:', selectedJob);
@@ -779,7 +805,7 @@ const handleExpand = (event) => {
         // setErrorTwo(error);
         console.error('Error sending selected job data to the backend:', error);
     } finally {
-        setLoading(false);
+        setJobDetailsLoading(false);
         setScrollbar(false);
         document.body.style.overflow = 'auto'; // Enable scrollbar
     }
@@ -798,9 +824,9 @@ const handleExpand = (event) => {
  
   return (
     <Grid container className="containerTop">
-
       <Grid item xs={4} sm={4} md={4} xl={4}>
-      <div style={{marginLeft:'500px',marginTop:'-170px',marginBottom:'-385px',display:'flex'}}>
+      {scrollbar ? (document.body.style.overflow = 'hidden') : (document.body.style.overflow = 'auto')}
+      <div style={{marginLeft:'480px',marginTop:'-210px',marginBottom:'-385px',display:'flex'}}>
         {/* <SearchBar /> */}
         <div className={isJobSearchPage ? classes.jobSearchRoot : classes.root}>
         {/* <p className='lineFour'>Discover 50 lakh+ career opportunities</p> */}
@@ -912,14 +938,29 @@ const handleExpand = (event) => {
 
           <Button
             variant="contained"
+            style={{
+              width:"100px",
+              borderRadius: '10px', // Rounded corners
+              padding: '7px 15px', // Padding
+              fontSize: '16px', // Font size
+              fontWeight: 'bold', // Bold font weight
+              textTransform: 'none', // Disable text transformation
+              boxShadow: 'none',
+              color: 'white', // Set text color
+              backgroundColor: '#303F9F', // Set background color
+              '&:hover': {
+                  backgroundColor: '#1A237E', // Change background color on hover
+                  color: 'white'
+              },
+          }}
             className={isJobSearchPage ? classes.jobSearchButton : classes.button}
             onClick={handleSearch}
-            disabled={loading} // Disable the button while loading
+            disabled={searchloading} // Disable the button while loading
           >
-            {loading ? ( // Display loader if loading
+            {searchloading ? ( // Display loader if loading
               <>
-                <BeatLoader color="black" />
-                <span style={{ marginLeft: '5px' }}></span>
+                <BeatLoader color='white' style={{ marginTop:'5px',width:'100%' }} />
+                {/* <span style={{ marginLeft: '5px' }}></span> */}
               </>
             ) : (
               'Search'
@@ -972,7 +1013,7 @@ const handleExpand = (event) => {
                     <Grid item xs={5} key={index}>
                       {" "}
                       {/* Divide into two columns */}
-                      <div style={{ marginLeft: "20px" }}>
+                      <div style={{ marginLeft: "10px" }}>
                         <FormControlLabel
                           control={
                             <Checkbox
@@ -995,7 +1036,7 @@ const handleExpand = (event) => {
               className="show-more-button"
                 onClick={() => setShowAll(!showAll)}
                 color="primary"
-                sx={{ fontSize: 15, color:"#5C6BC0 " }}
+                style={{ fontSize: 15, color:"#5C6BC0 " }}
               >
                 {showAll ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 {showAll ? "Hide" : "Show More"}
@@ -1003,19 +1044,25 @@ const handleExpand = (event) => {
             )}
           </div>
           <div className="job-location">
-            <h3>Locations</h3>
-            <Box className="scroll" style={{ width: "100%", height: 250, overflow: "auto" }}>
-  <List>
-    {locations.map((location, index) => (
-      <ListItemButton key={index} onClick={() => handleLocationClick(index)}>
-        <Checkbox color="secondary" style={{ padding: "2px" }} checked={location.selected} />
-        <ListItemText primary={<span style={{ textTransform: "capitalize", fontSize: "14px" }}>{location.location}</span>} />
-      </ListItemButton>
-    ))}
-  </List>
-</Box>
-          </div>
-
+      <h3 style={{ marginBottom: '15px' }}>Locations</h3>
+      <Box className="scroll" style={{ width: "100%", height: 250, overflow: "auto" }}>
+        {locationLoading ? (
+           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+           <FadeLoader color="#1A237E" />
+         </div>
+        ) : (
+          <List style={{ width: '100%' }}>
+            {locations.map((location, index) => (
+              <ListItemButton key={index} onClick={() => handleLocationClick(index)}>
+                <Checkbox color="secondary" style={{ padding: "5px" }} checked={location.selected} />
+                <ListItemText primary={<span style={{ textTransform: "capitalize", fontSize: "14px" }}>{location.location}</span>} />
+              </ListItemButton>
+            ))}
+          </List>
+        )}
+      </Box>
+    </div>
+   
           <div className="job-employment">
             <h3> Employment Type </h3>
 
@@ -1025,7 +1072,7 @@ const handleExpand = (event) => {
                 style={{ marginLeft: "1rem"}}
                 name="employment-type"
                 value={selectedEmploymentType}
-                onChange={handleEmploymentTypeChange}
+                // onChange={handleEmploymentTypeChange}
                 defaultValue=""
               >
                 {employmentType.map((type, index) => (
@@ -1033,7 +1080,10 @@ const handleExpand = (event) => {
                   style={{padding:"0px"}}
                     key={index}
                     value={type}
-                    control={<Radio color="secondary" />}
+                    control={<Radio
+                      checked={selectedEmploymentType === type}
+                      onClick={() => handleEmploymentTypeChange(type)}
+                      color="secondary" />}
                     label={<span style={{ fontSize: "14px" }}>{type}</span>}
                   />
                 ))}
@@ -1043,7 +1093,12 @@ const handleExpand = (event) => {
 
           <div className="job-roles">
   <h3 style={{ marginTop: 0,marginBottom:'15px' }}>Job Roles</h3>
-  <Box className="scroll" sx={{ width: "100%", height: 270, overflow: "auto" }}>
+  <Box className="scroll" style={{ width: "100%", height: 270, overflow: "auto" }}>
+  {locationLoading ? (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+    <FadeLoader color="#1A237E" />
+  </div>
+        ) : (
     <List>
       {jobRoles.map((role, index) => (
         <ListItemButton key={index} onClick={() => handleRoleClick(index)}>
@@ -1052,6 +1107,7 @@ const handleExpand = (event) => {
         </ListItemButton>
       ))}
     </List>
+     )}
   </Box>
 </div>
 
@@ -1059,18 +1115,21 @@ const handleExpand = (event) => {
           <div className="job-salary">
             <h3>Salary Range</h3>
             <RadioGroup
-  style={{ marginLeft: "1rem" }}
-  name="salary-type"
-  value={selectedSalaryType}
-  onChange={handleSalaryTypeChange}
->
-  {render.map((type, index) => (
+              style={{ marginLeft: "1rem" }}
+              name="salary-type"
+              value={selectedSalaryType}
+              // onChange={handleSalaryTypeChange}
+            >
+          {render.map((type, index) => (
     <FormControlLabel
       style={{ padding: "0px" }}
       key={index}
       value={type}
-      control={<Radio color="secondary" />}
-      label={<span style={{ fontSize: "14px" }}>{type}</span>} // Decrease font size here
+      control={<Radio 
+        checked={selectedSalaryType === type}
+        onClick={() => handleSalaryTypeChange(type)}
+        color="secondary" />}
+      label={<span style={{ fontSize: "14px",padding:'5px' }}>{type}</span>} // Decrease font size here
     />
   ))}
 </RadioGroup>
@@ -1078,7 +1137,7 @@ const handleExpand = (event) => {
               <IconButton
                 onClick={() => setShow(!Show)}
                 color="primary"
-                sx={{ fontSize: 15, color:"#5C6BC0" }}
+                style={{ fontSize: 15, color:"#5C6BC0" }}
               >
                 {Show ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 {Show ? "Hide" : "Show More"}
@@ -1086,16 +1145,182 @@ const handleExpand = (event) => {
             )}
           </div>
           <div className="filter-btn">
-          <Button variant="outlined" style={{ color: 'white', backgroundColor: '#5C6BC0' }} onClick={ApplyFilters}>Apply Filters</Button>
-          <Button style={{marginLeft:"1rem"}} variant="outlined" color="error" onClick={handleReset}>
+          <Button variant="outlined"
+         style={{ color: 'white',
+         marginLeft:'-10px',
+         width: '130px',
+         borderRadius: '10px', // Rounded corners
+         padding: '5px 10px', // Padding
+         fontSize: '16px', // Font size
+         textTransform: 'none', // Disable text transformation
+         boxShadow: 'none',
+         border: 'none',
+         backgroundColor: '#303F9F',
+         '&:hover': {
+           backgroundColor: '#1A237E', // Change background color on hover
+           color: 'white',
+         },
+        }} 
+         onClick={ApplyFilters}>Apply Filters</Button>
+          <Button  
+           style={{ 
+            marginLeft:'120px',
+            color: 'white',
+         width: '100px',
+         borderRadius: '10px', // Rounded corners
+         padding: '5px', // Padding
+         fontSize: '16px', // Font size
+         textTransform: 'none', // Disable text transformation
+         boxShadow: 'none',
+         border: 'none',
+         backgroundColor: '#303F9F',
+         '&:hover': {
+           backgroundColor: '#1A237E', // Change background color on hover
+           color: 'white',
+         },
+        }} 
+         variant="outlined" color="error" onClick={handleReset}>
           Reset
         </Button>
           </div>
         </div>
       </Grid>
       <Grid item xs={8} sm={8} md={8} xl={8}>
+
+  <div>
+      {jobDetailsloading ? (
+        <div className="loading" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh', marginTop: '50px', marginLeft: '-100px' }}>
+          <ul>
+            <li>
+              <HashLoader height={100} width={100} color="#1A237E" ariaLabel="grid-loading" radius="12.5" wrapperStyle={{}} wrapperClass="grid-wrapper" />
+            </li>
+          </ul>
+        </div>
+      ) : (
+        currentJobs && currentJobs.length > 0 && (
+          <div className="job-result" style={{ marginTop: '180px' }}>
+            {currentJobs.map((job, index) => (
+              <div key={index} className="job-box">
+                <div onClick={() => handleJobSelect(job)}>
+                  <div className="job-top">
+                    <div className="company-img">
+                      {job.company_logo_path && job.company_logo_path.includes('data:image') ? (
+                        <img src={job.company_logo_path} alt="Company Logo" />
+                      ) : (
+                        <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.company_logo_path}`} alt="Company Logo" />
+                      )}
+                    </div>
+                    <div className="job-heading">
+                      <div>{job.job_title}</div>
+                      <div className="company-name1">{job.company_name}</div>
+                    </div>
+                  </div>
+
+                  <div className="brief" style={{ marginBottom: '8px', whiteSpace: 'nowrap', overflow: 'hidden', maxWidth: '650px', textOverflow: 'ellipsis' }}>
+                    <span className="brief-label"><BsFileEarmarkTextFill /> Job Description: </span> {job.job_description}
+                  </div>
+
+                  <div style={{ display: 'inline-block', gap: '10px' }}>
+                    <div className="job-brief">
+                      <span className="brief-label"><FaLocationDot /></span>
+                      {job.location && job.location.map((location, index) => (
+                        <span key={index} className="brief11" style={{ marginRight: '5px' }}>{location}</span>
+                      ))}
+                    </div>
+                    <div className="job-brief">
+                      <span className="brief-label"><FaIndianRupeeSign /></span> {job.salary_range}
+                    </div>
+                    <div className="job-brief">
+                      <span className="brief-label"><BsFillBagCheckFill /></span> {job.experience}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', marginTop: "5px" }}>
+                    <div className="job-brief">
+                      <span className="brief-label"><BsFillFileCheckFill /> Job Role: </span>{job.job_role}
+                    </div>
+                    <div className="job-brief">
+                      <span className="brief-label"><BsPersonFillCheck /> Openings: </span>{job.no_of_vacancies}
+                    </div>
+                  </div>
+                  <div className="brief2" style={{ marginBottom: "10px" }}>
+                    <span className="brief-label"><BsPersonSquare /> Employee Type: </span>{job.employee_type}
+                  </div>
+                </div>
+
+                {/* Bottom of the job */}
+                <div style={{ backgroundColor: '#a2beda', padding: "10px", margin: "0 -20px -20px -20px", borderRadius: "10px", cursor: "default" }}>
+                  <div className="filter-skill-set">
+                    {job.skills && job.skills.map((skill, index) => (
+                      <span key={index} className="skill">
+                        <span className="filter-skill-text">{skill}</span>
+                      </span>
+                    ))}
+                  </div>
+                  <div className="created-at">
+                    <span className="brief-label1"><FaClockRotateLeft /><span className="text"> {job.created_at} ago </span></span>
+                    <span className="save-icon" style={{ cursor: "pointer" }} onClick={() => handleBookmark(job.id)}>
+                      {bookmarkedJobs.includes(job.id) ? <BsFillBookmarkCheckFill /> : <BsFillBookmarksFill />}
+                      {bookmarkedJobs.includes(job.id) ? 'Saved' : 'Save'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )
+      )}
+
+      {!jobDetailsloading && (
+        <div style={{ position: 'relative', marginTop: 'auto', padding: '5px 100px 0px 0px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '0 50px',marginBottom:"20px",marginTop:'-10px' }}>
+            {currentPage > 1 ? (
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#5C6BC0",
+                  color: "white",
+                  width: '30px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius:'10px'
+                }}
+                onClick={() => paginate(currentPage - 1)}
+              >
+                <NavigateBeforeIcon />
+              </Button>
+            ) : (
+              <div style={{ width: '30px' }}></div> // Placeholder to keep space when no button
+            )}
+
+            {indexOfLastJob < FilteResultData.length ? (
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "#5C6BC0",
+                  color: "white",
+                  width: '50px',
+                  height: '40px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius:'10px'
+                }}
+                onClick={() => paginate(currentPage + 1)}
+                disabled={indexOfLastJob >= FilteResultData.length}
+              >
+                <NavigateNextIcon />
+              </Button>
+            ) : (
+              <div style={{ width: '50px' }}></div> // Placeholder to keep space when no button
+            )}
+          </div>
+        </div>
+      )}
+    </div>
         
-  {noDataFound &&
+    {noDataFound &&
   <div style={{marginTop:'200px',marginLeft:'-100px'}}>
   {/* <h1>No Result Found</h1> */}
   <div className="dashboardemployeerAccount" style={{marginTop:'75px',marginBottom:"-30px"}}>
@@ -1107,109 +1332,10 @@ const handleExpand = (event) => {
             style={{ borderRadius: "10px" }} 
           />
           <br />
-          <h5 className='dashboardemployeererrorText'>No Result Found..!</h5>
+          <h5 className='dashboardemployeererrorText'>No Job Found..!</h5>
         </div>
         </div>
   </div>}
-       {currentJobs && currentJobs !== "" &&
-        <div className="job-result" style={{ marginTop: '200px' }}>
-        {currentJobs.map((job, index) => (
-          <div key={index} className="job-box" >
-            <div onClick={() => handleJobSelect(job)} >
-              <div className="job-top">
-                <div className="company-img">
-                  {job.company_logo_path && job.company_logo_path.includes('data:image') ? (
-                    <img src={job.company_logo_path} alt="Company Logo" />
-                  ) : (
-                  <img src={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${job.company_logo_path}`} alt="Company Logo" />
-                  )}
-                </div>    
-                <div className="job-heading">
-                  <div>{job.job_title}</div>
-                  <div className="company-name1">{job.company_name}</div>
-                </div>
-              </div>
-
-                <div className="brief" style={{ marginBottom: '8px', whiteSpace: 'nowrap', overflow: 'hidden',maxWidth:'650px', textOverflow: 'ellipsis' }}>
-                  <span className="brief-label"><BsFileEarmarkTextFill/> Job Description : </span> {job.job_description}
-                </div>
-            
-               <div style={{ display: 'inline-block', gap: '10px' }}>
-                  <div className="job-brief">
-                    <span className="brief-label"><FaLocationDot  icon={faMapMarkerAlt} /></span>
-                      {job.location && job.location.map((location, index) => (
-                      <span key={index} className="brief11" style={{ marginRight: '5px' }}>{location}</span>
-                      ))}
-                  </div>
-                  <div className="job-brief">
-                    <span className="brief-label"><FaIndianRupeeSign icon={faMoneyBillAlt} /></span> {job.salary_range}
-                   </div>
-                  <div className="job-brief">
-                      <span className="brief-label"><BsFillBagCheckFill /></span> {job.experience}
-                   </div>
-                  </div>
-                  <div style={{ display: 'flex',marginTop:"5px" }}> 
-                     <div className="job-brief">
-                        <span className="brief-label"><BsFillFileCheckFill/> Job Role : </span>{job.job_role}
-                  </div>  
-                  <div className="job-brief">
-                    <span className="brief-label"><BsPersonFillCheck icon={faBuilding} /> Openings : </span>{job.no_of_vacancies}
-                    </div>
-                    </div>
-                  <div className="brief2" style={{marginBottom:"10px" }}>
-                    <span className="brief-label"><BsPersonSquare  icon={faBuilding} /> Employee Type : </span>{job.employee_type}
-                  </div>         
-            </div>
-
-              {/* Bottom of the job */}
-              <div style={{ backgroundColor: '#a2beda',padding:"10px", margin: "0 -20px -20px -20px",borderRadius:"10px", cursor:"default" }}>
-              <div className="filter-skill-set">
-                {job.skills && job.skills.map((skills, index) => (
-                  // <span key={index} className="brief11" style={{ marginRight: '5px' }}>{skills}</span>
-                  <span key={index} className="skill">
-                  <span className="filter-skill-text">{skills}</span>
-                </span>
-                ))}
-              </div>  
-              <div className="created-at">
-                  <span className="brief-label1"><FaClockRotateLeft icon={faBuilding} /><span className="text"> {job.created_at} ago </span></span> 
-                  <span className="save-icon" style={{cursor:"pointer"}} onClick={() => handleBookmark(job.id)} > 
-                  {bookmarkedJobs.includes(job.id) ? <BsFillBookmarkCheckFill /> : <BsFillBookmarksFill />}
-                  {bookmarkedJobs.includes(job.id) ? 'Saved' : 'Save'}
-                  </span>
-                </div>           
-              </div>          
-          </div>
-        ))}
-        </div> }
-
-        
- {PageButton && (
-  <div style={{ position: 'relative', marginTop: 'auto', padding: '5px 100px' }}>
-  <div style={{ display: 'flex', justifyContent: 'space-between', margin: '0px 50px 0px 0px' }}>
-    <Button
-      variant="contained"
-      style={{ backgroundColor: "#5C6BC0", color: "white", width: '30px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      onClick={() => paginate(currentPage - 1)}
-      disabled={currentPage === 1}
-    >
-      <NavigateBeforeIcon />
-    </Button>
-    <Button
-      variant="contained"
-      style={{ backgroundColor: "#5C6BC0", color: "white", width: '50px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-      onClick={() => paginate(currentPage + 1)}
-      disabled={indexOfLastJob >= FilteResultData.length}
-    >
-      <NavigateNextIcon />
-    </Button>
-  </div>
-</div>
-
- 
-  )}
-  
-
       
       </Grid>
     </Grid>

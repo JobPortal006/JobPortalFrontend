@@ -1098,7 +1098,7 @@ console.log(employeer_register, 'employeer_register------------->');
                 },
             }}
             >
-              LogIn
+              Login
             </Button>
             <Divider style={{ textAlign: "center", color: "#1A237E", borderColor: "#1A237E !important" }}>
               {validation.Context.five}

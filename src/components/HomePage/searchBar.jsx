@@ -490,8 +490,8 @@ import { BeatLoader, PacmanLoader, ScaleLoader } from 'react-spinners';
 import { css } from '@emotion/react';
 import './HomeDesign.css'
 import BASE_URL from '../CommonAPI';
-import { useDispatch } from 'react-redux';
-import { setSearchResponse } from '../actions';
+// import { useDispatch } from 'react-redux';
+// import { setSearchResponse } from '../actions';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -614,8 +614,8 @@ const SearchBar = ({ isJobSearchPage }) => {
   const [experienceError, setExperienceError] = useState(false);
   const [expandedAnchorEl, setExpandedAnchorEl] = useState(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-console.log(isJobSearchPage,'isJobSearchPage-------');
+  // const dispatch = useDispatch();
+// console.log(isJobSearchPage,'isJobSearchPage-------');
   useEffect(() => {
     async function fetchLocationSuggestions(input) {
       try {
@@ -693,7 +693,7 @@ console.log(isJobSearchPage,'isJobSearchPage-------');
   const { oneData, setData } = useContext(UserContext);
   const { searchJob, setsearchJob,setcompanyList } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
-  console.log(searchJob, '=======>user context true');
+  // console.log(searchJob, '=======>user context true');
   const token = localStorage.getItem('loginToken');
   const handleSearch = async () => {
     let isError = false;
@@ -702,7 +702,7 @@ console.log(isJobSearchPage,'isJobSearchPage-------');
     if (searchValue.trim() === '' && skillValues.length === 0 && experienceValue.trim() === '') {
       // If none of the fields are filled, show an alert
       // alert('Please fill in at least one field');
-      toast.error('Please fill at least one of the field.', { position: toast.POSITION.TOP_CENTER });
+      toast.error('Please select any one text field.', { position: toast.POSITION.TOP_CENTER });
 
       isError = true;
     }
@@ -729,37 +729,43 @@ console.log(isJobSearchPage,'isJobSearchPage-------');
         const sarchdata = await response.json();
         const searchResponse = sarchdata.data;
 
-        localStorage.setItem("Search_result", JSON.stringify(searchResponse));
-        const storedDataToUse = JSON.parse(localStorage.getItem("Search_result"));
-        console.log(storedDataToUse, 'storedDataToUse------->');
-        // Check if storedDataToUse is equal to dataToUse
-        if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(searchResponse)) {
-          // If equal, set resultdataToUse to storedDataToUse
-          localStorage.setItem("Search_result", JSON.stringify(searchResponse));
-          localStorage.removeItem("Company_result");
-          localStorage.removeItem("Filter_result");
-          localStorage.removeItem("Employee_type_result");
-        } else {
-          // If not equal, remove the previous dataToUse from localStorage
-          localStorage.removeItem("Employee_type_result");
-          localStorage.removeItem("Filter_result");
-          localStorage.removeItem("Company_result");
-          // Update localStorage with the new dataToUse
-          localStorage.removeItem("Search_result");
-          localStorage.setItem("Search_result", JSON.stringify(searchResponse));
-        }
-
         console.log(searchResponse, "=========Searchresponse");
         console.log(sarchdata.status, "SearchJob-Status===>");
         if (sarchdata.status === true) {
           // alert("Job not Found")
           // window.location.reload();
-          navigate('/Filter');
-          localStorage.setItem("Filter_response", JSON.stringify(searchResponse));
-          const storedResultResponse = JSON.parse(localStorage.getItem("Filter_response"));
-          console.log(storedResultResponse,'storedResultResponse--------');
+          localStorage.setItem("Search_result", JSON.stringify(searchResponse));
+        const storedDataToUse = JSON.parse(localStorage.getItem("Search_result"));
+        console.log(storedDataToUse, 'storedDataToUse------->');
+          if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(searchResponse)) {
+            // If equal, set resultdataToUse to storedDataToUse
+            localStorage.setItem("Search_result", JSON.stringify(searchResponse));
+            localStorage.removeItem("Company_result");
+            localStorage.removeItem("Filter_result");
+            localStorage.removeItem("Employee_type_result");
+          } else {
+            // If not equal, remove the previous dataToUse from localStorage
+            localStorage.removeItem("Employee_type_result");
+            localStorage.removeItem("Filter_result");
+            localStorage.removeItem("Company_result");
+            // Update localStorage with the new dataToUse
+            localStorage.removeItem("Search_result");
+            // localStorage.setItem("Search_result", JSON.stringify(searchResponse));
+          }
+          localStorage.setItem("No_result", JSON.stringify(false));
+          navigate('/Filter');  
+          // localStorage.setItem("Filter_response", JSON.stringify(searchResponse));
+          // const storedResultResponse = JSON.parse(localStorage.getItem("Filter_response"));
+          // console.log(storedResultResponse,'storedResultResponse--------');
         } else {
-          alert("Job not Found")
+          // alert("Job not Found")
+          localStorage.removeItem("Employee_type_result");
+            localStorage.removeItem("Filter_result");
+            localStorage.removeItem("Company_result");
+            // Update localStorage with the new dataToUse
+            localStorage.removeItem("Search_result");
+             localStorage.setItem("No_result", JSON.stringify(true));
+            navigate('/Filter');  
           // window.location.reload();
           // const storedResultResponse =localStorage.setItem("Filter_response", JSON.stringify(searchResponse));
           // console.log(storedResultResponse,'storedResultResponse--------');
@@ -782,7 +788,7 @@ console.log(isJobSearchPage,'isJobSearchPage-------');
         setSearchValue('');
         setSkillValues([]);
         setExperienceValue('');
-        dispatch(setSearchResponse(searchResponse));
+        // dispatch(setSearchResponse(searchResponse));
 
         if (searchJob !== null) {
           setsearchJob(searchResponse)
@@ -820,8 +826,15 @@ console.log(isJobSearchPage,'isJobSearchPage-------');
     <>
 
       <div className={isJobSearchPage ? classes.jobSearchRoot : classes.root}>
-        <p className='lineFour'>Discover 50 lakh+ career opportunities</p>
-        <div className={isJobSearchPage ? classes.jobSearchContainer : classes.searchContainer}>
+        <p className='lineFour'>Search Jobs. ApplyJobs. Get Ready For The Call.</p>
+        <div
+  className={isJobSearchPage ? classes.jobSearchContainer : classes.searchContainer}
+  style={{
+    transitionDelay: '2s',
+    transition: '2s ease-in',
+    animation: 'fadeIn 2s linear'
+  }}
+>
 
           <Autocomplete
             multiple

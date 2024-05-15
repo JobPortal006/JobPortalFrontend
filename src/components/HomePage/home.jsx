@@ -10,6 +10,8 @@ import { JobCard } from './JobCard';
 import Bottompage from './Bottom';
 import BASE_URL from '../CommonAPI';
 import LoginExpired from "../Login Image/Login Expired.jpg"
+import { useContext } from 'react';
+import UserContext from '../Sprint 2/contextFilter';
 const Home = () => {
   // const navigate = useNavigate();
   // const token = localStorage.getItem('googleToken');
@@ -36,77 +38,83 @@ const googleToken = localStorage.getItem("googleSecondToken")
 const [user_account_creation, setUserAccountCreation] = useState(false);
   const [login_expired, setLoginExpired] = useState(false);
   const [employeer_account_creation, setEmployeerAccountCreation] = useState(false);
+const {setUseEmail} = useContext(UserContext)
+
+useEffect(()=>{
+  setUseEmail(null)
+},[]);
+
 console.log(token,'token----------->');
 console.log(googleToken,'googleToken----------->');
-var result_token = ''
-if (token){
-  result_token = token
-} else{
-  result_token = googleToken
-}
+// var result_token = ''
+// if (token){
+//   result_token = token
+// } else{
+//   result_token = googleToken
+// }
 // Check if the token exists before making the API call
-if (result_token) {
-  const requestOptions = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ result_token }),
-  };
-  if (register_by === 'User'){
-  fetch(`${BASE_URL}/user_account_creation_check/`, requestOptions)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data, 'user_account_creation_check-------');
-      if (data.statusCode === 400){
-        setLoginExpired(true)
-      }
-      else{
-      if (data.status) {
-        setUserAccountCreation(true);
-      } else {
-        setUserAccountCreation(false);
-      }
-    }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
-   if (register_by === 'Recruiter'){
-    fetch(`${BASE_URL}/employeer_account_creation_check/`, requestOptions)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data, 'employeer_account_creation_check-------');
-      if (data.statusCode === 400){
-        setLoginExpired(true)
-      }
-      else{
-      if (data.status) {
-        setEmployeerAccountCreation(true);
-      } else {
-        setEmployeerAccountCreation(false);
-      }
-    }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  }
-} else {
-  // Handle the case where the token is missing
-  console.error('No token found in local storage');
-}
+// if (result_token) {
+//   const requestOptions = {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify({ result_token }),
+//   };
+//   if (register_by === 'User'){
+//   fetch(`${BASE_URL}/user_account_creation_check/`, requestOptions)
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error('Failed to fetch data');
+//       }
+//       return response.json();
+//     })
+//     .then(data => {
+//       console.log(data, 'user_account_creation_check-------');
+//       if (data.statusCode === 400){
+//         setLoginExpired(true)
+//       }
+//       else{
+//       if (data.status) {
+//         setUserAccountCreation(true);
+//       } else {
+//         setUserAccountCreation(false);
+//       }
+//     }
+//     })
+//     .catch(error => {
+//       console.error('Error:', error);
+//     });
+//   }
+//    if (register_by === 'Recruiter'){
+//     fetch(`${BASE_URL}/employeer_account_creation_check/`, requestOptions)
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error('Failed to fetch data');
+//       }
+//       return response.json();
+//     })
+//     .then(data => {
+//       console.log(data, 'employeer_account_creation_check-------');
+//       if (data.statusCode === 400){
+//         setLoginExpired(true)
+//       }
+//       else{
+//       if (data.status) {
+//         setEmployeerAccountCreation(true);
+//       } else {
+//         setEmployeerAccountCreation(false);
+//       }
+//     }
+//     })
+//     .catch(error => {
+//       console.error('Error:', error);
+//     });
+//   }
+// } else {
+//   // Handle the case where the token is missing
+//   console.error('No token found in local storage');
+// }
 const navigate = useNavigate();
 const handleLoginClick = () => {
   localStorage.clear();
@@ -127,12 +135,15 @@ const handleLoginClick = () => {
 </div>
     ) : (
       <div>
-      <HomeDesign />
-      <div className="background-div" style={{ marginTop: '2px' }}>
+      {/* <HomeDesign /> */}
+      <div className="background-div" style={{ marginTop: '50px' }}>
       <SearchBox />
      </div>
-
+      <div style={{ transitionDelay: '2s',
+    transition: '2s ease-in',
+    animation: 'fadeIn 2s linear'}}>
       <Companylist />
+      </div>
       <JobCard />
       <Bottompage />
 

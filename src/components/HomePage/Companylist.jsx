@@ -328,7 +328,7 @@ import UserContext from '../Sprint 2/contextFilter';
 import { Divider } from '@material-ui/core';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import BASE_URL from '../CommonAPI';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { setCompanyResponse } from '../actions';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
@@ -343,7 +343,7 @@ const Companylist = () => {
   const [startIndex, setStartIndex] = useState(0); // State to track the index of the first item to display
   const navigate = useNavigate();
   const { companyList, setcompanyList, setsearchJob, setData } = useContext(UserContext);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   useEffect(() => {
     // Fetch data from the API when the component mounts
@@ -377,14 +377,13 @@ const Companylist = () => {
           company_name: companyName,token
         })
       });
-      console.log(response,"response-company-data");
+      // console.log(response,"response-company-data");
       const companydata = await response.json();
       console.log(companydata, 'companydata---------->123');
-      console.log(companydata.status,"company name ");
+      console.log(companydata.status,"company status ");
       const company_response_result = companydata.data;
      
       if (companydata.status === false) {
-        console.log(companydata.status,"company name else");
           // alert('Failed to send data to the server');
           localStorage.setItem("No_result", JSON.stringify(true));
           navigate('/Filter');  // Move navigate here
@@ -419,7 +418,7 @@ const Companylist = () => {
         setcompanyList(companydata);
         setsearchJob(false);
         setData(false);
-        dispatch(setCompanyResponse(companydata.data));
+        // dispatch(setCompanyResponse(companydata.data));
     } 
       // setcompanyList(data);
     } catch (error) {

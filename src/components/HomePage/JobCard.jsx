@@ -52,26 +52,41 @@ export const JobCard = () => {
       console.log(response.data);
       setJobData(response.data);
 
-      const employee_type_response_result = response.data
-      localStorage.setItem("Employee_type_result", JSON.stringify(employee_type_response_result));
-      const storedDataToUse = JSON.parse(localStorage.getItem("Employee_type_result"));
-      console.log(storedDataToUse, 'storedDataToUse------->');
-      // Check if storedDataToUse is equal to dataToUse
-      if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(employee_type_response_result)) {
-        // If equal, set resultdataToUse to storedDataToUse
+      const employee_type_response_result = response.data.data
+      console.log(employee_type_response_result,'employee_type_response_result-----');
+      const employee_type_response_status = response.data.status
+      console.log(employee_type_response_status,'employee_type_response_result--status');
+      if (employee_type_response_status === true){
         localStorage.setItem("Employee_type_result", JSON.stringify(employee_type_response_result));
-        localStorage.removeItem("Search_result");
-          localStorage.removeItem("Filter_result");
-          localStorage.removeItem("Company_result");
-      } else {
-        // If not equal, remove the previous dataToUse from localStorage
-        localStorage.removeItem("Employee_type_result");
-        localStorage.removeItem("Search_result");
-          localStorage.removeItem("Filter_result");
-          localStorage.removeItem("Company_result");
-        // Update localStorage with the new dataToUse
-        localStorage.setItem("Employee_type_result", JSON.stringify(employee_type_response_result));
+        const storedDataToUse = JSON.parse(localStorage.getItem("Employee_type_result"));
+        console.log(storedDataToUse, 'storedDataToUse------->');
+        // Check if storedDataToUse is equal to dataToUse
+        if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(employee_type_response_result)) {
+          // If equal, set resultdataToUse to storedDataToUse
+          localStorage.setItem("Employee_type_result", JSON.stringify(employee_type_response_result));
+          localStorage.removeItem("Search_result");
+            localStorage.removeItem("Filter_result");
+            localStorage.removeItem("Company_result");
+        } else {
+          // If not equal, remove the previous dataToUse from localStorage
+          localStorage.removeItem("Employee_type_result");
+          localStorage.removeItem("Search_result");
+            localStorage.removeItem("Filter_result");
+            localStorage.removeItem("Company_result");
+          // Update localStorage with the new dataToUse
+          localStorage.setItem("Employee_type_result", JSON.stringify(employee_type_response_result));
+        }
+        localStorage.setItem("No_result", JSON.stringify(false));
+        navigate('/Filter');
       }
+     else{
+      localStorage.setItem("No_result", JSON.stringify(true));
+      navigate('/Filter');  // Move navigate here
+      localStorage.removeItem("Company_result");
+      localStorage.removeItem("Search_result");
+      localStorage.removeItem("Filter_result");
+      localStorage.removeItem("Employee_type_result");
+     }
 
       if (jobData !== null) {
         setJobData(response.data)
