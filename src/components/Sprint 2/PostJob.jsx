@@ -205,6 +205,9 @@ const PostJob = () => {
 
     // If form is valid, submit data
     const token = localStorage.getItem("loginToken");
+    const googleToken = localStorage.getItem("googleSecondToken")
+    const otpToken = localStorage.getItem("otpToken")
+    let result_token = token || googleToken || otpToken;
       const jobPostData = {
         ...jobPost,
         // email : jobEmail,
@@ -216,7 +219,7 @@ const PostJob = () => {
         salary_range : salary,
         additional_queries : additionalQueries,
         location : selectedLocation,
-        token:token
+        token:result_token
     };
 
       console.log(jobPostData);
@@ -288,6 +291,10 @@ const PostJob = () => {
 
   useEffect(()=>{
     const token = localStorage.getItem("loginToken")
+    const googleToken = localStorage.getItem("googleSecondToken")
+    const otpToken = localStorage.getItem("otpToken")
+    let result_token = token || googleToken || otpToken;
+    
     const postLocation = async () =>{
       try{
       const response = await fetch(`${BASE_URL}/address_location/`,
@@ -296,7 +303,7 @@ const PostJob = () => {
         headers:{
           "Content-Type":"application/josn",
         },
-        body : JSON.stringify({token})
+        body : JSON.stringify({result_token})
       }  
       );
 

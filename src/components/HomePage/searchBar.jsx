@@ -850,7 +850,7 @@ const SearchBar = ({ isJobSearchPage }) => {
                 {...params}
                 className={classes.searchInput}
                 variant="standard"
-                label="Search-skills/Title"
+                label="Skills/Title"
                 color="secondary"
                 // required
                 error={skillError && skillValues.length === 0}
@@ -900,7 +900,7 @@ const SearchBar = ({ isJobSearchPage }) => {
                 {...params}
                 className={classes.searchInput}
                 variant="standard"
-                label="Search-location"
+                label="Location"
                 color="secondary"
                 // required
                 error={locationError && searchValue.trim() === ''}
@@ -926,7 +926,7 @@ const SearchBar = ({ isJobSearchPage }) => {
                 {...params}
                 className={classes.searchInput}
                 variant="standard"
-                label="Search-experience"
+                label="Experience"
                 color="secondary"
                 // required
                 error={experienceError && experienceValue.trim() === ''}

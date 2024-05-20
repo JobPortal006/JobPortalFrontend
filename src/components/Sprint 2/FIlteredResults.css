@@ -16,7 +16,8 @@
   padding: 20px;
   margin-bottom: 20px;
   width: 100%;
-  max-width: 700px;
+  max-width: 600px;
+  margin-left: -200px;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -78,6 +79,7 @@
 }
 .skill_set:after {
   content: ' \007C';
+  color: rgb(197, 6, 6);
   background-color: #E8EAF6;
 }
 .brief11:not(:last-child)::after {
@@ -89,7 +91,7 @@
   content: none; /* This ensures no bullet is added after the last skill */
 }
 .filter-skill-set{
-  margin-bottom: -10px;
+  margin-bottom: -20px;
 }
 .filter-skill-text {
   display: inline-block;
@@ -143,8 +145,8 @@
 }
 
 .company-img {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 40%;
   /* border: 2px solid #fff; */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

@@ -645,6 +645,7 @@ import { FaWindows } from "react-icons/fa";
 import { height } from "@mui/system";
 import { useDispatch } from 'react-redux';
 import { setUserResultRegister, setEmployeerResultRegister } from '../actions.js';
+import { CheckCircle } from '@mui/icons-material';
 
 const LogIn = () => {
   const dispatch = useDispatch();
@@ -669,12 +670,20 @@ const LogIn = () => {
   const [rememberMe, setRememberMe] = React.useState(false);
   const [outputData, setOutputData] = React.useState("");
 
-  const { useEmail,setUseEmail} = useContext(UserContext);
+  const { useEmail,setUseEmail,usePassword, setUsePassword,loginAlert, setLoginAlert} = useContext(UserContext);
   console.log(useEmail,"useEmail");
+  console.log(usePassword,"usePassword");
+  const [alertStyle, setAlertStyle] = useState({ display: 'none' });
 
   const [value, setValue] = React.useState("");
   console.log(value,"<=====valueGoogle");
 
+  // const LoginAlert = () => {
+  //   return (
+     
+  //   );
+  // };
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
   const googleClick = async () => {
 
     const data = await signInWithPopup(auth, provider);
@@ -692,13 +701,8 @@ const LogIn = () => {
 
       const googleData = await response.json()
       console.log(googleData,"<====googleData");
-
-      localStorage.setItem("googleSecondToken", googleData.message.token)
-      console.log(googleData.message.token,"<====GoogleSecondToken");
-      localStorage.setItem("email", data.user.email);
-      localStorage.setItem("googleToken", data._tokenResponse.oauthAccessToken);
-      localStorage.setItem("registered_by",googleData?.message?.registered_by);
-      // localStorage.setItem()
+      await delay(3000); 
+    
   
       const googleToken = localStorage.getItem("googleToken");
       // const googlemail = localStorage.getItem("email");
@@ -709,10 +713,20 @@ const LogIn = () => {
      
 
       if (googleData.status !== false && data._tokenResponse.oauthAccessToken !== undefined) {
-        
-        navigate("/home");
-        // window.location.reload()
-        
+        // Set loginAlert to true to display the login alert
+        setLoginAlert(true);
+        await delay(3000); 
+        localStorage.setItem("googleSecondToken", googleData.message.token)
+        console.log(googleData.message.token,"<====GoogleSecondToken");
+        localStorage.setItem("email", data.user.email);
+        // localStorage.setItem("googleSecondToken", data._tokenResponse.oauthAccessToken);
+        localStorage.setItem("registered_by",googleData?.message?.registered_by);
+        // localStorage.setItem()
+      // Wait for a short delay before displaying the login alert
+      // await delay(3000); 
+      // Display the login alert after navigating
+
+      navigate("/home");
       } else {
         toast.error("Register your Email")
         localStorage.clear();
@@ -722,60 +736,41 @@ const LogIn = () => {
         //       }
     } catch (error) {
       console.error(validation.Console.one, error.message);
+      if(error.code === "ERR_NETWORK"){
+        toast.error("Server Not Responding")
+      }
     }
   };
-    
+  const logintoken = localStorage.getItem('loginToken');
+  const googleToken = localStorage.getItem("googleSecondToken")
+  const otpToken = localStorage.getItem("otpToken")
+  let token = logintoken || googleToken || otpToken;
+  // useEffect(() => {
+  //   if (token) {
+  //     // Navigate to "/home" after displaying the login alert
+  //     localStorage.clear();
+  //   }
+  // }, [token]);
+  useEffect(() => {
+    console.log(loginAlert, 'loginAlert--');
+    if (loginAlert) {
+      // Update the alert style when loginAlert changes
+      setAlertStyle({ display: 'block' });
+      // Simulate navigation to "/home"
+      // setTimeout(() => {
+      //   navigate("/home");
+      // }, 2000); // Navigate after 2 seconds
+    }
+  }, [loginAlert,setLoginAlert,navigate]);
+  
+
 // Navigate to forget password
 const register_by = localStorage.getItem("registered_by");
-const [user_result_register, setUserResult_register] = useState(false);
-const [employeer_result_register, setEmployeerResult_register] = useState(false);
-const [demo_result_register, setDemoResult_register] = useState(true);
+// const [user_result_register, setUserResult_register] = useState(false);
+// const [employeer_result_register, setEmployeerResult_register] = useState(false);
+// const [demo_result_register, setDemoResult_register] = useState(true);
 const [user_register, setUser_register] = useState("");
 const [employeer_register, setEmployeer_register] = useState("");
-
-const [user_account_creation, setUserAccountCreation] = useState(false);
-const [employeer_account_creation, setEmployeerAccountCreation] = useState(false);
-
-
-useEffect(() => {
-  // Define the data to be sent in the request body
- 
-  const token = localStorage.getItem("loginToken")
-  // Define the options for the fetch request
-  const requestOptions = {
-    method: 'POST', // Set the request method to POST
-    headers: {
-      'Content-Type': 'application/json', // Set the content type of the request
-      // Add any additional headers here if needed
-    },
-    body: JSON.stringify({token:token}), // Convert requestData to JSON format and set it as the request body
-  };
-
-  // Fetch data from the API using the POST method
-  fetch(`${BASE_URL}/user_account_creation_check/`, requestOptions)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to fetch data');
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log(data, 'user_account_creation_check-------');
-      // Handle the response data here
-       if (data.status){
-        setUserAccountCreation(true)
-        setEmployeerAccountCreation(true)
-       }
-       else{
-        setUserAccountCreation(false)
-        setEmployeerAccountCreation(false)
-       }
-    })
-    .catch(error => {
-      // Handle errors here
-      console.error('Error:', error);
-    });
-}, []);
 
 console.log(register_by, 'register_by--------- login -------->');
 useEffect(() => {
@@ -786,20 +781,6 @@ useEffect(() => {
 console.log(user_register, 'user_register--------->');
 console.log(employeer_register, 'employeer_register------------->');
 
-  // if (user_register === "User") {
-  //   setUserResult_register(true);
-  //   setDemoResult_register(false);
-  // } else if (employeer_register === "Recruiter") {
-  //   setEmployeerResult_register(true);
-  //   setDemoResult_register(false);
-  // } else {
-  //   setUserResult_register(false);
-  //   setEmployeerResult_register(false);
-  //   setDemoResult_register(true);
-  // }
-
-
-  // Your component code
 
   const navbarCondition = () => {
     if (user_register === 'User') {
@@ -825,14 +806,13 @@ console.log(employeer_register, 'employeer_register------------->');
     navigate("/ForgetPassword");
   };
 
-  const token = localStorage.getItem("googleToken");
-  const otpToken = localStorage.getItem("otpToken");
 
-  useEffect(() => {
-    if (token !== null || otpToken !== null) {
-      navigate("/home");
-    }
-  });
+
+  // useEffect(() => {
+  //   if (token !== null || otpToken !== null) {
+  //     navigate("/home");
+  //   }
+  // });
 
   // Validations
   const handleLoginSubmit = async (event) => {
@@ -860,12 +840,14 @@ console.log(employeer_register, 'employeer_register------------->');
 
     try {
       const response = await axios.post(apiUrl, dataOne, headers);
-      localStorage.setItem("loginToken", response?.data?.message?.token);
-      localStorage.setItem("registered_by",response?.data?.message?.registered_by);
+    
       console.log("LoginToken========>", response.data.message.token);
 
       const outPut = response.data.status;
-      const storedToken = localStorage.getItem("loginToken");
+      // const token = localStorage.getItem("loginToken");
+      // const googleToken = localStorage.getItem("googleSecondToken")
+      // const otpToken = localStorage.getItem("otpToken")
+      // let storedToken = token || googleToken || otpToken;
       setOutputData(outPut);
       console.log(outPut, "post data response===>");
       console.log(dataOne);
@@ -876,7 +858,12 @@ console.log(employeer_register, 'employeer_register------------->');
         localStorage.clear();
       }
 
-      if (storedToken !== null && outPut === true) {
+      if (outPut === true) {
+        // toast.success('Login Successfully')
+        setLoginAlert(true)
+        await delay(3000);
+        localStorage.setItem("loginToken", response?.data?.message?.token);
+        localStorage.setItem("registered_by",response?.data?.message?.registered_by);
         navigate("/home");
         // window.location.reload();
         console.log("====================================");
@@ -894,6 +881,7 @@ console.log(employeer_register, 'employeer_register------------->');
     }
   };
 
+            
   const handleRememberMe = (event) => {
     setRememberMe(event.target.checked);
   };
@@ -908,16 +896,31 @@ console.log(employeer_register, 'employeer_register------------->');
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
-  return (
-    <div className="login-background">
-    <ThemeProvider theme={defaultTheme}>
-    <Toaster toastOptions={{ duration: 4000 }} /> 
-      <Container component="main" maxWidth="xs" className="main-login">
-        <CssBaseline />
-        <Box
-          sx={{
-           
+// console.log(loginAlert,'loginAlert--');
+//     if (loginAlert){
+//       return (
+//         <div className="login-alert-container">
+//         <div className="login-alert">
+//           LOGIN SUCCESSFUL
+//         </div>
+//       </div>
+//       );
+//     }
+    return (
+      <div className="login-background">
+         <div className="login-alert-container" style={alertStyle}>
+        <div className="login-alert">
+          <CheckCircle sx={{ color: '#4caf50', marginRight: '8px' }} />
+          LOGIN SUCCESSFUL
+        </div>
+      </div>
+      <ThemeProvider theme={defaultTheme}>
+      <Toaster toastOptions={{ duration: 4000 }} /> 
+        <Container component="main" maxWidth="xs" className="main-login">
+          <CssBaseline />
+          <Box
+            sx={{
+            
             marginTop: 8,
             display: "flex",
             flexDirection: "column",
@@ -1002,6 +1005,7 @@ console.log(employeer_register, 'employeer_register------------->');
               autoComplete={validation.style.fifteen}
               value={password}
               onChange={(e) => {
+                setUsePassword(e.target.value)
                 setPassword(e.target.value);
                 setPasswordError("");
               }}

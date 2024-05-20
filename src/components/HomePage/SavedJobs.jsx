@@ -161,10 +161,12 @@ useEffect(() => {
 console.log(bookmarkedJobs,'bookmarkedJobs---------');
    // 
    const token = localStorage.getItem("loginToken");
-
+   const googleToken = localStorage.getItem("googleSecondToken")
+   const otpToken = localStorage.getItem("otpToken")
+   let result_token = token || googleToken || otpToken;
    const handleBookmark = async (jobId) => {
        const bookmarkData = {
-           token,
+        result_token,
            job_id: jobId,
        };
    

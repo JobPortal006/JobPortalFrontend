@@ -1,6 +1,7 @@
 import React from 'react'
 import Registrationform from '../Regestrationform'
 import Userform from './userform'
+import UserForm1 from './userform1'
 
 
 const CreateAccount = () => {
@@ -8,7 +9,8 @@ const CreateAccount = () => {
     <div>
 
       {/* <Registrationform /> */}
-      <Userform />
+      {/* <Userform /> */}
+      <UserForm1 />
     </div>
   )
 }

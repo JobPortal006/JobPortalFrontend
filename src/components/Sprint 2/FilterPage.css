@@ -1,13 +1,45 @@
-.containerTop{
-  /* margin-top: -80px; */
+.container {
+  text-align: left; /* Ensure the container text aligns to the left */
 }
 
+.containerTop {
+  display: flex;
+  align-items: flex-start; /* Align items at the top */
+  justify-content: flex-start; /* Ensure items are justified to the start (left) */
+}
+
+.SearchbarContent {
+  text-align: left; /* Ensure the SearchbarContent text aligns to the left */
+}
+
+.containerTop{
+  margin-top: 20px;
+}
+
+.fixedDimensions {
+  width: 200px; /* Adjust the width as needed */
+  height: 50px; /* Adjust the height as needed */
+}
+
+.fixedInput {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+
+.SearchbarContent{
+  margin: 50px 100px 0px 80px;
+  /* background-color: #ffffff; */
+  width: 100%;
+}
 .job-filter {
   display: flex;
   flex-direction: column;
   /* background-color: #E8EAF6; */
-  margin: 15px;
-  margin-left: 30px;
+  /* margin: 15px;
+  margin-left: 30px; */
 }
 
 .job-filter h3{
@@ -132,10 +164,14 @@ h2 {
 }
 
 .filter-btn{
-  margin-bottom: 1rem;
-  margin-left: 1rem;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  /* margin-left: 1rem; */
 }
-
+.job-result{
+  margin-top: 20px;
+  margin-left: -80px;
+}
 
 
 

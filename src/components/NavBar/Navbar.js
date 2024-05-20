@@ -418,11 +418,13 @@ import LoginExpired from "../Login Image/Login Expired.jpg"
 import JL from "../Login Image/JL_-_1__1_-removebg-preview.png"
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserResultRegister, setEmployeerResultRegister, setDemoResultRegister } from '../actions';
+import { toast, Toaster } from 'react-hot-toast';
+
 
 const Navbar = () => {
   const [loading, setLoading] = useState(false);
   const [userType, setUserType] = useState('');
-  const { setData, setsearchJob, setcompanyList, setJobData } = useContext(UserContext);
+  const { setData, setsearchJob, setcompanyList, setJobData ,homecontent,setHomecontent} = useContext(UserContext);
   const navigate = useNavigate();
 
 
@@ -435,9 +437,14 @@ const Navbar = () => {
   // const [demo_result_register, setDemoResult_register] = useState(true);
   // const [user_register, setUser_register] = useState("");
   // const [employeer_register, setEmployeer_register] = useState("");
-  const [user_account_creation, setUserAccountCreation] = useState(false);
+  const [navbar_loading, setNavbarLoading] = useState(true);
   const [login_expired, setLoginExpired] = useState(false);
-  const [employeer_account_creation, setEmployeerAccountCreation] = useState(false);
+  // const [Home_content, setLoginExpired] = useState(false);
+  const [user_account_creation, setUserAccountCreation] = useState();
+  const [user_profile, setUserProfile] = useState();
+  const [employeer_account_creation, setEmployeerAccountCreation] = useState();
+  const [employeer_profile, setEmployeerProfile] = useState();
+  
   console.log(register_by, 'register_by--------- navbar -------->');
 // console.log(userResultRegister,'userResultRegister----------->');
 // console.log(employeerResultRegister,'employeerResultRegister-------------->');
@@ -467,77 +474,109 @@ const Navbar = () => {
   // }
 
   // useEffect(() => {
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const token = localStorage.getItem("loginToken");
     const googleToken = localStorage.getItem("googleSecondToken")
-    const { employerDetails, setEmployerDetails,useEmail } = useContext(UserContext);
-    console.log(token,'token----------->');
-    console.log(googleToken,'googleToken----------->');
-    var result_token = ''
-    if (token){
-      result_token = token
-    } else{
-      result_token = googleToken
-    }
-    // Check if the token exists before making the API call
-    if (result_token) {
-      const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ result_token }),
-      };
-      if (register_by === 'User'){
-      fetch(`${BASE_URL}/user_account_creation_check/`, requestOptions)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Failed to fetch data');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log(data, 'user_account_creation_check-------');
-          if (data.statusCode === 400){
-            setLoginExpired(true)
-          }
-          else{
-          if (data.status) {
-            setUserAccountCreation(true);
-          } else {
-            setUserAccountCreation(false);
-          }
-        }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+    const otpToken = localStorage.getItem("otpToken")
+    
+    const { employerDetails, setEmployerDetails,useEmail,usePassword} = useContext(UserContext);
+    useEffect(() => {
+      console.log(token, 'token----------->');
+      console.log(googleToken, 'googleToken----------->');
+      console.log(otpToken, 'otpToken----------->');
+      let result_token = token || googleToken || otpToken;
+      console.log(result_token,'result_token');
+      if (register_by === '' || register_by === null || result_token === '' || result_token === null){
+        console.log("else----");
+        setNavbarLoading(false);
       }
-       if (register_by === 'Recruiter'){
-        fetch(`${BASE_URL}/employeer_account_creation_check/`, requestOptions)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Failed to fetch data');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log(data, 'employeer_account_creation_check-------');
-          if (data.status) {
-            setEmployeerAccountCreation(true);
-          } else {
-            setEmployeerAccountCreation(false);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-      }
-    } else {
-      // Handle the case where the token is missing
-      console.error('No token found in local storage');
-    }
-  // }, []);
 
+      if (result_token) {
+        const requestOptions = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ result_token }),
+        };
+  
+        const fetchData = async () => {
+          try {
+            // await delay(3000); 
+            let response;
+            if (register_by === 'User') {
+              response = await fetch(`${BASE_URL}/user_account_creation_check/`, requestOptions);
+              if (!response.ok) {
+                // throw new Error('Failed to fetch data');
+                setNavbarLoading(false);
+                toast.error("Server Not Responding")
+              }
+              const data = await response.json();
+              setNavbarLoading(false);
+    
+              console.log(data, 'user_account_creation_check-------');
+              if(data.message === 'Token is expired'){
+                setLoginExpired(true);
+                setHomecontent(true)
+              }
+              else{
+                setHomecontent(false)
+                setLoginExpired(false);
+              }
+              if (data.statusCode === 400) {
+                setLoginExpired(true);
+              } else {
+                if (data.status) {
+                  setUserAccountCreation(true);
+                  setUserProfile(false);
+                } else {
+                  setUserAccountCreation(false);
+                  setUserProfile(true);
+                }
+              }
+            } else if (register_by === 'Recruiter') {
+              response = await fetch(`${BASE_URL}/employeer_account_creation_check/`, requestOptions);
+              if (!response.ok) {
+                throw new Error('Failed to fetch data');
+              }
+              const data = await response.json();
+              setNavbarLoading(false);
+              console.log(data, 'employeer_account_creation_check-------');
+              if(data.message === 'Token is expired'){
+                setLoginExpired(true);
+                setHomecontent(true)
+              }
+              else{
+                setHomecontent(false)
+                setLoginExpired(false);
+              }
+              if (data.status) {
+                setEmployeerAccountCreation(true);
+                setEmployeerProfile(false);
+              } else {
+                setEmployeerAccountCreation(false);
+                setEmployeerProfile(true);
+              }
+            } 
+          } catch (error) {
+            setNavbarLoading(false);
+            console.error('Error:', error);
+            toast.error("Server Not Responding")
+            console.log(error.code,'error.code');
+            if(error.code === "ERR_NETWORK"){
+              toast.error("Server Not Responding")
+            }
+          }
+        };
+  
+        fetchData();
+      } else {
+        // Handle the case where the token is missing
+        console.error('No token found in local storage');
+      }
+    }, [token, googleToken,register_by,otpToken,setHomecontent]); // Ensuring this runs once with the initial token values
+  
+console.log(navbar_loading,'navbar_loading--');
   useEffect(() => {
     // Retrieve the userType from local storage
     const registeredBy = localStorage.getItem('registered_by');
@@ -556,8 +595,8 @@ const Navbar = () => {
   };
 
   const home = () => {
-    if(useEmail !== null && useEmail !== "" ){
-      alert("Remove the  Email in Textfield")
+    if(useEmail !== null && useEmail !== "" || usePassword !== null && usePassword !== "" ){
+      toast.error("Remove the Textfield")
       navigate('/login')
       return;
     }
@@ -682,119 +721,171 @@ const Navbar = () => {
   const PostJob = () => {
     navigate('/PostJob')
   }
-
-  const isLoggedIn = !!localStorage.getItem('googleToken');
-  const otpToken = !!localStorage.getItem('otpToken');
+console.log(user_account_creation,'user_account_creation');
+  const isLoggedIn = !!localStorage.getItem('googleSecondToken');
+  const isotpToken = !!localStorage.getItem('otpToken');
   const storedToken = !!localStorage.getItem("loginToken");
 
   return (
     <div className="Navbar">
-      <div className="Navbar__left">
+      <div className="Navbar__left" style={{ transitionDelay: '2s',
+    transition: '2s ease-in',
+    animation: 'fadeIn 2s linear'}}>
         <img src={JL} alt="Logo" className="Navbar__logo" />
       </div>
 
-      <div className="Navbar__center">
-        {register_by === 'User' && (isLoggedIn || otpToken || storedToken) && (
-          <ul>
-            <li className="Navbar__dropdown" onClick={home}>
-              Home
-              <div className="Navbar__dropdown-content"></div>
-            </li>
-            <li className="Navbar__dropdown">
-            DashBoard
-              <div className="Navbar__dropdown-content">
-                <ul>
-                 
-                  <li onClick={UserDashBoard}>User DashBoard</li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        )}
-
-        {register_by === 'Recruiter' && (isLoggedIn || storedToken || otpToken) && (
-          <ul>
-            <li className="Navbar__dropdown" onClick={home}>
-              Home
-              <div className="Navbar__dropdown-content"></div>
-            </li>
-            <li className="Navbar__dropdown">
-            Employer
-              <div className="Navbar__dropdown-content">
-                <ul>
-                  {/* <li onClick={Employerdetails}>Employer details</li> */}
-                  <li onClick={PostJob}>Post a Job</li>
-                </ul>
-              </div>
-            </li>
-            <li className="Navbar__dropdown">
-            DashBoard
-              <div className="Navbar__dropdown-content">
-                <ul>
-                  <li onClick={EmployerDashboard}>Employer DashBoard</li>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        )}
-
-        {(!register_by || (!isLoggedIn && !otpToken && !storedToken)) && (
-          <ul>
-             <li className="Navbar__dropdown" onClick={home}>
-              Home
-              <div className="Navbar__dropdown-content"></div>
-            </li>
-          </ul>
-        )}
-      </div>
-
-      <div className="Navbar__right">
-      {(!register_by || (!isLoggedIn && !otpToken && !storedToken)) && (
+      <div className="Navbar__center" style={{ transitionDelay: '2s',
+    transition: '2s ease-in',
+    animation: 'fadeIn 2s linear'}}>
+        {navbar_loading ? (
+          <BeatLoader color="#1A237E" style={{ height: '20px' }} />
+        ) : (
           <>
-          <button className="Navbar__button" id='Nav_log_btn' onClick={handleLoginClick} disabled={isLoggedIn}>
-          Login
-          </button>
-          <button className="Navbar__button" onClick={handleSignupClick} disabled={isLoggedIn}>
-          SignUp
-          </button>
-        </>
-        )}
-     
-     {register_by === 'Recruiter' && (isLoggedIn || storedToken || otpToken) && (
-           <>
-           <button className="Navbar__button" id='Nav_btn' onClick={logout}>
-           Logout
-           </button>
-           { employeer_account_creation &&
-           <button className="Navbar__button" type='submit' onClick={CreateAccountRecruiter}>
-           Create an account
-           </button> }
-           <FaUserCircle className="Navbar__user-icon" style={{ fontSize: '20px' }} onClick={employeerprofile} />
-           <FaBell className="Navbar__notification-icon" />
-         </>
-        )}
-         {register_by === 'User' && (isLoggedIn || storedToken || otpToken) && (
-           <>
-           <button className="Navbar__button" id='Nav_btn' onClick={logout}>
-           Logout
-           </button>
-           { user_account_creation &&
-           <button className="Navbar__button" type='submit' onClick={CreateAccount}>
-           Create an account
-           </button> }
-           <FaUserCircle className="Navbar__user-icon" style={{ fontSize: '20px' }} onClick={profile} />
-           <FaBell className="Navbar__notification-icon" onClick={notification}/>
-         </>
+            {register_by === 'User' && (isLoggedIn || isotpToken || storedToken) && (
+              <ul>
+                <li className="Navbar__dropdown" onClick={home}>
+                  Home
+                  <div className="Navbar__dropdown-content"></div>
+                </li>
+                {user_profile && (
+                  <li className="Navbar__dropdown">
+                    DashBoard
+                    <div className="Navbar__dropdown-content">
+                      <ul>
+                        <li onClick={UserDashBoard}>User DashBoard</li>
+                      </ul>
+                    </div>
+                  </li>
+                )}
+              </ul>
+            )}
+
+            {register_by === 'Recruiter' && (isLoggedIn || storedToken || isotpToken) && (
+              <ul>
+                <li className="Navbar__dropdown" onClick={home}>
+                  Home
+                  <div className="Navbar__dropdown-content"></div>
+                </li>
+                {employeer_profile && (
+                  <li className="Navbar__dropdown">
+                    Employer
+                    <div className="Navbar__dropdown-content">
+                      <ul>
+                        <li onClick={PostJob}>Post a Job</li>
+                      </ul>
+                    </div>
+                  </li>
+                )}
+                {employeer_profile && (
+                  <li className="Navbar__dropdown">
+                    DashBoard
+                    <div className="Navbar__dropdown-content">
+                      <ul>
+                        <li onClick={EmployerDashboard}>Employer DashBoard</li>
+                      </ul>
+                    </div>
+                  </li>
+                )}
+              </ul>
+            )}
+
+            {(!register_by || (!isLoggedIn && !isotpToken && !storedToken)) && (
+              <ul>
+                <li className="Navbar__dropdown" onClick={home}>
+                  Home
+                  <div className="Navbar__dropdown-content"></div>
+                </li>
+              </ul>
+            )}
+          </>
         )}
       </div>
 
-      {loading && <BeatLoader color='#1A237E' style={{ height: '20px' }} />}
-    
+      <div className="Navbar__right" style={{ transitionDelay: '2s',
+    transition: '2s ease-in',
+    animation: 'fadeIn 2s linear'}}>
+      {navbar_loading ? (
+          <BeatLoader color="#1A237E" style={{ height: '20px' }} />
+        ) : (
+        <>
+          {(!register_by || (!isLoggedIn && !isotpToken && !storedToken)) && (
+            <>
+              <button
+                className="Navbar__button"
+                id="Nav_log_btn"
+                onClick={handleLoginClick}
+                disabled={isLoggedIn}
+              >
+                Login
+              </button>
+              <button
+                className="Navbar__button"
+                onClick={handleSignupClick}
+                disabled={isLoggedIn}
+              >
+                SignUp
+              </button>
+            </>
+          )}
+          {register_by === 'Recruiter' && (isLoggedIn || storedToken || isotpToken) && (
+            <>
+              <button className="Navbar__button" id="Nav_btn" onClick={logout}>
+                Logout
+              </button>
+              {employeer_account_creation && (
+                <button
+                  className="Navbar__button"
+                  type="submit"
+                  onClick={CreateAccountRecruiter}
+                >
+                  Create an account
+                </button>
+              )}
+              {employeer_profile && (
+                <FaUserCircle
+                  className="Navbar__user-icon"
+                  style={{ fontSize: '20px' }}
+                  onClick={employeerprofile}
+                />
+              )}
+            </>
+          )}
+          {register_by === 'User' && (isLoggedIn || storedToken || isotpToken) && (
+            <>
+              <button className="Navbar__button" id="Nav_btn" onClick={logout}>
+                Logout
+              </button>
+              {user_account_creation && (
+                <button
+                  className="Navbar__button"
+                  type="submit"
+                  onClick={CreateAccount}
+                >
+                  Create an account
+                </button>
+              )}
+              {user_profile && (
+                <>
+                  <FaUserCircle
+                    className="Navbar__user-icon"
+                    style={{ fontSize: '20px' }}
+                    onClick={profile}
+                  />
+                  <FaBell
+                    className="Navbar__notification-icon"
+                    onClick={notification}
+                  />
+                </>
+              )}
+            </>
+          )}
+        </>  
+        )}
+      </div>
+
+      {loading && <BeatLoader color="#1A237E" style={{ height: '20px' }} />}
     </div>
-  
-  //   <>
-  //   Navbar
-  //  </>
+   
   );
 };
 

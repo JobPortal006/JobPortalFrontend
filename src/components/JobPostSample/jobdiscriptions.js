@@ -18,7 +18,7 @@ const JobDetails = () => {
   const { responseData, setResponseData } = useContext(UserContext);
   console.log(responseData, "resssssssssssss==up")
   const { detailData, setDetailData } = useContext(UserContext);
-  console.log(detailData, "detailData=======up")
+  // console.log(detailData, "detailData=======up")
   const [alreadyApplied, setAlreadyApplied] = useState(false); // New state for application status
 
   const navigate = useNavigate();
@@ -50,7 +50,10 @@ const JobDetails = () => {
   }, []);
 
 
-  const token = localStorage.getItem('loginToken');
+  const logintoken = localStorage.getItem('loginToken');
+  const googleToken = localStorage.getItem("googleSecondToken")
+  const otpToken = localStorage.getItem("otpToken")
+  let token = logintoken || googleToken || otpToken;
   const [postdata, setPostData] = useState({
     token,
     job_id: null
@@ -77,8 +80,24 @@ const JobDetails = () => {
       }
 
       setDialogOpen(true);
+      
       setResponseData(response.data);
+      console.log(response,'get_apply_job')
+      const applyjobResponse = response.data;
       setDetailData(postdata);
+      if(response.data !== null){
+        localStorage.setItem("apply_job_result", JSON.stringify(applyjobResponse));
+        const storedDataToUse = JSON.parse(localStorage.getItem("apply_job_result"));
+        console.log(storedDataToUse, 'storedDataToUse------->');
+        if (storedDataToUse && JSON.stringify(storedDataToUse) === JSON.stringify(applyjobResponse)) {
+          // If equal, set resultdataToUse to storedDataToUse
+          localStorage.setItem("apply_job_result", JSON.stringify(applyjobResponse));
+         
+        } else {
+          localStorage.setItem("apply_job_result", JSON.stringify(applyjobResponse));
+        }
+      }
+
     } catch (error) {
       console.error('Error applying for job:', error);
     }

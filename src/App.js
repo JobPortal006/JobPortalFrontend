@@ -58,6 +58,9 @@ function App() {
   const [responseData, setResponseData] = useState(null);
   const [detailData,setDetailData ]  = useState(null);
   const [useEmail,setUseEmail] = useState("");
+  const [usePassword, setUsePassword] = useState("")
+  const [loginAlert, setLoginAlert] = useState(false)
+  const [homecontent,setHomecontent] = useState(false)
 
   // const register_by = localStorage.getItem("registered_by");
   // const [user_result_register, setUserResult_register] = useState(false);
@@ -88,7 +91,8 @@ function App() {
 
   return (
     <UserContext.Provider value={{oneData, setData,employerDetails, 
-    setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData,useEmail,setUseEmail  }}>
+    setEmployerDetails,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData,responseData, setResponseData,detailData,setDetailData,
+    useEmail,setUseEmail,usePassword, setUsePassword ,loginAlert, setLoginAlert,homecontent,setHomecontent }}>
     <div>
       <BrowserRouter>
          <Navbar /> 
@@ -114,7 +118,7 @@ function App() {
           <Route path="/PostJob" element={<PostJob />} />     
           <Route path="/EditMyJob" element={<EditMyJob />} />                   
           <Route path="/FilteredResults" element={<FilteredResults />} />
-          <Route path="/JobDetails" element={<JobDetails />} />                   
+          {/* <Route path="/JobDetails" element={<JobDetails />} />                    */}
           <Route path="/EmployerRegister" element={<Employerregister />} />
           <Route path="/EmployeerProfile" element={<DashBoardEmployeerProfile />} />
           <Route path="/EmployerDashboard" element={<SideNavbar />} />  

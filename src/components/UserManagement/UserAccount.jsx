@@ -2265,7 +2265,7 @@ console.log(formDataToSend,'date to payload')
 
                     </AccordionDetails>
                     {/* resume */}
-                    {/* <AccordionSummary >
+                     <AccordionSummary >
                             <Typography variant="h6"
                                 color="#1A237E" fontSize="25px"
                                 fontWeight="bold" textTransform="uppercase">Resume</Typography>
@@ -2341,9 +2341,9 @@ console.log(formDataToSend,'date to payload')
                             )}
 
 
-                        </AccordionDetails> */}
+                        </AccordionDetails> 
 
-<AccordionSummary >
+{/* <AccordionSummary >
                                 <Typography variant="h6"
                                     color="#1A237E" fontSize="25px"
                                     fontWeight="bold" textTransform="uppercase">Resume</Typography>
@@ -2370,15 +2370,70 @@ console.log(formDataToSend,'date to payload')
 
                                 {formData?.data?.resume?.resume_path && (
                                     <div>
-                                        <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p>
+                                        <p>Resume URL: <a href={`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`} target="_blank">{formData.data.resume.resume_path}</a></p> */}
                                         {/* <iframe
                                             src={`https://docs.google.com/viewer?url=${encodeURIComponent(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData.data.resume.resume_path}`)}&embedded=true&rm=minimal`}
                                             width="250" height="150" style={{ border: 'none' }}
                                             title="Resume"
                                         /> */}
-                                    </div>
+                                    {/* </div>
                                 )}
                             </AccordionDetails>
+                           
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <input
+                                type="file"
+                                accept=".pdf,.doc,.docx"
+                                onChange={handleResumeChange}
+                                margin="dense"
+                                id="resume-input"
+                                style={{
+                                    display: 'none',
+                                }}
+                            />
+                            <label htmlFor="resume-input">
+                                <IconButton
+                                    component="span"
+                                    size="small"
+                                    sx={{
+                                        border: '2px solid #a2beda',
+                                        borderRadius: '10px',
+                                        padding: '10px',
+                                        '&:hover': {
+                                            borderColor: '#1A237E', // Change border color on hover
+                                        },
+                                        '& svg': {
+                                            fontSize: '50px', // Increase icon size
+                                            color: '#1A237E' // Change icon color
+                                        }
+                                    }}
+                                >
+                                    <FaFileUpload />
+                                    {formData.data.resume && formData.data.resume.name && (
+                                        <span style={{ marginLeft: '5px' }}>{formData.data.resume.name}</span>
+                                    )}
+                                </IconButton>
+                            </label>
+                            {formData.data.resume && formData.data.resume.name && (
+                                <div style={{ marginLeft: '10px' }}>
+                                    <div
+                                        variant="contained"
+                                        onClick={handleRemoveResume}
+                                        className='resumeButton'
+                                        style={{
+                                            border: '2px solid #a2beda',
+                                            borderRadius: '10px',
+                                            padding: '10px',
+                                            cursor: 'pointer', // Change cursor on hover
+                                        }}
+                                    >
+                                        Remove Resume
+                                    </div>
+                                </div>
+                            )}
+                        </div> */}
+
+
                     {/* <Button type="submit" variant="contained" color="primary" fullWidth>Update</Button> */}
                     {/* <Button type="submit" variant="contained" color="primary" fullWidth disabled={isSubmitting}>
                         {isSubmitting ? 'Updating... Please wait': 'Update'}
