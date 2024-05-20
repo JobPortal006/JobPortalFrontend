@@ -30,36 +30,45 @@ import { Close } from '@mui/icons-material';
 
 const ApplyJobDialog = ({ open, onClose }) => {
     const { detailData } = useContext(UserContext);
-    const responseData = JSON.parse(localStorage.getItem("apply_job_result"));
+    let responseData = JSON.parse(localStorage.getItem("apply_job_result"));
+    if (!responseData) {
+        responseData = {};
+    }
     const navigate = useNavigate();
 console.log(detailData,'detailData-----formData');
+console.log(responseData,'responseData-----formData');
     const [formData, setFormData] = useState({
         jobId: detailData?.job_id || '',
-        email: responseData.email || '',
-        mobileNumber: responseData.mobile_number || '',
+        email: responseData.email,
+        mobileNumber: responseData.mobile_number,
         resumePath: responseData.resume_path || null,
-        additionalQueries: responseData.additional_queries || '',
+        additionalQueries: responseData.additional_queries,
         lastCTC: '',
         expectedSalary: '',
         totalExperience: '',
         noticePeriod: ''
     });
     useEffect(() => {
+        if(responseData.additional_queries === "Yes"){
+            setShowExtraFields(true)
+        } else{
+            setShowExtraFields(false)
+        }
         if (detailData?.job_id) {
             setFormData((prevFormData) => ({
                 ...prevFormData,
                 jobId: detailData.job_id
             }));
         }
-    }, [detailData]);
+    }, [detailData,responseData]);
 
-    console.log(detailData, 'detailData-----formData');
-    console.log(formData?.jobId, 'formData-----');
+    console.log(formData, 'formData--------');
+    console.log(formData?.email, 'formData-----');
     const [error, setError] = useState('');
     const [errorOne, setErrorOne] = useState('');
-    const [showExtraFields, setShowExtraFields] = useState(formData.additionalQueries);
+    const [showExtraFields, setShowExtraFields] = useState(false);
     const [alreadyApplied, setAlreadyApplied] = useState(false);
-
+    
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData(prevState => ({
@@ -218,45 +227,7 @@ console.log(detailData,'detailData-----formData');
                 style={{ marginBottom: '20px' }}
             />
             {error && <Typography color="error">{error}</Typography>}
-            {/* {formData.resumePath && (
-        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-          <Typography variant="body1" sx={{ marginRight: '10px' }}>
-            Resume:
-          </Typography>
-          <ImageIcon sx={{ marginRight: '10px' }} />
-          <Typography variant="body2" sx={{ marginRight: '10px' }}>
-            {formData.resumePath}
-          </Typography>
-          <Button variant="outlined" color="secondary" onClick={handleDeleteResume}>
-            Delete
-          </Button>
-        </Box>
-      )}
-
-      <input
-        type="file"
-        accept=".pdf,.doc,.docx"
-        onChange={handleFileChange}
-        style={{ display: 'none' }}
-        id="resume-upload"
-      />
-      <label htmlFor="resume-upload">
-        <Button
-          variant="contained"
-          component="span"
-          color="primary"
-          style={{ marginBottom: '20px' }}
-        >
-          Upload Resume
-        </Button>
-      </label> */}
-      {/* <AccordionSummary > */}
-                            {/* <Typography variant="h6"
-                                color="#1A237E" fontSize="25px"
-                                fontWeight="bold" textTransform="uppercase">Resume</Typography> */}
-                        {/* </AccordionSummary> */}
-                        {/* // <AccordionDetails> */}
-                        <label htmlFor="resume-input">Upload Resume:</label>
+                                  <label htmlFor="resume-input">Upload Resume:</label>
                             <br />
                             <input
                                 type="file"
@@ -325,10 +296,7 @@ console.log(detailData,'detailData-----formData');
                                 </div>
                             )}
 
-
-                        {/* </AccordionDetails>  */}
-
-            {showExtraFields === "Yes" && (
+            {showExtraFields && (
                 <>
                     {errorOne && <Typography color="error">{errorOne}</Typography>}
                     <TextField
@@ -374,9 +342,9 @@ console.log(detailData,'detailData-----formData');
                 <Button
                     variant="contained"
                     color="primary"
-                    onClick={showExtraFields ? handleApply : handleSubmit}
+                    onClick={showExtraFields ? handleSubmit : handleApply}
                 >
-                    {showExtraFields ? 'Apply' : 'Submit'}
+                    {showExtraFields ? 'Submit' : 'Apply'}
                 </Button>
             ) : (
                 <Button variant="contained" color="secondary">
@@ -387,6 +355,9 @@ console.log(detailData,'detailData-----formData');
       </DialogContent>
     </Dialog>
   );
+
+
+
 };
 
 export default ApplyJobDialog;

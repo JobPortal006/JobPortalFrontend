@@ -351,7 +351,7 @@ const UserDashboard = () => {
         <div className="brief2" style={{ marginBottom: "10px" }}>
           <span className="brief-label"><BsPersonSquare  icon={faBuilding} /> Employee Type : </span>{job.employee_type}
         </div>    
-        <div className="filter-skill-set">
+        <div className="filter-skill-set" style={{marginBottom:'-5px'}}>
           {job.skills && job.skills.map((skills, index) => (
             <span key={index} className="skill">
               <span className="saved-skill-text">{skills}</span>
