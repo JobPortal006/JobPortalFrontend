@@ -16,6 +16,7 @@ import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import BASE_URL from '../CommonAPI';
 import Popper from '@mui/material/Popper';
 import { FaRegHandPointRight  } from "react-icons/fa";
+import { BeatLoader } from 'react-spinners';
 
 
 const PostJob = () => {
@@ -107,6 +108,8 @@ const PostJob = () => {
   const [salary, setSalary] = useState("");
   const [qualification, setQualification] = useState([]);
   const [Newlocation, setLocation] = useState([]);
+  const [Skillsets, setSkillSet] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   console.log(qualification,"qualifications===>");
   console.log(Newlocation, "<==Location");
@@ -232,6 +235,7 @@ const PostJob = () => {
       const apiUrl = `${BASE_URL}/job_post/`;
 
       try {
+        setLoading(true)
         const response = await axios.post(apiUrl, jobPostData, headers);
        
        
@@ -239,6 +243,7 @@ const PostJob = () => {
         console.log(response.data.status, "Job Post Status==========>");
 
         if (response.data.status === true) {
+          setLoading(false)
           const id = response.data.data ;
           console.log(id,"Job posted Successfully");
           // window.location.reload();
@@ -322,6 +327,33 @@ const PostJob = () => {
       
     };
     postLocation();
+    const postSkills = async () =>{
+      try{
+      const response = await fetch(`${BASE_URL}/skills/`,
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/josn",
+        },
+        body : JSON.stringify({result_token})
+      }  
+      );
+
+      if(!response.ok){
+        console.log("Failed to fetch Data");
+      }
+
+      const data = await response.json();
+      const skill_setNames = data.map((skill) => skill.skill_set);
+      setSkillSet(skill_setNames);
+
+      console.log(skill_setNames, "<-=-=-=location==data");
+    }catch(error) {
+      console.log("Error posting location data : ", error.message);
+    }
+      
+    };
+    postSkills();
   },[]);
 
    // Queries
@@ -751,7 +783,7 @@ const PostJob = () => {
             <label style={{fontWeight:'bold',fontSize:"16px",marginBottom:"10px"}}>Skills</label>
             <Autocomplete
               multiple
-              options={jobSkills}
+              options={Skillsets}
               value={skills}
               onChange={(event, newEvent) => { setSkills(newEvent);
                 setErrors({ ...errors, skills: newEvent.length === 0 });  }}
@@ -1135,7 +1167,25 @@ const PostJob = () => {
                         color: '#1A237E'
                     },
                 }}
-            > Submit
+            > 
+             {loading ? (
+                            <>
+                                <span style={{ visibility: 'hidden' }}>Update</span> {/* Hide the text when loading */}
+                                <div style={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)'
+                                }}>
+                                    <BeatLoader
+                                        color="#ffffff"
+                                        size={14}
+                                    />
+                                </div>
+                            </>
+                        ) : (
+                            'Submit'
+                        )}
             </Button>
           </div>
           </Box>

@@ -39,8 +39,11 @@ const override = css`
 
 function UserAccount(props) {
     const [useAccountError, setUseAccountError] = useState(false);
+    const [pg_details, setPgDetails] = useState(false);
+    const [ug_details, setUgDetails] = useState(false);
     const [loading, setLoading] = useState(true);
     const [loading1, setLoading1] = useState(true);
+    const navigate = useNavigate();
   const [error1, setError1] = useState({
     data: {
         Signup: {
@@ -366,6 +369,22 @@ function UserAccount(props) {
                         resume: resume
                     }
                 }));
+                console.log(response.data.PG_college_details, "PG_college_details");
+
+                if (Object.keys(response.data.PG_college_details).length === 0 && response.data.PG_college_details.constructor === Object) {
+                    console.log(response.data.PG_college_details, "PG_college_details --- c");
+                    setPgDetails(false)
+                    
+                }else{
+                    setPgDetails(true)
+                }
+                if (Object.keys(response.data.Diploma_college_details).length === 0 && response.data.Diploma_college_details.constructor === Object) {
+                    console.log(response.data.Diploma_college_details, "Diploma_college_details ---- c");
+                    setUgDetails(false)
+                }else{
+                    setUgDetails(true)
+                }
+                
                 if (response.data.status){
                     console.log("if-view----------");
                     setUseAccountError(false)
@@ -518,6 +537,7 @@ function UserAccount(props) {
   // console.log(formData.data.resume.resume_path,'resume1---------');
   // console.log(resumeFile,'resume2--------');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    console.log(isSubmitting,'isSubmitting----');
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -618,11 +638,11 @@ console.log(formDataToSend,'date to payload')
             })
             .finally(() => {
                 // Set isSubmitting back to false after submission is completed
-                setIsSubmitting(false);
+                // setIsSubmitting(false);
 
                 // After loading finished, show alert and navigate
                 alert('Profile Updated successful!');
-                // navigate('/home');
+                navigate('/home');
             });
     };
 
@@ -868,7 +888,7 @@ console.log(formDataToSend,'date to payload')
   };
   if (loading){
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh',marginTop:'-50px',marginLeft:'-50px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',height: '100vh',marginTop:'-5px',marginLeft:'-50px' }}>
         {/* <BeatLoader color="#1A237E" css={override} />  */}
         <HashLoader  height={100}
            width={100}
@@ -880,6 +900,7 @@ console.log(formDataToSend,'date to payload')
      </div>
     )
   }
+  console.log(ug_details,pg_details,'ug_details,,,,,');
   console.log(loading,"loading-----------------");
   console.log(useAccountError,'useAccountError------------');
 
@@ -928,7 +949,17 @@ console.log(formDataToSend,'date to payload')
                     <AccordionSummary sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography variant="h6" color="#1A237E" fontSize="25px" fontWeight="bold" textTransform="uppercase">User Details</Typography>
                         <div style={{ marginLeft: 'auto' }}>
-                            <Button variant="contained" color="primary" onClick={() => setEditMode(true)}>Edit</Button>
+                            <Button 
+                                variant="contained" 
+                                color="primary" 
+                                onClick={() => {
+                                    setEditMode(true);
+                                    setPgDetails(true);
+                                    setUgDetails(true);
+                                }}
+                            >
+                                Edit
+                            </Button>
                         </div>
                         </AccordionSummary>
                     <AccordionDetails>
@@ -1096,18 +1127,18 @@ console.log(formDataToSend,'date to payload')
                                         </label>
                                 )}
 
-                                {profilePicture && (
-                                    <div>
-                                        <Avatar
-                                            alt="Profile Picture"
-                                            src={URL.createObjectURL(profilePicture)}
-                                            sx={{ width: 100, height: 100, marginTop: 2 }}
-                                        />
-                                        <Button color="secondary" onClick={handleRemoveProfilePicture}>
-                                            Remove Picture
-                                        </Button>
-                                    </div>
-                                )}
+                            {profilePicture && profilePicture instanceof Blob && (
+                                <div>
+                                    <Avatar
+                                        alt="Profile Picture"
+                                        src={URL.createObjectURL(profilePicture)}
+                                        sx={{ width: 100, height: 100, marginTop: 2 }}
+                                    />
+                                    <Button color="secondary" onClick={handleRemoveProfilePicture}>
+                                        Remove Picture
+                                    </Button>
+                                </div>
+                            )}
 
                                 {/* Display profile picture from the backend if available */}
                                 {formData?.data?.userDetails?.profile_picture_path && (
@@ -1697,10 +1728,10 @@ console.log(formDataToSend,'date to payload')
 
 
                             {/* pg and diplamo */}
-                            <Grid item xs={12}>
-                                <Typography variant="h6"
-                                    color="#1A237E" fontSize="25px"
-                                    fontWeight="bold" textTransform="uppercase">PG details</Typography>
+                            {/* { pg_details || ug_details && */}
+                            <>
+                            {/* <Grid item xs={12}> */}
+                              
                                 {/* Radio Buttons for PG/Diploma */}
                                 {/* <FormControl component="fieldset">
                                     <RadioGroup
@@ -1725,14 +1756,17 @@ console.log(formDataToSend,'date to payload')
                                         />
                                     </RadioGroup>
                                 </FormControl> */}
-                            </Grid>
+                            {/* </Grid> */}
 
                             {/* Additional Fields based on Radio Button selection */}
                             {/* {formData.data?.college_details?.education_type === 'pg' && ( */}
-
+                            {pg_details && 
                             <>
                                 {/* Additional PG Fields */}
-
+                                <Grid item xs={12}>
+                                <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">PG details</Typography></Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField className='textfield'
                                         label="PG-College-name"
@@ -1858,12 +1892,17 @@ console.log(formDataToSend,'date to payload')
                                     />
                                 </Grid>
                             </>
+                            }
                             {/* )} */}
 
                             {/* {formData.data.education_type === 'diploma' && ( */}
+                            {ug_details && 
                             <>
                                 {/* Additional Diploma Fields */}
-
+                                <Grid item xs={12}>
+                                <Typography variant="h6"
+                                    color="#1A237E" fontSize="25px"
+                                    fontWeight="bold" textTransform="uppercase">Diploma details</Typography></Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField className='textfield'
                                         label="Diploma-college-name"
@@ -1984,6 +2023,9 @@ console.log(formDataToSend,'date to payload')
                                     />
                                 </Grid>
                             </>
+                            }
+                            </>
+{/* } */}
                             {/* )} */}
                         </Grid>
                         <Divider sx={{ marginY: 2, bgcolor: '#5C6BC0', borderWidth: '1px' }} />
@@ -2284,7 +2326,7 @@ console.log(formDataToSend,'date to payload')
                             />
 
                        
-                            {!resumeFile && formData?.data?.resume?.resume_path && (
+                            {!resumeFile &&  formData?.data?.resume?.resume_path && (
                                 <div>
                                     <iframe
                                         src={`https://docs.google.com/viewer?url=${encodeURIComponent(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData?.data?.resume?.resume_path}`)}&embedded=true&rm=minimal`}
@@ -2302,7 +2344,7 @@ console.log(formDataToSend,'date to payload')
                             )}
 
                        
-                            {resumeFile && (
+                            {resumeFile&& resumeFile instanceof Blob && (
                                 <div>
                                     <p>Resume File: <a href={URL.createObjectURL(resumeFile)} download>{resumeFile.name}</a></p>
                                     <Button disabled={!editMode} color="secondary" onClick={handleRemoveResume}>
@@ -2439,14 +2481,13 @@ console.log(formDataToSend,'date to payload')
                         {isSubmitting ? 'Updating... Please wait': 'Update'}
                     </Button> */}
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-
                     <Button
                         type="submit"
                         variant="contained"
                         color="primary"
                         fullWidth
                         disabled={!editMode}
-                        style={{ position: 'relative' }} // Add this style to enable absolute positioning for the loader
+                        style={{ position: 'relative' }} // Enable absolute positioning for the loader
                         sx={{
                             width: "180px",
                             borderRadius: '10px', // Rounded corners
@@ -2456,26 +2497,33 @@ console.log(formDataToSend,'date to payload')
                             textTransform: 'none', // Disable text transformation
                             boxShadow: 'none', // Disable box shadow
                             marginBottom: "50px",
+                            backgroundColor: '#303F9F',
                             '&:hover': {
                                 backgroundColor: '#1A237E', // Change background color on hover
+                                color: '#ffffff'
                             },
                         }}
                     >
                         {isSubmitting ? (
                             <>
                                 <span style={{ visibility: 'hidden' }}>Update</span> {/* Hide the text when loading */}
-                                <BeatLoader
-                                    color="#1A237E"
-                                    size={12}
-                                    css={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
-                                />
+                                <div style={{
+                                    position: 'absolute',
+                                    top: '50%',
+                                    left: '50%',
+                                    transform: 'translate(-50%, -50%)'
+                                }}>
+                                    <BeatLoader
+                                        color="#ffffff"
+                                        size={14}
+                                    />
+                                </div>
                             </>
                         ) : (
                             'Update'
                         )}
                     </Button>
-                    </div>
-
+                </div>
 
                 </form>
 

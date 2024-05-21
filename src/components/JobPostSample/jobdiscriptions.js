@@ -67,7 +67,7 @@ const JobDetails = () => {
         alert('Please create an account and login to apply for the job.');
         navigate('/login'); // Navigate to the login page
         return;
-      }
+      }else{
 
       const response = await axios.post(`${BASE_URL}/get_apply_job/`, {
         postdata
@@ -79,13 +79,14 @@ const JobDetails = () => {
         return;
       }
 
-      setDialogOpen(true);
+      
       
       setResponseData(response.data);
       console.log(response,'get_apply_job')
       const applyjobResponse = response.data;
       setDetailData(postdata);
       if(response.data !== null){
+        setDialogOpen(true);
         localStorage.setItem("apply_job_result", JSON.stringify(applyjobResponse));
         const storedDataToUse = JSON.parse(localStorage.getItem("apply_job_result"));
         console.log(storedDataToUse, 'storedDataToUse------->');
@@ -97,7 +98,7 @@ const JobDetails = () => {
           localStorage.setItem("apply_job_result", JSON.stringify(applyjobResponse));
         }
       }
-
+    }
     } catch (error) {
       console.error('Error applying for job:', error);
     }
@@ -173,7 +174,7 @@ const JobDetails = () => {
                 </Button>
             ) : (
                 <Button variant="contained" color="secondary">
-                    Already Applied
+                    Already Applied 
                 </Button>
             )} */}
 
@@ -201,7 +202,7 @@ const JobDetails = () => {
                 <span style={{ fontWeight: 'bold' }}>Posted:</span> {job.created_at}
               </Typography>
             </Box>
-            <ApplyJobDialog open={dialogOpen} onClose={handleCloseDialog} />
+           {dialogOpen && <><ApplyJobDialog open={dialogOpen} onClose={handleCloseDialog} /> </>}
             <Box sx={{ p: 3, border: '1px solid #ccc', backgroundColor: '#E8EAF6', marginLeft: '2%', marginTop: '20px', borderRadius: '8px', maxWidth: '100%' }}>
               <Typography variant="h4" color="#1A237E" textAlign="center" gutterBottom>
                 <span style={{ fontWeight: 'bold' }}>Job Description</span>

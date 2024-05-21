@@ -157,7 +157,7 @@ export const Notifications = () => {
         </div>
         </div>
       }
-      <div className="dashboard-container" style={{marginTop:"90px",marginLeft:'20px'}}>
+      <div className="dashboard-container" style={{margin:'90px 100px 0px 100px'}}>
         {displayedJobs.map((job, index) => (
           // <Card key={index} className="applied-job" onClick={() => handleCardClick(job)}>
           //   <CardContent className='cardcontent'>

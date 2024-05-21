@@ -36,7 +36,7 @@ const ApplyJobDialog = ({ open, onClose }) => {
     }
     const navigate = useNavigate();
 console.log(detailData,'detailData-----formData');
-console.log(responseData,'responseData-----formData');
+// console.log(responseData,'responseData-----formData');
     const [formData, setFormData] = useState({
         jobId: detailData?.job_id || '',
         email: responseData.email,
@@ -49,21 +49,23 @@ console.log(responseData,'responseData-----formData');
         noticePeriod: ''
     });
     useEffect(() => {
-        if(responseData.additional_queries === "Yes"){
-            setShowExtraFields(true)
-        } else{
-            setShowExtraFields(false)
+        if (responseData.additional_queries === "Yes") {
+            setShowExtraFields(true);
+        } else {
+            setShowExtraFields(false);
         }
+
         if (detailData?.job_id) {
             setFormData((prevFormData) => ({
                 ...prevFormData,
                 jobId: detailData.job_id
             }));
         }
-    }, [detailData,responseData]);
+    }, [JSON.stringify(detailData), JSON.stringify(responseData),detailData.job_id,responseData.additional_queries]);
 
-    console.log(formData, 'formData--------');
-    console.log(formData?.email, 'formData-----');
+
+    // console.log(formData, 'formData--------');
+    // console.log(formData?.email, 'formData-----');
     const [error, setError] = useState('');
     const [errorOne, setErrorOne] = useState('');
     const [showExtraFields, setShowExtraFields] = useState(false);

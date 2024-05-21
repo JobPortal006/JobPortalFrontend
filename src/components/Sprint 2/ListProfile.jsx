@@ -125,12 +125,15 @@ console.log(errorstyle,"errorstyle----");
                         <h3><b>Address</b></h3>
                         {profileData?.address && (
                         <div className="address-row">
+                            {profileData?.address?.current && 
                             <div className="address-column">
+                            
                                 <h4><b>Current Address</b></h4>
                                 <p><strong>City:</strong> {profileData?.address?.current?.city}</p>
                                 <p><strong>Country:</strong> {profileData?.address?.current?.country}</p>
                                 <p><strong>Pincode:</strong> {profileData?.address?.current?.pincode}</p>
                             </div>
+                            }
                             <div className="address-column">
                                 <h4><b>Permanent Address</b></h4>
                                 <p><strong>City:</strong> {profileData?.address?.permanent?.city}</p>

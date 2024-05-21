@@ -880,7 +880,11 @@ const validateForm = () =>{
    
             // Show success message
             alert('Account created successfully!');
-            navigate('/home');
+            if(response.status){
+                window.location.reload();
+                navigate('/home');
+            }
+            
         
         } catch (error) {
             console.error('API Error:', error);
