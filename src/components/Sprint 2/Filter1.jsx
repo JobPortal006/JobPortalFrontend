@@ -3,14 +3,11 @@ import {Checkbox, FormControlLabel, FormGroup, IconButton, Grid, Radio, RadioGro
 import { Box, List, ListItemButton, ListItemText, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import FilteredResults from "./FilteredResults";
 // import { useNavigate } from "react-router-dom";
 import "../Sprint 2/FilterPage.css";
 import UserContext from "./contextFilter";
-import SearchBar from "../HomePage/searchBar";
 import BASE_URL from '../CommonAPI';
 import { FaIndianRupeeSign,FaLocationDot,FaClockRotateLeft   } from "react-icons/fa6";
-import { faMapMarkerAlt, faMoneyBillAlt, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { BsPersonSquare ,BsFileEarmarkTextFill,BsFillBagCheckFill,BsFillFileCheckFill,BsPersonFillCheck } from "react-icons/bs";
 import { BsFillBookmarksFill, BsFillBookmarkCheckFill  } from "react-icons/bs";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
@@ -18,123 +15,13 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { useNavigate } from 'react-router-dom';
 import Error from "../HomePage/homeimages/No_Result.png"
 import {HashLoader,FadeLoader } from "react-spinners";
-import { makeStyles, TextField, Chip, Collapse, Popover } from '@material-ui/core';
+import { makeStyles, TextField, Chip, Popover } from '@material-ui/core';
 import { MdSearch, MdExpandMore } from 'react-icons/md';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ToastContainer, toast } from 'react-toastify';
-import { BeatLoader, PacmanLoader, ScaleLoader } from 'react-spinners';
-import { textTransform } from "@mui/system";
+import { BeatLoader } from 'react-spinners';
 
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     // display: 'flex',
-//     // flexDirection: 'column',
-//     // alignItems: 'center',
-//     // justifyContent: 'center',
-//     height: '100vh',
-//     // backgroundColor:'red',
-//     marginTop:"50px"
-//   },
-//   searchContainer: {
-//     display: 'flex',
-//     flexDirection: 'column', // Change flex direction to column for mobile
-//     alignItems: 'center',
-//     gap: theme.spacing(0.5),
-//     padding: theme.spacing(1), // Reduce padding for mobile
-//     background: '#ffffff',
-//     borderRadius: 20,
-//     maxWidth:"500px",
-//     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-//     position: 'relative',
-//     [theme.breakpoints.up('sm')]: {
-//       flexDirection: 'row', // Change flex direction to row for larger screens
-//       padding: theme.spacing(2), // Restore padding for larger screens
-//     },
-//   },
-//   searchInput: {
-//     flex: 1,
-//     minWidth: 100,
-//     [theme.breakpoints.up('sm')]: {
-//       minWidth: 'unset', // Remove minWidth for larger screens
-//     },
-//   },
-//   formControl: {
-//     minWidth: 120,
-//     zIndex: 1,
-//   },
-//   button: {
-//     marginLeft: theme.spacing(0), // Adjust margin for mobile
-//     marginTop: theme.spacing(2), // Adjust margin for mobile
-//     background: '#050505',
-//     color: '#ffffff',
-//     '&:hover': {
-//       background: '#877067',
-//     },
-//     [theme.breakpoints.up('sm')]: {
-//       marginLeft: theme.spacing(2), // Restore margin for larger screens
-//       marginTop: 0, // Restore margin for larger screens
-//     },
-//   },
-//   icon: {
-//     // color: theme.palette.secondary.main,
-//     color: '#5C6BC0',
-//   },
-//   chip: {
-//     margin: theme.spacing(0.5),
-//   },
-//   expandButton: {
-//     marginLeft: theme.spacing(1),
-//     cursor: 'pointer',
-//   },
-//   popover: {
-//     padding: theme.spacing(2),
-//   },
-
-//   jobSearchRoot: {
-//     display: 'flex',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     marginBottom: '20px',
-//     marginTop: '10px'
-//   },
-//   jobSearchContainer: {
-//     display: 'flex',
-//     flexDirection: 'column', // Change flex direction to column for mobile
-//     alignItems: 'center',
-//     gap: theme.spacing(1),
-//     padding: theme.spacing(2),
-//     background: '#ffffff',
-//     borderRadius: 24,
-//     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-//     position: 'relative',
-//     [theme.breakpoints.up('sm')]: {
-//       flexDirection: 'row', // Change flex direction to row for larger screens
-//     },
-//   },
-//   jobSearchInput: {
-//     flex: 1,
-//     minWidth: 100,
-//     [theme.breakpoints.up('sm')]: {
-//       minWidth: 'unset', // Remove minWidth for larger screens
-//     },
-//   },
-//   jobSearchButton: {
-//     marginLeft: theme.spacing(0), // Adjust margin for mobile
-//     marginTop: theme.spacing(2), // Adjust margin for mobile
-//     background: ' #1A237E',
-//     color: '#ffffff',
-//     borderRadius: '50px',
-//     '&:hover': {
-//       background: '#5C6BC0',
-//     },
-//     [theme.breakpoints.up('sm')]: {
-//       marginLeft: theme.spacing(2), // Restore margin for larger screens
-//       marginTop: 0, // Restore margin for larger screens
-//     },
-//   },
-// }));
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -281,9 +168,9 @@ const Filter1 = ({ isJobSearchPage }) => {
 
   const [showAll, setShowAll] = useState(false);
   const [Show, setShow] = useState(false);
-  const [errorOne, setErrorOne ] = useState(false)
+  // const [errorOne, setErrorOne ] = useState(false)
 
-  const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList,jobData,setJobData} = useContext(UserContext);
+  const {oneData,setData,searchJob,setsearchJob,companyList,setcompanyList,setJobData} = useContext(UserContext);
   console.log(searchJob,'=====search job data')
 console.log(oneData, "=====Jeeva data");
 
@@ -339,10 +226,9 @@ console.log(companyList, "=====raghul data company list");
   /// Filter Result
 
   const navigate = useNavigate();
-  const [errorTwo, setErrorTwo] = useState(false);
   const [searchloading, setSearchLoading] = useState(false);
   const [jobDetailsloading, setJobDetailsLoading] = useState(false);
-  const [filterloading, setFilterLoading] = useState(false);
+  const [ setFilterLoading] = useState(false);
   const [scrollbar, setScrollbar] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [jobsPerPage] = useState(5);
@@ -387,7 +273,7 @@ console.log(companyList, "=====raghul data company list");
   const render = Show ? salaryType : salaryType.slice(0, 5);
 
   const [selectedExperience, setSelectedExperience] = useState([]);
-  const [noResult, setNoResult] = useState(false)
+  const [ setNoResult] = useState(false)
 
   const handleExperienceClick = (option) => {
     const newSelectedExperience = selectedExperience.includes(option)
@@ -400,7 +286,8 @@ console.log(companyList, "=====raghul data company list");
   // Location Fetch
   const [locations, setLocations] = useState([]);
   const [locationLoading, setLocationLoading] = useState(true);
-
+  const [noLocation, setNOLocation] = useState(false);
+console.log(noLocation,'nolocation----');
   useEffect(() => {
     setLocationLoading(true)
     const fetchData = async () => {
@@ -413,6 +300,11 @@ console.log(companyList, "=====raghul data company list");
         console.log(data, "<====Location====>");
         setLocations(data.map((location) => ({ ...location, selected: false })));
         setLocationLoading(false); // Set loading to false after data is fetched
+        if(data.length === 0){
+          setNOLocation(true)
+        }else{
+          setNOLocation(false)
+        }
       } catch (error) {
         console.error("Error fetching locations:", error.message);
         setLocationLoading(false); // Set loading to false even if there is an error
@@ -452,6 +344,7 @@ console.log(companyList, "=====raghul data company list");
 
   const [jobRoles, setJobRoles] = useState([]);
   const [jobrolesLoading, setJobRolesLoading] = useState(true);
+  const [nojobroles, setNoJobRoles] = useState(false);
   useEffect(() => {
     setJobRolesLoading(true)
     const fetchJobRoles = async () => {
@@ -465,6 +358,11 @@ console.log(companyList, "=====raghul data company list");
         console.log(data, "<====Roles====>");
         setJobRoles(data.map((role) => ({ ...role, selected: false })));
         setJobRolesLoading(false)
+        if(data.length === 0){
+          setNoJobRoles(true)
+        }else{
+          setNoJobRoles(false)
+        }
       } catch (error) {
         setJobRolesLoading(false)
         console.error("Error fetching job roles:", error.message);
@@ -1101,21 +999,30 @@ const handleExpand = (event) => {
       <h3 style={{ marginBottom: '15px' }}>Locations</h3>
       <Box className="scroll" style={{ width: "100%", height: 250, overflow: "auto" }}>
         {locationLoading ? (
-           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-           <FadeLoader color="#1A237E" />
-         </div>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <FadeLoader color="#1A237E" />
+          </div>
         ) : (
-          <List style={{ width: '100%' }}>
-            {locations.map((location, index) => (
-              <ListItemButton key={index} onClick={() => handleLocationClick(index)}>
-                <Checkbox color="secondary" style={{ padding: "5px" }} checked={location.selected} />
-                <ListItemText primary={<span style={{ textTransform: "capitalize", fontSize: "14px" }}>{location.location}</span>} />
-              </ListItemButton>
-            ))}
-          </List>
+          <>
+            {noLocation ? (
+              <div>
+                  <p style={{ margin:'15px' }}>No locations post</p>
+              </div>
+            ) : (
+              <List style={{ width: '100%' }}>
+                {locations.map((location, index) => (
+                  <ListItemButton key={index} onClick={() => handleLocationClick(index)}>
+                    <Checkbox color="secondary" style={{ padding: "5px" }} checked={location.selected} />
+                    <ListItemText primary={<span style={{ textTransform: "capitalize", fontSize: "14px" }}>{location.location}</span>} />
+                  </ListItemButton>
+                ))}
+              </List>
+            )}
+          </>
         )}
       </Box>
     </div>
+
    
           <div className="job-employment">
             <h3> Employment Type </h3>
@@ -1148,11 +1055,17 @@ const handleExpand = (event) => {
           <div className="job-roles">
   <h3 style={{ marginTop: 0,marginBottom:'15px' }}>Job Roles</h3>
   <Box className="scroll" style={{ width: "100%", height: 270, overflow: "auto" }}>
-  {locationLoading ? (
+  {jobrolesLoading ? (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
     <FadeLoader color="#1A237E" />
   </div>
         ) : (
+          <>
+          {nojobroles ? (
+            <div>
+                <p style={{ margin:'15px' }}>No Job Roles post</p>
+            </div>
+          ) : (
     <List>
       {jobRoles.map((role, index) => (
         <ListItemButton key={index} onClick={() => handleRoleClick(index)}>
@@ -1161,6 +1074,8 @@ const handleExpand = (event) => {
         </ListItemButton>
       ))}
     </List>
+     )}
+     </>
      )}
   </Box>
 </div>

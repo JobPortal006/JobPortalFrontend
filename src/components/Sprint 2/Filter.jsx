@@ -508,7 +508,7 @@ console.log(companyList, "=====raghul data company list");
   const render = Show ? salaryType : salaryType.slice(0, 5);
 
   const [selectedExperience, setSelectedExperience] = useState([]);
-  const [noResult, setNoResult] = useState(false)
+  const [ setNoResult] = useState(false)
 
   // Function to handle changes in selected experience levels
   // const handleExperienceChange = (event) => {
@@ -570,7 +570,7 @@ console.log(companyList, "=====raghul data company list");
   };
 
   const [jobRoles, setJobRoles] = useState([]);
-
+  const [component] = useState(false);
   useEffect(() => {
     const fetchJobRoles = async () => {
       try {
@@ -593,7 +593,7 @@ console.log(companyList, "=====raghul data company list");
     }else{
       setNoResult(false)
     }
-  }, []);
+  }, [companyList,component,jobData,searchJob,setNoResult]);
 
   useEffect(() => {
     console.log(
@@ -625,7 +625,7 @@ console.log(companyList, "=====raghul data company list");
 
 
   // Job Filter
-  const [component,setComponent] = useState(false);
+
 
   const [filteredData, setFilteredData] = useState([]);
 

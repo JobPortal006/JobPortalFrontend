@@ -230,35 +230,28 @@
 // export default MyJob;
 
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "./myJob.css";
-import { Button, Grid,IconButton, Menu, MenuItem } from "@mui/material";
-import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {HashLoader} from "react-spinners";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-import Tooltip from "@mui/material/Tooltip";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BASE_URL from '../CommonAPI';
-import UserContext from "./contextFilter";
 import { FaIndianRupeeSign,FaLocationDot,FaClockRotateLeft   } from "react-icons/fa6";
 import { BsPersonSquare ,BsFileEarmarkTextFill,BsFillBagCheckFill,BsFillFileCheckFill,BsPersonFillCheck } from "react-icons/bs";
-import { BsFillBookmarksFill, BsFillBookmarkCheckFill  } from "react-icons/bs";
 import { faMapMarkerAlt, faMoneyBillAlt, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import SearchJobImage from './Sprint 2 Images/Data loading.jpg';
 
 function MyJob() {
   const [jobView, setJobView] = useState([]);
-  const [employee_id, setEmployeeId] = useState("");
+  const [employee_id] = useState("");
   const [loading, setLoading] = useState(true); // State to track loading status
   const [result, setResult] = useState(false); 
   console.log(employee_id,"employee_id===id");
   console.log(jobView, "jobView");
   
 
-  const location = useLocation();
+  // const location = useLocation();
  
 
   useEffect(() => {
@@ -313,7 +306,7 @@ function MyJob() {
       postID();
     // }
   }, []);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [ setAnchorEl] = useState(null);
 
 
   const navigate = useNavigate();
@@ -322,7 +315,7 @@ function MyJob() {
     setSelectedJobId(jobId);
   };
 
-  const [selectedJobId, setSelectedJobId] = useState(null);
+  const [ setSelectedJobId] = useState(null);
   // Delete API
   const handleDelete = async (jobId) => {
     try {
@@ -358,16 +351,16 @@ function MyJob() {
   const userListing = (userJobId) =>{
     navigate("/UserJobList",{state:{userJobId}})
   }
-  const [isOpenDropdown, setIsOpenDropdown] = useState(null);
+  // const [isOpenDropdown, setIsOpenDropdown] = useState(null);
 
-  const toggleDropdown = (event, index) => {
-    event.stopPropagation(); // Prevents dropdown from closing when clicking on itself
-    if (isOpenDropdown === index) {
-      setIsOpenDropdown(null);
-    } else {
-      setIsOpenDropdown(index);
-    }
-  };
+  // const toggleDropdown = (event, index) => {
+  //   event.stopPropagation(); // Prevents dropdown from closing when clicking on itself
+  //   if (isOpenDropdown === index) {
+  //     setIsOpenDropdown(null);
+  //   } else {
+  //     setIsOpenDropdown(index);
+  //   }
+  // };
 
   
   return (

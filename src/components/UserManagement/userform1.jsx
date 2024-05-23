@@ -8,7 +8,6 @@ import {
     AccordionDetails,
     Container,
     styled,
-    Input,
     Avatar,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -156,15 +155,15 @@ console.log(jobPreference,'jobPreference---error');
     };
 
     // Handle experience/fresher checkbox change
-    const handleExperienceFresherChange = (event) => {
-        const isExperienced = event.target.checked;
-        setProfessionalDetails({
-            isExperienced,
-            numberOfCompanies: '',
-            companies: isExperienced ? [{ company_name: '', position: '', startDate: '', endDate: '' }] : [],
-        });
-        setProfessionalDetailsExpanded(isExperienced);
-    };
+    // const handleExperienceFresherChange = (event) => {
+    //     const isExperienced = event.target.checked;
+    //     setProfessionalDetails({
+    //         isExperienced,
+    //         numberOfCompanies: '',
+    //         companies: isExperienced ? [{ company_name: '', position: '', startDate: '', endDate: '' }] : [],
+    //     });
+    //     setProfessionalDetailsExpanded(isExperienced);
+    // };
 
     // State for resume upload
     const [resume, setResume] = useState(null);
@@ -216,7 +215,6 @@ console.log(jobPreference,'jobPreference---error');
     const [professionalDetailsExpanded, setProfessionalDetailsExpanded] = useState(true);
     const [locations, setLocations] = useState([]);
     const [skills, setSkills] = useState([]);
-    const [suggestions, setSuggestions] = useState([]);
     const [loading, setLoading] = useState(true);
     // for user details validations
     const [errors, setErrors] = useState({
@@ -299,22 +297,22 @@ console.log(jobPreference,'jobPreference---error');
         }
 
         // Validation logic for email
-        if (name === 'email' && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
-            setErrors((prevErrors) => ({
-                ...prevErrors,
-                userDetails: {
-                    ...prevErrors.userDetails,
-                    [name]: 'Invalid email format'
-                }
-            }));
-            return;
-        }
+        // if (name === 'email' && !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+        //     setErrors((prevErrors) => ({
+        //         ...prevErrors,
+        //         userDetails: {
+        //             ...prevErrors.userDetails,
+        //             [name]: 'Invalid email format'
+        //         }
+        //     }));
+        //     return;
+        // }
 
         // Update userDetails with new input value
         setUserDetails((prevUserDetails) => ({
             ...prevUserDetails,
             [name]: value
-        }));
+        }));   
     };
 
 

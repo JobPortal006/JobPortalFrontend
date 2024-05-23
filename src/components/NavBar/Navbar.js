@@ -562,7 +562,6 @@ const Navbar = () => {
             setNavbarLoading(false);
             console.error('Error:', error);
             toast.error("Server Not Responding")
-            console.log(error.code,'error.code');
             if(error.code === "ERR_NETWORK"){
               toast.error("Server Not Responding")
             }
@@ -768,12 +767,12 @@ console.log(user_account_creation,'user_account_creation');
                 </li>
                 {employeer_profile && (
                   <li className="Navbar__dropdown">
-                    Employer
-                    <div className="Navbar__dropdown-content">
+                    {/* Employer
+                    <div className="Navbar__dropdown-content"> */}
                       <ul>
                         <li onClick={PostJob}>Post a Job</li>
                       </ul>
-                    </div>
+                    {/* </div> */}
                   </li>
                 )}
                 {employeer_profile && (

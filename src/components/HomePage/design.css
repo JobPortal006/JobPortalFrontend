@@ -2,15 +2,15 @@
 
 
 .background-div {
-    background-image: url(./homeimages/homebaground.jpg); 
+    background-image: url(./homeimages/Social_TWTTR_FB_1200x675.gif); 
     /* background-size: cover;
     background-position: center; */
     background-size: 105%;
     background-repeat: repeat-x;
     animation: animatedBackground 15s linear alternate infinite;
-    /* margin-top: 70px; */
+    margin-top: -10px !important;
     width: 100%;
-    height: 100vh; 
+    /* height: 100vh !important;  */
 }
 .loginexpiredimge{
     background-color: #E8EAF6;

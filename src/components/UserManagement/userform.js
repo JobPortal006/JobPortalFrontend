@@ -1611,7 +1611,6 @@ import {
     AccordionDetails,
     Container,
     styled,
-    Input,
     Avatar,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -1759,15 +1758,15 @@ const UserForm = () => {
     };
 
     // Handle experience/fresher checkbox change
-    const handleExperienceFresherChange = (event) => {
-        const isExperienced = event.target.checked;
-        setProfessionalDetails({
-            isExperienced,
-            numberOfCompanies: '',
-            companies: isExperienced ? [{ company_name: '', position: '', startDate: '', endDate: '' }] : [],
-        });
-        setProfessionalDetailsExpanded(isExperienced);
-    };
+    // const handleExperienceFresherChange = (event) => {
+    //     const isExperienced = event.target.checked;
+    //     setProfessionalDetails({
+    //         isExperienced,
+    //         numberOfCompanies: '',
+    //         companies: isExperienced ? [{ company_name: '', position: '', startDate: '', endDate: '' }] : [],
+    //     });
+    //     setProfessionalDetailsExpanded(isExperienced);
+    // };
 
     // State for resume upload
     const [resume, setResume] = useState(null);
@@ -1813,7 +1812,6 @@ const UserForm = () => {
     const [professionalDetailsExpanded, setProfessionalDetailsExpanded] = useState(true);
     const [locations, setLocations] = useState([]);
     const [skills, setSkills] = useState([]);
-    const [suggestions, setSuggestions] = useState([]);
     const [loading, setLoading] = useState(true);
     // for user details validations
     const [errors, setErrors] = useState({
@@ -1883,16 +1881,16 @@ const UserForm = () => {
         }
     
         // Add validation logic for email
-        if (event.target.name === 'email') {
-            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(event.target.value)) {
-                // Invalid email format, set error message
-                setErrors({
-                    ...errors,
-                    [event.target.name]: 'Invalid email format',
-                });
-                return;
-            }
-        }
+        // if (event.target.name === 'email') {
+        //     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(event.target.value)) {
+        //         // Invalid email format, set error message
+        //         setErrors({
+        //             ...errors,
+        //             [event.target.name]: 'Invalid email format',
+        //         });
+        //         return;
+        //     }
+        // }
     
         // Update userDetails with new input value
         updatedUserDetails = {
@@ -2347,7 +2345,7 @@ const validateForm = () =>{
         event.preventDefault();
         if (validateForm()) {
         // Check if any required field is empty
-        const missingField = findFirstMissingField();
+        // const missingField = findFirstMissingField();
         // if (missingField) {
         //     alert(`Please fill the ${missingField} field.`);
         //     return;
@@ -2451,48 +2449,48 @@ const validateForm = () =>{
     }
     };
    
-    const findFirstMissingField = () => {
-        // Loop through each field and check if it's empty
-        // Return the first missing field found
-        console.log("jobPreference:", jobPreference); // Add this line for debugging
-        if (!userDetails.first_name) return 'First Name';
-        if (!userDetails.last_name) return 'Last Name';
-        if (!userDetails.date_of_birth) return 'Date of Birth';
-        if (!userDetails.gender) return 'Gender';
-        if (!address.permanent.street) return 'Permanent Street';
-        if (!address.permanent.city) return 'Permanent City';
-        if (!address.permanent.pincode) return 'Permanent Pincode';
-        if (!address.permanent.state) return 'Permanent State';
-        if (!address.permanent.country) return 'Permanent Country';
-        if (!education.sslc_school_name) return 'SSLC School Name';
-        if (!education.sslc_start_year) return 'SSLC Start Year';
-        if (!education.sslc_end_year) return 'SSLC End Year';
-        if (!education.sslc_percentage) return 'SSLC Percentage';
-        if (!education.hsc_school_name) return 'HSC School Name';
-        if (!education.hsc_start_year) return 'HSC Start Year';
-        if (!education.hsc_end_year) return 'HSC End Year';
-        if (!education.hsc_percentage) return 'HSC Percentage';
-        if (!education.college_name) return 'College Name';
-        if (!education.college_start_year) return 'College Start Year';
-        if (!education.college_end_year) return 'College End Year';
-        if (!education.college_percentage) return 'College Percentage';
-        if (!education.department) return 'Department';
-        if (!education.degree) return 'Degree';
-        if (!((experienceOption === 'experienced' && professionalDetails.numberOfCompanies) || experienceOption === 'fresher')) return 'select fresher or experience';
-        if (!jobPreference.key_skills) {
-            console.log("Key skills missing");
-            return 'Key Skills';
-        }
-        if (!jobPreference.prefered_locations) {
-            console.log("Preferred locations missing");
-            return 'Preferred Locations';
-        }
-        if (!jobPreference.industry) return 'Industry';
-        if (!jobPreference.department) return 'Job Department';
+    // const findFirstMissingField = () => {
+    //     // Loop through each field and check if it's empty
+    //     // Return the first missing field found
+    //     console.log("jobPreference:", jobPreference); // Add this line for debugging
+    //     if (!userDetails.first_name) return 'First Name';
+    //     if (!userDetails.last_name) return 'Last Name';
+    //     if (!userDetails.date_of_birth) return 'Date of Birth';
+    //     if (!userDetails.gender) return 'Gender';
+    //     if (!address.permanent.street) return 'Permanent Street';
+    //     if (!address.permanent.city) return 'Permanent City';
+    //     if (!address.permanent.pincode) return 'Permanent Pincode';
+    //     if (!address.permanent.state) return 'Permanent State';
+    //     if (!address.permanent.country) return 'Permanent Country';
+    //     if (!education.sslc_school_name) return 'SSLC School Name';
+    //     if (!education.sslc_start_year) return 'SSLC Start Year';
+    //     if (!education.sslc_end_year) return 'SSLC End Year';
+    //     if (!education.sslc_percentage) return 'SSLC Percentage';
+    //     if (!education.hsc_school_name) return 'HSC School Name';
+    //     if (!education.hsc_start_year) return 'HSC Start Year';
+    //     if (!education.hsc_end_year) return 'HSC End Year';
+    //     if (!education.hsc_percentage) return 'HSC Percentage';
+    //     if (!education.college_name) return 'College Name';
+    //     if (!education.college_start_year) return 'College Start Year';
+    //     if (!education.college_end_year) return 'College End Year';
+    //     if (!education.college_percentage) return 'College Percentage';
+    //     if (!education.department) return 'Department';
+    //     if (!education.degree) return 'Degree';
+    //     if (!((experienceOption === 'experienced' && professionalDetails.numberOfCompanies) || experienceOption === 'fresher')) return 'select fresher or experience';
+    //     if (!jobPreference.key_skills) {
+    //         console.log("Key skills missing");
+    //         return 'Key Skills';
+    //     }
+    //     if (!jobPreference.prefered_locations) {
+    //         console.log("Preferred locations missing");
+    //         return 'Preferred Locations';
+    //     }
+    //     if (!jobPreference.industry) return 'Industry';
+    //     if (!jobPreference.department) return 'Job Department';
        
-        // If all fields are filled, return null
-        return null;
-    };
+    //     // If all fields are filled, return null
+    //     return null;
+    // };
    
    
    

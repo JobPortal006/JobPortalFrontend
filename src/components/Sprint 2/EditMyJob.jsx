@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -6,9 +6,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Autocomplete } from "@mui/material";
-import axios from "axios";
 import { useLocation } from 'react-router-dom';
-import UserContext from "./contextFilter";
 import BASE_URL from '../CommonAPI';
 import EditIcon from '@mui/icons-material/Edit';
 

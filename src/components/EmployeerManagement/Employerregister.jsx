@@ -337,6 +337,7 @@ export const Employerregister = () => {
         if (!response.data.alreadyRegistered) {
           toast.success(message, { position: toast.POSITION.TOP_CENTER });
           // Navigate to /home
+          window.location.reload();
           navigate('/home');
         } else {
           toast.error('You have already registered.', { position: toast.POSITION.TOP_CENTER });

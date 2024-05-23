@@ -1,6 +1,6 @@
 import React from 'react'
-import Registrationform from '../Regestrationform'
-import Userform from './userform'
+// import Registrationform from '../Regestrationform'
+// import Userform from './userform'
 import UserForm1 from './userform1'
 
 

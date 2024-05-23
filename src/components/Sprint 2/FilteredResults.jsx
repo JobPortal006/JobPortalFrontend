@@ -92,7 +92,7 @@ function FilteredResults() {
       setPageButton(true)
     }
   }
-}, []);
+}, [currentJobs,dataToUse]);
 
 
 console.log(bookmarkedJobs,'bookmarkedJobs---------');

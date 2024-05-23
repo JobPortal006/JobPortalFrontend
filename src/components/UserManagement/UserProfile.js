@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {HashLoader} from "react-spinners";
-import { CircularProgress, Typography, Grid, TextField, Container, Button, Input, Avatar, InputLabel, InputAdornment, IconButton, Divider, Autocomplete } from '@mui/material';
-import { Select, MenuItem } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { ArrowUpward, ArrowDownward } from '@material-ui/icons';
-import Radio from '@mui/material/Radio';
+import {  Typography, Grid, TextField, Container, Button, Input, Avatar, Divider, Autocomplete } from '@mui/material';
 import {
     AccordionSummary,
     AccordionDetails,
@@ -22,7 +16,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import { FadeLoader } from 'react-spinners';
 
 import BASE_URL from '../CommonAPI';
 
@@ -35,12 +28,11 @@ const override = css`
 const UserProfile = (props) => {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [, setError] = useState(null);
     // const [resume, setResume] = useState(null);
     const [profilePicture, setProfilePicture] = useState(null);
     const [loading1, setLoading1] = useState(true);
-    const [userId, setUserId] = useState(7); // Initial user ID
-    const [postData, setPostdata] = useState(null);
+    const [postData] = useState(null);
     console.log(postData, '=====postdata=====')
     const [resumeFile, setResumeFile] = useState(null);
     const navigate = useNavigate();
@@ -231,7 +223,7 @@ const UserProfile = (props) => {
 
 
 
-    const [name, setName] = useState('');
+
 const [values , setValues] = useState();
     const [formData, setFormData] = useState({
         data: {
@@ -480,7 +472,7 @@ console.log(formData,'ckekckckckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
                 setError(error);
                 setLoading(false);
             });
-    }, []);
+    }, [formData]);
 
     console.log(formData,"today123456");
     const handleChange = (event) => {
@@ -492,7 +484,7 @@ console.log(formData,'ckekckckckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk')
             [name]: '',
         });
         console.log(value, 'companyname')
-        const [field, index, subfield] = name.split('.');
+        // const [field, index, subfield] = name.split('.');
         let errorMessage = '';
 
         if (name === 'sslc_school_name' || name === 'hsc_school_name' || name === 'college_name'

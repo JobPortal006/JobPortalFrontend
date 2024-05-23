@@ -1,32 +1,25 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "./myJob.css";
-import { Button, Grid,IconButton, Menu, MenuItem } from "@mui/material";
-import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {HashLoader} from "react-spinners";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
-import Tooltip from "@mui/material/Tooltip";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BASE_URL from '../CommonAPI';
-import UserContext from "./contextFilter";
 import { FaIndianRupeeSign,FaLocationDot,FaClockRotateLeft   } from "react-icons/fa6";
 import { BsPersonSquare ,BsFileEarmarkTextFill,BsFillBagCheckFill,BsFillFileCheckFill,BsPersonFillCheck } from "react-icons/bs";
-import { BsFillBookmarksFill, BsFillBookmarkCheckFill  } from "react-icons/bs";
 import { faMapMarkerAlt, faMoneyBillAlt, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import SearchJobImage from './Sprint 2 Images/Data loading.jpg';
 
 function DashboardMyJob() {
   const [jobView, setJobView] = useState([]);
-  const [employee_id, setEmployeeId] = useState("");
+  const [employee_id] = useState("");
   const [loading, setLoading] = useState(true); // State to track loading status
   const [result, setResult] = useState(false); 
   console.log(employee_id,"employee_id===id");
   console.log(jobView, "jobView");
   
 
-  const location = useLocation();
+  // const location = useLocation();
  
 
   useEffect(() => {
@@ -81,7 +74,7 @@ function DashboardMyJob() {
       postID();
     // }
   }, []);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [ setAnchorEl] = useState(null);
 
 
   const navigate = useNavigate();
@@ -90,7 +83,7 @@ function DashboardMyJob() {
     setSelectedJobId(jobId);
   };
 
-  const [selectedJobId, setSelectedJobId] = useState(null);
+  const [setSelectedJobId] = useState(null);
   // Delete API
   const handleDelete = async (jobId) => {
     try {
@@ -126,16 +119,15 @@ function DashboardMyJob() {
   const userListing = (userJobId) =>{
     navigate("/UserJobList",{state:{userJobId}})
   }
-  const [isOpenDropdown, setIsOpenDropdown] = useState(null);
 
-  const toggleDropdown = (event, index) => {
-    event.stopPropagation(); // Prevents dropdown from closing when clicking on itself
-    if (isOpenDropdown === index) {
-      setIsOpenDropdown(null);
-    } else {
-      setIsOpenDropdown(index);
-    }
-  };
+  // const toggleDropdown = (event, index) => {
+  //   event.stopPropagation(); // Prevents dropdown from closing when clicking on itself
+  //   if (isOpenDropdown === index) {
+  //     setIsOpenDropdown(null);
+  //   } else {
+  //     setIsOpenDropdown(index);
+  //   }
+  // };
 
   
   return (
@@ -334,178 +326,178 @@ function DashboardMyJob() {
 export default DashboardMyJob;
 
 
-{/* import React, { useState, useEffect } from "react";
-import "./myJob.css";
-import { Grid, IconButton} from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useLocation } from "react-router-dom";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { useNavigate } from "react-router-dom";
-import {HashLoader} from "react-spinners";
-import { makeStyles } from '@mui/styles';
-import BASE_URL from "../CommonAPI";
+// {/* import React, { useState, useEffect } from "react";
+// import "./myJob.css";
+// import { Grid, IconButton} from "@mui/material";
+// import MoreVertIcon from "@mui/icons-material/MoreVert";
+// import { useLocation } from "react-router-dom";
+// import Menu from "@mui/material/Menu";
+// import MenuItem from "@mui/material/MenuItem";
+// import { useNavigate } from "react-router-dom";
+// import {HashLoader} from "react-spinners";
+// import { makeStyles } from '@mui/styles';
+// import BASE_URL from "../CommonAPI";
 
 
 
-const useStyles = makeStyles(() => ({
-  customButton: {
-    boxShadow: "none",
+// const useStyles = makeStyles(() => ({
+//   customButton: {
+//     boxShadow: "none",
     
-  },
-}));
+//   },
+// }));
 
 
-function MyJob() {
-  const [jobView, setJobView] = useState([]);
-  const [employee_id, setEmployeeId] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [loading, setLoading] = useState(true); // State to track loading status
+// function MyJob() {
+//   const [jobView, setJobView] = useState([]);
+//   const [employee_id, setEmployeeId] = useState("");
+//   const [anchorEl, setAnchorEl] = useState(null);
+//   const [loading, setLoading] = useState(true); // State to track loading status
 
-  const [selectedJobId, setSelectedJobId] = useState(null);
-  const [dialogOpen, setDialogOpen] = useState(false);
+//   const [selectedJobId, setSelectedJobId] = useState(null);
+//   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const classes = useStyles();
+//   const classes = useStyles();
 
-  console.log(jobView,"jobView");
-  console.log(jobView && jobView.map(job => job.job_post_id), "<//=jobView-id-");
+//   console.log(jobView,"jobView");
+//   console.log(jobView && jobView.map(job => job.job_post_id), "<//=jobView-id-");
 
-  console.log(employee_id, "<===Employee_id");
+//   console.log(employee_id, "<===Employee_id");
 
-  const location = useLocation();
+//   const location = useLocation();
 
-  useEffect(() => {
-    const token = localStorage.getItem("loginToken")
-      async function postID() {
-        try {
-          const response = await fetch(
-            `${BASE_URL}/employeer_post_jobs/`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              // body: JSON.stringify({ employee_id: id }),
-              body: JSON.stringify({ token }),
-            }
-          );
-          if (!response.ok) {
-            throw new Error("Failed to post id data to API");
-          }
+//   useEffect(() => {
+//     const token = localStorage.getItem("loginToken")
+//       async function postID() {
+//         try {
+//           const response = await fetch(
+//             `${BASE_URL}/employeer_post_jobs/`,
+//             {
+//               method: "POST",
+//               headers: {
+//                 "Content-Type": "application/json",
+//               },
+//               // body: JSON.stringify({ employee_id: id }),
+//               body: JSON.stringify({ token }),
+//             }
+//           );
+//           if (!response.ok) {
+//             throw new Error("Failed to post id data to API");
+//           }
 
-          const data = await response.json();
-          console.log(data, "====================");
+//           const data = await response.json();
+//           console.log(data, "====================");
 
-          // fetching data
+//           // fetching data
 
-          if (data && Array.isArray(data.data) && Array.isArray(data.data[0])) {
-            setJobView(data.data[0]);
-            setLoading(false); // Set loading to false once data is fetched
-          } else {
-            console.error("Invalid data format received from API");
-          }
-          console.log("ID data posted successfully:");
-        } catch (error) {
-          console.error("Error posting id data to API:", error);
-          // window.location.reload();
-        }
-      }
-      postID();
-    // }
-  }, [location.state]);
+//           if (data && Array.isArray(data.data) && Array.isArray(data.data[0])) {
+//             setJobView(data.data[0]);
+//             setLoading(false); // Set loading to false once data is fetched
+//           } else {
+//             console.error("Invalid data format received from API");
+//           }
+//           console.log("ID data posted successfully:");
+//         } catch (error) {
+//           console.error("Error posting id data to API:", error);
+//           // window.location.reload();
+//         }
+//       }
+//       postID();
+//     // }
+//   }, [location.state]);
   
-  const handleClick = (event, jobId) => {
-    setAnchorEl(event.currentTarget);
-    setSelectedJobId(jobId);
-  };
+//   const handleClick = (event, jobId) => {
+//     setAnchorEl(event.currentTarget);
+//     setSelectedJobId(jobId);
+//   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+//   const handleClose = () => {
+//     setAnchorEl(null);
+//   };
 
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
-  const ChangeDirect = (jobId) => {
-    // setDialogOpen(false);
-    navigate("/EditMyJob",{state: { job_id: jobId }})
-    console.log(jobId,'job_id -----------------');
+//   const ChangeDirect = (jobId) => {
+//     // setDialogOpen(false);
+//     navigate("/EditMyJob",{state: { job_id: jobId }})
+//     console.log(jobId,'job_id -----------------');
    
    
-  };
+//   };
 
 
-   // Delete API
-  const handleDelete = async (jobId) => {
-    try {
-      const response = await fetch(`${BASE_URL}/delete_job/`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ job_id: jobId }),
-      });
+//    // Delete API
+//   const handleDelete = async (jobId) => {
+//     try {
+//       const response = await fetch(`${BASE_URL}/delete_job/`, {
+//         method: "DELETE",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ job_id: jobId }),
+//       });
      
-      if (!response.ok) {
-        throw new Error("Failed to delete job");
-      }else{
-        console.log(response,"response");
+//       if (!response.ok) {
+//         throw new Error("Failed to delete job");
+//       }else{
+//         console.log(response,"response");
 
-      }
+//       }
       
-      console.log("Job deleted successfully");
-    } catch (error) {
-      console.error("Error deleting job:", error);
-    }
-  };
+//       console.log("Job deleted successfully");
+//     } catch (error) {
+//       console.error("Error deleting job:", error);
+//     }
+//   };
 
-  const userListing = (userJobId) =>{
+//   const userListing = (userJobId) =>{
     
-        navigate("/UserJobList",{state:{userJobId}})
-        console.log(userJobId,"=-=-myjob---==userJobId");
-      }
+//         navigate("/UserJobList",{state:{userJobId}})
+//         console.log(userJobId,"=-=-myjob---==userJobId");
+//       }
 
   
-  return (
-    <div className="job-main-div">
-      {loading ? (
-        // Display loading indicator while data is being fetched
-        <div className="loading">
-        <ul>         
-         <li style={{color:"red"}}>
-          <HashLoader color="#5c6bc0" />
-          </li>
-          <li>Loading...!</li>
-          </ul>
+//   return (
+//     <div className="job-main-div">
+//       {loading ? (
+//         // Display loading indicator while data is being fetched
+//         <div className="loading">
+//         <ul>         
+//          <li style={{color:"red"}}>
+//           <HashLoader color="#5c6bc0" />
+//           </li>
+//           <li>Loading...!</li>
+//           </ul>
 
-        </div>
-      ) : (
-        <div className="info-container">
+//         </div>
+//       ) : (
+//         <div className="info-container">
          
-          <Grid
-            container
-            alignItems="center"
-            justifyContent="space-between"
-            className="myjob-container"
-          >
-            <Grid item xs={4} className="grid-one">
-              <div>
-                <h3 style={{marginLeft:"10px"}} className="title-job" >Title</h3>
-              </div>
-            </Grid>
-            <Grid item xs={3}>
-              <div>
-                <h3 className="location-job">Location</h3>
-              </div>
-            </Grid>
-            <Grid item xs={3}>
-              <div>
-                <h3 className="date-job">Date</h3>
-              </div>
-            </Grid>
-            <Grid item xs={2}></Grid>
-          </Grid>
+//           <Grid
+//             container
+//             alignItems="center"
+//             justifyContent="space-between"
+//             className="myjob-container"
+//           >
+//             <Grid item xs={4} className="grid-one">
+//               <div>
+//                 <h3 style={{marginLeft:"10px"}} className="title-job" >Title</h3>
+//               </div>
+//             </Grid>
+//             <Grid item xs={3}>
+//               <div>
+//                 <h3 className="location-job">Location</h3>
+//               </div>
+//             </Grid>
+//             <Grid item xs={3}>
+//               <div>
+//                 <h3 className="date-job">Date</h3>
+//               </div>
+//             </Grid>
+//             <Grid item xs={2}></Grid>
+//           </Grid>
 
-          {/* Render job view once data is loaded */}
+//           {/* Render job view once data is loaded */}
 //           {jobView && jobView.map((job, index) => (
 //             <Grid
 //               key={index}

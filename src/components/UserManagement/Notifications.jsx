@@ -1,23 +1,20 @@
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import '../HomePage/UserDahboard.css';
 import { useNavigate } from 'react-router-dom';
 import BASE_URL from '../CommonAPI';
-import { BeatLoader } from 'react-spinners';
-import { css } from '@emotion/react';
 import {HashLoader} from "react-spinners";
 import Error from "../HomePage/homeimages/No_Data.jpg"
 import { FaIndianRupeeSign,FaLocationDot,FaClockRotateLeft   } from "react-icons/fa6";
 import { faMapMarkerAlt, faMoneyBillAlt, faBuilding } from '@fortawesome/free-solid-svg-icons';
 import { BsPersonSquare ,BsFileEarmarkTextFill,BsFillBagCheckFill,BsFillFileCheckFill,BsPersonFillCheck } from "react-icons/bs";
-import { BsFillBookmarksFill, BsFillBookmarkCheckFill  } from "react-icons/bs";
 
 
 export const Notifications = () => {
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [setError] = useState(null);
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
   const [userDashboardError, setUserDashboardError] = useState(false);
@@ -73,7 +70,7 @@ export const Notifications = () => {
         setError(error.message || 'Failed to fetch data');
         setLoading(false);
       });
-  }, []);
+  }, [setError]);
 
   const handleCardClick = async (selectedJob) => {
     const Token = localStorage.getItem('loginToken');

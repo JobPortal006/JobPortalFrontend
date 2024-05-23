@@ -3,21 +3,18 @@ import { useNavigate } from 'react-router-dom';
 // import SearchBar from '../UserManagement/searchBar';
 import '../HomePage/design.css';
 import SearchBox from './searchBar'
-import UserProfile from '../UserManagement/UserProfile';
 import Companylist from './Companylist';
-import HomeDesign from './HomeDesign';
 import { JobCard } from './JobCard';
 import Bottompage from './Bottom';
-import BASE_URL from '../CommonAPI';
 import LoginExpired from "../Login Image/Login Expired.jpg"
 import { useContext } from 'react';
 import UserContext from '../Sprint 2/contextFilter';
 const Home = () => {
 
 
-  const logintoken = localStorage.getItem('loginToken');
-  const googleToken = localStorage.getItem("googleSecondToken")
-  const otpToken = localStorage.getItem("otpToken")
+  // const logintoken = localStorage.getItem('loginToken');
+  // const googleToken = localStorage.getItem("googleSecondToken")
+  // const otpToken = localStorage.getItem("otpToken")
     // useEffect(() => {
     //   if (googleToken === null || googleToken === undefined) {
     //     navigate("/login");
@@ -26,15 +23,15 @@ const Home = () => {
   
     // },[googleToken]);
   
-const register_by = localStorage.getItem("registered_by");
-const token = localStorage.getItem("loginToken");
+// const register_by = localStorage.getItem("registered_by");
+// const token = localStorage.getItem("loginToken");
 
 // const googleToken = localStorage.getItem("googleSecondToken")
 // const otpToken = localStorage.getItem("otpToken")
-const [user_account_creation, setUserAccountCreation] = useState(false);
-  const [login_expired, setLoginExpired] = useState(false);
-  const [employeer_account_creation, setEmployeerAccountCreation] = useState(false);
-const {setUseEmail,setUsePassword,loginAlert, setLoginAlert,homecontent} = useContext(UserContext)
+// const [user_account_creation, setUserAccountCreation] = useState(false);
+//   const [login_expired, setLoginExpired] = useState(false);
+//   const [employeer_account_creation, setEmployeerAccountCreation] = useState(false);
+const {setUseEmail,setUsePassword, setLoginAlert,homecontent} = useContext(UserContext)
 
 const [isVisible, setIsVisible] = useState({
   company: false,
@@ -93,7 +90,7 @@ useEffect(()=>{
   setUseEmail(null)
   setUsePassword(null)
   setLoginAlert(false)
-},[]);
+},[setUseEmail,setUsePassword,setLoginAlert]);
 
 
   return (

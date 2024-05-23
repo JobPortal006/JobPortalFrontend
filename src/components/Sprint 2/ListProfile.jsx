@@ -36,9 +36,9 @@ export const ListProfile = () => {
         getData();
     }, [jobmail]);
 
-    const openResume = () => {
-        window.open(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${profileData.resume.resume_path}`, '_blank');
-    };
+    // const openResume = () => {
+    //     window.open(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${profileData.resume.resume_path}`, '_blank');
+    // };
 console.log(errorstyle,"errorstyle----");
     return (
         <div>

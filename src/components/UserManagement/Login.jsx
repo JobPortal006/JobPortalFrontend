@@ -608,7 +608,6 @@
 
 import React, { useEffect, useContext,useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -617,11 +616,9 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 import { Divider } from "@mui/material";
 import glogo from "../Login Image/google-icon.svg";
-import jllogo from "../Login Image/JL_-_1__1_-removebg-preview.png";
 import "../UserManagement/login.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -641,8 +638,6 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import UserContext from "../Sprint 2/contextFilter.jsx";
 import BASE_URL from '../CommonAPI';
-import { FaWindows } from "react-icons/fa";
-import { height } from "@mui/system";
 import { useDispatch } from 'react-redux';
 import { setUserResultRegister, setEmployeerResultRegister } from '../actions.js';
 import { CheckCircle } from '@mui/icons-material';
@@ -652,9 +647,9 @@ const LogIn = () => {
   const navigate = useNavigate();
 
   // Navigate to SighUp page
-  const handleSignupClick = () => {
-    navigate("/signup");
-  };
+  // const handleSignupClick = () => {
+  //   navigate("/signup");
+  // };
 
   // Navigatio ot OPT page
   const handleOTP = () => {
@@ -668,7 +663,7 @@ const LogIn = () => {
   const [emailError, setEmailError] = React.useState("");
   const [passwordError, setPasswordError] = React.useState("");
   const [rememberMe, setRememberMe] = React.useState(false);
-  const [outputData, setOutputData] = React.useState("");
+  const [ setOutputData] = React.useState("");
 
   const { useEmail,setUseEmail,usePassword, setUsePassword,loginAlert, setLoginAlert} = useContext(UserContext);
   console.log(useEmail,"useEmail");
@@ -741,10 +736,10 @@ const LogIn = () => {
       }
     }
   };
-  const logintoken = localStorage.getItem('loginToken');
-  const googleToken = localStorage.getItem("googleSecondToken")
-  const otpToken = localStorage.getItem("otpToken")
-  let token = logintoken || googleToken || otpToken;
+  // const logintoken = localStorage.getItem('loginToken');
+  // const googleToken = localStorage.getItem("googleSecondToken")
+  // const otpToken = localStorage.getItem("otpToken")
+  // let token = logintoken || googleToken || otpToken;
   // useEffect(() => {
   //   if (token) {
   //     // Navigate to "/home" after displaying the login alert
@@ -776,7 +771,7 @@ console.log(register_by, 'register_by--------- login -------->');
 useEffect(() => {
   setUser_register(register_by);
   setEmployeer_register(register_by);
-}, []); 
+}, [register_by]); 
 
 console.log(user_register, 'user_register--------->');
 console.log(employeer_register, 'employeer_register------------->');

@@ -8,11 +8,8 @@ import Container from "@mui/material/Container";
 import { Autocomplete } from "@mui/material";
 import "./PostJob.css"
 import axios from "axios";
-import { Radio, RadioGroup, FormControlLabel, Checkbox } from '@mui/material';
-import { FormControl, FormGroup } from "@mui/material";
+import { Radio, RadioGroup, FormControlLabel } from '@mui/material';
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTriangleExclamation } from '@fortawesome/free-solid-svg-icons';
 import BASE_URL from '../CommonAPI';
 import Popper from '@mui/material/Popper';
 import { FaRegHandPointRight  } from "react-icons/fa";
@@ -37,15 +34,15 @@ const PostJob = () => {
     "Operations",
   ];
 
-  const jobSkills = [
-    "JavaScript",
-    "React",
-    "Node.js",
-    "HTML",
-    "CSS",
-    "Python",
-    "Java",
-    "SQL",
+  const qualificationType = [
+    "B.E",
+    "MBA",
+    "Diploma",
+    "B.Tech",
+    "B.Com",
+    "M.A",
+    "M.E",
+    "B.Arc",
   ];
 
   const experienceOptions = [
@@ -100,7 +97,7 @@ const PostJob = () => {
     no_of_vacancies: "",
   });
 
-  const [jobEmail, setJobEmail] = useState("");
+  const [setJobEmail] = useState("");
   const [employment, setEmployment] = useState("");
   const [jobRole, setJobRole] = useState("");
   const [skills, setSkills] = useState([]);
@@ -188,17 +185,17 @@ const PostJob = () => {
 
     // Check if any field is empty
 
-     const isAnyFieldEmpty =
-    Object.values(errors).some((error) => error) ||
-    !employment === null ||
-    !jobRole ||
-    !experience ||
-    !Newlocation ||
-    !selectedLocation || 
-    !salary ||
-    !additionalQueries ||
-    qualification.length === 0 || null ||
-    skills.length === 0 || null;
+    //  const isAnyFieldEmpty =
+    // Object.values(errors).some((error) => error) ||
+    // !employment === null ||
+    // !jobRole ||
+    // !experience ||
+    // !Newlocation ||
+    // !selectedLocation || 
+    // !salary ||
+    // !additionalQueries ||
+    // qualification.length === 0 || null ||
+    // skills.length === 0 || null;
 
   // if (isAnyFieldEmpty) {
   //   // If any field is empty, show alert message
@@ -847,7 +844,7 @@ const PostJob = () => {
             <Autocomplete
             multiple
             id="job-qualifications"
-            options={[]} // No options provided
+            options={qualificationType} // No options provided
             freeSolo // Allow manual entry
             value={qualification}
             onChange={(event, newEvent) => { setQualification(newEvent);
@@ -859,7 +856,6 @@ const PostJob = () => {
                 fullWidth
                 label="Enter the Qualifications"
                 variant="outlined"
-                placeholder="Type & Enter"
                 InputLabelProps={{
                   style: { color: "#1A237E" } // Change label color
                 }}

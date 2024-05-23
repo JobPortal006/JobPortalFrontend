@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid } from "@mui/material";
+import { Button } from "@mui/material";
 import "./userJobList.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import BASE_URL from "../CommonAPI";
@@ -7,7 +7,6 @@ import { HashLoader } from 'react-spinners';
 import { FaBuilding  } from "react-icons/fa";
 import { IoBookmarks } from "react-icons/io5";
 import { BsPersonWorkspace  } from "react-icons/bs";
-import { faBullseye } from "@fortawesome/free-solid-svg-icons";
 import Error from './Sprint 2 Images/No User Found.png'
 
 const UsersJobList = () => {
@@ -22,14 +21,14 @@ const UsersJobList = () => {
   const jobId = location.state.userJobId;
   console.log(jobId, "<JobID=====>");
 
-  const [mail, setMail] = useState([])
+  const [ setMail] = useState([])
   useEffect(() => {
     if (listUser) {
         const emails = listUser.map(item => item?.Signup?.email);
         setMail(emails);
         console.log(emails, "mail--mail--mail");
     }
-}, [listUser]);
+}, [listUser,setMail]);
   // Post Api
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const UsersJobList = () => {
       }
     };
     getData();
-  }, []);
+  }, [jobId]);
 
   const viewProfile = (userId) =>{
     navigate("/Listprofile", {state:{userId}})

@@ -3,13 +3,8 @@ import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Input from '@mui/material/Input';
-import { CircularProgress, Typography, Grid, TextField, Container, InputLabel, InputAdornment, IconButton, Divider, Autocomplete } from '@mui/material';
-import { Select, MenuItem } from '@mui/material';
-import FormControl from '@mui/material/FormControl';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { ArrowUpward, ArrowDownward } from '@material-ui/icons';
-import Radio from '@mui/material/Radio';
+import { Typography, Grid, TextField, Container, IconButton, Divider, Autocomplete } from '@mui/material';
+import { MenuItem } from '@mui/material';
 import {
     AccordionSummary,
     AccordionDetails,
@@ -18,31 +13,23 @@ import {
 import { BeatLoader } from 'react-spinners';
 //  import FormContainer from './FormContainer';
 // import './UserProfile.css'
-import { css } from '@emotion/react';
 import './UserProfile.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 
 import {HashLoader} from "react-spinners";
-import { FadeLoader } from 'react-spinners';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { FaFileUpload } from "react-icons/fa";
-import { Paper } from '@mui/material'
 import BASE_URL from '../CommonAPI';
 import NotRegister from "../HomePage/homeimages/Not Register.jpg"
-const override = css`
 
-  display: block;
-  margin: 0 auto;
-`;
 
 function UserAccount(props) {
     const [useAccountError, setUseAccountError] = useState(false);
     const [pg_details, setPgDetails] = useState(false);
     const [ug_details, setUgDetails] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [loading1, setLoading1] = useState(true);
     const navigate = useNavigate();
   const [error1, setError1] = useState({
     data: {
@@ -331,7 +318,7 @@ function UserAccount(props) {
     useEffect(() => {
      
         axios.get(`${BASE_URL}/get_user_details_view/`)
-       
+        
             .then(response => {
                 // setLoading1(false);
                 console.log(response,'get_user_details_view----------');
@@ -673,7 +660,7 @@ console.log(formDataToSend,'date to payload')
           [name]: '',
       });
       console.log(value, 'companyname')
-      const [field, index, subfield] = name.split('.');
+    //   const [field, index, subfield] = name.split('.');
       let errorMessage = '';
 
       if (name === 'sslc_school_name' || name === 'hsc_school_name' || name === 'college_name'
@@ -904,9 +891,9 @@ console.log(formDataToSend,'date to payload')
   console.log(loading,"loading-----------------");
   console.log(useAccountError,'useAccountError------------');
 
-  const openResume = () => {
-    window.open(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData?.data?.resume?.resume_path}`, '_blank');
-};
+//   const openResume = () => {
+//     window.open(`https://backendcompanylogo.s3.eu-north-1.amazonaws.com/${formData?.data?.resume?.resume_path}`, '_blank');
+// };
 //   const FormHelperTextProps={
 //     backgroundColor: '#E8EAF6',marginTop:"-2px",marginLeft:"-5px",marginRight:"-5px" ,padding:"5px"
 //   }

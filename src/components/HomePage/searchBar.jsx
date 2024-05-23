@@ -479,15 +479,14 @@
 // using use context
 
 import React, { useState, useEffect, useContext } from 'react';
-import { makeStyles, TextField, Button, Chip, Collapse, Popover } from '@material-ui/core';
+import { makeStyles, TextField, Button, Chip, Popover } from '@material-ui/core';
 import { MdSearch, MdExpandMore } from 'react-icons/md';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserContext from '../Sprint 2/contextFilter';
-import { BeatLoader, PacmanLoader, ScaleLoader } from 'react-spinners';
-import { css } from '@emotion/react';
+import { BeatLoader } from 'react-spinners';
 import './HomeDesign.css'
 import BASE_URL from '../CommonAPI';
 // import { useDispatch } from 'react-redux';
@@ -690,7 +689,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   }, [experienceValue]);
 
   // using user context
-  const { oneData, setData } = useContext(UserContext);
+  const {  setData } = useContext(UserContext);
   const { searchJob, setsearchJob,setcompanyList } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   // console.log(searchJob, '=======>user context true');
@@ -771,7 +770,7 @@ const SearchBar = ({ isJobSearchPage }) => {
           // console.log(storedResultResponse,'storedResultResponse--------');
         }
 
-        console.log(sarchdata, '=============da');
+        // console.log(sarchdata, '=============da');
 
 
         const checking = {
@@ -827,14 +826,13 @@ const SearchBar = ({ isJobSearchPage }) => {
 
       <div className={isJobSearchPage ? classes.jobSearchRoot : classes.root}>
         <p className='lineFour'>Search Jobs. ApplyJobs. Get Ready For The Call.</p>
-        <div
-  className={isJobSearchPage ? classes.jobSearchContainer : classes.searchContainer}
-  style={{
-    transitionDelay: '2s',
-    transition: '2s ease-in',
-    animation: 'fadeIn 2s linear'
-  }}
->
+        <div className={isJobSearchPage ? classes.jobSearchContainer : classes.searchContainer}
+            style={{
+              transitionDelay: '2s',
+              transition: '2s ease-in',
+              animation: 'fadeIn 2s linear'
+            }}
+          >
 
           <Autocomplete
             multiple

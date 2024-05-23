@@ -273,7 +273,7 @@ const OTPlogin = () => {
       const confirmationResult = await confirmation.confirm(otp);
       // localStorage.setItem("token", confirmationResult?.user?.accessToken);
       localStorage.setItem("otpToken", mobile_number_response.token);
-      const getToken = confirmationResult?.user?.accessToken;
+      // const getToken = confirmationResult?.user?.accessToken;
       // localStorage.setItem("otpToken", getToken);
       if (confirmationResult?.user?.accessToken !== undefined) {
         console.log(
