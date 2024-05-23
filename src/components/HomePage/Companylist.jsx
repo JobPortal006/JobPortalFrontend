@@ -46,7 +46,7 @@ const Companylist = () => {
         setError(error.message);
         setLoading(false);
       });
-  }, [companies]); // Empty dependency array ensures useEffect runs only once on component mount
+  }, []); // Empty dependency array ensures useEffect runs only once on component mount
  const token = localStorage.getItem('loginToken');
   const handleCardClick = async companyName => {
     try {
