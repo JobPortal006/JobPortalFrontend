@@ -689,7 +689,7 @@ const SearchBar = ({ isJobSearchPage }) => {
   }, [experienceValue]);
 
   // using user context
-  const {  setData } = useContext(UserContext);
+  const { oneData, setData } = useContext(UserContext);
   const { searchJob, setsearchJob,setcompanyList } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   // console.log(searchJob, '=======>user context true');

@@ -9,7 +9,8 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import DescriptionIcon from '@mui/icons-material/Description';
-import companysearch from './homeimages/giphy (1).gif'
+import companysearch from './homeimages/giphy (1).gif';
+import { toast } from 'react-toastify';
 
 const Companylist = () => {
   const [companies, setCompanies] = useState([]);
@@ -43,10 +44,18 @@ const Companylist = () => {
         }
       })
       .catch(error => {
+        console.log(error, 'error----company_list');
         setError(error.message);
         setLoading(false);
+      
+        // if (error.message === "Failed to fetch") {
+        //   toast.error("Server Not Responding");
+        // } else {
+        //   toast.error(`An error occurred: ${error.message}`);
+        // }
       });
-  }, []); // Empty dependency array ensures useEffect runs only once on component mount
+      
+  }, []);
  const token = localStorage.getItem('loginToken');
   const handleCardClick = async companyName => {
     try {
@@ -156,34 +165,35 @@ const Companylist = () => {
         </div>
         ):(
           <>
- <Button style={{background:'none'}}  disabled={startIndex === 0} onClick={handlePrevious}>
- <ArrowCircleLeftIcon /> 
-</Button>
-{loading ? (
- <Card className="company-item">
-   <CardContent>
-     <h4 variant="h5" component="h2">
-       Loading...
-     </h4>
-   </CardContent>
- </Card>
-) : error ? (
- <Card className="company-item">
-   <CardContent>
-     <h4 variant="h5" component="h2">
-       {error}
-     </h4>
-   </CardContent>
- </Card>
-) : (
- companies.slice(startIndex, startIndex + 4).map((company, index) => (
-   
-   <Card 
-     id="card1"
-     key={index}
-     className="company-item"
-     onClick={() => handleCardClick(company.company_name)} style={{width:'260px'}}
-   >
+    <Button style={{background:'none'}}  disabled={startIndex === 0} onClick={handlePrevious}>
+    <ArrowCircleLeftIcon /> 
+    </Button>
+    {loading ? (
+    <Card className="company-item">
+      <CardContent>
+        <h4 variant="h5" component="h2">
+          Loading...
+        </h4>
+      </CardContent>
+    </Card>
+    ) : error ? (
+    //  <Card className="company-item">
+    //    <CardContent>
+        <h4 variant="h5" component="h2">
+          {/* {error} */}
+          Server has gone away
+        </h4>
+    //    </CardContent>
+    //  </Card>
+    ) : (
+    companies.slice(startIndex, startIndex + 4).map((company, index) => (
+      
+      <Card 
+        id="card1"
+        key={index}
+        className="company-item"
+        onClick={() => handleCardClick(company.company_name)} style={{width:'260px'}}
+      >
      <CardContent>
        <div className="icon-container" style={{display:'flex',alignItems:'center',flexDirection:'column'}}>
          {/* <BusinessIcon style={{ color: '#1A237E' }} className="business-icon" />{' '} */}

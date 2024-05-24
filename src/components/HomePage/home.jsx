@@ -31,7 +31,7 @@ const Home = () => {
 // const [user_account_creation, setUserAccountCreation] = useState(false);
 //   const [login_expired, setLoginExpired] = useState(false);
 //   const [employeer_account_creation, setEmployeerAccountCreation] = useState(false);
-const {setUseEmail,setUsePassword, setLoginAlert,homecontent} = useContext(UserContext)
+const {setUseEmail,setUsePassword, loginAlert, setLoginAlert} = useContext(UserContext)
 
 const [isVisible, setIsVisible] = useState({
   company: false,
@@ -95,7 +95,7 @@ useEffect(()=>{
 
   return (
     <>    
-    {homecontent ? (
+    {loginAlert ? (
   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }} className='loginexpiredbackground'>
   <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }} className='loginexpiredimge'>
     <h2 className='loginerrorText'>Login has been expired..!</h2>

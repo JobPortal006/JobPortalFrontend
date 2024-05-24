@@ -413,18 +413,14 @@ import { BeatLoader } from 'react-spinners';
 import UserContext from '../Sprint 2/contextFilter';
 import BASE_URL from '../CommonAPI';
 import '../NavBar/Navbar.css';
-import { UpdateEmployerregister } from '../EmployeerManagement/UpdateEmployeer';
-import LoginExpired from "../Login Image/Login Expired.jpg"
 import JL from "../Login Image/JL_-_1__1_-removebg-preview.png"
-import { useSelector, useDispatch } from 'react-redux';
-import { setUserResultRegister, setEmployeerResultRegister, setDemoResultRegister } from '../actions';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast } from 'react-toastify';
 
 
 const Navbar = () => {
   const [loading, setLoading] = useState(false);
-  const [userType, setUserType] = useState('');
-  const { setData, setsearchJob, setcompanyList, setJobData ,homecontent,setHomecontent} = useContext(UserContext);
+  // const [userType, setUserType] = useState('');
+  const { setData, setsearchJob, setcompanyList, setJobData ,setHomecontent,setLoginAlert} = useContext(UserContext);
   const navigate = useNavigate();
 
 
@@ -438,7 +434,7 @@ const Navbar = () => {
   // const [user_register, setUser_register] = useState("");
   // const [employeer_register, setEmployeer_register] = useState("");
   const [navbar_loading, setNavbarLoading] = useState(true);
-  const [login_expired, setLoginExpired] = useState(false);
+  // const [login_expired, setLoginExpired] = useState(false);
   // const [Home_content, setLoginExpired] = useState(false);
   const [user_account_creation, setUserAccountCreation] = useState();
   const [user_profile, setUserProfile] = useState();
@@ -474,12 +470,12 @@ const Navbar = () => {
   // }
 
   // useEffect(() => {
-    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    // const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
     const token = localStorage.getItem("loginToken");
     const googleToken = localStorage.getItem("googleSecondToken")
     const otpToken = localStorage.getItem("otpToken")
     
-    const { employerDetails, setEmployerDetails,useEmail,usePassword} = useContext(UserContext);
+    const {  setEmployerDetails,useEmail,usePassword} = useContext(UserContext);
     useEffect(() => {
       console.log(token, 'token----------->');
       console.log(googleToken, 'googleToken----------->');
@@ -509,22 +505,22 @@ const Navbar = () => {
               if (!response.ok) {
                 // throw new Error('Failed to fetch data');
                 setNavbarLoading(false);
-                toast.error("Server Not Responding")
+                // toast.error("Server Not Responding")
               }
               const data = await response.json();
               setNavbarLoading(false);
     
               console.log(data, 'user_account_creation_check-------');
               if(data.message === 'Token is expired'){
-                setLoginExpired(true);
+                setLoginAlert(true);
                 setHomecontent(true)
               }
               else{
                 setHomecontent(false)
-                setLoginExpired(false);
+                setLoginAlert(false);
               }
               if (data.statusCode === 400) {
-                setLoginExpired(true);
+                setLoginAlert(true);
               } else {
                 if (data.status) {
                   setUserAccountCreation(true);
@@ -543,12 +539,12 @@ const Navbar = () => {
               setNavbarLoading(false);
               console.log(data, 'employeer_account_creation_check-------');
               if(data.message === 'Token is expired'){
-                setLoginExpired(true);
+                setLoginAlert(true);
                 setHomecontent(true)
               }
               else{
                 setHomecontent(false)
-                setLoginExpired(false);
+                setLoginAlert(false);
               }
               if (data.status) {
                 setEmployeerAccountCreation(true);
@@ -561,10 +557,12 @@ const Navbar = () => {
           } catch (error) {
             setNavbarLoading(false);
             console.error('Error:', error);
-            toast.error("Server Not Responding")
-            if(error.code === "ERR_NETWORK"){
-              toast.error("Server Not Responding")
-            }
+            // toast.error("Server Not Responding")
+            if (error.message === "Failed to fetch") {
+                toast.error("Server Not Responding");
+              } else {
+                toast.error(`An error occurred: ${error.message}`);
+              }
           }
         };
   
@@ -573,16 +571,16 @@ const Navbar = () => {
         // Handle the case where the token is missing
         console.error('No token found in local storage');
       }
-    }, [token, googleToken,register_by,otpToken,setHomecontent]); // Ensuring this runs once with the initial token values
+    }, [token, googleToken,register_by,otpToken,setHomecontent,setLoginAlert]); // Ensuring this runs once with the initial token values
   
 console.log(navbar_loading,'navbar_loading--');
-  useEffect(() => {
-    // Retrieve the userType from local storage
-    const registeredBy = localStorage.getItem('registered_by');
-    if (registeredBy) {
-      setUserType(registeredBy);
-    }
-  }, []);
+  // useEffect(() => {
+  //   // Retrieve the userType from local storage
+  //   const registeredBy = localStorage.getItem('registered_by');
+  //   if (registeredBy) {
+  //     setUserType(registeredBy);
+  //   }
+  // }, []);
 
   
   const handleLoginClick = () => {
